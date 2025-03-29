@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>供应大厅 - 农产品供销信息平台</title>
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 页面描述 -->
+    <meta name="description" content="农产品供应大厅，海量新鲜农产品直供">
+    <!-- 主题色 -->
+    <meta name="theme-color" content="#2E8B57">
+    <style>
+        /* 供应大厅页面特有样式 */
+        .filter-section {
+            background-color: var(--white);
+            padding: var(--spacing-md) 0;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-scroll {
+            display: flex;
+            padding: 0 var(--spacing-lg);
+            min-width: 100%;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            margin-right: var(--spacing-xl);
+            white-space: nowrap;
+            color: var(--text-primary);
+            font-size: var(--font-size-base);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+        }
+
+        .filter-item i {
+            margin-left: var(--spacing-xs);
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .filter-item.active {
+            color: var(--primary-color);
+            background-color: #E8F5E9;
+        }
+
+        .filter-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .filter-modal.active {
+            display: block;
+        }
+
+        .filter-content {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            max-height: 70vh;
+            background-color: var(--white);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: var(--spacing-lg);
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        .filter-title {
+            font-size: var(--font-size-md);
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .filter-option {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .filter-option.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: #E8F5E9;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-lg);
+        }
+
+        .filter-reset {
+            padding: var(--spacing-sm) var(--spacing-xl);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+        }
+
+        .filter-confirm {
+            padding: var(--spacing-sm) var(--spacing-xl);
+            background-color: var(--primary-color);
+            border-radius: var(--radius-md);
+            color: var(--white);
+            font-size: var(--font-size-base);
+        }
+
+        .result-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #F5F5F5;
+            padding: var(--spacing-sm) var(--spacing-lg);
+        }
+
+        .result-count {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+        }
+
+        .result-sort {
+            font-size: var(--font-size-base);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .result-sort i {
+            margin-left: var(--spacing-xs);
+            font-size: 12px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background-color: #F5F5F5;
+        }
+
+        .filter-tag {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background-color: #EDF7ED;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+            color: var(--primary-color);
+        }
+
+        .filter-tag i {
+            margin-left: var(--spacing-xs);
+            font-size: 12px;
+        }
+
+        .empty-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .empty-state img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .empty-state p {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-base);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .empty-state button {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: 1px solid var(--primary-color);
+            border-radius: var(--radius-lg);
+            color: var(--primary-color);
+            font-size: var(--font-size-base);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 页面内容区域 -->
+    <div class="page-content">
+        <!-- 顶部导航栏 -->
+        <header class="top-navbar">
+            <div class="container flex-between">
+                <!-- 标题 -->
+                <h1 style="font-size: 16px; font-weight: bold;">供应大厅</h1>
+
+                <!-- 右侧图标 -->
+                <div class="flex">
+                    <a href="javascript:void(0)" style="margin-right: 16px;">
+                        <i class="fas fa-search" style="font-size: 24px; color: #666;"></i>
+                    </a>
+                    <a href="javascript:void(0)">
+                        <i class="fas fa-bell" style="font-size: 24px; color: #666;"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- 筛选条件区 -->
+        <section class="filter-section">
+            <div class="filter-scroll">
+                <div class="filter-item" data-filter="category">
+                    品类 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="price">
+                    价格 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="area">
+                    地区 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="scale">
+                    规模 <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- 筛选结果状态栏 -->
+        <div class="result-bar">
+            <div class="result-count">共328个结果</div>
+            <div class="result-sort">
+                默认排序 <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- 已选筛选条件标签 -->
+        <div class="tag-list">
+            <div class="filter-tag">
+                价格: ¥5-¥10 <i class="fas fa-times"></i>
+            </div>
+            <div class="filter-tag">
+                水果 <i class="fas fa-times"></i>
+            </div>
+        </div>
+
+        <!-- 供应商品列表 -->
+        <section class="recommend-section">
+            <!-- 产品网格 -->
+            <div class="product-grid">
+                <!-- 产品卡片1 -->
+                <div class="product-card">
+                    <img src="images/products/fruits/strawberry.jpg" alt="草莓" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">丹东九九草莓</div>
+                        <div class="product-price">
+                            ¥32.80<span class="product-unit">/斤</span>
+                        </div>
+                        <div class="product-address">
+                            <i class="fas fa-map-marker-alt"></i>辽宁-丹东
+                        </div>
+                        <div class="product-desc">精选丹东九九草莓，果大色艳，香甜多汁，现摘现发。</div>
+                    </div>
+                </div>
+
+                <!-- 产品卡片2 -->
+                <div class="product-card">
+                    <img src="images/products/vegetables/tomato.jpg" alt="西红柿" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">河北寿光西红柿</div>
+                        <div class="product-price">
+                            ¥4.50<span class="product-unit">/斤</span>
+                        </div>
+                        <div class="product-address">
+                            <i class="fas fa-map-marker-alt"></i>山东-寿光
+                        </div>
+                        <div class="product-desc">产地直发，绿色种植，新鲜采摘，口感酸甜。</div>
+                    </div>
+                </div>
+
+                <!-- 产品卡片3 -->
+                <div class="product-card">
+                    <img src="images/products/vegetables/potato.jpg" alt="土豆" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">内蒙古乌兰察布土豆</div>
+                        <div class="product-price">
+                            ¥2.98<span class="product-unit">/斤</span>
+                        </div>
+                        <div class="product-address">
+                            <i class="fas fa-map-marker-alt"></i>内蒙古-乌兰察布
+                        </div>
+                        <div class="product-desc">高原土豆，无污染，沙质土壤种植，口感细腻，富含淀粉。</div>
+                    </div>
+                </div>
+
+                <!-- 产品卡片4 -->
+                <div class="product-card">
+                    <img src="images/products/grains/corn.jpg" alt="玉米" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">东北黑土地有机玉米</div>
+                        <div class="product-price">
+                            ¥3.50<span class="product-unit">/斤</span>
+                        </div>
+                        <div class="product-address">
+                            <i class="fas fa-map-marker-alt"></i>黑龙江-哈尔滨
+                        </div>
+                        <div class="product-desc">有机认证，黑土地种植，颗粒饱满，口感香甜。</div>
+                    </div>
+                </div>
+
+                <!-- 更多产品卡片 -->
+                <div class="product-card">
+                    <img src="images/products/fruits/banana.jpg" alt="香蕉" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">海南小香蕉</div>
+                        <div class="product-price">
+                            ¥5.99<span class="product-unit">/斤</span>
+                        </div>
+                        <div class="product-address">
+                            <i class="fas fa-map-marker-alt"></i>海南-三亚
+                        </div>
+                        <div class="product-desc">海南小香蕉，香甜可口，果肉软糯，富含营养。</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/products/fruits/grape.jpg" alt="葡萄" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">新疆无核白葡萄</div>
+                        <div class="product-price">
+                            ¥9.90<span class="product-unit">/斤</span>
+                        </div>
+                        <div class="product-address">
+                            <i class="fas fa-map-marker-alt"></i>新疆-吐鲁番
+                        </div>
+                        <div class="product-desc">新疆特产，皮薄肉厚，无核甜蜜，产地直发。</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加载更多 -->
+            <div class="load-more">
+                加载更多
+            </div>
+        </section>
+
+        <!-- 空状态 -->
+        <div class="empty-state">
+            <img src="https://via.placeholder.com/200x200?text=EmptyState" alt="暂无数据">
+            <p>暂无符合条件的供应信息</p>
+            <button>重置筛选条件</button>
+        </div>
+    </div>
+
+    <!-- 筛选弹窗 -->
+    <div class="filter-modal" id="filterModal">
+        <div class="filter-content">
+            <!-- 品类筛选内容 -->
+            <div class="filter-panel" data-panel="category">
+                <h3 class="filter-title">选择品类</h3>
+                <div class="filter-options">
+                    <div class="filter-option active">全部</div>
+                    <div class="filter-option">水果</div>
+                    <div class="filter-option">蔬菜</div>
+                    <div class="filter-option">粮油</div>
+                    <div class="filter-option">肉禽蛋</div>
+                    <div class="filter-option">水产</div>
+                    <div class="filter-option">干货</div>
+                    <div class="filter-option">茶叶</div>
+                    <div class="filter-option">坚果</div>
+                </div>
+
+                <h3 class="filter-title">二级分类</h3>
+                <div class="filter-options">
+                    <div class="filter-option">苹果</div>
+                    <div class="filter-option">梨</div>
+                    <div class="filter-option">香蕉</div>
+                    <div class="filter-option active">草莓</div>
+                    <div class="filter-option">葡萄</div>
+                    <div class="filter-option">柑橘</div>
+                    <div class="filter-option">西瓜</div>
+                    <div class="filter-option">桃</div>
+                </div>
+
+                <div class="filter-buttons">
+                    <button class="filter-reset">重置</button>
+                    <button class="filter-confirm">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-navbar">
+        <div class="nav-items">
+            <a href="index.html" class="nav-item" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </a>
+            <a href="supply.html" class="nav-item active" data-page="supply">
+                <i class="fas fa-shopping-basket"></i>
+                <span>供应大厅</span>
+            </a>
+            <a href="publish.html" class="nav-item nav-publish">
+                <div class="publish-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <span>发布</span>
+            </a>
+            <a href="demand.html" class="nav-item" data-page="demand">
+                <i class="fas fa-clipboard-list"></i>
+                <span>需求大厅</span>
+            </a>
+            <a href="user.html" class="nav-item" data-page="user">
+                <i class="fas fa-user"></i>
+                <span>个人中心</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 引入JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // 供应大厅页面特有交互
+        document.addEventListener('DOMContentLoaded', function () {
+            // 筛选项点击事件
+            const filterItems = document.querySelectorAll('.filter-item');
+            const filterModal = document.getElementById('filterModal');
+            const filterContent = document.querySelector('.filter-content');
+
+            filterItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const filterType = item.getAttribute('data-filter');
+
+                    // 添加活跃状态
+                    filterItems.forEach(fi => fi.classList.remove('active'));
+                    item.classList.add('active');
+
+                    // 显示对应的筛选面板
+                    document.querySelectorAll('.filter-panel').forEach(panel => {
+                        panel.style.display = 'none';
+                    });
+                    document.querySelector(`[data-panel="${filterType}"]`).style.display = 'block';
+
+                    // 显示弹窗
+                    filterModal.classList.add('active');
+                });
+            });
+
+            // 点击弹窗外部关闭
+            filterModal.addEventListener('click', (e) => {
+                if (e.target === filterModal) {
+                    filterModal.classList.remove('active');
+                }
+            });
+
+            // 筛选项选择
+            const filterOptions = document.querySelectorAll('.filter-option');
+            filterOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    if (option.textContent === '全部') {
+                        // 如果点击的是"全部"，则移除同级的所有active
+                        const parentOptions = option.parentElement.querySelectorAll('.filter-option');
+                        parentOptions.forEach(o => o.classList.remove('active'));
+                        option.classList.add('active');
+                    } else {
+                        // 如果点击的不是"全部"，则移除"全部"的active
+                        const allOption = option.parentElement.querySelector('.filter-option:first-child');
+                        if (allOption && allOption.textContent === '全部') {
+                            allOption.classList.remove('active');
+                        }
+
+                        // 切换当前选项的active状态
+                        option.classList.toggle('active');
+                    }
+                });
+            });
+
+            // 确定按钮事件
+            const confirmBtns = document.querySelectorAll('.filter-confirm');
+            confirmBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterModal.classList.remove('active');
+                    // 这里可以添加应用筛选条件的逻辑
+                    alert('筛选条件已应用');
+                });
+            });
+
+            // 重置按钮事件
+            const resetBtns = document.querySelectorAll('.filter-reset');
+            resetBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const panel = btn.closest('.filter-panel');
+                    const options = panel.querySelectorAll('.filter-option');
+
+                    // 重置为只有"全部"选中
+                    options.forEach(o => {
+                        o.classList.remove('active');
+                        if (o.textContent === '全部') {
+                            o.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // 筛选标签删除
+            const filterTags = document.querySelectorAll('.filter-tag');
+            filterTags.forEach(tag => {
+                tag.querySelector('i').addEventListener('click', () => {
+                    tag.remove();
+                });
+            });
+
+            // 排序下拉菜单
+            const sortBtn = document.querySelector('.result-sort');
+            sortBtn.addEventListener('click', () => {
+                alert('排序选项：\n1. 默认排序\n2. 价格从低到高\n3. 价格从高到低\n4. 距离最近\n5. 最新发布');
+            });
+
+            // 产品卡片点击跳转
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach((card, index) => {
+                card.addEventListener('click', function () {
+                    // 模拟产品ID
+                    const productId = 'p' + (index + 100);
+                    // 跳转到产品详情页
+                    window.location.href = `product-detail.html?id=${productId}`;
+                });
+            });
+
+            // 菜单项点击事件
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach((item, index) => {
+                item.addEventListener('click', function () {
+                    const menuType = this.querySelector('.menu-label').textContent;
+
+                    // 根据菜单类型跳转到对应页面
+                    switch (menuType) {
+                        case '我的供应':
+                            window.location.href = 'my-supply.html';
+                            break;
+                        case '我的需求':
+                            window.location.href = 'my-demand.html';
+                            break;
+                        case '我的收藏':
+                            window.location.href = 'my-favorites.html';
+                            break;
+                        case '浏览历史':
+                            window.location.href = 'my-history.html';
+                            break;
+                        default:
+                            // 对于尚未实现的页面，可以先跳转到开发中页面
+                            window.location.href = 'under-development.html';
+                    }
+                });
+            });
+
+            // 账户设置链接点击事件
+            const menuLinks = document.querySelectorAll('.menu-link');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    const settingType = this.querySelector('.menu-link-label').textContent;
+
+                    // 根据设置类型跳转到对应页面
+                    switch (settingType) {
+                        case '个人资料':
+                            window.location.href = 'profile.html';
+                            break;
+                        case '账号安全':
+                            window.location.href = 'security.html';
+                            break;
+                        case '认证信息':
+                            window.location.href = 'certification.html';
+                            break;
+                        case '地址管理':
+                            window.location.href = 'addresses.html';
+                            break;
+                        default:
+                            // 对于尚未实现的页面，可以先跳转到开发中页面
+                            window.location.href = 'under-development.html';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
