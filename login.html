@@ -267,7 +267,8 @@
 <body>
     <div class="login-container">
         <div class="login-header">
-            <img src="https://img.icons8.com/color/240/null/natural-food.png" alt="农产品供销信息平台" class="login-logo">
+            <img src="https://img.icons8.com/color/240/null/natural-food.png" alt="农产品供销信息平台" class="login-logo"
+                width="240" height="240">
             <h1 class="login-title">农产品供销信息平台</h1>
             <p class="login-subtitle">连接农产品生产者与采购商的桥梁</p>
         </div>
@@ -425,8 +426,18 @@
 
             // 从URL参数中获取重定向地址
             function getRedirectUrl() {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get('redirect') || 'index.html';
+                try {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirect = urlParams.get('redirect');
+                    // 如果存在redirect参数且是有效路径，则使用它
+                    if (redirect && (redirect.endsWith('.html') || redirect.includes('/'))) {
+                        return redirect;
+                    }
+                } catch (e) {
+                    console.error('Error parsing redirect URL', e);
+                }
+                // 默认跳转到首页
+                return 'index.html';
             }
 
             // 检查是否是从注册页面跳转来的
@@ -470,7 +481,7 @@
                 const token = localStorage.getItem('token');
                 if (token) {
                     // 已登录，跳转到首页或指定页面
-                    window.location.href = getRedirectUrl();
+                    window.location.replace(getRedirectUrl());
                 }
             }
 
@@ -518,7 +529,8 @@
 
                         // 登录成功，跳转到对应页面
                         const redirectUrl = getRedirectUrl();
-                        window.location.href = redirectUrl;
+                        // 使用replace方法避免浏览器历史堆积
+                        window.location.replace(redirectUrl);
 
                     }, 1500);
                 });
@@ -556,6 +568,20 @@
             checkLoginStatus();
             checkRegistrationRedirect();
             fillRememberedPhone();
+
+            // 添加图片错误处理
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function () {
+                    // 设置默认错误图片
+                    if (this.classList.contains('login-logo')) {
+                        this.src = 'https://via.placeholder.com/240x240?text=网站Logo';
+                    } else {
+                        this.src = 'https://via.placeholder.com/100x100?text=图片暂时无法显示';
+                    }
+                    this.alt = '图片加载失败';
+                };
+            });
         });
     </script>
 </body>

@@ -281,8 +281,8 @@
             <div class="product-grid">
                 <!-- 产品卡片1 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg?w=1380&t=st=1685700629~exp=1685701229~hmac=23f25eab8682aa0d397a088c31457bca28ba3e4bf6eefbb2f71aff25e55c3d56"
-                        alt="草莓" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
+                        alt="草莓" class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">丹东九九草莓</div>
                         <div class="product-price">
@@ -297,8 +297,8 @@
 
                 <!-- 产品卡片2 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg?w=1380&t=st=1685700684~exp=1685701284~hmac=af1cf7f2ce5a7203ab34dfd63ea656ff4d300fb586d22929de1a1eb4c74d3789"
-                        alt="西红柿" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg" alt="西红柿"
+                        class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">河北寿光西红柿</div>
                         <div class="product-price">
@@ -313,8 +313,8 @@
 
                 <!-- 产品卡片3 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg?w=1380&t=st=1685700740~exp=1685701340~hmac=1aecaec67e47bb1e0bf9bbc1c77fc7c30b3f73fefc6fa246dc3e0995bef50aaa"
-                        alt="土豆" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg"
+                        alt="土豆" class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">内蒙古乌兰察布土豆</div>
                         <div class="product-price">
@@ -329,8 +329,8 @@
 
                 <!-- 产品卡片4 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg?w=1380&t=st=1685700762~exp=1685701362~hmac=10b4c21c7de41e27cd3d6e4df4df49e73ae0f7a0eaa574bfd5adfec7f3c1a19a"
-                        alt="玉米" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg"
+                        alt="玉米" class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">东北黑土地有机玉米</div>
                         <div class="product-price">
@@ -345,8 +345,8 @@
 
                 <!-- 更多产品卡片 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/ripe-bananas-white-background_144627-13035.jpg?w=1380&t=st=1685700866~exp=1685701466~hmac=f54cf2ef05edac9a0ebed3cb8a099b245e0a1a1bb19b5cd52ea5301e9fde0294"
-                        alt="香蕉" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/ripe-bananas-white-background_144627-13035.jpg"
+                        alt="香蕉" class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">海南小香蕉</div>
                         <div class="product-price">
@@ -360,8 +360,8 @@
                 </div>
 
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/front-view-fresh-purple-grapes-with-green-leaves-white-table_140725-26928.jpg?w=1380&t=st=1685700888~exp=1685701488~hmac=2d21dbfc34d9e8f22ee559e6e45eef3c1115ba6b7eb0d8b08bc24943e03c31b2"
-                        alt="葡萄" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/front-view-fresh-purple-grapes-with-green-leaves-white-table_140725-26928.jpg"
+                        alt="葡萄" class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">新疆无核白葡萄</div>
                         <div class="product-price">
@@ -457,6 +457,9 @@
 
     <!-- 引入JavaScript -->
     <script src="js/main.js"></script>
+    <!-- 引入认证管理脚本 -->
+    <script src="js/auth.js"></script>
+
     <script>
         // 供应大厅页面特有交互
         document.addEventListener('DOMContentLoaded', function () {
@@ -617,6 +620,20 @@
                             window.location.href = 'under-development.html';
                     }
                 });
+            });
+
+            // 图片错误处理
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function () {
+                    // 设置默认错误图片（根据图片类型设置不同尺寸）
+                    if (this.classList.contains('product-image')) {
+                        this.src = 'https://via.placeholder.com/300x200?text=产品图片暂时无法显示';
+                    } else {
+                        this.src = 'https://via.placeholder.com/100x100?text=图片暂时无法显示';
+                    }
+                    this.alt = '图片加载失败';
+                };
             });
         });
     </script>

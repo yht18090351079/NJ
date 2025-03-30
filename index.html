@@ -13,6 +13,11 @@
     <meta name="description" content="农产品供销信息平台，连接农产品生产者与采购商的桥梁">
     <!-- 主题色 -->
     <meta name="theme-color" content="#2E8B57">
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://img.icons8.com/color/96/null/natural-food.png" as="image">
+    <link rel="preload" href="https://img.freepik.com/free-photo/fruit-basket-with-different-fruits_114579-3230.jpg"
+        as="image">
+    <link rel="preload" href="css/style.css" as="style">
 </head>
 
 <body>
@@ -38,16 +43,16 @@
             <div class="banner-wrapper">
                 <!-- 轮播幻灯片 -->
                 <div class="banner-slide active">
-                    <img src="https://img.freepik.com/free-photo/fruit-basket-with-different-fruits_114579-3230.jpg?w=1380&t=st=1685700361~exp=1685700961~hmac=a8cd9390125328a5019f1c76295ed5d3dab0a182fb364e8c0f723be38302875c"
-                        alt="时令水果特惠">
+                    <img src="https://img.freepik.com/free-photo/fruit-basket-with-different-fruits_114579-3230.jpg"
+                        alt="时令水果特惠" width="1200" height="400">
                 </div>
                 <div class="banner-slide">
-                    <img src="https://img.freepik.com/free-photo/fresh-vegetables-arrangement-eco-packaging_23-2149015666.jpg?w=1380&t=st=1685700499~exp=1685701099~hmac=cb5a77f3dae1a18c75dbaaa4a769eb7ccfd9c5eaa68cd8beb2c6a1c770f73a18"
-                        alt="有机蔬菜推荐">
+                    <img src="https://img.freepik.com/free-photo/fresh-vegetables-arrangement-eco-packaging_23-2149015666.jpg"
+                        alt="有机蔬菜推荐" width="1200" height="400">
                 </div>
                 <div class="banner-slide">
-                    <img src="https://img.freepik.com/free-photo/farmer-harvesting-vegetables_23-2149161902.jpg?w=1380&t=st=1685700537~exp=1685701137~hmac=8a290769679db58151b3e9fbdc01a70191729a6ccbacddbe7f24568a03a1f30c"
-                        alt="助农计划">
+                    <img src="https://img.freepik.com/free-photo/farmer-harvesting-vegetables_23-2149161902.jpg"
+                        alt="助农计划" width="1200" height="400">
                 </div>
 
                 <!-- 轮播指示器 -->
@@ -173,8 +178,8 @@
             <div class="product-grid">
                 <!-- 产品卡片1 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg?w=1380&t=st=1685700629~exp=1685701229~hmac=23f25eab8682aa0d397a088c31457bca28ba3e4bf6eefbb2f71aff25e55c3d56"
-                        alt="草莓" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
+                        alt="草莓" class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">丹东九九草莓</div>
                         <div class="product-price">
@@ -189,8 +194,8 @@
 
                 <!-- 产品卡片2 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg?w=1380&t=st=1685700684~exp=1685701284~hmac=af1cf7f2ce5a7203ab34dfd63ea656ff4d300fb586d22929de1a1eb4c74d3789"
-                        alt="西红柿" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg" alt="西红柿"
+                        class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">河北寿光西红柿</div>
                         <div class="product-price">
@@ -205,8 +210,8 @@
 
                 <!-- 产品卡片3 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg?w=1380&t=st=1685700740~exp=1685701340~hmac=1aecaec67e47bb1e0bf9bbc1c77fc7c30b3f73fefc6fa246dc3e0995bef50aaa"
-                        alt="土豆" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg"
+                        alt="土豆" class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">内蒙古乌兰察布土豆</div>
                         <div class="product-price">
@@ -221,8 +226,8 @@
 
                 <!-- 产品卡片4 -->
                 <div class="product-card">
-                    <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg?w=1380&t=st=1685700762~exp=1685701362~hmac=10b4c21c7de41e27cd3d6e4df4df49e73ae0f7a0eaa574bfd5adfec7f3c1a19a"
-                        alt="玉米" class="product-image">
+                    <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg"
+                        alt="玉米" class="product-image" loading="lazy" width="300" height="200">
                     <div class="product-info">
                         <div class="product-name">东北黑土地有机玉米</div>
                         <div class="product-price">
@@ -270,6 +275,52 @@
             </a>
         </div>
     </nav>
+
+    <!-- 添加图片错误处理脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 处理图片加载错误
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function () {
+                    // 设置默认错误图片
+                    this.src = 'https://via.placeholder.com/300x200?text=图片暂时无法显示';
+                    this.alt = '图片加载失败';
+                };
+            });
+
+            // Banner轮播逻辑优化
+            const bannerSlides = document.querySelectorAll('.banner-slide');
+            const indicators = document.querySelectorAll('.banner-indicator');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                bannerSlides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+
+                bannerSlides[index].classList.add('active');
+                indicators[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % bannerSlides.length;
+                showSlide(currentSlide);
+            }
+
+            // 自动轮播
+            let slideInterval = setInterval(nextSlide, 5000);
+
+            // 点击指示器切换轮播
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    showSlide(index);
+                    slideInterval = setInterval(nextSlide, 5000);
+                });
+            });
+        });
+    </script>
 
     <!-- 引入主JavaScript文件 -->
     <script src="js/main.js"></script>

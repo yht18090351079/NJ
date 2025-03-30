@@ -5,6 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>个人中心 - 农产品供销信息平台</title>
+
+    <!-- 立即执行登录检查，确保在页面加载任何资源前就进行重定向 -->
+    <script>
+        // 检查登录状态
+        (function () {
+            // 检查本地存储中是否有token
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // 如果未登录，立即重定向到登录页
+                window.location.replace('login.html?redirect=user.html');
+                return;
+            }
+        })();
+    </script>
+
     <!-- 引入字体图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- 引入自定义样式 -->
@@ -259,8 +274,8 @@
         <header class="user-header">
             <div class="user-bg-pattern"></div>
             <div class="user-info">
-                <img src="https://img.freepik.com/free-photo/farmer-holding-fresh-harvested-vegetables-garden-basket_1150-17692.jpg?w=1380&t=st=1685701032~exp=1685701632~hmac=76c30f32d01db1c39a92fa05c89fbc8c2d00dd99bc49c75e5cba99f8e65fa46d"
-                    alt="用户头像" class="user-avatar">
+                <img src="https://img.freepik.com/free-photo/farmer-holding-fresh-harvested-vegetables-garden-basket_1150-17692.jpg"
+                    alt="用户头像" class="user-avatar" width="100" height="100">
                 <div class="user-details">
                     <div class="user-name">张三农场</div>
                     <div class="user-role">
@@ -439,6 +454,7 @@
     <script src="js/main.js"></script>
     <!-- 引入应用程序交互脚本 -->
     <script src="js/app.js"></script>
+
     <script>
         // 个人中心页面特有交互
         document.addEventListener('DOMContentLoaded', function () {
@@ -500,19 +516,6 @@
                 }
             });
 
-            // 检查登录状态
-            function checkLoginStatus() {
-                // 检查本地存储中是否有token
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    // 如果未登录，重定向到登录页
-                    window.location.href = 'login.html?redirect=user.html';
-                }
-            }
-
-            // 页面加载时检查登录状态
-            checkLoginStatus();
-
             // 产品卡片跳转到详情页
             const productCards = document.querySelectorAll('.product-card');
             if (productCards) {
@@ -535,6 +538,20 @@
                     });
                 });
             }
+
+            // 图片错误处理
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function () {
+                    // 设置默认错误图片
+                    if (this.classList.contains('user-avatar')) {
+                        this.src = 'https://via.placeholder.com/100x100?text=用户头像';
+                    } else {
+                        this.src = 'https://via.placeholder.com/100x100?text=图片暂时无法显示';
+                    }
+                    this.alt = '图片加载失败';
+                };
+            });
         });
 
         // 表单提交处理
