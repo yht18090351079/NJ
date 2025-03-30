@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>农产品供销信息平台</title>
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 页面描述 -->
+    <meta name="description" content="农产品供销信息平台，连接农产品生产者与采购商的桥梁">
+    <!-- 主题色 -->
+    <meta name="theme-color" content="#2E8B57">
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://img.icons8.com/color/96/null/natural-food.png" as="image">
+    <link rel="preload" href="https://img.freepik.com/free-photo/fruit-basket-with-different-fruits_114579-3230.jpg"
+        as="image">
+    <link rel="preload" href="css/style.css" as="style">
+</head>
+
+<body>
+    <!-- 移动设备框架容器 -->
+    <div class="mobile-frame-container">
+        <div class="mobile-frame">
+            <!-- 刘海屏 -->
+            <div class="notch">
+                <div class="speaker"></div>
+                <div class="camera"></div>
+            </div>
+            
+            <!-- 手机侧边按钮 -->
+            <div class="side-button power-button"></div>
+            <div class="side-button volume-up"></div>
+            <div class="side-button volume-down"></div>
+            
+            <!-- 屏幕内容区域 -->
+            <div class="device-screen">
+                <!-- 状态栏 -->
+                <div class="status-bar">
+                    <div class="status-bar-left">
+                        10:30
+                    </div>
+                    <div class="status-bar-right">
+                        <i class="fas fa-signal signal-icon"></i>
+                        <i class="fas fa-wifi wifi-icon"></i>
+                        <i class="fas fa-battery-three-quarters battery-icon"></i>
+                    </div>
+                </div>
+                
+                <!-- 应用内容容器 -->
+                <div class="app-container">
+                    <!-- 顶部导航栏 -->
+                    <div class="top-navbar">
+                        <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台" class="logo">
+                        <div class="search-bar">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" placeholder="搜索农产品" class="search-input">
+                            <i class="fas fa-microphone voice-icon"></i>
+                        </div>
+                        <img src="images/default-avatar.png" alt="用户头像" class="user-avatar">
+                    </div>
+
+                    <!-- 主要内容区域 -->
+                    <div class="main-content">
+                        <!-- Banner区域 -->
+                        <div class="section">
+                            <div class="banner-wrapper">
+                                <div class="banner-slider">
+                                    <div class="banner-slide active">
+                                        <img src="https://img.freepik.com/free-photo/fruit-basket-with-different-fruits_114579-3230.jpg"
+                                            alt="时令水果特惠" width="1200" height="400">
+                                    </div>
+                                    <div class="banner-slide">
+                                        <img src="https://img.freepik.com/free-photo/fresh-vegetables-arrangement-eco-packaging_23-2149015666.jpg"
+                                            alt="有机蔬菜推荐" width="1200" height="400">
+                                    </div>
+                                    <div class="banner-slide">
+                                        <img src="https://img.freepik.com/free-photo/farmer-harvesting-vegetables_23-2149161902.jpg"
+                                            alt="助农计划" width="1200" height="400">
+                                    </div>
+                                </div>
+                                <div class="banner-indicators">
+                                    <span class="banner-indicator active" data-index="0"></span>
+                                    <span class="banner-indicator" data-index="1"></span>
+                                    <span class="banner-indicator" data-index="2"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 快捷入口区域 -->
+                        <div class="section">
+                            <div class="quick-access">
+                                <div class="access-card">
+                                    <i class="fas fa-shopping-basket"></i>
+                                    <span>供应大厅</span>
+                                </div>
+                                <div class="access-card">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    <span>需求大厅</span>
+                                </div>
+                                <div class="access-card">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>产地溯源</span>
+                                </div>
+                                <div class="access-card">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>行情分析</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 热门产品区域 -->
+                        <div class="section">
+                            <div class="section-header">
+                                <h2 class="section-title">热门产品</h2>
+                                <a href="supply.html" class="section-more">
+                                    更多 <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </div>
+                            <div class="product-list">
+                                <div class="product-card">
+                                    <div class="product-image-wrapper">
+                                        <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
+                                            alt="草莓" class="product-image" loading="lazy" width="300" height="200">
+                                        <span class="product-tag hot">热销</span>
+                                    </div>
+                                    <div class="product-info">
+                                        <h3 class="product-name">丹东九九草莓</h3>
+                                        <div class="product-price">¥32.80<span class="price-unit">/斤</span></div>
+                                        <div class="product-origin">辽宁-丹东</div>
+                                    </div>
+                                </div>
+                                <div class="product-card">
+                                    <div class="product-image-wrapper">
+                                        <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg"
+                                            alt="西红柿" class="product-image" loading="lazy" width="300" height="200">
+                                        <span class="product-tag organic">有机</span>
+                                    </div>
+                                    <div class="product-info">
+                                        <h3 class="product-name">河北寿光西红柿</h3>
+                                        <div class="product-price">¥4.50<span class="price-unit">/斤</span></div>
+                                        <div class="product-origin">山东-寿光</div>
+                                    </div>
+                                </div>
+                                <div class="product-card">
+                                    <div class="product-image-wrapper">
+                                        <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg"
+                                            alt="土豆" class="product-image" loading="lazy" width="300" height="200">
+                                        <span class="product-tag quality">特产</span>
+                                    </div>
+                                    <div class="product-info">
+                                        <h3 class="product-name">内蒙古乌兰察布土豆</h3>
+                                        <div class="product-price">¥2.98<span class="price-unit">/斤</span></div>
+                                        <div class="product-origin">内蒙古-乌兰察布</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 最新需求区域 -->
+                        <div class="section">
+                            <div class="section-header">
+                                <h2 class="section-title">最新需求</h2>
+                                <a href="demand.html" class="section-more">
+                                    更多 <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </div>
+                            <div class="demand-list">
+                                <div class="demand-card">
+                                    <div class="demand-header">
+                                        <img src="images/avatar1.jpg" alt="用户头像" class="demand-avatar">
+                                        <div class="demand-user">
+                                            <div class="demand-username">北京果蔬批发</div>
+                                            <div class="demand-time">2小时前</div>
+                                        </div>
+                                        <div class="demand-status open">采购中</div>
+                                    </div>
+                                    <div class="demand-content">
+                                        <div class="demand-title">寻找优质西红柿供应商</div>
+                                        <div class="demand-desc">
+                                            需要大量采购西红柿，要求新鲜、个大均匀，可以长期合作，价格面议。
+                                        </div>
+                                        <div class="demand-meta">
+                                            <div class="demand-quantity">采购量：10吨</div>
+                                            <div class="demand-area">北京市</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="demand-card">
+                                    <div class="demand-header">
+                                        <img src="images/avatar2.jpg" alt="用户头像" class="demand-avatar">
+                                        <div class="demand-user">
+                                            <div class="demand-username">上海餐饮集团</div>
+                                            <div class="demand-time">5小时前</div>
+                                        </div>
+                                        <div class="demand-status open">采购中</div>
+                                    </div>
+                                    <div class="demand-content">
+                                        <div class="demand-title">寻找有机蔬菜供应商</div>
+                                        <div class="demand-desc">
+                                            餐饮连锁需要有机认证的各类蔬菜，每周固定供应，要求新鲜度高。
+                                        </div>
+                                        <div class="demand-meta">
+                                            <div class="demand-quantity">采购量：500kg/周</div>
+                                            <div class="demand-area">上海市</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 平台数据统计 -->
+                        <div class="section">
+                            <div class="platform-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <div class="stat-value">126,580</div>
+                                        <div class="stat-label">注册用户</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-shopping-basket"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <div class="stat-value">58,921</div>
+                                        <div class="stat-label">供应信息</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-handshake"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <div class="stat-value">32,605</div>
+                                        <div class="stat-label">成交订单</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <div class="stat-value">2,158</div>
+                                        <div class="stat-label">覆盖产地</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底部导航栏 -->
+                    <nav class="bottom-navbar">
+                        <div class="nav-items">
+                            <a href="index.html" class="nav-item active" data-page="index">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                            <a href="supply.html" class="nav-item" data-page="supply">
+                                <i class="fas fa-shopping-basket"></i>
+                                <span>供应大厅</span>
+                            </a>
+                            <a href="publish.html" class="nav-item nav-publish">
+                                <div class="publish-btn">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                                <span>发布</span>
+                            </a>
+                            <a href="demand.html" class="nav-item" data-page="demand">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span>需求大厅</span>
+                            </a>
+                            <a href="user.html" class="nav-item" data-page="user">
+                                <i class="fas fa-user"></i>
+                                <span>我的</span>
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- 底部Home指示器 -->
+            <div class="home-indicator"></div>
+        </div>
+    </div>
+
+    <!-- 添加图片错误处理脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 处理图片加载错误
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function () {
+                    // 设置默认错误图片
+                    this.src = 'https://via.placeholder.com/300x200?text=图片暂时无法显示';
+                    this.alt = '图片加载失败';
+                };
+            });
+
+            // Banner轮播逻辑优化
+            const bannerSlides = document.querySelectorAll('.banner-slide');
+            const indicators = document.querySelectorAll('.banner-indicator');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                bannerSlides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+
+                bannerSlides[index].classList.add('active');
+                indicators[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % bannerSlides.length;
+                showSlide(currentSlide);
+            }
+
+            // 自动轮播
+            let slideInterval = setInterval(nextSlide, 5000);
+
+            // 点击指示器切换轮播
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    showSlide(index);
+                    slideInterval = setInterval(nextSlide, 5000);
+                });
+            });
+        });
+    </script>
+
+    <!-- 引入主JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <!-- 引入认证管理脚本 -->
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

@@ -5,26 +5,12 @@
 // 全局状态管理
 const appState = {
   isLoggedIn: false,  // 登录状态
-  isGuest: false,     // 游客登录状态
   currentUser: null,  // 当前用户信息
   notifications: 0,   // 通知数量
   cartItems: 0,       // 购物车商品数量
 
   // 检查登录状态
   checkLoginStatus() {
-    // 检查是否是游客登录
-    if (localStorage.getItem('isGuest') === 'true') {
-      this.isGuest = true;
-      this.isLoggedIn = true;
-      this.currentUser = {
-        id: 'guest',
-        name: '游客用户',
-        role: '游客',
-        avatar: 'https://via.placeholder.com/64x64?text=游客'
-      };
-      return true;
-    }
-
     // 从localStorage中获取token
     const token = localStorage.getItem('token');
     // 从localStorage中获取用户信息
@@ -34,7 +20,6 @@ const appState = {
       try {
         this.currentUser = JSON.parse(userInfo);
         this.isLoggedIn = true;
-        this.isGuest = false;
         return true;
       } catch (e) {
         console.error('登录状态解析错误', e);
@@ -44,7 +29,6 @@ const appState = {
       }
     }
     this.isLoggedIn = false;
-    this.isGuest = false;
     this.currentUser = null;
     return false;
   },
@@ -53,7 +37,6 @@ const appState = {
   login(username, password) {
     // 模拟登录成功
     this.isLoggedIn = true;
-    this.isGuest = false;
     this.currentUser = {
       id: 'user123',
       name: username || '张三农场',
@@ -66,24 +49,6 @@ const appState = {
     // 保存登录状态，使用与login.html相同的键名
     localStorage.setItem('userInfo', JSON.stringify(this.currentUser));
     localStorage.setItem('token', 'mock_token_' + Date.now());
-    localStorage.removeItem('isGuest');
-
-    return true;
-  },
-
-  // 游客登录
-  loginAsGuest() {
-    this.isLoggedIn = true;
-    this.isGuest = true;
-    this.currentUser = {
-      id: 'guest',
-      name: '游客用户',
-      role: '游客',
-      avatar: 'https://via.placeholder.com/64x64?text=游客'
-    };
-
-    // 保存游客登录状态
-    localStorage.setItem('isGuest', 'true');
 
     return true;
   },
@@ -91,13 +56,11 @@ const appState = {
   // 退出登录
   logout() {
     this.isLoggedIn = false;
-    this.isGuest = false;
     this.currentUser = null;
     // 清除所有登录相关数据
     localStorage.removeItem('token');
     localStorage.removeItem('userInfo');
     localStorage.removeItem('selectedMenu');
-    localStorage.removeItem('isGuest');
     sessionStorage.clear();
   }
 };
