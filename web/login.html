@@ -150,6 +150,8 @@
     <script src="../app/js/app.js"></script>
     <!-- 引入Web端特有脚本 -->
     <script src="js/web-app.js"></script>
+    <!-- 引入登录管理脚本 -->
+    <script src="js/login-manager.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -250,8 +252,16 @@
                         return;
                     }
 
-                    // 模拟登录
-                    simulateLogin();
+                    // 使用登录管理器进行登录
+                    const userData = {
+                        phone: phoneNumber,
+                        name: '手机用户_' + phoneNumber.substring(7)
+                    };
+
+                    // 登录并获取结果
+                    if (LoginManager.login(userData, null, false)) {
+                        redirectAfterLogin();
+                    }
                 });
             }
 
@@ -262,6 +272,7 @@
 
                     const username = document.getElementById('username').value.trim();
                     const password = document.getElementById('password').value.trim();
+                    const rememberMe = document.getElementById('rememberMe').checked;
 
                     if (!username) {
                         alert('请输入用户名或手机号');
@@ -273,8 +284,17 @@
                         return;
                     }
 
-                    // 模拟登录
-                    simulateLogin();
+                    // 使用登录管理器进行登录
+                    const userData = {
+                        username: username,
+                        phone: username.match(/^1\d{10}$/) ? username : null,
+                        name: username
+                    };
+
+                    // 登录并获取结果
+                    if (LoginManager.login(userData, null, rememberMe)) {
+                        redirectAfterLogin();
+                    }
                 });
             }
 
@@ -283,25 +303,16 @@
 
             if (guestLoginBtn) {
                 guestLoginBtn.addEventListener('click', function () {
-                    // 设置游客登录状态
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('isGuest', 'true');
-                    localStorage.setItem('userName', '游客用户');
+                    // 使用登录管理器进行游客登录
+                    const guestData = {
+                        name: '游客用户',
+                        isGuest: true
+                    };
 
-                    // 重定向到适当的页面
-                    redirectAfterLogin();
+                    if (LoginManager.login(guestData, 'guest_token', false)) {
+                        redirectAfterLogin();
+                    }
                 });
-            }
-
-            // 模拟登录成功
-            function simulateLogin() {
-                // 设置登录状态
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('isGuest', 'false');
-                localStorage.setItem('userName', '张三');
-
-                // 重定向到适当的页面
-                redirectAfterLogin();
             }
 
             // 登录后重定向

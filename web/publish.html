@@ -585,10 +585,15 @@
     <script src="../app/js/app.js"></script>
     <!-- 引入Web端特有脚本 -->
     <script src="js/web-app.js"></script>
+    <!-- 引入登录管理脚本 -->
+    <script src="js/login-manager.js"></script>
 
     <script>
         // 发布页面特有脚本
         document.addEventListener('DOMContentLoaded', function () {
+            // 页面需要登录权限标记
+            document.body.classList.add('requires-auth');
+
             // 表单类型切换
             const publishTypes = document.querySelectorAll('.publish-type');
             const supplyForm = document.getElementById('supplyForm');
@@ -654,14 +659,6 @@
                 supplyForm.addEventListener('submit', function (e) {
                     e.preventDefault();
 
-                    // 检查登录状态
-                    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-                    if (!isLoggedIn) {
-                        alert('请先登录后再发布信息');
-                        window.location.href = 'login.html?redirect=publish.html';
-                        return;
-                    }
-
                     // 在这里处理表单提交
                     alert('供应信息已提交成功！');
 
@@ -675,14 +672,6 @@
             if (demandSubmitBtn && demandForm) {
                 demandForm.addEventListener('submit', function (e) {
                     e.preventDefault();
-
-                    // 检查登录状态
-                    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-                    if (!isLoggedIn) {
-                        alert('请先登录后再发布信息');
-                        window.location.href = 'login.html?redirect=publish.html';
-                        return;
-                    }
 
                     // 在这里处理表单提交
                     alert('需求信息已提交成功！');
