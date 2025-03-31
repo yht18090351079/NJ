@@ -7,8 +7,6 @@
     <title>供应大厅 - 农产品供销信息平台</title>
     <!-- 引入字体图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- 引入移动设备框架样式 -->
-    <link rel="stylesheet" href="css/mobile-frame.css">
     <!-- 引入自定义样式 -->
     <link rel="stylesheet" href="css/style.css">
     <!-- 页面描述 -->
@@ -221,408 +219,191 @@
 </head>
 
 <body>
-    <!-- 移动设备框架容器 -->
-    <div class="mobile-frame-container">
-        <!-- 移动设备框架 -->
-        <div class="mobile-frame">
-            <!-- 刘海屏设计 -->
-            <div class="notch">
-                <div class="speaker"></div>
-                <div class="camera"></div>
+    <!-- 页面内容区域 -->
+    <div class="page-content">
+        <!-- 顶部导航栏 -->
+        <header class="top-navbar">
+            <div class="container flex-between">
+                <!-- 左侧Logo -->
+                <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台" class="logo">
+
+                <!-- 搜索框 -->
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="搜索农产品">
+                    <i class="fas fa-microphone voice-icon"></i>
+                </div>
             </div>
+        </header>
 
-            <!-- 侧边按钮 -->
-            <div class="side-button power-button"></div>
-            <div class="side-button volume-up"></div>
-            <div class="side-button volume-down"></div>
+        <!-- 筛选栏 -->
+        <div class="filter-section">
+            <div class="filter-scroll">
+                <div class="filter-item active" data-filter="category">
+                    全部分类 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="area">
+                    所在地区 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="price">
+                    价格区间 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="season">
+                    当季时令 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="certification">
+                    认证类型 <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
 
-            <!-- 屏幕内容区域 -->
-            <div class="device-screen">
-                <!-- 应用容器 -->
-                <div class="app-container">
-                    <!-- 状态栏 -->
-                    <div class="status-bar">
-                        <div class="status-bar-left">
-                            10:30
-                        </div>
-                        <div class="status-bar-right">
-                            <i class="fas fa-signal signal-icon"></i>
-                            <i class="fas fa-wifi wifi-icon"></i>
-                            <i class="fas fa-battery-three-quarters battery-icon"></i>
-                        </div>
+        <!-- 已选标签 -->
+        <div class="tag-list">
+            <div class="filter-tag">有机认证 <i class="fas fa-times"></i></div>
+            <div class="filter-tag">四川省 <i class="fas fa-times"></i></div>
+        </div>
+
+        <!-- 结果信息栏 -->
+        <div class="result-bar">
+            <div class="result-count">共12324个结果</div>
+            <div class="result-sort">默认排序 <i class="fas fa-chevron-down"></i></div>
+        </div>
+
+        <!-- 产品列表 -->
+        <div class="product-grid">
+            <!-- 产品卡片1 -->
+            <div class="product-card">
+                <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
+                    alt="草莓" class="product-image" loading="lazy" width="300" height="200">
+                <div class="product-info">
+                    <div class="product-name">丹东九九草莓</div>
+                    <div class="product-price">
+                        ¥32.80<span class="product-unit">/斤</span>
                     </div>
-
-                    <!-- 页面内容区域 -->
-                    <div class="page-content">
-                        <!-- 顶部导航栏 -->
-                        <header class="top-navbar">
-                            <div class="container flex-between">
-                                <!-- 标题 -->
-                                <h1 style="font-size: 16px; font-weight: bold;">供应大厅</h1>
-
-                                <!-- 右侧图标 -->
-                                <div class="flex">
-                                    <a href="javascript:void(0)" style="margin-right: 16px;">
-                                        <i class="fas fa-search" style="font-size: 24px; color: #666;"></i>
-                                    </a>
-                                    <a href="javascript:void(0)">
-                                        <i class="fas fa-bell" style="font-size: 24px; color: #666;"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </header>
-
-                        <!-- 筛选条件区 -->
-                        <section class="filter-section">
-                            <div class="filter-scroll">
-                                <div class="filter-item" data-filter="category">
-                                    品类 <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="filter-item" data-filter="price">
-                                    价格 <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="filter-item" data-filter="area">
-                                    地区 <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="filter-item" data-filter="scale">
-                                    规模 <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 筛选结果状态栏 -->
-                        <div class="result-bar">
-                            <div class="result-count">共328个结果</div>
-                            <div class="result-sort">
-                                默认排序 <i class="fas fa-chevron-down"></i>
-                            </div>
-                        </div>
-
-                        <!-- 已选筛选条件标签 -->
-                        <div class="tag-list">
-                            <div class="filter-tag">
-                                价格: ¥5-¥10 <i class="fas fa-times"></i>
-                            </div>
-                            <div class="filter-tag">
-                                水果 <i class="fas fa-times"></i>
-                            </div>
-                        </div>
-
-                        <!-- 供应商品列表 -->
-                        <section class="recommend-section">
-                            <!-- 产品网格 -->
-                            <div class="product-grid">
-                                <!-- 产品卡片1 -->
-                                <div class="product-card">
-                                    <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
-                                        alt="草莓" class="product-image" loading="lazy" width="300" height="200">
-                                    <div class="product-info">
-                                        <div class="product-name">丹东九九草莓</div>
-                                        <div class="product-price">
-                                            ¥32.80<span class="product-unit">/斤</span>
-                                        </div>
-                                        <div class="product-address">
-                                            <i class="fas fa-map-marker-alt"></i>辽宁-丹东
-                                        </div>
-                                        <div class="product-desc">精选丹东九九草莓，果大色艳，香甜多汁，现摘现发。</div>
-                                    </div>
-                                </div>
-
-                                <!-- 产品卡片2 -->
-                                <div class="product-card">
-                                    <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg"
-                                        alt="西红柿" class="product-image" loading="lazy" width="300" height="200">
-                                    <div class="product-info">
-                                        <div class="product-name">河北寿光西红柿</div>
-                                        <div class="product-price">
-                                            ¥4.50<span class="product-unit">/斤</span>
-                                        </div>
-                                        <div class="product-address">
-                                            <i class="fas fa-map-marker-alt"></i>山东-寿光
-                                        </div>
-                                        <div class="product-desc">产地直发，绿色种植，新鲜采摘，口感酸甜。</div>
-                                    </div>
-                                </div>
-
-                                <!-- 产品卡片3 -->
-                                <div class="product-card">
-                                    <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg"
-                                        alt="土豆" class="product-image" loading="lazy" width="300" height="200">
-                                    <div class="product-info">
-                                        <div class="product-name">内蒙古乌兰察布土豆</div>
-                                        <div class="product-price">
-                                            ¥2.98<span class="product-unit">/斤</span>
-                                        </div>
-                                        <div class="product-address">
-                                            <i class="fas fa-map-marker-alt"></i>内蒙古-乌兰察布
-                                        </div>
-                                        <div class="product-desc">高原土豆，无污染，沙质土壤种植，口感细腻，富含淀粉。</div>
-                                    </div>
-                                </div>
-
-                                <!-- 产品卡片4 -->
-                                <div class="product-card">
-                                    <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg"
-                                        alt="玉米" class="product-image" loading="lazy" width="300" height="200">
-                                    <div class="product-info">
-                                        <div class="product-name">东北黑土地有机玉米</div>
-                                        <div class="product-price">
-                                            ¥3.50<span class="product-unit">/斤</span>
-                                        </div>
-                                        <div class="product-address">
-                                            <i class="fas fa-map-marker-alt"></i>黑龙江-哈尔滨
-                                        </div>
-                                        <div class="product-desc">有机认证，黑土地种植，颗粒饱满，口感香甜。</div>
-                                    </div>
-                                </div>
-
-                                <!-- 更多产品卡片 -->
-                                <div class="product-card">
-                                    <img src="https://img.freepik.com/free-photo/ripe-bananas-white-background_144627-13035.jpg"
-                                        alt="香蕉" class="product-image" loading="lazy" width="300" height="200">
-                                    <div class="product-info">
-                                        <div class="product-name">海南小香蕉</div>
-                                        <div class="product-price">
-                                            ¥5.99<span class="product-unit">/斤</span>
-                                        </div>
-                                        <div class="product-address">
-                                            <i class="fas fa-map-marker-alt"></i>海南-三亚
-                                        </div>
-                                        <div class="product-desc">海南小香蕉，香甜可口，果肉软糯，富含营养。</div>
-                                    </div>
-                                </div>
-
-                                <div class="product-card">
-                                    <img src="https://img.freepik.com/free-photo/front-view-fresh-purple-grapes-with-green-leaves-white-table_140725-26928.jpg"
-                                        alt="葡萄" class="product-image" loading="lazy" width="300" height="200">
-                                    <div class="product-info">
-                                        <div class="product-name">新疆无核白葡萄</div>
-                                        <div class="product-price">
-                                            ¥9.90<span class="product-unit">/斤</span>
-                                        </div>
-                                        <div class="product-address">
-                                            <i class="fas fa-map-marker-alt"></i>新疆-吐鲁番
-                                        </div>
-                                        <div class="product-desc">新疆特产，皮薄肉厚，无核甜蜜，产地直发。</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 加载更多 -->
-                            <div class="load-more">
-                                加载更多
-                            </div>
-                        </section>
-
-                        <!-- 空状态 -->
-                        <div class="empty-state">
-                            <img src="https://via.placeholder.com/200x200?text=EmptyState" alt="暂无数据">
-                            <p>暂无符合条件的供应信息</p>
-                            <button>重置筛选条件</button>
-                        </div>
+                    <div class="product-address">
+                        <i class="fas fa-map-marker-alt"></i>辽宁-丹东
                     </div>
-
-                    <!-- 底部导航栏 -->
-                    <nav class="bottom-navbar">
-                        <div class="nav-items">
-                            <a href="index.html" class="nav-item" data-page="home">
-                                <i class="fas fa-home"></i>
-                                <span>首页</span>
-                            </a>
-                            <a href="supply.html" class="nav-item active" data-page="supply">
-                                <i class="fas fa-shopping-basket"></i>
-                                <span>供应大厅</span>
-                            </a>
-                            <a href="publish.html" class="nav-item nav-publish">
-                                <div class="publish-btn">
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                                <span>发布</span>
-                            </a>
-                            <a href="demand.html" class="nav-item" data-page="demand">
-                                <i class="fas fa-clipboard-list"></i>
-                                <span>需求大厅</span>
-                            </a>
-                            <a href="user.html" class="nav-item" data-page="user">
-                                <i class="fas fa-user"></i>
-                                <span>个人中心</span>
-                            </a>
-                        </div>
-                    </nav>
+                    <div class="product-desc">精选丹东九九草莓，果大色艳，香甜多汁，现摘现发。</div>
                 </div>
             </div>
 
-            <!-- 底部Home指示器 -->
-            <div class="home-indicator"></div>
-        </div>
-    </div>
+            <!-- 产品卡片2 -->
+            <div class="product-card">
+                <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg" alt="西红柿"
+                    class="product-image" loading="lazy" width="300" height="200">
+                <div class="product-info">
+                    <div class="product-name">河北寿光西红柿</div>
+                    <div class="product-price">
+                        ¥4.50<span class="product-unit">/斤</span>
+                    </div>
+                    <div class="product-address">
+                        <i class="fas fa-map-marker-alt"></i>山东-寿光
+                    </div>
+                    <div class="product-desc">产地直发，绿色种植，新鲜采摘，口感酸甜。</div>
+                </div>
+            </div>
 
-    <!-- 筛选弹窗 -->
-    <div class="filter-modal" id="filterModal">
-        <div class="filter-content">
-            <!-- 品类筛选内容 -->
-            <div class="filter-panel" data-panel="category">
-                <h3 class="filter-title">选择品类</h3>
+            <!-- 产品卡片3 -->
+            <div class="product-card">
+                <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg" alt="土豆"
+                    class="product-image" loading="lazy" width="300" height="200">
+                <div class="product-info">
+                    <div class="product-name">内蒙古乌兰察布土豆</div>
+                    <div class="product-price">
+                        ¥2.98<span class="product-unit">/斤</span>
+                    </div>
+                    <div class="product-address">
+                        <i class="fas fa-map-marker-alt"></i>内蒙古-乌兰察布
+                    </div>
+                    <div class="product-desc">高原土豆，无污染，沙质土壤种植，口感细腻，富含淀粉。</div>
+                </div>
+            </div>
+
+            <!-- 产品卡片4 -->
+            <div class="product-card">
+                <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg"
+                    alt="玉米" class="product-image" loading="lazy" width="300" height="200">
+                <div class="product-info">
+                    <div class="product-name">东北黑土地有机玉米</div>
+                    <div class="product-price">
+                        ¥3.50<span class="product-unit">/斤</span>
+                    </div>
+                    <div class="product-address">
+                        <i class="fas fa-map-marker-alt"></i>黑龙江-哈尔滨
+                    </div>
+                    <div class="product-desc">有机认证，黑土地种植，颗粒饱满，口感香甜。</div>
+                </div>
+            </div>
+
+            <!-- 更多产品卡片... -->
+        </div>
+
+        <!-- 加载更多 -->
+        <div class="load-more">
+            加载更多
+        </div>
+
+        <!-- 筛选弹窗 -->
+        <div class="filter-modal" id="categoryModal">
+            <div class="filter-content">
+                <div class="filter-title">选择分类</div>
                 <div class="filter-options">
                     <div class="filter-option active">全部</div>
-                    <div class="filter-option">水果</div>
                     <div class="filter-option">蔬菜</div>
+                    <div class="filter-option">水果</div>
                     <div class="filter-option">粮油</div>
                     <div class="filter-option">肉禽蛋</div>
                     <div class="filter-option">水产</div>
                     <div class="filter-option">干货</div>
                     <div class="filter-option">茶叶</div>
-                    <div class="filter-option">坚果</div>
+                    <div class="filter-option">药材</div>
+                    <div class="filter-option">其他</div>
                 </div>
-
-                <h3 class="filter-title">二级分类</h3>
-                <div class="filter-options">
-                    <div class="filter-option">苹果</div>
-                    <div class="filter-option">梨</div>
-                    <div class="filter-option">香蕉</div>
-                    <div class="filter-option active">草莓</div>
-                    <div class="filter-option">葡萄</div>
-                    <div class="filter-option">柑橘</div>
-                    <div class="filter-option">西瓜</div>
-                    <div class="filter-option">桃</div>
-                </div>
-
                 <div class="filter-buttons">
-                    <button class="filter-reset">重置</button>
-                    <button class="filter-confirm">确定</button>
+                    <div class="filter-reset">重置</div>
+                    <div class="filter-confirm">确定</div>
                 </div>
             </div>
         </div>
+
+        <!-- 空状态提示 -->
+        <div class="empty-state">
+            <img src="https://img.icons8.com/color/96/null/search-in-list.png" alt="暂无数据">
+            <p>暂无符合条件的产品</p>
+            <button>清除筛选条件</button>
+        </div>
     </div>
 
-    <!-- 引入JavaScript -->
-    <script src="js/main.js"></script>
-    <!-- 引入认证管理脚本 -->
-    <script src="js/auth.js"></script>
+    <!-- 底部导航栏 -->
+    <div class="bottom-navbar">
+        <div class="nav-items">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                首页
+            </a>
+            <a href="supply.html" class="nav-item active">
+                <i class="fas fa-store"></i>
+                供应
+            </a>
+            <a href="publish.html" class="nav-item nav-publish">
+                <div class="publish-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <span>发布</span>
+            </a>
+            <a href="demand.html" class="nav-item">
+                <i class="fas fa-shopping-basket"></i>
+                需求
+            </a>
+            <a href="user.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                我的
+            </a>
+        </div>
+    </div>
 
-    <script>
-        // 供应大厅页面特有交互
-        document.addEventListener('DOMContentLoaded', function () {
-            // 筛选项点击事件
-            const filterItems = document.querySelectorAll('.filter-item');
-            const filterModal = document.getElementById('filterModal');
-            const filterContent = document.querySelector('.filter-content');
-
-            filterItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const filterType = item.getAttribute('data-filter');
-
-                    // 添加活跃状态
-                    filterItems.forEach(fi => fi.classList.remove('active'));
-                    item.classList.add('active');
-
-                    // 显示对应的筛选面板
-                    document.querySelectorAll('.filter-panel').forEach(panel => {
-                        panel.style.display = 'none';
-                    });
-                    document.querySelector(`[data-panel="${filterType}"]`).style.display = 'block';
-
-                    // 显示弹窗
-                    filterModal.classList.add('active');
-                });
-            });
-
-            // 点击弹窗外部关闭
-            filterModal.addEventListener('click', (e) => {
-                if (e.target === filterModal) {
-                    filterModal.classList.remove('active');
-                }
-            });
-
-            // 筛选项选择
-            const filterOptions = document.querySelectorAll('.filter-option');
-            filterOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    if (option.textContent === '全部') {
-                        // 如果点击的是"全部"，则移除同级的所有active
-                        const parentOptions = option.parentElement.querySelectorAll('.filter-option');
-                        parentOptions.forEach(o => o.classList.remove('active'));
-                        option.classList.add('active');
-                    } else {
-                        // 如果点击的不是"全部"，则移除"全部"的active
-                        const allOption = option.parentElement.querySelector('.filter-option:first-child');
-                        if (allOption && allOption.textContent === '全部') {
-                            allOption.classList.remove('active');
-                        }
-
-                        // 切换当前选项的active状态
-                        option.classList.toggle('active');
-                    }
-                });
-            });
-
-            // 确定按钮事件
-            const confirmBtns = document.querySelectorAll('.filter-confirm');
-            confirmBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterModal.classList.remove('active');
-                    // 这里可以添加应用筛选条件的逻辑
-                    alert('筛选条件已应用');
-                });
-            });
-
-            // 重置按钮事件
-            const resetBtns = document.querySelectorAll('.filter-reset');
-            resetBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const panel = btn.closest('.filter-panel');
-                    const options = panel.querySelectorAll('.filter-option');
-
-                    // 重置为只有"全部"选中
-                    options.forEach(o => {
-                        o.classList.remove('active');
-                        if (o.textContent === '全部') {
-                            o.classList.add('active');
-                        }
-                    });
-                });
-            });
-
-            // 筛选标签删除
-            const filterTags = document.querySelectorAll('.filter-tag');
-            filterTags.forEach(tag => {
-                tag.querySelector('i').addEventListener('click', () => {
-                    tag.remove();
-                });
-            });
-
-            // 排序下拉菜单
-            const sortBtn = document.querySelector('.result-sort');
-            sortBtn.addEventListener('click', () => {
-                alert('排序选项：\n1. 默认排序\n2. 价格从低到高\n3. 价格从高到低\n4. 距离最近\n5. 最新发布');
-            });
-
-            // 产品卡片点击跳转
-            const productCards = document.querySelectorAll('.product-card');
-            productCards.forEach((card, index) => {
-                card.addEventListener('click', function () {
-                    // 模拟产品ID
-                    const productId = 'p' + (index + 100);
-                    // 跳转到产品详情页
-                    window.location.href = `product-detail.html?id=${productId}`;
-                });
-            });
-
-            // 图片错误处理
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                img.onerror = function () {
-                    // 设置默认错误图片（根据图片类型设置不同尺寸）
-                    if (this.classList.contains('product-image')) {
-                        this.src = 'https://via.placeholder.com/300x200?text=产品图片暂时无法显示';
-                    } else {
-                        this.src = 'https://via.placeholder.com/100x100?text=图片暂时无法显示';
-                    }
-                    this.alt = '图片加载失败';
-                };
-            });
-        });
-    </script>
+    <!-- 引入JavaScript脚本 -->
+    <script src="js/supply.js"></script>
 </body>
 
 </html>
