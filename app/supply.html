@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -406,4 +407,414 @@
     <script src="js/supply.js"></script>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>供应大厅 - 农产品供销信息平台</title>
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 页面描述 -->
+    <meta name="description" content="农产品供应大厅，海量新鲜农产品直供">
+    <!-- 主题色 -->
+    <meta name="theme-color" content="#2E8B57">
+    <style>
+        /* 供应大厅页面特有样式 */
+        .filter-section {
+            background-color: var(--white);
+            padding: var(--spacing-md) 0;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-scroll {
+            display: flex;
+            padding: 0 var(--spacing-lg);
+            min-width: 100%;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            margin-right: var(--spacing-xl);
+            white-space: nowrap;
+            color: var(--text-primary);
+            font-size: var(--font-size-base);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+        }
+
+        .filter-item i {
+            margin-left: var(--spacing-xs);
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .filter-item.active {
+            color: var(--primary-color);
+            background-color: #E8F5E9;
+        }
+
+        .filter-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .filter-modal.active {
+            display: block;
+        }
+
+        .filter-content {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            max-height: 70vh;
+            background-color: var(--white);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: var(--spacing-lg);
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        .filter-title {
+            font-size: var(--font-size-md);
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .filter-option {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .filter-option.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: #E8F5E9;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-lg);
+        }
+
+        .filter-reset {
+            padding: var(--spacing-sm) var(--spacing-xl);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+        }
+
+        .filter-confirm {
+            padding: var(--spacing-sm) var(--spacing-xl);
+            background-color: var(--primary-color);
+            border-radius: var(--radius-md);
+            color: var(--white);
+            font-size: var(--font-size-base);
+        }
+
+        .result-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #F5F5F5;
+            padding: var(--spacing-sm) var(--spacing-lg);
+        }
+
+        .result-count {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+        }
+
+        .result-sort {
+            font-size: var(--font-size-base);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .result-sort i {
+            margin-left: var(--spacing-xs);
+            font-size: 12px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background-color: #F5F5F5;
+        }
+
+        .filter-tag {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background-color: #EDF7ED;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+            color: var(--primary-color);
+        }
+
+        .filter-tag i {
+            margin-left: var(--spacing-xs);
+            font-size: 12px;
+        }
+
+        .empty-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl);
+            text-align: center;
+        }
+
+        .empty-state img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .empty-state p {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-base);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .empty-state button {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: 1px solid var(--primary-color);
+            border-radius: var(--radius-lg);
+            color: var(--primary-color);
+            font-size: var(--font-size-base);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 页面内容区域 -->
+    <div class="page-content">
+        <!-- 顶部导航栏 -->
+        <header class="top-navbar">
+            <div class="container flex-between">
+                <!-- 左侧Logo -->
+                <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台" class="logo">
+
+                <!-- 搜索框 -->
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="搜索农产品">
+                    <i class="fas fa-microphone voice-icon"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- 筛选栏 -->
+        <div class="filter-section">
+            <div class="filter-scroll">
+                <div class="filter-item active" data-filter="category">
+                    全部分类 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="area">
+                    所在地区 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="price">
+                    价格区间 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="season">
+                    当季时令 <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item" data-filter="certification">
+                    认证类型 <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 已选标签 -->
+        <div class="tag-list">
+            <div class="filter-tag">有机认证 <i class="fas fa-times"></i></div>
+            <div class="filter-tag">四川省 <i class="fas fa-times"></i></div>
+        </div>
+
+        <!-- 结果信息栏 -->
+        <div class="result-bar">
+            <div class="result-count">共12324个结果</div>
+            <div class="result-sort">默认排序 <i class="fas fa-chevron-down"></i></div>
+        </div>
+
+        <!-- 产品列表 -->
+        <div class="product-grid">
+            <!-- 产品卡片1 -->
+            <div class="product-card">
+                <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
+                    alt="草莓" class="product-image" loading="lazy" width="300" height="200">
+                <div class="product-info">
+                    <div class="product-name">丹东九九草莓</div>
+                    <div class="product-price">
+                        ¥32.80<span class="product-unit">/斤</span>
+                    </div>
+                    <div class="product-address">
+                        <i class="fas fa-map-marker-alt"></i>辽宁-丹东
+                    </div>
+                    <div class="product-desc">精选丹东九九草莓，果大色艳，香甜多汁，现摘现发。</div>
+                </div>
+            </div>
+
+            <!-- 产品卡片2 -->
+            <div class="product-card">
+                <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg" alt="西红柿"
+                    class="product-image" loading="lazy" width="300" height="200">
+                <div class="product-info">
+                    <div class="product-name">河北寿光西红柿</div>
+                    <div class="product-price">
+                        ¥4.50<span class="product-unit">/斤</span>
+                    </div>
+                    <div class="product-address">
+                        <i class="fas fa-map-marker-alt"></i>山东-寿光
+                    </div>
+                    <div class="product-desc">产地直发，绿色种植，新鲜采摘，口感酸甜。</div>
+                </div>
+            </div>
+
+            <!-- 产品卡片3 -->
+            <div class="product-card">
+                <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg" alt="土豆"
+                    class="product-image" loading="lazy" width="300" height="200">
+                <div class="product-info">
+                    <div class="product-name">内蒙古乌兰察布土豆</div>
+                    <div class="product-price">
+                        ¥2.98<span class="product-unit">/斤</span>
+                    </div>
+                    <div class="product-address">
+                        <i class="fas fa-map-marker-alt"></i>内蒙古-乌兰察布
+                    </div>
+                    <div class="product-desc">高原土豆，无污染，沙质土壤种植，口感细腻，富含淀粉。</div>
+                </div>
+            </div>
+
+            <!-- 产品卡片4 -->
+            <div class="product-card">
+                <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg"
+                    alt="玉米" class="product-image" loading="lazy" width="300" height="200">
+                <div class="product-info">
+                    <div class="product-name">东北黑土地有机玉米</div>
+                    <div class="product-price">
+                        ¥3.50<span class="product-unit">/斤</span>
+                    </div>
+                    <div class="product-address">
+                        <i class="fas fa-map-marker-alt"></i>黑龙江-哈尔滨
+                    </div>
+                    <div class="product-desc">有机认证，黑土地种植，颗粒饱满，口感香甜。</div>
+                </div>
+            </div>
+
+            <!-- 更多产品卡片... -->
+        </div>
+
+        <!-- 加载更多 -->
+        <div class="load-more">
+            加载更多
+        </div>
+
+        <!-- 筛选弹窗 -->
+        <div class="filter-modal" id="categoryModal">
+            <div class="filter-content">
+                <div class="filter-title">选择分类</div>
+                <div class="filter-options">
+                    <div class="filter-option active">全部</div>
+                    <div class="filter-option">蔬菜</div>
+                    <div class="filter-option">水果</div>
+                    <div class="filter-option">粮油</div>
+                    <div class="filter-option">肉禽蛋</div>
+                    <div class="filter-option">水产</div>
+                    <div class="filter-option">干货</div>
+                    <div class="filter-option">茶叶</div>
+                    <div class="filter-option">药材</div>
+                    <div class="filter-option">其他</div>
+                </div>
+                <div class="filter-buttons">
+                    <div class="filter-reset">重置</div>
+                    <div class="filter-confirm">确定</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 空状态提示 -->
+        <div class="empty-state">
+            <img src="https://img.icons8.com/color/96/null/search-in-list.png" alt="暂无数据">
+            <p>暂无符合条件的产品</p>
+            <button>清除筛选条件</button>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="bottom-navbar">
+        <div class="nav-items">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                首页
+            </a>
+            <a href="supply.html" class="nav-item active">
+                <i class="fas fa-store"></i>
+                供应
+            </a>
+            <a href="publish.html" class="nav-item nav-publish">
+                <div class="publish-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <span>发布</span>
+            </a>
+            <a href="demand.html" class="nav-item">
+                <i class="fas fa-shopping-basket"></i>
+                需求
+            </a>
+            <a href="user.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                我的
+            </a>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript脚本 -->
+    <script src="js/supply.js"></script>
+</body>
+
+>>>>>>> 73666ceaf3ddca26a7aebce52e31c86245c6b6b8
 </html>
