@@ -1,0 +1,318 @@
+/* 产品对比页面样式 */
+
+/* 对比容器 */
+.compare-container {
+    padding: 20px;
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 对比提示 */
+.compare-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: var(--surface-color-hover);
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    color: var(--text-color-secondary);
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.compare-notice i {
+    font-size: 24px;
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.compare-notice a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* 对比表格容器 */
+.compare-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.compare-table-container {
+    min-width: 100%;
+}
+
+/* 对比表格样式 */
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+
+.compare-table th,
+.compare-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+    min-width: 150px;
+}
+
+.compare-table th.property-header {
+    width: 150px;
+    min-width: 150px;
+    text-align: left;
+    background-color: var(--surface-color-hover);
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.compare-table td.property-name {
+    text-align: left;
+    background-color: var(--surface-color-hover);
+    font-weight: 500;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
+.compare-table tr:hover td {
+    background-color: var(--surface-color-hover);
+}
+
+.compare-table tr:hover td.property-name {
+    background-color: var(--surface-color-active);
+}
+
+/* 产品头部 */
+.product-header {
+    background-color: var(--primary-color-subtle);
+    color: var(--primary-color-dark);
+    font-weight: 600;
+}
+
+.product-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-header-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 移除产品按钮 */
+.remove-product {
+    background: transparent;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    padding: 4px;
+    margin-left: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.remove-product:hover {
+    background-color: var(--danger-color-subtle);
+}
+
+/* 类别标题 */
+tr.category-header td {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 15px;
+}
+
+/* 高亮单元格 */
+td.highlight {
+    color: var(--primary-color-dark);
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* 产品图片 */
+.compare-product-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-color);
+}
+
+/* 标签徽章 */
+.compare-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: var(--primary-color-subtle);
+    color: var(--primary-color-dark);
+    border-radius: var(--border-radius-sm);
+    font-size: 12px;
+    margin: 2px;
+}
+
+/* 操作按钮单元格 */
+.compare-actions-cell {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--surface-color-hover);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+    background-color: var(--surface-color-active);
+}
+
+.contact-btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.contact-btn.primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+/* 底部操作按钮 */
+.compare-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.compare-action-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.compare-action-btn i {
+    margin-right: 8px;
+}
+
+.compare-action-btn:hover {
+    background-color: var(--surface-color-hover);
+}
+
+.compare-action-btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.compare-action-btn.primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+/* 返回按钮 */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.back-button i {
+    margin-right: 8px;
+}
+
+.back-button:hover {
+    background-color: var(--surface-color-hover);
+}
+
+/* 打印样式 */
+@media print {
+
+    header,
+    .sidebar,
+    .bottom-navbar,
+    .back-button,
+    .compare-actions {
+        display: none !important;
+    }
+
+    .main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .compare-container {
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+
+    body {
+        background-color: white !important;
+    }
+}
+
+/* 响应式样式 */
+@media screen and (max-width: 768px) {
+
+    .compare-table th,
+    .compare-table td {
+        padding: 8px 10px;
+        min-width: 120px;
+    }
+
+    .compare-product-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .compare-actions {
+        flex-direction: column;
+    }
+
+    .compare-action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .compare-actions {
+        justify-content: center;
+    }
+}

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>发布信息 - 农产品供销信息平台</title>
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入基础样式 -->
+    <link rel="stylesheet" href="../app/css/style.css">
+    <!-- 引入Web端通用样式 -->
+    <link rel="stylesheet" href="css/web-style.css">
+    <!-- 引入发布页面特有样式 -->
+    <link rel="stylesheet" href="css/publish-web.css">
+    <!-- 页面描述 -->
+    <meta name="description" content="发布农产品供需信息，一键发布供应或采购需求">
+    <!-- 主题色 -->
+    <meta name="theme-color" content="#2E8B57">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Web端顶部导航栏 -->
+        <header class="web-header">
+            <div class="web-header-container">
+                <!-- 左侧Logo -->
+                <div class="web-logo">
+                    <img src="images/logo.png" alt="农产品供销信息平台" class="logo-image">
+                    <span class="logo-text">农产品供销信息平台</span>
+                </div>
+
+                <!-- 中间导航链接 -->
+                <nav class="web-nav">
+                    <a href="index.html" class="web-nav-link" data-page="index">首页</a>
+                    <a href="supply.html" class="web-nav-link" data-page="supply">供应大厅</a>
+                    <a href="demand.html" class="web-nav-link" data-page="demand">需求大厅</a>
+                    <a href="publish.html" class="web-nav-link active" data-page="publish">发布信息</a>
+                    <a href="user.html" class="web-nav-link" data-page="user">个人中心</a>
+                </nav>
+
+                <!-- 右侧用户区域 -->
+                <div class="web-user-area">
+                    <a href="login.html" class="login-btn" id="loginBtn">登录</a>
+                    <a href="user.html" class="user-avatar-mini" id="userAvatarMini" style="display: none;">
+                        <img src="../app/images/default-avatar.png" alt="用户头像" id="userAvatarImg">
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- 侧边栏菜单 -->
+        <aside class="sidebar">
+            <div class="sidebar-container">
+                <div class="sidebar-header">
+                    <img src="images/logo.png" alt="Logo" class="sidebar-logo">
+                    <span class="sidebar-title">农产品供销平台</span>
+                </div>
+
+                <nav class="sidebar-menu">
+                    <a href="index.html" class="sidebar-menu-item" data-page="index">
+                        <i class="fas fa-home"></i>首页
+                    </a>
+                    <a href="supply.html" class="sidebar-menu-item" data-page="supply">
+                        <i class="fas fa-shopping-basket"></i>供应大厅
+                    </a>
+                    <a href="demand.html" class="sidebar-menu-item" data-page="demand">
+                        <i class="fas fa-clipboard-list"></i>需求大厅
+                    </a>
+                    <a href="publish.html" class="sidebar-menu-item active" data-page="publish">
+                        <i class="fas fa-plus-circle"></i>发布信息
+                    </a>
+                    <a href="user.html" class="sidebar-menu-item" data-page="user">
+                        <i class="fas fa-user"></i>个人中心
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">发布信息</h1>
+                <div class="content-actions">
+                    <button class="action-button help-button" id="showTipsBtn">
+                        <i class="fas fa-question-circle"></i>
+                        <span>发布指南</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 发布类型选择 -->
+            <section class="publish-type-section">
+                <div class="publish-types">
+                    <div class="publish-type active" data-type="supply">
+                        <div class="publish-type-icon">
+                            <i class="fas fa-carrot"></i>
+                        </div>
+                        <div class="publish-type-label">发布供应</div>
+                        <div class="publish-type-desc">我是卖家，有农产品想出售</div>
+                    </div>
+                    <div class="publish-type" data-type="demand">
+                        <div class="publish-type-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="publish-type-label">发布需求</div>
+                        <div class="publish-type-desc">我是买家，需要采购农产品</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 表单容器 -->
+            <div class="form-container">
+                <!-- 供应表单 -->
+                <form id="supplyForm" class="publish-form">
+                    <div class="form-section">
+                        <h3 class="section-title">基本信息</h3>
+
+                        <div class="form-group">
+                            <label for="supplyTitle" class="form-label">标题 <span class="required">*</span></label>
+                            <input type="text" id="supplyTitle" class="form-input" placeholder="请输入产品标题，建议包含产品名称、品种、产地等"
+                                required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="supplyCategory" class="form-label">品类 <span
+                                        class="required">*</span></label>
+                                <select id="supplyCategory" class="form-select" required>
+                                    <option value="">请选择</option>
+                                    <option value="fruit">水果</option>
+                                    <option value="vegetable">蔬菜</option>
+                                    <option value="grain">粮油</option>
+                                    <option value="meat">肉禽蛋</option>
+                                    <option value="seafood">水产</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="supplyVariety" class="form-label">品种 <span class="required">*</span></label>
+                                <input type="text" id="supplyVariety" class="form-input" placeholder="请输入具体品种" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="supplyPrice" class="form-label">价格 <span class="required">*</span></label>
+                                <div class="price-input-group">
+                                    <input type="number" step="0.01" id="supplyPrice" class="form-input"
+                                        placeholder="请输入价格" required>
+                                    <select id="supplyPriceUnit" class="price-unit">
+                                        <option value="yuan-per-jin">元/斤</option>
+                                        <option value="yuan-per-kg">元/公斤</option>
+                                        <option value="yuan-per-ton">元/吨</option>
+                                        <option value="yuan-per-piece">元/个</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="supplyQuantity" class="form-label">供应量 <span
+                                        class="required">*</span></label>
+                                <div class="quantity-input-group">
+                                    <input type="number" id="supplyQuantity" class="form-input" placeholder="请输入数量"
+                                        required>
+                                    <select id="supplyQuantityUnit" class="quantity-unit">
+                                        <option value="jin">斤</option>
+                                        <option value="kg">公斤</option>
+                                        <option value="ton">吨</option>
+                                        <option value="piece">个</option>
+                                        <option value="box">箱</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">产品细节</h3>
+
+                        <div class="form-group">
+                            <label for="supplyDescription" class="form-label">产品描述 <span
+                                    class="required">*</span></label>
+                            <textarea id="supplyDescription" class="form-textarea" rows="5"
+                                placeholder="请详细描述产品的特点、品质、规格等信息，以便买家更好了解您的产品" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">产品图片 <span class="required">*</span></label>
+                            <div class="image-uploader">
+                                <div class="upload-item add-image">
+                                    <i class="fas fa-plus"></i>
+                                    <span>添加图片</span>
+                                    <input type="file" class="upload-input" id="supplyImages" accept="image/*" multiple>
+                                </div>
+                                <div class="image-preview-container" id="supplyImagePreview"></div>
+                            </div>
+                            <div class="form-tip">最多可上传6张图片，每张不超过5MB，建议上传产品实拍图</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="supplyProductionDate" class="form-label">生产日期</label>
+                                <input type="date" id="supplyProductionDate" class="form-input">
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="supplyShelfLife" class="form-label">保质期</label>
+                                <input type="text" id="supplyShelfLife" class="form-input" placeholder="例如：7天、30天、12个月">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">产品特性</label>
+                            <div class="tag-options">
+                                <div class="tag-option">
+                                    <input type="checkbox" id="supplyTagOrganic" class="tag-checkbox">
+                                    <label for="supplyTagOrganic" class="tag-label">有机认证</label>
+                                </div>
+                                <div class="tag-option">
+                                    <input type="checkbox" id="supplyTagGreen" class="tag-checkbox">
+                                    <label for="supplyTagGreen" class="tag-label">绿色食品</label>
+                                </div>
+                                <div class="tag-option">
+                                    <input type="checkbox" id="supplyTagNoAdditive" class="tag-checkbox">
+                                    <label for="supplyTagNoAdditive" class="tag-label">无添加</label>
+                                </div>
+                                <div class="tag-option">
+                                    <input type="checkbox" id="supplyTagFresh" class="tag-checkbox">
+                                    <label for="supplyTagFresh" class="tag-label">新鲜现摘</label>
+                                </div>
+                                <div class="tag-option">
+                                    <input type="checkbox" id="supplyTagFreeShipping" class="tag-checkbox">
+                                    <label for="supplyTagFreeShipping" class="tag-label">包邮</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">交易信息</h3>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="supplyLocation" class="form-label">产地 <span
+                                        class="required">*</span></label>
+                                <input type="text" id="supplyLocation" class="form-input" placeholder="例如：山东寿光"
+                                    required>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="supplyDeliveryLocation" class="form-label">发货地 <span
+                                        class="required">*</span></label>
+                                <input type="text" id="supplyDeliveryLocation" class="form-input" placeholder="请输入发货地址"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="supplyMinOrder" class="form-label">最小起订量</label>
+                                <div class="quantity-input-group">
+                                    <input type="number" id="supplyMinOrder" class="form-input" placeholder="请输入数量">
+                                    <select id="supplyMinOrderUnit" class="quantity-unit">
+                                        <option value="jin">斤</option>
+                                        <option value="kg">公斤</option>
+                                        <option value="ton">吨</option>
+                                        <option value="piece">个</option>
+                                        <option value="box">箱</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="supplyDeliveryMethod" class="form-label">配送方式</label>
+                                <select id="supplyDeliveryMethod" class="form-select">
+                                    <option value="self">自行配送</option>
+                                    <option value="third-party">第三方物流</option>
+                                    <option value="pickup">买家自提</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="supplyPaymentTerms" class="form-label">付款方式</label>
+                            <select id="supplyPaymentTerms" class="form-select">
+                                <option value="online">线上支付</option>
+                                <option value="offline">线下交易</option>
+                                <option value="cod">货到付款</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">联系方式</h3>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="supplyContactName" class="form-label">联系人 <span
+                                        class="required">*</span></label>
+                                <input type="text" id="supplyContactName" class="form-input" placeholder="请输入联系人姓名"
+                                    required>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="supplyContactPhone" class="form-label">联系电话 <span
+                                        class="required">*</span></label>
+                                <input type="tel" id="supplyContactPhone" class="form-input" placeholder="请输入联系电话"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="supplyContactAddress" class="form-label">联系地址</label>
+                            <input type="text" id="supplyContactAddress" class="form-input" placeholder="请输入详细地址">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="action-button secondary" id="supplySaveBtn">保存草稿</button>
+                        <button type="submit" class="action-button primary" id="supplySubmitBtn">立即发布</button>
+                    </div>
+                </form>
+
+                <!-- 需求表单 -->
+                <form id="demandForm" class="publish-form" style="display: none;">
+                    <div class="form-section">
+                        <h3 class="section-title">基本信息</h3>
+
+                        <div class="form-group">
+                            <label for="demandTitle" class="form-label">标题 <span class="required">*</span></label>
+                            <input type="text" id="demandTitle" class="form-input" placeholder="请输入需求标题，建议说明需要什么产品"
+                                required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="demandCategory" class="form-label">品类 <span
+                                        class="required">*</span></label>
+                                <select id="demandCategory" class="form-select" required>
+                                    <option value="">请选择</option>
+                                    <option value="fruit">水果</option>
+                                    <option value="vegetable">蔬菜</option>
+                                    <option value="grain">粮油</option>
+                                    <option value="meat">肉禽蛋</option>
+                                    <option value="seafood">水产</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="demandVariety" class="form-label">品种 <span class="required">*</span></label>
+                                <input type="text" id="demandVariety" class="form-input" placeholder="请输入具体品种" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="demandBudget" class="form-label">预算价格</label>
+                                <div class="price-input-group">
+                                    <input type="number" step="0.01" id="demandBudget" class="form-input"
+                                        placeholder="请输入预算价格">
+                                    <select id="demandBudgetUnit" class="price-unit">
+                                        <option value="yuan-per-jin">元/斤</option>
+                                        <option value="yuan-per-kg">元/公斤</option>
+                                        <option value="yuan-per-ton">元/吨</option>
+                                        <option value="yuan-per-piece">元/个</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="demandQuantity" class="form-label">需求量 <span
+                                        class="required">*</span></label>
+                                <div class="quantity-input-group">
+                                    <input type="number" id="demandQuantity" class="form-input" placeholder="请输入数量"
+                                        required>
+                                    <select id="demandQuantityUnit" class="quantity-unit">
+                                        <option value="jin">斤</option>
+                                        <option value="kg">公斤</option>
+                                        <option value="ton">吨</option>
+                                        <option value="piece">个</option>
+                                        <option value="box">箱</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">需求详情</h3>
+
+                        <div class="form-group">
+                            <label for="demandDescription" class="form-label">需求描述 <span
+                                    class="required">*</span></label>
+                            <textarea id="demandDescription" class="form-textarea" rows="5"
+                                placeholder="请详细描述您的采购需求，包括产品规格、品质要求、包装要求等" required></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="demandDeadline" class="form-label">截止日期</label>
+                                <input type="date" id="demandDeadline" class="form-input">
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="demandFrequency" class="form-label">采购频率</label>
+                                <select id="demandFrequency" class="form-select">
+                                    <option value="one-time">一次性采购</option>
+                                    <option value="weekly">每周采购</option>
+                                    <option value="monthly">每月采购</option>
+                                    <option value="seasonal">季节性采购</option>
+                                    <option value="long-term">长期合作</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">产品要求</label>
+                            <div class="tag-options">
+                                <div class="tag-option">
+                                    <input type="checkbox" id="demandTagOrganic" class="tag-checkbox">
+                                    <label for="demandTagOrganic" class="tag-label">有机认证</label>
+                                </div>
+                                <div class="tag-option">
+                                    <input type="checkbox" id="demandTagGreen" class="tag-checkbox">
+                                    <label for="demandTagGreen" class="tag-label">绿色食品</label>
+                                </div>
+                                <div class="tag-option">
+                                    <input type="checkbox" id="demandTagNoAdditive" class="tag-checkbox">
+                                    <label for="demandTagNoAdditive" class="tag-label">无添加</label>
+                                </div>
+                                <div class="tag-option">
+                                    <input type="checkbox" id="demandTagFresh" class="tag-checkbox">
+                                    <label for="demandTagFresh" class="tag-label">新鲜现摘</label>
+                                </div>
+                                <div class="tag-option">
+                                    <input type="checkbox" id="demandTagCertified" class="tag-checkbox">
+                                    <label for="demandTagCertified" class="tag-label">企业认证</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">交易信息</h3>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="demandDeliveryLocation" class="form-label">收货地 <span
+                                        class="required">*</span></label>
+                                <input type="text" id="demandDeliveryLocation" class="form-input" placeholder="请输入收货地址"
+                                    required>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="demandDeliveryTime" class="form-label">期望交货时间</label>
+                                <input type="date" id="demandDeliveryTime" class="form-input">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="demandPaymentTerms" class="form-label">付款方式</label>
+                                <select id="demandPaymentTerms" class="form-select">
+                                    <option value="online">线上支付</option>
+                                    <option value="offline">线下交易</option>
+                                    <option value="cod">货到付款</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="demandInspectionMethod" class="form-label">验收方式</label>
+                                <select id="demandInspectionMethod" class="form-select">
+                                    <option value="visual">目检</option>
+                                    <option value="sample">抽样检测</option>
+                                    <option value="third-party">第三方检测</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">联系方式</h3>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="demandContactName" class="form-label">联系人 <span
+                                        class="required">*</span></label>
+                                <input type="text" id="demandContactName" class="form-input" placeholder="请输入联系人姓名"
+                                    required>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="demandContactPhone" class="form-label">联系电话 <span
+                                        class="required">*</span></label>
+                                <input type="tel" id="demandContactPhone" class="form-input" placeholder="请输入联系电话"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="demandCompanyName" class="form-label">企业名称</label>
+                            <input type="text" id="demandCompanyName" class="form-input" placeholder="请输入企业名称（如适用）">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="action-button secondary" id="demandSaveBtn">保存草稿</button>
+                        <button type="submit" class="action-button primary" id="demandSubmitBtn">立即发布</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 发布指南弹窗 -->
+            <div class="modal" id="tipsModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">发布指南</h3>
+                        <button class="modal-close" id="closeTipsBtn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="tips-section">
+                            <h4>如何发布高质量的信息？</h4>
+                            <ul class="tips-list">
+                                <li>标题要简洁明了，包含产品名称、品种、产地等关键信息</li>
+                                <li>产品描述要详细，包括品质、规格、特色等信息</li>
+                                <li>上传清晰的真实产品图片，多角度展示</li>
+                                <li>价格和数量要真实准确，便于买家评估</li>
+                                <li>及时回复咨询信息，提高成交率</li>
+                            </ul>
+                        </div>
+
+                        <div class="tips-section">
+                            <h4>发布信息规范</h4>
+                            <ul class="tips-list">
+                                <li>禁止发布虚假信息和广告信息</li>
+                                <li>同一产品不要重复发布</li>
+                                <li>信息内容要合法合规，不得含有违法内容</li>
+                                <li>图片必须是产品实拍，不得使用网络图片</li>
+                                <li>违反规定的信息将被下架处理</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-navbar">
+        <div class="nav-items">
+            <a href="index.html" class="nav-item" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </a>
+            <a href="supply.html" class="nav-item" data-page="supply">
+                <i class="fas fa-shopping-basket"></i>
+                <span>供应大厅</span>
+            </a>
+            <a href="publish.html" class="nav-item nav-publish active">
+                <div class="publish-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <span>发布</span>
+            </a>
+            <a href="demand.html" class="nav-item" data-page="demand">
+                <i class="fas fa-clipboard-list"></i>
+                <span>需求大厅</span>
+            </a>
+            <a href="user.html" class="nav-item" data-page="user">
+                <i class="fas fa-user"></i>
+                <span>个人中心</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 引入主JavaScript文件 -->
+    <script src="../app/js/main.js"></script>
+    <!-- 引入应用程序交互脚本 -->
+    <script src="../app/js/app.js"></script>
+    <!-- 引入Web端特有脚本 -->
+    <script src="js/web-app.js"></script>
+    <!-- 引入登录管理脚本 -->
+    <script src="js/login-manager.js"></script>
+
+    <script>
+        // 发布页面特有脚本
+        document.addEventListener('DOMContentLoaded', function () {
+            // 页面需要登录权限标记
+            document.body.classList.add('requires-auth');
+
+            // 表单类型切换
+            const publishTypes = document.querySelectorAll('.publish-type');
+            const supplyForm = document.getElementById('supplyForm');
+            const demandForm = document.getElementById('demandForm');
+
+            publishTypes.forEach(type => {
+                type.addEventListener('click', function () {
+                    // 移除所有类型的活动状态
+                    publishTypes.forEach(t => t.classList.remove('active'));
+
+                    // 添加当前类型的活动状态
+                    this.classList.add('active');
+
+                    // 根据选择的类型显示相应的表单
+                    const formType = this.getAttribute('data-type');
+                    if (formType === 'supply') {
+                        supplyForm.style.display = 'block';
+                        demandForm.style.display = 'none';
+                    } else {
+                        supplyForm.style.display = 'none';
+                        demandForm.style.display = 'block';
+                    }
+                });
+            });
+
+            // 图片上传预览
+            const supplyImagesInput = document.getElementById('supplyImages');
+            const supplyImagePreview = document.getElementById('supplyImagePreview');
+
+            if (supplyImagesInput) {
+                supplyImagesInput.addEventListener('change', function () {
+                    displayImagePreviews(this.files, supplyImagePreview);
+                });
+            }
+
+            // 显示和隐藏发布指南弹窗
+            const tipsModal = document.getElementById('tipsModal');
+            const showTipsBtn = document.getElementById('showTipsBtn');
+            const closeTipsBtn = document.getElementById('closeTipsBtn');
+
+            if (showTipsBtn && closeTipsBtn && tipsModal) {
+                showTipsBtn.addEventListener('click', function () {
+                    tipsModal.style.display = 'flex';
+                });
+
+                closeTipsBtn.addEventListener('click', function () {
+                    tipsModal.style.display = 'none';
+                });
+
+                // 点击弹窗外部关闭
+                window.addEventListener('click', function (event) {
+                    if (event.target === tipsModal) {
+                        tipsModal.style.display = 'none';
+                    }
+                });
+            }
+
+            // 表单提交
+            const supplySubmitBtn = document.getElementById('supplySubmitBtn');
+            const demandSubmitBtn = document.getElementById('demandSubmitBtn');
+
+            if (supplySubmitBtn && supplyForm) {
+                supplyForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // 在这里处理表单提交
+                    alert('供应信息已提交成功！');
+
+                    // 模拟提交后跳转
+                    setTimeout(() => {
+                        window.location.href = 'user.html';
+                    }, 1000);
+                });
+            }
+
+            if (demandSubmitBtn && demandForm) {
+                demandForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // 在这里处理表单提交
+                    alert('需求信息已提交成功！');
+
+                    // 模拟提交后跳转
+                    setTimeout(() => {
+                        window.location.href = 'user.html';
+                    }, 1000);
+                });
+            }
+
+            // 图片预览功能
+            function displayImagePreviews(files, previewContainer) {
+                previewContainer.innerHTML = '';
+
+                // 限制最多上传6张图片
+                const maxFiles = 6;
+                const filesToDisplay = files.length > maxFiles ? Array.from(files).slice(0, maxFiles) : files;
+
+                for (let i = 0; i < filesToDisplay.length; i++) {
+                    const file = filesToDisplay[i];
+
+                    if (!file.type.startsWith('image/')) {
+                        continue;
+                    }
+
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+
+                    const img = document.createElement('img');
+                    img.className = 'preview-image';
+                    img.file = file;
+
+                    const removeBtn = document.createElement('div');
+                    removeBtn.className = 'remove-image';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    removeBtn.addEventListener('click', function () {
+                        previewItem.remove();
+                    });
+
+                    previewItem.appendChild(img);
+                    previewItem.appendChild(removeBtn);
+                    previewContainer.appendChild(previewItem);
+
+                    const reader = new FileReader();
+                    reader.onload = (function (aImg) {
+                        return function (e) {
+                            aImg.src = e.target.result;
+                        };
+                    })(img);
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
