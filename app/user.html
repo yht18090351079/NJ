@@ -10,10 +10,11 @@
     <script>
         // 检查登录状态
         (function () {
-            // 检查本地存储中是否有token
+            // 检查本地存储中是否有token或者是否是访客登录
             const token = localStorage.getItem('token');
-            if (!token) {
-                // 如果未登录，立即重定向到登录页
+            const isGuest = localStorage.getItem('isGuest') === 'true';
+            if (!token && !isGuest) {
+                // 如果未登录且不是访客，立即重定向到登录页
                 window.location.replace('login.html?redirect=user.html');
                 return;
             }
@@ -674,6 +675,14 @@
 
         <!-- 页面内容区域 -->
         <div class="page-content">
+            <!-- 访客模式提示横幅 -->
+            <div id="guestBanner"
+                style="display: none; background-color: #FFF4E5; padding: 12px 16px; margin: 0 0 10px 0; color: #773800; font-size: 14px; text-align: center; line-height: 1.4;">
+                <i class="fas fa-info-circle" style="margin-right: 6px;"></i>
+                <span>您正在使用访客模式浏览，部分功能受限。</span>
+                <a href="login.html" style="color: #FF9800; text-decoration: underline; margin-left: 6px;">去登录</a>
+            </div>
+
             <!-- 用户头部信息 -->
             <header class="user-header">
                 <div class="user-bg-pattern"></div>
@@ -686,7 +695,8 @@
                         <div class="user-name">加载中...</div>
                         <div class="user-role">
                             <span class="role-tag">加载中...</span>
-                            <span class="verified-badge"><i class="fas fa-check-circle"></i> 已认证</span>
+                            <span class="verified-badge" id="verificationStatus"><i class="fas fa-check-circle"></i>
+                                已认证</span>
                         </div>
                     </div>
                 </div>
@@ -702,10 +712,10 @@
                     <div class="data-value">0</div>
                     <div class="data-label">浏览记录</div>
                 </div>
-                
+
             </div>
 
-           
+
 
             <!-- 账户设置 -->
             <section class="menu-section">
@@ -783,7 +793,7 @@
                 </a>
                 <a href="policy.html" class="nav-item" data-page="policy">
                     <i class="fas fa-newspaper"></i>
-                    <span>政策快报</span>
+                    <span>消息快报</span>
                 </a>
                 <a href="user.html" class="nav-item active" data-page="user">
                     <i class="fas fa-user"></i>
@@ -935,14 +945,29 @@
                 }
             });
 
-            // 从localStorage获取用户信息
+            // 从localStorage获取用户信息和访客状态
             const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            const isGuest = localStorage.getItem('isGuest') === 'true';
 
             // 更新用户信息显示
             const userName = document.querySelector('.user-name');
             const userAvatar = document.querySelector('.user-avatar');
+            const verificationStatus = document.getElementById('verificationStatus');
+            const guestBanner = document.getElementById('guestBanner');
 
-            userName.textContent = userInfo.name || '未登录';
+            // 根据是否是访客更新显示
+            if (isGuest) {
+                userName.textContent = '访客用户';
+                verificationStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #FF9800;"></i> 未认证';
+                // 显示访客模式提示横幅
+                if (guestBanner) {
+                    guestBanner.style.display = 'block';
+                }
+            } else {
+                userName.textContent = userInfo.name || '未登录';
+                verificationStatus.innerHTML = '<i class="fas fa-check-circle"></i> 已认证';
+            }
+
             userAvatar.src = userInfo.avatar || 'https://img.icons8.com/color/96/null/user-circle.png';
 
             // 菜单项点击事件
@@ -971,7 +996,9 @@
             const menuLinks = document.querySelectorAll('.menu-link');
             menuLinks.forEach(link => {
                 link.addEventListener('click', function () {
-                    alert(`您点击了: ${this.querySelector('.menu-link-label').textContent}`);
+                    const linkLabel = this.querySelector('.menu-link-label').textContent;
+                    // 访客用户直接点击，不显示登录提示
+                    alert(`您点击了: ${linkLabel}`);
                 });
             });
 
@@ -984,7 +1011,10 @@
             // 退出登录点击事件
             const logoutBtn = document.querySelector('.logout-btn');
             logoutBtn.addEventListener('click', function () {
-                if (confirm('确定要退出登录吗？')) {
+                const isGuest = localStorage.getItem('isGuest') === 'true';
+                let confirmMessage = isGuest ? '确定要退出访客模式吗？' : '确定要退出登录吗？';
+
+                if (confirm(confirmMessage)) {
                     // 显示加载状态
                     this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 退出中...';
                     this.disabled = true;
@@ -993,6 +1023,7 @@
                     localStorage.removeItem('userInfo');
                     localStorage.removeItem('token');
                     localStorage.removeItem('selectedMenu');
+                    localStorage.removeItem('isGuest'); // 清除访客状态
                     sessionStorage.clear();
 
                     // 模拟网络延迟

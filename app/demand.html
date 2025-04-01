@@ -95,8 +95,21 @@
             background-color: var(--white);
             border-radius: var(--radius-lg);
             padding: var(--spacing-lg);
-            margin: var(--spacing-md) var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
             box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            display: block;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: inherit;
+        }
+
+        .demand-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .demand-card:active {
+            transform: translateY(0);
         }
 
         .demand-header {
@@ -207,46 +220,35 @@
         }
 
         .contact-btn {
-            display: flex;
+            position: relative;
+            z-index: 2;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 36px;
             height: 36px;
+            background: var(--white);
             border-radius: 50%;
+            color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+            margin-left: var(--spacing-sm);
+            transition: transform 0.2s ease;
+        }
+
+        .contact-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .contact-btn:active {
+            transform: scale(0.95);
         }
 
         .phone-btn {
-            background-color: #E8F5E9;
-            color: var(--primary-color);
+            color: #28a745;
         }
 
         .message-btn {
-            background-color: #FFF4E5;
-            color: #FF9800;
-        }
-
-        .status-options {
-            display: flex;
-            background-color: #F5F5F5;
-            border-radius: var(--radius-full);
-            padding: var(--spacing-xs);
-            margin: var(--spacing-md) var(--spacing-lg);
-            overflow: hidden;
-        }
-
-        .status-option {
-            flex: 1;
-            text-align: center;
-            padding: var(--spacing-sm) 0;
-            font-size: var(--font-size-sm);
-            color: var(--text-secondary);
-            border-radius: var(--radius-full);
-        }
-
-        .status-option.active {
-            background-color: var(--white);
-            color: var(--primary-color);
-            box-shadow: var(--shadow-sm);
+            color: #0066ff;
         }
 
         .empty-state {
@@ -393,6 +395,29 @@
             font-size: var(--font-size-sm);
             color: var(--primary-color);
         }
+
+        /* 联系按钮在卡片中的样式 */
+        /* 需求卡片包装器样式 */
+        .demand-card-wrapper {
+            position: relative;
+            margin-bottom: var(--spacing-md);
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .demand-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: var(--spacing-lg);
+            transition: background-color 0.2s ease;
+        }
+
+        a.demand-card:hover {
+            background-color: var(--bg-hover);
+        }
     </style>
 </head>
 
@@ -476,250 +501,179 @@
                 </div>
             </div>
 
-            <!-- 状态选项卡 -->
-            <div class="status-options">
-                <div class="status-option active">全部</div>
-                <div class="status-option">进行中</div>
-                <div class="status-option">已截止</div>
-                <div class="status-option">已完成</div>
-            </div>
-
             <!-- 需求列表 -->
             <section class="demand-list">
                 <!-- 需求卡片1 -->
-                <div class="demand-card">
-                    <div class="demand-header">
-                        <div class="demand-title">寿光大型蔬菜加工厂采购西红柿</div>
-                        <div class="demand-status">进行中</div>
-                    </div>
-
-                    <div class="demand-info">
-                        <div class="demand-item">
-                            <i class="fas fa-boxes"></i>
-                            <span class="demand-item-label">需求量：</span>
-                            <span class="demand-item-value">50吨</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span class="demand-item-label">截止日期：</span>
-                            <span class="demand-item-value">2023-08-15</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span class="demand-item-label">预算：</span>
-                            <span class="demand-item-value">3.2-4.5元/斤</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span class="demand-item-label">交货地：</span>
-                            <span class="demand-item-value">山东寿光</span>
-                        </div>
-                    </div>
-
-                    <div class="demand-desc">
-                        寿光永泰食品加工有限公司长期采购西红柿，要求：个头均匀，直径8cm左右，颜色鲜红，无病害，无农残。可长期合作，价格随行就市，支持合同种植。
-                    </div>
-
-                    <div class="demand-tags">
-                        <div class="demand-tag">蔬菜</div>
-                        <div class="demand-tag">西红柿</div>
-                        <div class="demand-tag">大宗采购</div>
-                        <div class="demand-tag">长期合作</div>
-                    </div>
-
-                    <div class="demand-footer">
-                        <div class="demand-company">
-                            <img src="https://img.freepik.com/free-vector/illustration-corporate-building_53876-5581.jpg"
-                                alt="企业头像" class="company-avatar" loading="lazy" width="50" height="50">
-                            <div class="company-name">寿光永泰食品加工有限公司</div>
+                <div class="demand-card-wrapper">
+                    <a href="product-detail.html?id=5" class="demand-card">
+                        <div class="demand-header">
+                            <div class="demand-title">寿光大型蔬菜加工厂采购西红柿</div>
+                            <div class="demand-status">进行中</div>
                         </div>
 
-                        <div class="demand-contact">
-                            <a href="tel:13812345678" class="contact-btn phone-btn">
-                                <i class="fas fa-phone-alt"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="contact-btn message-btn">
-                                <i class="fas fa-comment"></i>
-                            </a>
+                        <div class="demand-info">
+                            <div class="demand-item">
+                                <i class="fas fa-boxes"></i>
+                                <span class="demand-item-label">需求量：</span>
+                                <span class="demand-item-value">50吨</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="demand-item-label">截止日期：</span>
+                                <span class="demand-item-value">2023-08-15</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span class="demand-item-label">预算：</span>
+                                <span class="demand-item-value">3.2-4.5元/斤</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span class="demand-item-label">交货地：</span>
+                                <span class="demand-item-value">山东寿光</span>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="demand-desc">
+                            寿光永泰食品加工有限公司长期采购西红柿，要求：个头均匀，直径8cm左右，颜色鲜红，无病害，无农残。可长期合作，价格随行就市，支持合同种植。
+                        </div>
+
+                        <div class="demand-tags">
+                            <div class="demand-tag">蔬菜</div>
+                            <div class="demand-tag">西红柿</div>
+                            <div class="demand-tag">大宗采购</div>
+                            <div class="demand-tag">长期合作</div>
+                        </div>
+                    </a>
                 </div>
 
                 <!-- 需求卡片2 -->
-                <div class="demand-card">
-                    <div class="demand-header">
-                        <div class="demand-title">北京连锁餐厅采购有机土豆</div>
-                        <div class="demand-status">进行中</div>
-                    </div>
-
-                    <div class="demand-info">
-                        <div class="demand-item">
-                            <i class="fas fa-boxes"></i>
-                            <span class="demand-item-label">需求量：</span>
-                            <span class="demand-item-value">2吨/周</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span class="demand-item-label">截止日期：</span>
-                            <span class="demand-item-value">长期</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span class="demand-item-label">预算：</span>
-                            <span class="demand-item-value">5-6元/斤</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span class="demand-item-label">交货地：</span>
-                            <span class="demand-item-value">北京市朝阳区</span>
-                        </div>
-                    </div>
-
-                    <div class="demand-desc">
-                        北京健康食客连锁餐厅常年采购有机认证土豆，要求：大小均匀，无病斑，无虫害，无损伤，有机认证必须，需每周定量供应。
-                    </div>
-
-                    <div class="demand-tags">
-                        <div class="demand-tag">有机认证</div>
-                        <div class="demand-tag">土豆</div>
-                        <div class="demand-tag">餐饮原料</div>
-                        <div class="demand-tag">定期供应</div>
-                    </div>
-
-                    <div class="demand-footer">
-                        <div class="demand-company">
-                            <img src="https://img.freepik.com/free-vector/gradient-real-estate-logo-template_23-2149172360.jpg"
-                                alt="企业头像" class="company-avatar" loading="lazy" width="50" height="50">
-                            <div class="company-name">北京健康食客餐饮管理有限公司</div>
+                <div class="demand-card-wrapper">
+                    <a href="product-detail.html?id=6" class="demand-card">
+                        <div class="demand-header">
+                            <div class="demand-title">北京连锁餐厅采购有机土豆</div>
+                            <div class="demand-status">进行中</div>
                         </div>
 
-                        <div class="demand-contact">
-                            <a href="tel:13987654321" class="contact-btn phone-btn">
-                                <i class="fas fa-phone-alt"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="contact-btn message-btn">
-                                <i class="fas fa-comment"></i>
-                            </a>
+                        <div class="demand-info">
+                            <div class="demand-item">
+                                <i class="fas fa-boxes"></i>
+                                <span class="demand-item-label">需求量：</span>
+                                <span class="demand-item-value">2吨/周</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="demand-item-label">截止日期：</span>
+                                <span class="demand-item-value">长期</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span class="demand-item-label">预算：</span>
+                                <span class="demand-item-value">5-6元/斤</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span class="demand-item-label">交货地：</span>
+                                <span class="demand-item-value">北京市朝阳区</span>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="demand-desc">
+                            北京健康食客连锁餐厅常年采购有机认证土豆，要求：大小均匀，无病斑，无虫害，无损伤，有机认证必须，需每周定量供应。
+                        </div>
+
+                        <div class="demand-tags">
+                            <div class="demand-tag">有机认证</div>
+                            <div class="demand-tag">土豆</div>
+                            <div class="demand-tag">餐饮原料</div>
+                            <div class="demand-tag">定期供应</div>
+                        </div>
+                    </a>
                 </div>
 
                 <!-- 需求卡片3 -->
-                <div class="demand-card">
-                    <div class="demand-header">
-                        <div class="demand-title">广州水果连锁超市采购季节性水果</div>
-                        <div class="demand-status">进行中</div>
-                    </div>
-
-                    <div class="demand-info">
-                        <div class="demand-item">
-                            <i class="fas fa-boxes"></i>
-                            <span class="demand-item-label">需求量：</span>
-                            <span class="demand-item-value">根据季节调整</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span class="demand-item-label">截止日期：</span>
-                            <span class="demand-item-value">长期</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span class="demand-item-label">预算：</span>
-                            <span class="demand-item-value">市场价-10%</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span class="demand-item-label">交货地：</span>
-                            <span class="demand-item-value">广州市白云区</span>
-                        </div>
-                    </div>
-
-                    <div class="demand-desc">
-                        广州鲜果多连锁超市采购季节性水果，当前需求：杨梅、芒果、荔枝等夏季水果。要求：新鲜，外观好，口感佳，品质稳定。有品牌认证或绿色/有机认证优先。
-                    </div>
-
-                    <div class="demand-tags">
-                        <div class="demand-tag">水果</div>
-                        <div class="demand-tag">季节性</div>
-                        <div class="demand-tag">连锁超市</div>
-                        <div class="demand-tag">大量需求</div>
-                    </div>
-
-                    <div class="demand-footer">
-                        <div class="demand-company">
-                            <img src="https://img.freepik.com/free-vector/flat-design-food-app-logo-template_23-2149508517.jpg"
-                                alt="企业头像" class="company-avatar" loading="lazy" width="50" height="50">
-                            <div class="company-name">广州鲜果多商贸有限公司</div>
+                <div class="demand-card-wrapper">
+                    <a href="product-detail.html?id=7" class="demand-card">
+                        <div class="demand-header">
+                            <div class="demand-title">广州水果连锁超市采购季节性水果</div>
+                            <div class="demand-status">进行中</div>
                         </div>
 
-                        <div class="demand-contact">
-                            <a href="tel:02087654321" class="contact-btn phone-btn">
-                                <i class="fas fa-phone-alt"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="contact-btn message-btn">
-                                <i class="fas fa-comment"></i>
-                            </a>
+                        <div class="demand-info">
+                            <div class="demand-item">
+                                <i class="fas fa-boxes"></i>
+                                <span class="demand-item-label">需求量：</span>
+                                <span class="demand-item-value">根据季节调整</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="demand-item-label">截止日期：</span>
+                                <span class="demand-item-value">长期</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span class="demand-item-label">预算：</span>
+                                <span class="demand-item-value">市场价-10%</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span class="demand-item-label">交货地：</span>
+                                <span class="demand-item-value">广州市白云区</span>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="demand-desc">
+                            广州鲜果多连锁超市采购季节性水果，当前需求：杨梅、芒果、荔枝等夏季水果。要求：新鲜，外观好，口感佳，品质稳定。有品牌认证或绿色/有机认证优先。
+                        </div>
+
+                        <div class="demand-tags">
+                            <div class="demand-tag">水果</div>
+                            <div class="demand-tag">季节性</div>
+                            <div class="demand-tag">连锁超市</div>
+                            <div class="demand-tag">大量需求</div>
+                        </div>
+                    </a>
                 </div>
 
                 <!-- 已截止需求 -->
-                <div class="demand-card">
-                    <div class="demand-header">
-                        <div class="demand-title">上海餐饮集团采购绿色蔬菜</div>
-                        <div class="demand-status" style="background-color:#F5F5F5;color:#666;">已截止</div>
-                    </div>
-
-                    <div class="demand-info">
-                        <div class="demand-item">
-                            <i class="fas fa-boxes"></i>
-                            <span class="demand-item-label">需求量：</span>
-                            <span class="demand-item-value">10吨/月</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span class="demand-item-label">截止日期：</span>
-                            <span class="demand-item-value">2023-06-30</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span class="demand-item-label">预算：</span>
-                            <span class="demand-item-value">市场价+5%</span>
-                        </div>
-                        <div class="demand-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span class="demand-item-label">交货地：</span>
-                            <span class="demand-item-value">上海市嘉定区</span>
-                        </div>
-                    </div>
-
-                    <div class="demand-desc">
-                        上海某连锁餐饮集团采购绿色无公害蔬菜，包括叶菜、根茎类、茄果类等。要求：绿色认证或有机认证，新鲜度高，无农药残留。
-                    </div>
-
-                    <div class="demand-tags">
-                        <div class="demand-tag">绿色认证</div>
-                        <div class="demand-tag">蔬菜</div>
-                        <div class="demand-tag">餐饮集团</div>
-                        <div class="demand-tag">月度供应</div>
-                    </div>
-
-                    <div class="demand-footer">
-                        <div class="demand-company">
-                            <img src="https://img.freepik.com/free-vector/illustration-corporate-building_53876-5581.jpg"
-                                alt="企业头像" class="company-avatar" loading="lazy" width="50" height="50">
-                            <div class="company-name">上海某餐饮管理有限公司</div>
+                <div class="demand-card-wrapper">
+                    <div class="demand-card">
+                        <div class="demand-header">
+                            <div class="demand-title">上海餐饮集团采购绿色蔬菜</div>
+                            <div class="demand-status" style="background-color:#F5F5F5;color:#666;">已截止</div>
                         </div>
 
-                        <div class="demand-contact">
-                            <a href="javascript:void(0)" class="contact-btn phone-btn"
-                                style="background-color:#F5F5F5;color:#666;">
-                                <i class="fas fa-phone-alt"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="contact-btn message-btn"
-                                style="background-color:#F5F5F5;color:#666;">
-                                <i class="fas fa-comment"></i>
-                            </a>
+                        <div class="demand-info">
+                            <div class="demand-item">
+                                <i class="fas fa-boxes"></i>
+                                <span class="demand-item-label">需求量：</span>
+                                <span class="demand-item-value">10吨/月</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="demand-item-label">截止日期：</span>
+                                <span class="demand-item-value">2023-06-30</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span class="demand-item-label">预算：</span>
+                                <span class="demand-item-value">8-10元/斤</span>
+                            </div>
+                            <div class="demand-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span class="demand-item-label">交货地：</span>
+                                <span class="demand-item-value">上海市松江区</span>
+                            </div>
+                        </div>
+
+                        <div class="demand-desc">
+                            上海餐饮集团采购绿色蔬菜，包括生菜、小白菜、菠菜等叶菜类蔬菜，要求：新鲜，无农残，绿色种植。
+                        </div>
+
+                        <div class="demand-tags">
+                            <div class="demand-tag">叶菜类</div>
+                            <div class="demand-tag">绿色种植</div>
+                            <div class="demand-tag">餐饮原料</div>
                         </div>
                     </div>
                 </div>
@@ -756,7 +710,7 @@
                 </a>
                 <a href="policy.html" class="nav-item" data-page="policy">
                     <i class="fas fa-newspaper"></i>
-                    <span>政策快报</span>
+                    <span>消息快报</span>
                 </a>
                 <a href="user.html" class="nav-item" data-page="user">
                     <i class="fas fa-user"></i>
@@ -769,111 +723,7 @@
     <!-- 引入JavaScript -->
     <script src="js/main.js"></script>
     <script>
-        // 需求大厅页面特有交互
         document.addEventListener('DOMContentLoaded', function () {
-            // 状态选项卡切换
-            const statusOptions = document.querySelectorAll('.status-option');
-            const demandCards = document.querySelectorAll('.demand-card');
-            const emptyState = document.querySelector('.empty-state');
-
-            statusOptions.forEach(option => {
-                option.addEventListener('click', function () {
-                    // 移除所有active状态
-                    statusOptions.forEach(opt => opt.classList.remove('active'));
-
-                    // 添加当前选项的active状态并添加过渡效果
-                    this.classList.add('active');
-                    this.style.transition = 'all 0.3s ease';
-
-                    // 增加选中效果
-                    const ripple = document.createElement('div');
-                    ripple.style.position = 'absolute';
-                    ripple.style.top = '50%';
-                    ripple.style.left = '50%';
-                    ripple.style.width = '100%';
-                    ripple.style.height = '100%';
-                    ripple.style.backgroundColor = 'rgba(46, 139, 87, 0.1)';
-                    ripple.style.borderRadius = 'inherit';
-                    ripple.style.transform = 'translate(-50%, -50%) scale(0)';
-                    ripple.style.animation = 'ripple 0.6s ease-out forwards';
-
-                    // 确保相对定位
-                    this.style.position = 'relative';
-                    this.style.overflow = 'hidden';
-
-                    // 添加涟漪元素
-                    this.appendChild(ripple);
-
-                    // 动画结束后移除
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-
-                    // 根据状态筛选需求卡片
-                    const status = this.textContent;
-                    let visibleCount = 0;
-
-                    demandCards.forEach(card => {
-                        const cardStatus = card.querySelector('.demand-status').textContent;
-
-                        if (status === '全部' || status === cardStatus) {
-                            card.style.display = 'block';
-                            visibleCount++;
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-
-                    // 如果没有符合条件的卡片，显示空状态
-                    if (visibleCount === 0) {
-                        emptyState.style.display = 'flex';
-                    } else {
-                        emptyState.style.display = 'none';
-                    }
-                });
-            });
-
-            // 筛选条件点击事件
-            const filterItems = document.querySelectorAll('.filter-item');
-            filterItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    // 添加活跃状态
-                    filterItems.forEach(fi => fi.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // 显示筛选弹窗...（已有代码）
-                });
-            });
-
-            // 空状态按钮点击事件
-            const emptyStateBtn = document.querySelector('.empty-state button');
-            emptyStateBtn.addEventListener('click', () => {
-                // 重置为全部状态
-                statusOptions.forEach(opt => {
-                    opt.classList.remove('active');
-                    if (opt.textContent === '全部') {
-                        opt.classList.add('active');
-                    }
-                });
-
-                // 显示所有需求卡片
-                demandCards.forEach(card => {
-                    card.style.display = 'block';
-                });
-
-                // 隐藏空状态
-                emptyState.style.display = 'none';
-            });
-
-            // 联系按钮点击事件
-            const messageBtns = document.querySelectorAll('.message-btn');
-            messageBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const companyName = btn.closest('.demand-footer').querySelector('.company-name').textContent;
-                    alert(`即将联系: ${companyName}`);
-                });
-            });
-
             // 角色切换相关功能
             const roleSwitch = document.querySelector('.role-switch');
             const roleModal = document.querySelector('.role-modal');
@@ -971,307 +821,6 @@
                 }
             });
         });
-
-        // 页面跳转功能实现
-        document.addEventListener('DOMContentLoaded', function () {
-            // 底部导航栏页面跳转
-            const navItems = document.querySelectorAll('.bottom-navbar .nav-item');
-            navItems.forEach(item => {
-                if (!item.classList.contains('nav-publish')) {
-                    item.addEventListener('click', function () {
-                        const pageName = this.getAttribute('data-page');
-                        if (pageName) {
-                            // 如果不是当前页面才跳转
-                            if (!this.classList.contains('active')) {
-                                if (pageName === 'home') {
-                                    window.location.href = 'index.html';
-                                } else {
-                                    window.location.href = pageName + '.html';
-                                }
-                            }
-                        }
-                    });
-                }
-            });
-
-            // 产品卡片跳转到详情页
-            const productCards = document.querySelectorAll('.product-card');
-            productCards.forEach((card, index) => {
-                card.addEventListener('click', function () {
-                    // 模拟产品ID
-                    const productId = 'p' + (index + 100);
-                    // 正常情况下应该跳转到 product-detail.html?id=productId
-                    // 但由于我们没有详情页，所以用警告框模拟
-                    const productName = this.querySelector('.product-name')?.textContent || '未知产品';
-                    alert(`即将查看商品详情: ${productName}`);
-                });
-            });
-
-            // 需求卡片跳转到详情页
-            const demandCards = document.querySelectorAll('.demand-card');
-            demandCards.forEach((card, index) => {
-                card.addEventListener('click', function (e) {
-                    // 不触发联系按钮的点击事件
-                    if (e.target.closest('.demand-contact')) {
-                        return;
-                    }
-
-                    // 模拟需求ID
-                    const demandId = 'd' + (index + 100);
-                    const demandTitle = this.querySelector('.demand-title')?.textContent || '未知需求';
-                    alert(`即将查看需求详情: ${demandTitle}`);
-                });
-            });
-
-            // 个人中心菜单项跳转
-            const menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    const menuLabel = this.querySelector('.menu-label').textContent;
-                    // 目前显示提示，未来可换成实际跳转
-                    alert(`跳转到: ${menuLabel}`);
-                    // 未来可使用:
-                    // if (menuLabel === '我的供应') window.location.href = 'my-supply.html';
-                });
-            });
-
-            // 个人中心设置项跳转
-            const menuLinks = document.querySelectorAll('.menu-link');
-            menuLinks.forEach(link => {
-                link.addEventListener('click', function () {
-                    const linkLabel = this.querySelector('.menu-link-label').textContent;
-                    alert(`跳转到: ${linkLabel}`);
-                });
-            });
-
-            // 发布按钮跳转
-            const publishBtn = document.querySelector('.nav-publish');
-            if (publishBtn) {
-                publishBtn.addEventListener('click', function () {
-                    window.location.href = 'publish.html';
-                });
-            }
-        });
-
-        // 排序选项交互增强
-        const resultSort = document.querySelector('.result-sort');
-        if (resultSort) {
-            resultSort.addEventListener('click', function () {
-                // 创建排序选项弹窗
-                const sortMenu = document.createElement('div');
-                sortMenu.className = 'sort-menu';
-                sortMenu.innerHTML = `
-                    <div class="sort-option active">默认排序</div>
-                    <div class="sort-option">价格从低到高</div>
-                    <div class="sort-option">价格从高到低</div>
-                    <div class="sort-option">距离最近</div>
-                    <div class="sort-option">最新发布</div>
-                `;
-
-                // 检查是否已经存在排序菜单
-                const existingMenu = document.querySelector('.sort-menu');
-                if (existingMenu) {
-                    existingMenu.remove();
-                    return;
-                }
-
-                // 添加到页面
-                document.body.appendChild(sortMenu);
-
-                // 定位菜单
-                const rect = this.getBoundingClientRect();
-                sortMenu.style.position = 'absolute';
-                sortMenu.style.top = (rect.bottom + window.scrollY) + 'px';
-                sortMenu.style.right = '16px';
-                sortMenu.style.zIndex = '1000';
-                sortMenu.style.backgroundColor = '#fff';
-                sortMenu.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-                sortMenu.style.borderRadius = '8px';
-                sortMenu.style.overflow = 'hidden';
-
-                // 排序选项样式
-                const sortOptions = sortMenu.querySelectorAll('.sort-option');
-                sortOptions.forEach(option => {
-                    option.style.padding = '12px 16px';
-                    option.style.borderBottom = '1px solid #f0f0f0';
-                    option.style.fontSize = '14px';
-                    option.style.color = '#333';
-
-                    // 选中项样式
-                    if (option.classList.contains('active')) {
-                        option.style.color = '#2E8B57';
-                    }
-
-                    // 点击事件
-                    option.addEventListener('click', function () {
-                        // 移除所有active状态
-                        sortOptions.forEach(opt => {
-                            opt.classList.remove('active');
-                            opt.style.color = '#333';
-                        });
-
-                        // 添加当前选项的active状态
-                        this.classList.add('active');
-                        this.style.color = '#2E8B57';
-
-                        // 更新排序文本
-                        resultSort.textContent = this.textContent;
-
-                        // 添加向下箭头图标
-                        const icon = document.createElement('i');
-                        icon.className = 'fas fa-chevron-down';
-                        icon.style.marginLeft = '4px';
-                        icon.style.fontSize = '12px';
-                        resultSort.appendChild(icon);
-
-                        // 关闭菜单
-                        sortMenu.remove();
-
-                        // 模拟排序
-                        alert(`排序方式已更改为: ${this.textContent}`);
-                    });
-                });
-
-                // 点击其他区域关闭菜单
-                document.addEventListener('click', function closeMenu(e) {
-                    if (!sortMenu.contains(e.target) && e.target !== resultSort) {
-                        sortMenu.remove();
-                        document.removeEventListener('click', closeMenu);
-                    }
-                });
-            });
-        }
-
-        // 筛选标签删除功能增强
-        const filterTags = document.querySelectorAll('.filter-tag');
-        filterTags.forEach(tag => {
-            tag.querySelector('i').addEventListener('click', function (e) {
-                e.stopPropagation(); // 阻止冒泡
-
-                // 添加删除动画
-                tag.style.transition = 'all 0.3s';
-                tag.style.opacity = '0';
-                tag.style.transform = 'scale(0.8)';
-
-                // 动画结束后移除
-                setTimeout(() => {
-                    tag.remove();
-
-                    // 如果没有标签了，可以隐藏标签区域
-                    if (document.querySelectorAll('.filter-tag').length === 0) {
-                        const tagList = document.querySelector('.tag-list');
-                        if (tagList) {
-                            tagList.style.display = 'none';
-                        }
-                    }
-                }, 300);
-            });
-        });
-
-        // 添加 CSS 动画
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-                100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // 菜单项交互增强
-        const menuItems = document.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-            // 添加悬停效果
-            item.addEventListener('mouseenter', function () {
-                const icon = this.querySelector('.menu-icon');
-                if (icon) {
-                    icon.style.transition = 'all 0.3s ease';
-                    icon.style.transform = 'scale(1.1)';
-                }
-            });
-
-            item.addEventListener('mouseleave', function () {
-                const icon = this.querySelector('.menu-icon');
-                if (icon) {
-                    icon.style.transform = '';
-                }
-            });
-
-            // 点击效果
-            item.addEventListener('click', function () {
-                const icon = this.querySelector('.menu-icon');
-                if (icon) {
-                    // 添加pulse动画
-                    icon.style.animation = 'pulse 0.3s ease';
-
-                    // 动画结束后移除
-                    setTimeout(() => {
-                        icon.style.animation = '';
-                    }, 300);
-                }
-
-                // 原有点击逻辑...（已有代码）
-            });
-        });
-
-        // 设置项交互增强
-        const menuLinks = document.querySelectorAll('.menu-link');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', function () {
-                // 添加点击效果
-                this.style.transition = 'background-color 0.3s ease';
-                const originalBgColor = this.style.backgroundColor || 'transparent';
-                this.style.backgroundColor = '#f0f0f0';
-
-                // 箭头动画
-                const arrow = this.querySelector('.fa-chevron-right');
-                if (arrow) {
-                    arrow.style.transition = 'transform 0.3s ease';
-                    arrow.style.transform = 'translateX(4px)';
-                }
-
-                // 恢复原状
-                setTimeout(() => {
-                    this.style.backgroundColor = originalBgColor;
-                    if (arrow) {
-                        arrow.style.transform = '';
-                    }
-                }, 300);
-
-                // 原有点击逻辑...（已有代码）
-            });
-        });
-
-        // 退出登录按钮交互增强
-        const logoutBtn = document.querySelector('.logout-btn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('mouseenter', function () {
-                this.style.transition = 'all 0.3s ease';
-                this.style.backgroundColor = '#f5f5f5';
-                this.style.borderColor = '#ddd';
-            });
-
-            logoutBtn.addEventListener('mouseleave', function () {
-                this.style.backgroundColor = '';
-                this.style.borderColor = '';
-            });
-        }
-
-        function initNavigation() {
-            const navItems = document.querySelectorAll('.nav-item');
-
-            navItems.forEach(navItem => {
-                // 避免重复添加事件监听
-                if (navItem.getAttribute('data-listener') === 'true') {
-                    return;
-                }
-
-                // 标记已添加事件监听
-                navItem.setAttribute('data-listener', 'true');
-
-                // 发布按钮不需要特殊处理，因为已经设置了直接链接
-            });
-        }
     </script>
 </body>
 

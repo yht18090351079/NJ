@@ -11,10 +11,25 @@ const appState = {
 
   // 检查登录状态
   checkLoginStatus() {
-    // 从localStorage中获取token
+    // 从localStorage中获取token和访客状态
     const token = localStorage.getItem('token');
+    const isGuest = localStorage.getItem('isGuest') === 'true';
     // 从localStorage中获取用户信息
     const userInfo = localStorage.getItem('userInfo');
+
+    // 如果是访客登录
+    if (isGuest) {
+      this.isLoggedIn = false; // 访客不算真正登录
+      this.currentUser = {
+        id: 'guest',
+        name: '访客用户',
+        role: localStorage.getItem('userRole') || 'supplier',
+        avatar: 'https://img.icons8.com/color/96/null/user-circle.png',
+        verified: false,
+        isGuest: true
+      };
+      return true; // 返回true表示可以访问需要登录的页面
+    }
 
     if (token && userInfo) {
       try {
@@ -103,8 +118,9 @@ function initNavigation() {
     const publishBtn = document.querySelector('.nav-publish');
     if (publishBtn) {
       publishBtn.addEventListener('click', function () {
-        // 检查登录状态
-        if (!appState.isLoggedIn) {
+        // 检查登录状态或访客状态
+        const isGuest = localStorage.getItem('isGuest') === 'true';
+        if (!appState.isLoggedIn && !isGuest) {
           showLoginModal();
           return;
         }
@@ -583,21 +599,28 @@ function initDemandPage() {
 function initUserPage() {
   console.log('初始化个人中心交互');
 
+  // 检查访客状态
+  const isGuest = localStorage.getItem('isGuest') === 'true';
+
   // 检查登录状态并更新用户信息
-  if (appState.isLoggedIn && appState.currentUser) {
+  if ((appState.isLoggedIn && appState.currentUser) || isGuest) {
     // 更新用户信息
     const userName = document.querySelector('.user-name');
     const userAvatar = document.querySelector('.user-avatar');
 
     if (userName) {
-      userName.textContent = appState.currentUser.name;
+      if (isGuest) {
+        userName.textContent = '访客用户';
+      } else {
+        userName.textContent = appState.currentUser.name;
+      }
     }
 
     if (userAvatar) {
-      userAvatar.src = appState.currentUser.avatar;
+      userAvatar.src = appState.currentUser ? appState.currentUser.avatar : 'https://img.icons8.com/color/96/null/user-circle.png';
     }
   } else {
-    // 如果未登录，提示登录
+    // 如果未登录且不是访客，提示登录
     setTimeout(() => {
       alert('请先登录');
       showLoginModal();
@@ -609,12 +632,48 @@ function initUserPage() {
 function initPublishPage() {
   console.log('初始化发布页面交互');
 
-  // 检查登录状态
+  // 检查是否为访客模式
+  const isGuest = localStorage.getItem('isGuest') === 'true';
+
+  // 访客模式下显示提示信息并隐藏表单内容
+  if (isGuest) {
+    // 隐藏页面内容
+    const pageContent = document.querySelector('.page-content');
+    if (pageContent) {
+      // 保存原始内容，用于非访客模式
+      const originalContent = pageContent.innerHTML;
+
+      // 清空内容并添加提示
+      pageContent.innerHTML = '';
+
+      // 创建提示区域
+      const guestNotice = document.createElement('div');
+      guestNotice.className = 'guest-notice';
+      guestNotice.style.cssText = 'text-align: center; padding: 40px 20px; margin: 20px 15px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);';
+
+      guestNotice.innerHTML = `
+        <div style="font-size: 60px; color: #ddd; margin-bottom: 20px;">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h3 style="font-size: 18px; color: #333; margin-bottom: 15px;">访客模式不能发布信息</h3>
+        <p style="color: #666; margin-bottom: 25px; line-height: 1.5;">发布农产品信息需要注册账号并完成认证</p>
+        <a href="login.html?noredir=true&clearstate=true" style="display: inline-block; background-color: var(--primary-color); color: white; padding: 10px 25px; border-radius: 20px; text-decoration: none; font-weight: bold;">
+          <i class="fas fa-sign-in-alt" style="margin-right: 6px;"></i>去登录
+        </a>
+      `;
+
+      pageContent.appendChild(guestNotice);
+    }
+    return;
+  }
+
+  // 检查登录状态，必须已登录
   if (!appState.isLoggedIn) {
     alert('请先登录后再发布信息');
     setTimeout(() => {
       showLoginModal();
     }, 300);
+    return;
   }
 
   // 表单验证增强
