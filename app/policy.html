@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>政策快报 - 农产品供销信息平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* 角色切换样式 */
+        .role-switch {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .role-switch:active {
+            transform: scale(0.95);
+        }
+
+        .role-switch span {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .role-switch i {
+            font-size: var(--font-size-sm);
+            color: var(--primary-color);
+        }
+
+        /* 角色切换模态框样式 */
+        .role-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .role-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .role-modal-content {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            width: 90%;
+            max-width: 320px;
+        }
+
+        .role-modal-content h3 {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-primary);
+        }
+
+        .role-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .role-option {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .role-option.active {
+            border-color: var(--primary-color);
+            background-color: #E8F5E9;
+        }
+
+        .role-option i {
+            font-size: 24px;
+            margin-right: var(--spacing-md);
+            color: var(--text-tertiary);
+        }
+
+        .role-option.active i {
+            color: var(--primary-color);
+        }
+
+        .role-info h4 {
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+
+        .role-info p {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .role-modal-footer {
+            margin-top: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .role-confirm {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: var(--spacing-sm) var(--spacing-xl);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            border: none;
+            cursor: pointer;
+        }
+
+        /* 政策列表样式 */
+        .policy-list {
+            padding: var(--spacing-md);
+            background: #f8f9fa;
+            min-height: calc(100vh - 120px);
+        }
+
+        .policy-item {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .policy-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .policy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .policy-tag {
+            background-color: #E8F5E9;
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+        }
+
+        .policy-date {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-xs);
+        }
+
+        .policy-title {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.4;
+        }
+
+        .policy-summary {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: 1.5;
+            margin-bottom: var(--spacing-sm);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .policy-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .policy-source {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-xs);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .policy-source i {
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            font-size: var(--font-size-sm);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #236b4a;
+        }
+
+        .read-more i {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover i {
+            transform: translateX(4px);
+        }
+
+        /* 底部导航栏激活状态 */
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-item.active i {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 手机框容器 -->
+    <div class="phone-container">
+        <!-- 页面内容区域 -->
+        <div class="page-content">
+            <!-- 顶部导航栏 -->
+            <header class="top-navbar">
+                <div class="container flex-between">
+                    <!-- 返回按钮 -->
+                    <a href="javascript:history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+
+                    <!-- 标题 -->
+                    <h1>政策快报</h1>
+
+                    <!-- 角色切换 -->
+                    <div class="role-switch">
+                        <span id="currentRole">供应商</span>
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 角色切换模态框 -->
+            <div class="role-modal">
+                <div class="role-modal-content">
+                    <h3>切换角色</h3>
+                    <div class="role-options">
+                        <div class="role-option active" data-role="supplier">
+                            <i class="fas fa-store"></i>
+                            <div class="role-info">
+                                <h4>供应商</h4>
+                                <p>发布农产品供应信息</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="buyer">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="role-info">
+                                <h4>采购商</h4>
+                                <p>发布农产品采购需求</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-modal-footer">
+                        <button class="role-confirm">确认切换</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 主要内容区 -->
+            <main class="main-content">
+                <!-- 政策列表 -->
+                <section class="policy-list">
+                    <div class="policy-item">
+                        <div class="policy-header">
+                            <span class="policy-tag">补贴政策</span>
+                            <span class="policy-date">2024-03-15</span>
+                        </div>
+                        <h3 class="policy-title">关于2024年农业补贴政策调整的通知</h3>
+                        <p class="policy-summary">为进一步支持农业发展，促进农民增收，现就2024年农业补贴政策调整有关事项通知如下...</p>
+                        <div class="policy-footer">
+                            <span class="policy-source">
+                                <i class="fas fa-building"></i>
+                                农业农村部
+                            </span>
+                            <a href="javascript:void(0)" class="read-more">
+                                查看详情
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="policy-item">
+                        <div class="policy-header">
+                            <span class="policy-tag">市场规范</span>
+                            <span class="policy-date">2024-03-14</span>
+                        </div>
+                        <h3 class="policy-title">农产品市场交易规范管理办法</h3>
+                        <p class="policy-summary">为规范农产品市场交易行为，维护市场秩序，保护交易双方合法权益，特制定本办法...</p>
+                        <div class="policy-footer">
+                            <span class="policy-source">
+                                <i class="fas fa-balance-scale"></i>
+                                市场监督管理局
+                            </span>
+                            <a href="javascript:void(0)" class="read-more">
+                                查看详情
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="policy-item">
+                        <div class="policy-header">
+                            <span class="policy-tag">技术支持</span>
+                            <span class="policy-date">2024-03-13</span>
+                        </div>
+                        <h3 class="policy-title">农业技术推广服务体系建设指导意见</h3>
+                        <p class="policy-summary">为加强农业技术推广服务体系建设，提高农业科技水平，促进农业现代化发展...</p>
+                        <div class="policy-footer">
+                            <span class="policy-source">
+                                <i class="fas fa-flask"></i>
+                                科技部
+                            </span>
+                            <a href="javascript:void(0)" class="read-more">
+                                查看详情
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <nav class="bottom-navbar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </a>
+                <a href="demand.html" class="nav-item" data-page="market" id="marketLink">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span id="marketText">需求大厅</span>
+                </a>
+                <a href="publish.html" class="nav-item nav-publish">
+                    <div class="publish-btn">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <span>发布</span>
+                </a>
+                <a href="policy.html" class="nav-item active" data-page="policy">
+                    <i class="fas fa-newspaper"></i>
+                    <span>政策快报</span>
+                </a>
+                <a href="user.html" class="nav-item" data-page="user">
+                    <i class="fas fa-user"></i>
+                    <span>个人中心</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化角色切换
+            const roleSwitch = document.querySelector('.role-switch');
+            const roleModal = document.querySelector('.role-modal');
+            const roleOptions = document.querySelectorAll('.role-option');
+            const roleConfirm = document.querySelector('.role-confirm');
+            const currentRoleText = document.getElementById('currentRole');
+            const marketText = document.getElementById('marketText');
+            const marketLink = document.getElementById('marketLink');
+
+            // 从localStorage获取当前角色
+            let currentRole = localStorage.getItem('userRole') || 'supplier';
+
+            // 更新UI显示
+            function updateRoleUI(role) {
+                currentRoleText.textContent = role === 'supplier' ? '供应商' : '采购商';
+                marketText.textContent = role === 'supplier' ? '需求大厅' : '供应大厅';
+                marketLink.href = role === 'supplier' ? 'demand.html' : 'supply.html';
+
+                // 更新角色选项的激活状态
+                roleOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.role === role);
+                });
+            }
+
+            // 初始化UI
+            updateRoleUI(currentRole);
+
+            // 角色切换按钮点击事件
+            roleSwitch.addEventListener('click', () => {
+                // 添加点击效果
+                roleSwitch.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    roleSwitch.style.transform = 'scale(1)';
+                }, 200);
+
+                // 显示模态框
+                roleModal.classList.add('active');
+
+                // 根据当前角色预选对应选项
+                roleOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.role === currentRole);
+                });
+            });
+
+            // 角色选项点击事件
+            roleOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    roleOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                });
+            });
+
+            // 确认按钮点击事件
+            roleConfirm.addEventListener('click', () => {
+                const selectedRole = document.querySelector('.role-option.active').dataset.role;
+                if (selectedRole !== currentRole) {
+                    currentRole = selectedRole;
+                    localStorage.setItem('userRole', currentRole);
+                    updateRoleUI(currentRole);
+                }
+                roleModal.classList.remove('active');
+            });
+
+            // 点击模态框外部关闭
+            roleModal.addEventListener('click', (e) => {
+                if (e.target === roleModal) {
+                    roleModal.classList.remove('active');
+                    // 重置选项状态
+                    roleOptions.forEach(option => {
+                        option.classList.toggle('active', option.dataset.role === currentRole);
+                    });
+                }
+            });
+
+            // 底部导航栏高亮显示当前页面
+            const currentPage = window.location.pathname.split('/').pop().split('.')[0];
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                const dataPage = item.getAttribute('data-page');
+                if (currentPage === dataPage ||
+                    (currentPage === 'policy' && dataPage === 'policy') ||
+                    (currentPage === 'demand' && dataPage === 'market' && currentRole === 'supplier') ||
+                    (currentPage === 'supply' && dataPage === 'market' && currentRole === 'buyer')) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

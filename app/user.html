@@ -264,191 +264,562 @@
             max-width: 300px;
             background-color: var(--white);
         }
+
+        /* 角色切换样式 */
+        .role-switch {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .role-switch:active {
+            transform: scale(0.95);
+        }
+
+        .role-switch span {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .role-switch i {
+            font-size: var(--font-size-sm);
+            color: var(--primary-color);
+        }
+
+        /* 角色切换模态框样式优化 */
+        .role-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .role-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .role-modal-content {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            width: 90%;
+            max-width: 320px;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .role-modal.active .role-modal-content {
+            transform: translateY(0);
+        }
+
+        .role-modal-content h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .role-modal-content h3::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .role-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            /* 确保选项容器占满整个宽度 */
+            box-sizing: border-box;
+        }
+
+        .role-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            /* 确保选项卡片占满整个宽度 */
+            box-sizing: border-box;
+        }
+
+        .role-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background-color: rgba(46, 139, 87, 0.05);
+            transition: width 0.3s ease;
+            z-index: 0;
+        }
+
+        .role-option:hover::before {
+            width: 100%;
+        }
+
+        .role-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(46, 139, 87, 0.1);
+        }
+
+        .role-option:active {
+            transform: scale(0.98);
+        }
+
+        .role-option i {
+            font-size: 28px;
+            margin-right: 15px;
+            color: var(--text-tertiary);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            /* 防止图标被压缩 */
+        }
+
+        .role-option.active i {
+            color: var(--primary-color);
+        }
+
+        .role-info {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            /* 使内容占据剩余空间 */
+            min-width: 0;
+            /* 防止内容溢出 */
+        }
+
+        .role-info h4 {
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+            /* 防止文本换行 */
+            overflow: hidden;
+            /* 隐藏溢出文本 */
+            text-overflow: ellipsis;
+            /* 显示省略号 */
+        }
+
+        .role-option.active .role-info h4 {
+            color: var(--primary-color);
+        }
+
+        .role-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            white-space: nowrap;
+            /* 防止文本换行 */
+            overflow: hidden;
+            /* 隐藏溢出文本 */
+            text-overflow: ellipsis;
+            /* 显示省略号 */
+        }
+
+        .role-option .check-mark {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            flex-shrink: 0;
+            /* 防止图标被压缩 */
+        }
+
+        .role-option.active .check-mark {
+            opacity: 1;
+        }
+
+        .role-modal-footer {
+            margin-top: 25px;
+            text-align: center;
+            width: 100%;
+            /* 确保底部按钮区域占满整个宽度 */
+        }
+
+        .role-confirm {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: var(--font-size-base);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(46, 139, 87, 0.2);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            min-width: 140px;
+            /* 确保按钮有足够的宽度 */
+            width: auto;
+            /* 按钮宽度自适应 */
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            width: 85%;
+            max-width: 400px;
+            margin: 40% auto;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+        }
+
+        .close {
+            font-size: 24px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-body p {
+            margin-top: 0;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .role-options {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .role-option {
+            width: 45%;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .role-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(46, 139, 87, 0.05);
+        }
+
+        .role-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .role-option.active .role-icon {
+            color: var(--primary-color);
+        }
+
+        .role-label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .role-check {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: var(--primary-color);
+            display: none;
+        }
+
+        .role-option.active .role-check {
+            display: block;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .confirm-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            min-width: 100px;
+            transition: background-color 0.2s;
+        }
+
+        .confirm-btn:hover {
+            background-color: #1e7a48;
+        }
+
+        .confirm-btn:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- 页面内容区域 -->
-    <div class="page-content">
-        <!-- 用户头部信息 -->
-        <header class="user-header">
-            <div class="user-bg-pattern"></div>
-            <div class="user-info">
-                <img src="https://img.freepik.com/free-photo/farmer-holding-fresh-harvested-vegetables-garden-basket_1150-17692.jpg"
-                    alt="用户头像" class="user-avatar" width="100" height="100">
-                <div class="user-details">
-                    <div class="user-name">张三农场</div>
-                    <div class="user-role">
-                        <span class="badge">农产品供应商</span>
-                        <span>已认证</span>
-                    </div>
+    <!-- 手机框容器 -->
+    <div class="phone-container">
+        <!-- 顶部导航栏 -->
+        <header class="top-navbar">
+            <div class="container flex-between">
+                <!-- 返回按钮 -->
+                <a href="javascript:history.back()">
+                    <i class="fas fa-arrow-left" style="font-size: 18px; color: #333;"></i>
+                </a>
+
+                <!-- 标题 -->
+                <h1 style="font-size: 16px; font-weight: bold;">个人中心</h1>
+
+                <!-- 角色切换按钮 -->
+                <div class="role-switch">
+                    <span id="currentRole">供应商</span>
+                    <i class="fas fa-exchange-alt"></i>
                 </div>
             </div>
         </header>
 
-        <!-- 用户数据概览 -->
-        <div class="user-data">
-            <div class="data-item">
-                <div class="data-value">12</div>
-                <div class="data-label">在售商品</div>
+        <!-- 页面内容区域 -->
+        <div class="page-content">
+            <!-- 用户头部信息 -->
+            <header class="user-header">
+                <div class="user-bg-pattern"></div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="https://img.icons8.com/color/96/null/user-circle.png" alt="用户头像"
+                            onerror="this.src='https://img.icons8.com/fluency/96/null/user-circle.png'">
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name">加载中...</div>
+                        <div class="user-role">
+                            <span class="role-tag">加载中...</span>
+                            <span class="verified-badge"><i class="fas fa-check-circle"></i> 已认证</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 用户数据概览 -->
+            <div class="user-data">
+                <div class="data-item">
+                    <div class="data-value">0</div>
+                    <div class="data-label">发布信息</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-value">0</div>
+                    <div class="data-label">浏览记录</div>
+                </div>
+                
             </div>
-            <div class="data-item">
-                <div class="data-value">45</div>
-                <div class="data-label">已售订单</div>
+
+           
+
+            <!-- 账户设置 -->
+            <section class="menu-section">
+                <div class="menu-title">账户设置</div>
+                <a href="javascript:void(0)" class="menu-link">
+                    <div class="menu-link-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="menu-link-label">个人资料</div>
+                    <div class="menu-link-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="menu-link">
+                    <div class="menu-link-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="menu-link-label">账号安全</div>
+                    <div class="menu-link-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="menu-link">
+                    <div class="menu-link-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="menu-link-label">认证信息</div>
+                    <div class="menu-link-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="menu-link">
+                    <div class="menu-link-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="menu-link-label">地址管理</div>
+                    <div class="menu-link-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+            </section>
+
+            <!-- 帮助中心 -->
+            <div class="help-banner">
+                <div class="help-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="help-content">
+                    <div class="help-title">专业客服为您服务</div>
+                    <div class="help-desc">如有疑问或需要帮助，点击咨询在线客服</div>
+                </div>
             </div>
-            <div class="data-item">
-                <div class="data-value">4.9</div>
-                <div class="data-label">信誉评分</div>
-            </div>
+
+            <!-- 退出登录 -->
+            <button class="logout-btn">
+                退出登录
+            </button>
         </div>
-
-        <!-- 我的供需 -->
-        <section class="menu-section">
-            <div class="menu-title">我的供需</div>
-            <div class="menu-list">
-                <a href="javascript:void(0)" class="menu-item">
-                    <div class="menu-icon menu-icon-primary">
-                        <i class="fas fa-shopping-basket"></i>
-                    </div>
-                    <div class="menu-label">我的供应</div>
+        <!-- 底部导航栏 -->
+        <nav class="bottom-navbar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
                 </a>
-                <a href="javascript:void(0)" class="menu-item">
-                    <div class="menu-icon menu-icon-info">
-                        <i class="fas fa-clipboard-list"></i>
-                    </div>
-                    <div class="menu-label">我的需求</div>
+                <a href="#" class="nav-item" data-page="market" id="marketLink">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span id="marketText">需求大厅</span>
                 </a>
-                <a href="javascript:void(0)" class="menu-item">
-                    <div class="menu-icon menu-icon-warning">
-                        <i class="fas fa-star"></i>
+                <a href="publish.html" class="nav-item nav-publish">
+                    <div class="publish-btn">
+                        <i class="fas fa-plus"></i>
                     </div>
-                    <div class="menu-label">我的收藏</div>
+                    <span>发布</span>
                 </a>
-                <a href="javascript:void(0)" class="menu-item">
-                    <div class="menu-icon menu-icon-danger">
-                        <i class="fas fa-history"></i>
-                    </div>
-                    <div class="menu-label">浏览历史</div>
+                <a href="policy.html" class="nav-item" data-page="policy">
+                    <i class="fas fa-newspaper"></i>
+                    <span>政策快报</span>
+                </a>
+                <a href="user.html" class="nav-item active" data-page="user">
+                    <i class="fas fa-user"></i>
+                    <span>个人中心</span>
                 </a>
             </div>
-        </section>
-
-        <!-- 交易管理 -->
-        <section class="menu-section">
-            <div class="menu-title">交易管理</div>
-            <div class="menu-list">
-                <a href="javascript:void(0)" class="menu-item">
-                    <div class="menu-icon menu-icon-primary">
-                        <i class="fas fa-file-contract"></i>
-                    </div>
-                    <div class="menu-label">合同管理</div>
-                </a>
-                <a href="javascript:void(0)" class="menu-item">
-                    <div class="menu-icon menu-icon-info">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="menu-label">物流跟踪</div>
-                </a>
-                <a href="javascript:void(0)" class="menu-item">
-                    <div class="menu-icon menu-icon-warning">
-                        <i class="fas fa-money-check-alt"></i>
-                    </div>
-                    <div class="menu-label">交易结算</div>
-                </a>
-                <a href="javascript:void(0)" class="menu-item">
-                    <div class="menu-icon menu-icon-danger">
-                        <i class="fas fa-comment-dots"></i>
-                    </div>
-                    <div class="menu-label">交易评价</div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 账户设置 -->
-        <section class="menu-section">
-            <div class="menu-title">账户设置</div>
-            <a href="javascript:void(0)" class="menu-link">
-                <div class="menu-link-icon">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="menu-link-label">个人资料</div>
-                <div class="menu-link-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-            <a href="javascript:void(0)" class="menu-link">
-                <div class="menu-link-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div class="menu-link-label">账号安全</div>
-                <div class="menu-link-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-            <a href="javascript:void(0)" class="menu-link">
-                <div class="menu-link-icon">
-                    <i class="fas fa-certificate"></i>
-                </div>
-                <div class="menu-link-label">认证信息</div>
-                <div class="menu-link-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-            <a href="javascript:void(0)" class="menu-link">
-                <div class="menu-link-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div class="menu-link-label">地址管理</div>
-                <div class="menu-link-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </a>
-        </section>
-
-        <!-- 帮助中心 -->
-        <div class="help-banner">
-            <div class="help-icon">
-                <i class="fas fa-headset"></i>
-            </div>
-            <div class="help-content">
-                <div class="help-title">专业客服为您服务</div>
-                <div class="help-desc">如有疑问或需要帮助，点击咨询在线客服</div>
-            </div>
-        </div>
-
-        <!-- 退出登录 -->
-        <button class="logout-btn">
-            退出登录
-        </button>
+        </nav>
     </div>
 
-    <!-- 底部导航栏 -->
-    <nav class="bottom-navbar">
-        <div class="nav-items">
-            <a href="index.html" class="nav-item" data-page="home">
-                <i class="fas fa-home"></i>
-                <span>首页</span>
-            </a>
-            <a href="supply.html" class="nav-item" data-page="supply">
-                <i class="fas fa-shopping-basket"></i>
-                <span>供应大厅</span>
-            </a>
-            <a href="publish.html" class="nav-item nav-publish">
-                <div class="publish-btn">
-                    <i class="fas fa-plus"></i>
+    <!-- 角色切换模态框 -->
+    <div class="role-modal">
+        <div class="role-modal-content">
+            <h3>切换角色</h3>
+            <div class="role-options">
+                <div class="role-option active" data-role="supplier" style="width: 100%; box-sizing: border-box;">
+                    <i class="fas fa-store"></i>
+                    <div class="role-info" style="flex: 1; min-width: 0;">
+                        <h4>供应商</h4>
+                        <p>发布农产品供应信息</p>
+                    </div>
+                    <span class="check-mark"><i class="fas fa-check-circle"></i></span>
                 </div>
-                <span>发布</span>
-            </a>
-            <a href="demand.html" class="nav-item" data-page="demand">
-                <i class="fas fa-clipboard-list"></i>
-                <span>需求大厅</span>
-            </a>
-            <a href="user.html" class="nav-item" data-page="user">
-                <i class="fas fa-user"></i>
-                <span>个人中心</span>
-            </a>
+                <div class="role-option" data-role="buyer" style="width: 100%; box-sizing: border-box;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="role-info" style="flex: 1; min-width: 0;">
+                        <h4>采购商</h4>
+                        <p>发布农产品采购需求</p>
+                    </div>
+                    <span class="check-mark"><i class="fas fa-check-circle"></i></span>
+                </div>
+            </div>
+            <div class="role-modal-footer">
+                <button class="role-confirm">确认切换</button>
+            </div>
         </div>
-    </nav>
+    </div>
 
     <!-- 引入主JavaScript文件 -->
     <script src="js/main.js"></script>
@@ -458,6 +829,122 @@
     <script>
         // 个人中心页面特有交互
         document.addEventListener('DOMContentLoaded', function () {
+            console.log("DOM内容加载完成，开始初始化...");
+
+            // 角色切换相关功能
+            const roleSwitch = document.querySelector('.role-switch');
+            const roleModal = document.querySelector('.role-modal');
+            const roleOptions = document.querySelectorAll('.role-option');
+            const roleConfirm = document.querySelector('.role-confirm');
+            const currentRoleText = document.getElementById('currentRole');
+            const marketText = document.getElementById('marketText');
+            const marketLink = document.getElementById('marketLink');
+
+            // 从localStorage获取当前角色
+            let currentRole = localStorage.getItem('userRole') || 'supplier';
+
+            // 更新UI显示
+            function updateRoleUI(role) {
+                currentRoleText.textContent = role === 'supplier' ? '供应商' : '采购商';
+
+                // 更新用户信息中的角色标签
+                const roleTag = document.querySelector('.role-tag');
+                if (roleTag) {
+                    roleTag.textContent = role === 'supplier' ? '供应商' : '采购商';
+                }
+
+                // 更新市场链接和文本
+                if (marketText && marketLink) {
+                    marketText.textContent = role === 'supplier' ? '需求大厅' : '供应大厅';
+                    marketLink.href = role === 'supplier' ? 'demand.html' : 'supply.html';
+                }
+
+                // 更新角色选项的激活状态
+                roleOptions.forEach(option => {
+                    option.classList.toggle('active', option.getAttribute('data-role') === role);
+                });
+
+                // 更新底部导航高亮
+                updateNavHighlight();
+            }
+
+            // 更新底部导航栏高亮
+            function updateNavHighlight() {
+                const currentPage = window.location.pathname.split('/').pop().split('.')[0];
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    const dataPage = item.getAttribute('data-page');
+                    if (currentPage === dataPage ||
+                        (currentPage === 'policy' && dataPage === 'policy') ||
+                        (currentPage === 'demand' && dataPage === 'market' && currentRole === 'supplier') ||
+                        (currentPage === 'supply' && dataPage === 'market' && currentRole === 'buyer')) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+
+            // 初始化UI
+            updateRoleUI(currentRole);
+
+            // 角色切换按钮点击事件
+            roleSwitch.addEventListener('click', () => {
+                // 添加点击效果
+                roleSwitch.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    roleSwitch.style.transform = 'scale(1)';
+                }, 200);
+
+                // 显示模态框
+                roleModal.classList.add('active');
+
+                // 根据当前角色预选对应选项
+                roleOptions.forEach(option => {
+                    option.classList.toggle('active', option.getAttribute('data-role') === currentRole);
+                });
+            });
+
+            // 角色选项点击事件
+            roleOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    roleOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                });
+            });
+
+            // 确认按钮点击事件
+            roleConfirm.addEventListener('click', () => {
+                const selectedRole = document.querySelector('.role-option.active').getAttribute('data-role');
+                if (selectedRole !== currentRole) {
+                    currentRole = selectedRole;
+                    localStorage.setItem('userRole', currentRole);
+                    updateRoleUI(currentRole);
+                }
+                roleModal.classList.remove('active');
+            });
+
+            // 点击模态框外部关闭
+            roleModal.addEventListener('click', (e) => {
+                if (e.target === roleModal) {
+                    roleModal.classList.remove('active');
+                    // 重置选项状态
+                    roleOptions.forEach(option => {
+                        option.classList.toggle('active', option.getAttribute('data-role') === currentRole);
+                    });
+                }
+            });
+
+            // 从localStorage获取用户信息
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+
+            // 更新用户信息显示
+            const userName = document.querySelector('.user-name');
+            const userAvatar = document.querySelector('.user-avatar');
+
+            userName.textContent = userInfo.name || '未登录';
+            userAvatar.src = userInfo.avatar || 'https://img.icons8.com/color/96/null/user-circle.png';
+
             // 菜单项点击事件
             const menuItems = document.querySelectorAll('.menu-item');
             menuItems.forEach((item, index) => {
