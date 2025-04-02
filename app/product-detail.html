@@ -305,120 +305,136 @@
 </head>
 
 <body>
-    <div class="phone-container">
+    <!-- 主容器 -->
+    <div class="mobile-frame-container">
+        <!-- 页面内容区域 -->
         <div class="page-content">
             <!-- 顶部导航栏 -->
             <header class="top-navbar">
                 <div class="container flex-between">
+                    <!-- 返回按钮 -->
                     <a href="javascript:history.back()">
-                        <i class="fas fa-arrow-left" style="font-size: 18px; color: #333;"></i>
+                        <i class="fas fa-arrow-left"></i>
                     </a>
-                    <h1 style="font-size: 16px; font-weight: bold;">商品详情</h1>
-                    <a href="javascript:void(0)" id="shareBtn">
-                        <i class="fas fa-share-alt" style="font-size: 18px; color: #333;"></i>
+
+                    <!-- 标题 -->
+                    <h1>产品详情</h1>
+
+                    <!-- 分享按钮 -->
+                    <a href="javascript:void(0);" onclick="showShareModal()">
+                        <i class="fas fa-share-alt"></i>
                     </a>
                 </div>
             </header>
 
-            <div class="product-detail">
-                <!-- 商品图片 -->
-                <div class="product-images">
-                    <img src="" alt="" id="productImage">
-                    <div class="image-count">
-                        <i class="fas fa-image"></i>
-                        <span id="imageCount">1/1</span>
+            <!-- 主要内容区 -->
+            <main class="main-content">
+                <div class="product-detail">
+                    <!-- 商品图片 -->
+                    <div class="product-images">
+                        <img src="" alt="" id="productImage">
+                        <div class="image-count">
+                            <i class="fas fa-image"></i>
+                            <span id="imageCount">1/1</span>
+                        </div>
+                    </div>
+
+                    <!-- 商品信息头部 -->
+                    <div class="product-header">
+                        <div class="product-meta">
+                            <span id="productType" class="tag"></span>
+                            <span id="publishTime"></span>
+                        </div>
+                        <h1 id="productTitle" class="product-title"></h1>
+                        <div class="product-price">
+                            ¥<span id="productPrice"></span>
+                            <span class="unit" id="productUnit"></span>
+                        </div>
+                    </div>
+
+                    <!-- 基本信息 -->
+                    <div class="info-section">
+                        <div class="info-title">
+                            <i class="fas fa-info-circle"></i>
+                            基本信息
+                        </div>
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <span class="info-label">交货地</span>
+                                <span class="info-value" id="deliveryLocation"></span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">供货量</span>
+                                <span class="info-value" id="quantity"></span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">起订量</span>
+                                <span class="info-value" id="minOrder"></span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">发布者</span>
+                                <span class="info-value" id="publisher"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 详细描述 -->
+                    <div class="info-section">
+                        <div class="info-title">
+                            <i class="fas fa-align-left"></i>
+                            详细描述
+                        </div>
+                        <div class="info-content" id="description">
+                        </div>
                     </div>
                 </div>
+            </main>
+        </div>
 
-                <!-- 商品信息头部 -->
-                <div class="product-header">
-                    <div class="product-meta">
-                        <span id="productType" class="tag"></span>
-                        <span id="publishTime"></span>
-                    </div>
-                    <h1 id="productTitle" class="product-title"></h1>
-                    <div class="product-price">
-                        ¥<span id="productPrice"></span>
-                        <span class="unit" id="productUnit"></span>
-                    </div>
-                </div>
+        <!-- 底部导航栏 -->
+        <nav class="bottom-navbar">
+            <div class="contact-bar">
+                <button class="contact-btn btn-outline" id="wechatBtn">
+                    <i class="fab fa-weixin"></i>
+                    <span>获取微信</span>
+                </button>
+                <button class="contact-btn btn-primary" id="phoneBtn">
+                    <i class="fas fa-phone"></i>
+                    <span>电话联系</span>
+                </button>
+            </div>
 
-                <!-- 基本信息 -->
-                <div class="info-section">
-                    <div class="info-title">
-                        <i class="fas fa-info-circle"></i>
-                        基本信息
+            <!-- 联系方式弹窗 -->
+            <div id="contactModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalTitle">联系信息</h3>
+                        <span class="close-btn">&times;</span>
                     </div>
-                    <ul class="info-list">
-                        <li class="info-item">
-                            <span class="info-label">交货地</span>
-                            <span class="info-value" id="deliveryLocation"></span>
-                        </li>
-                        <li class="info-item">
-                            <span class="info-label">供货量</span>
-                            <span class="info-value" id="quantity"></span>
-                        </li>
-                        <li class="info-item">
-                            <span class="info-label">起订量</span>
-                            <span class="info-value" id="minOrder"></span>
-                        </li>
-                        <li class="info-item">
-                            <span class="info-label">发布者</span>
-                            <span class="info-value" id="publisher"></span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- 详细描述 -->
-                <div class="info-section">
-                    <div class="info-title">
-                        <i class="fas fa-align-left"></i>
-                        详细描述
-                    </div>
-                    <div class="info-content" id="description">
+                    <div class="modal-body">
+                        <div id="loadingState" class="text-center">
+                            <div class="spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                            <p>正在等待系统审核，请稍候...</p>
+                        </div>
+                        <div id="contactInfo" class="text-center" style="display: none;">
+                            <div class="contact-value">
+                                <i id="contactIcon" class="fas fa-phone"></i>
+                                <h2 id="contactValue">13800138000</h2>
+                            </div>
+                            <p id="contactTip" class="text-muted">点击复制</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- 底部联系栏 -->
-        <div class="contact-bar">
-            <button class="contact-btn btn-outline" id="wechatBtn">
-                <i class="fab fa-weixin"></i>
-                <span>获取微信</span>
-            </button>
-            <button class="contact-btn btn-primary" id="phoneBtn">
-                <i class="fas fa-phone"></i>
-                <span>电话联系</span>
-            </button>
-        </div>
-
-        <!-- 联系方式弹窗 -->
-        <div id="contactModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="modalTitle">联系信息</h3>
-                    <span class="close-btn">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <div id="loadingState" class="text-center">
-                        <div class="spinner">
-                            <i class="fas fa-spinner fa-spin"></i>
-                        </div>
-                        <p>正在等待系统审核，请稍候...</p>
-                    </div>
-                    <div id="contactInfo" class="text-center" style="display: none;">
-                        <div class="contact-value">
-                            <i id="contactIcon" class="fas fa-phone"></i>
-                            <h2 id="contactValue">13800138000</h2>
-                        </div>
-                        <p id="contactTip" class="text-muted">点击复制</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </nav>
     </div>
 
+    <!-- 引入主JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <!-- 引入应用程序交互脚本 -->
+    <script src="js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 获取URL参数

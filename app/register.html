@@ -270,191 +270,219 @@
 </head>
 
 <body>
-    <!-- 手机框容器 -->
-    <div class="phone-container">
+    <!-- 主容器 -->
+    <div class="mobile-frame-container">
         <!-- 页面内容区域 -->
         <div class="page-content">
-            <div class="register-container">
-                <!-- 返回按钮 -->
-                <a href="login.html" style="position: absolute; top: 20px; left: 20px; color: var(--text-secondary);">
-                    <i class="fas fa-arrow-left" style="font-size: 20px;"></i>
-                </a>
+            <!-- 顶部导航栏 -->
+            <header class="top-navbar">
+                <div class="container flex-between">
+                    <!-- 返回按钮 -->
+                    <a href="javascript:history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
 
-                <div class="register-header">
-                    <img src="https://img.icons8.com/color/240/null/natural-food.png" alt="农产品供销信息平台"
-                        class="register-logo" width="240" height="240">
-                    <h1 class="register-title">创建新账号</h1>
-                    <p class="register-subtitle">加入农产品供销信息平台</p>
+                    <!-- 标题 -->
+                    <h1>注册账号</h1>
+
+                    <!-- 右侧空白占位 -->
+                    <div style="width: 24px;"></div>
                 </div>
+            </header>
 
-                <!-- 步骤指示器 -->
-                <div class="step-indicator">
-                    <div class="step active">
-                        <div class="step-number">1</div>
-                        <div class="step-label">基本信息</div>
+            <!-- 主要内容区 -->
+            <main class="main-content">
+                <div class="register-container">
+                    <!-- 返回按钮 -->
+                    <a href="login.html"
+                        style="position: absolute; top: 20px; left: 20px; color: var(--text-secondary);">
+                        <i class="fas fa-arrow-left" style="font-size: 20px;"></i>
+                    </a>
+
+                    <div class="register-header">
+                        <img src="https://img.icons8.com/color/240/null/natural-food.png" alt="农产品供销信息平台"
+                            class="register-logo" width="240" height="240">
+                        <h1 class="register-title">创建新账号</h1>
+                        <p class="register-subtitle">加入农产品供销信息平台</p>
                     </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-label">身份验证</div>
+
+                    <!-- 步骤指示器 -->
+                    <div class="step-indicator">
+                        <div class="step active">
+                            <div class="step-number">1</div>
+                            <div class="step-label">基本信息</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-label">身份验证</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-label">完成注册</div>
+                        </div>
                     </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-label">完成注册</div>
+
+                    <div class="register-form">
+                        <!-- 步骤1：基本信息 -->
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label class="form-label">用户名</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user input-icon"></i>
+                                    <input type="text" class="form-input" id="username" placeholder="请输入用户名" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">手机号</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-mobile-alt input-icon"></i>
+                                    <input type="tel" class="form-input" placeholder="请输入手机号码" required
+                                        pattern="1[3-9]\d{9}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">验证码</label>
+                                <div class="verification-code">
+                                    <div class="input-wrapper" style="flex-grow: 1;">
+                                        <i class="fas fa-shield-alt input-icon"></i>
+                                        <input type="text" class="form-input" placeholder="请输入验证码" required
+                                            pattern="\d{6}">
+                                    </div>
+                                    <button type="button" class="get-code-btn">获取验证码</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">设置密码</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock input-icon"></i>
+                                    <input type="password" class="form-input" id="password" placeholder="请设置登录密码"
+                                        required>
+                                    <i class="fas fa-eye password-toggle" id="passwordToggle"></i>
+                                </div>
+                                <div style="font-size: 12px; color: var(--text-tertiary); margin-top: 6px;">
+                                    密码长度至少8位，包含数字和字母
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">确认密码</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock input-icon"></i>
+                                    <input type="password" class="form-input" id="confirmPassword" placeholder="请再次输入密码"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">用户角色</label>
+                                <div class="role-selector">
+                                    <div class="role-option active" data-role="supplier">农产品供应商</div>
+                                    <div class="role-option" data-role="buyer">采购商</div>
+                                </div>
+                            </div>
+
+                            <!-- 供应商特有的表单字段，根据角色选择显示/隐藏 -->
+                            <div class="company-info supplier-info">
+                                <div class="form-group">
+                                    <label class="form-label">农场/企业名称</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-building input-icon"></i>
+                                        <input type="text" class="form-input" placeholder="请输入农场或企业名称">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">主营产品类别</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-leaf input-icon"></i>
+                                        <select class="form-input">
+                                            <option value="">请选择主营产品类别</option>
+                                            <option value="fruits">水果</option>
+                                            <option value="vegetables">蔬菜</option>
+                                            <option value="grains">粮食</option>
+                                            <option value="meat">肉禽蛋</option>
+                                            <option value="aquatic">水产</option>
+                                            <option value="other">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 采购商特有的表单字段，根据角色选择显示/隐藏 -->
+                            <div class="company-info buyer-info" style="display: none;">
+                                <div class="form-group">
+                                    <label class="form-label">企业名称</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-building input-icon"></i>
+                                        <input type="text" class="form-input" placeholder="请输入企业名称">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">采购需求类别</label>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-shopping-basket input-icon"></i>
+                                        <select class="form-input">
+                                            <option value="">请选择采购需求类别</option>
+                                            <option value="fruits">水果</option>
+                                            <option value="vegetables">蔬菜</option>
+                                            <option value="grains">粮食</option>
+                                            <option value="meat">肉禽蛋</option>
+                                            <option value="aquatic">水产</option>
+                                            <option value="other">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="agreement">
+                                <input type="checkbox" id="agreement" required>
+                                <label for="agreement">
+                                    我已阅读并同意平台的<a href="javascript:void(0);">《用户协议》</a>和<a
+                                        href="javascript:void(0);">《隐私政策》</a>，
+                                    了解平台规则及<a href="javascript:void(0);">《禁售规则》</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="register-btn">注 册</button>
+
+                            <div class="login-link">
+                                已有账号? <a href="login.html">立即登录</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="footer-text">
+                        © 2023 农产品供销信息平台 版权所有
                     </div>
                 </div>
-
-                <div class="register-form">
-                    <!-- 步骤1：基本信息 -->
-                    <form id="registerForm">
-                        <div class="form-group">
-                            <label class="form-label">用户名</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-user input-icon"></i>
-                                <input type="text" class="form-input" id="username" placeholder="请输入用户名" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">手机号</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-mobile-alt input-icon"></i>
-                                <input type="tel" class="form-input" placeholder="请输入手机号码" required
-                                    pattern="1[3-9]\d{9}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">验证码</label>
-                            <div class="verification-code">
-                                <div class="input-wrapper" style="flex-grow: 1;">
-                                    <i class="fas fa-shield-alt input-icon"></i>
-                                    <input type="text" class="form-input" placeholder="请输入验证码" required pattern="\d{6}">
-                                </div>
-                                <button type="button" class="get-code-btn">获取验证码</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">设置密码</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-lock input-icon"></i>
-                                <input type="password" class="form-input" id="password" placeholder="请设置登录密码" required>
-                                <i class="fas fa-eye password-toggle" id="passwordToggle"></i>
-                            </div>
-                            <div style="font-size: 12px; color: var(--text-tertiary); margin-top: 6px;">
-                                密码长度至少8位，包含数字和字母
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">确认密码</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-lock input-icon"></i>
-                                <input type="password" class="form-input" id="confirmPassword" placeholder="请再次输入密码"
-                                    required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">用户角色</label>
-                            <div class="role-selector">
-                                <div class="role-option active" data-role="supplier">农产品供应商</div>
-                                <div class="role-option" data-role="buyer">采购商</div>
-                            </div>
-                        </div>
-
-                        <!-- 供应商特有的表单字段，根据角色选择显示/隐藏 -->
-                        <div class="company-info supplier-info">
-                            <div class="form-group">
-                                <label class="form-label">农场/企业名称</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-building input-icon"></i>
-                                    <input type="text" class="form-input" placeholder="请输入农场或企业名称">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">主营产品类别</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-leaf input-icon"></i>
-                                    <select class="form-input">
-                                        <option value="">请选择主营产品类别</option>
-                                        <option value="fruits">水果</option>
-                                        <option value="vegetables">蔬菜</option>
-                                        <option value="grains">粮食</option>
-                                        <option value="meat">肉禽蛋</option>
-                                        <option value="aquatic">水产</option>
-                                        <option value="other">其他</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 采购商特有的表单字段，根据角色选择显示/隐藏 -->
-                        <div class="company-info buyer-info" style="display: none;">
-                            <div class="form-group">
-                                <label class="form-label">企业名称</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-building input-icon"></i>
-                                    <input type="text" class="form-input" placeholder="请输入企业名称">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">采购需求类别</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-shopping-basket input-icon"></i>
-                                    <select class="form-input">
-                                        <option value="">请选择采购需求类别</option>
-                                        <option value="fruits">水果</option>
-                                        <option value="vegetables">蔬菜</option>
-                                        <option value="grains">粮食</option>
-                                        <option value="meat">肉禽蛋</option>
-                                        <option value="aquatic">水产</option>
-                                        <option value="other">其他</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="agreement">
-                            <input type="checkbox" id="agreement" required>
-                            <label for="agreement">
-                                我已阅读并同意平台的<a href="javascript:void(0);">《用户协议》</a>和<a
-                                    href="javascript:void(0);">《隐私政策》</a>，
-                                了解平台规则及<a href="javascript:void(0);">《禁售规则》</a>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="register-btn">注 册</button>
-
-                        <div class="login-link">
-                            已有账号? <a href="login.html">立即登录</a>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="footer-text">
-                    © 2023 农产品供销信息平台 版权所有
-                </div>
-            </div>
+            </main>
         </div>
     </div>
 
+    <!-- 引入主JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <!-- 引入认证管理脚本 -->
+    <script src="js/auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 用户角色选择
             const roleOptions = document.querySelectorAll('.role-option');
             const supplierInfo = document.querySelector('.supplier-info');
             const buyerInfo = document.querySelector('.buyer-info');
+            // 记录当前选中的角色
+            let selectedRole = 'supplier';
 
             roleOptions.forEach(option => {
                 option.addEventListener('click', function () {
                     roleOptions.forEach(o => o.classList.remove('active'));
                     this.classList.add('active');
 
-                    const role = this.getAttribute('data-role');
-                    if (role === 'supplier') {
+                    selectedRole = this.getAttribute('data-role');
+                    if (selectedRole === 'supplier') {
                         supplierInfo.style.display = 'block';
                         buyerInfo.style.display = 'none';
                     } else {
@@ -483,7 +511,7 @@
                 const phonePattern = /^1[3-9]\d{9}$/;
 
                 if (!phonePattern.test(phoneInput.value)) {
-                    alert('请输入正确的手机号码');
+                    showError(phoneInput, '请输入正确的手机号码');
                     return;
                 }
 
@@ -491,6 +519,8 @@
                 let seconds = 60;
                 this.disabled = true;
                 this.innerText = `${seconds}秒后重新获取`;
+                this.style.backgroundColor = '#f0f0f0';
+                this.style.color = '#999';
 
                 const timer = setInterval(() => {
                     seconds--;
@@ -500,12 +530,121 @@
                         clearInterval(timer);
                         this.disabled = false;
                         this.innerText = '获取验证码';
+                        this.style.backgroundColor = '';
+                        this.style.color = '';
                     }
                 }, 1000);
 
-                // 这里应该有一个发送验证码的AJAX请求
-                console.log('发送验证码到手机号:', phoneInput.value);
+                // 模拟发送验证码的AJAX请求
+                simulateVerificationCodeSend(phoneInput.value);
+
+                // 显示验证码已发送通知
+                showToast('验证码已发送至您的手机');
             });
+
+            // 模拟验证码发送
+            function simulateVerificationCodeSend(phoneNumber) {
+                // 为了演示，生成一个随机的6位验证码
+                const verificationCode = Math.floor(100000 + Math.random() * 900000);
+                console.log(`向 ${phoneNumber} 发送验证码: ${verificationCode}`);
+
+                // 在真实场景中，这里会是一个AJAX请求发送到服务器
+                // 为了测试方便，我们将验证码保存在localStorage中
+                localStorage.setItem('verificationCode', verificationCode.toString());
+                localStorage.setItem('verificationPhone', phoneNumber);
+
+                // 添加测试按钮（仅在开发环境）
+                if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                    // 删除已存在的测试按钮，避免重复添加
+                    const existingTestBtn = document.querySelector('.test-code-btn');
+                    if (existingTestBtn) {
+                        existingTestBtn.remove();
+                    }
+
+                    const testButton = document.createElement('button');
+                    testButton.type = 'button';
+                    testButton.className = 'test-code-btn';
+                    testButton.textContent = '填充测试验证码';
+                    testButton.style.fontSize = '12px';
+                    testButton.style.padding = '2px 8px';
+                    testButton.style.marginLeft = '10px';
+                    testButton.style.backgroundColor = '#eee';
+                    testButton.style.border = '1px solid #ddd';
+                    testButton.style.borderRadius = '4px';
+                    testButton.style.color = '#666';
+
+                    testButton.addEventListener('click', function () {
+                        const codeInput = document.querySelector('input[pattern="\\d{6}"]');
+                        codeInput.value = verificationCode;
+                        showToast('已填充测试验证码');
+                    });
+
+                    const verificationField = document.querySelector('.verification-code');
+                    verificationField.appendChild(testButton);
+                }
+            }
+
+            // 错误提示函数
+            function showError(inputElement, message) {
+                // 移除原有错误提示
+                const existingError = inputElement.parentElement.querySelector('.error-message');
+                if (existingError) {
+                    existingError.remove();
+                }
+
+                // 创建错误提示元素
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.style.color = '#f44336';
+                errorDiv.style.fontSize = '12px';
+                errorDiv.style.marginTop = '6px';
+                errorDiv.textContent = message;
+
+                // 添加到输入框后面
+                inputElement.parentElement.appendChild(errorDiv);
+
+                // 为输入框添加错误样式
+                inputElement.style.borderColor = '#f44336';
+
+                // 输入时自动清除错误
+                inputElement.addEventListener('input', function () {
+                    const error = this.parentElement.querySelector('.error-message');
+                    if (error) {
+                        error.remove();
+                        this.style.borderColor = '';
+                    }
+                }, { once: true });
+            }
+
+            // 提示消息函数
+            function showToast(message) {
+                // 创建提示元素
+                const toast = document.createElement('div');
+                toast.className = 'toast-message';
+                toast.style.position = 'fixed';
+                toast.style.bottom = '100px';
+                toast.style.left = '50%';
+                toast.style.transform = 'translateX(-50%)';
+                toast.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                toast.style.color = 'white';
+                toast.style.padding = '10px 16px';
+                toast.style.borderRadius = '4px';
+                toast.style.fontSize = '14px';
+                toast.style.zIndex = '10000';
+                toast.textContent = message;
+
+                // 添加到页面
+                document.body.appendChild(toast);
+
+                // 3秒后移除
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 300);
+                }, 3000);
+            }
 
             // 步骤切换功能
             const steps = document.querySelectorAll('.step');
@@ -545,16 +684,39 @@
 
             // 显示指定步骤
             function showStep(stepIndex) {
+                currentStep = stepIndex; // 保存当前步骤
+
                 // 更新步骤指示器
                 steps.forEach((step, index) => {
                     if (index < stepIndex) {
                         step.classList.remove('active');
                         step.classList.add('completed');
+                        // 添加完成标记
+                        if (!step.querySelector('.step-check')) {
+                            const checkmark = document.createElement('i');
+                            checkmark.className = 'fas fa-check step-check';
+                            checkmark.style.position = 'absolute';
+                            checkmark.style.top = '8px';
+                            checkmark.style.right = '8px';
+                            checkmark.style.color = 'white';
+                            checkmark.style.fontSize = '10px';
+                            step.querySelector('.step-number').appendChild(checkmark);
+                        }
                     } else if (index === stepIndex) {
                         step.classList.add('active');
                         step.classList.remove('completed');
+                        // 移除完成标记
+                        const checkmark = step.querySelector('.step-check');
+                        if (checkmark) {
+                            checkmark.remove();
+                        }
                     } else {
                         step.classList.remove('active', 'completed');
+                        // 移除完成标记
+                        const checkmark = step.querySelector('.step-check');
+                        if (checkmark) {
+                            checkmark.remove();
+                        }
                     }
                 });
 
@@ -579,6 +741,19 @@
                     // 隐藏协议复选框
                     registerForm.querySelector('.agreement').style.display = 'none';
 
+                    // 隐藏身份验证部分
+                    const identityVerificationSection = document.querySelector('.identity-verification');
+                    if (identityVerificationSection) {
+                        identityVerificationSection.style.display = 'none';
+                    }
+
+                    // 更新表单按钮文本
+                    nextStepBtn.textContent = '下一步：身份验证';
+
+                    // 更新表单标题
+                    document.querySelector('.register-title').textContent = '创建新账号';
+                    document.querySelector('.register-subtitle').textContent = '加入农产品供销信息平台';
+
                 } else if (stepIndex === 1) {
                     // 第二步：身份信息
                     formGroups.forEach((group, index) => {
@@ -597,6 +772,15 @@
                         }
                     });
 
+                    // 检查并创建身份验证部分
+                    if (!document.querySelector('.identity-verification')) {
+                        createIdentityVerificationSection();
+                    }
+
+                    // 显示身份验证部分
+                    const identityVerificationSection = document.querySelector('.identity-verification');
+                    identityVerificationSection.style.display = 'block';
+
                     // 显示上一步和下一步按钮
                     nextStepBtn.style.display = 'block';
                     prevStepBtn.style.display = 'block';
@@ -605,11 +789,25 @@
                     // 隐藏协议复选框
                     registerForm.querySelector('.agreement').style.display = 'none';
 
+                    // 更新表单按钮文本
+                    nextStepBtn.textContent = '下一步：确认信息';
+                    prevStepBtn.textContent = '返回基本信息';
+
+                    // 更新表单标题
+                    document.querySelector('.register-title').textContent = '选择您的角色';
+                    document.querySelector('.register-subtitle').textContent = '选择适合您的身份及信息';
+
                 } else if (stepIndex === 2) {
                     // 第三步：完成注册
                     formGroups.forEach(group => {
                         group.style.display = 'none';
                     });
+
+                    // 隐藏身份验证部分
+                    const identityVerificationSection = document.querySelector('.identity-verification');
+                    if (identityVerificationSection) {
+                        identityVerificationSection.style.display = 'none';
+                    }
 
                     // 创建用户信息摘要
                     let summaryDiv = registerForm.querySelector('.user-summary');
@@ -621,9 +819,63 @@
                     }
 
                     // 获取用户输入的信息
-                    const username = document.getElementById('username').value;
-                    const phone = registerForm.querySelector('input[type="tel"]').value;
-                    const role = document.querySelector('.role-option.active').textContent;
+                    const username = document.getElementById('username').value || '未设置';
+                    const phone = registerForm.querySelector('input[type="tel"]').value || '未设置';
+                    const role = document.querySelector('.role-option.active').textContent || '未选择';
+
+                    // 获取身份验证信息
+                    const verificationOption = document.querySelector('input[name="verification-option"]:checked');
+                    const verificationStatus = verificationOption ? verificationOption.value : '未认证';
+                    let verificationInfo = '';
+
+                    if (verificationStatus === 'verified') {
+                        verificationInfo = `
+                            <p style="margin: 8px 0; display: flex; justify-content: space-between;">
+                                <span style="color: #666;">认证状态：</span>
+                                <span style="font-weight: 500; color: #4CAF50;">已认证</span>
+                            </p>
+                        `;
+                    } else if (verificationStatus === 'later') {
+                        verificationInfo = `
+                            <p style="margin: 8px 0; display: flex; justify-content: space-between;">
+                                <span style="color: #666;">认证状态：</span>
+                                <span style="font-weight: 500; color: #FF9800;">稍后认证</span>
+                            </p>
+                            <p style="margin: 8px 0; font-size: 12px; color: #888;">注意：未认证用户部分功能将受限</p>
+                        `;
+                    }
+
+                    // 获取角色相关信息
+                    let additionalInfo = '';
+                    if (selectedRole === 'supplier') {
+                        const farmName = document.querySelector('.supplier-info input').value || '未设置';
+                        const category = document.querySelector('.supplier-info select').value || '未选择';
+                        additionalInfo = `
+                            <p style="margin: 8px 0; display: flex; justify-content: space-between;">
+                                <span style="color: #666;">农场/企业：</span>
+                                <span style="font-weight: 500;">${farmName}</span>
+                            </p>
+                            <p style="margin: 8px 0; display: flex; justify-content: space-between;">
+                                <span style="color: #666;">主营产品：</span>
+                                <span style="font-weight: 500;">${category}</span>
+                            </p>
+                            ${verificationInfo}
+                        `;
+                    } else {
+                        const companyName = document.querySelector('.buyer-info input').value || '未设置';
+                        const category = document.querySelector('.buyer-info select').value || '未选择';
+                        additionalInfo = `
+                            <p style="margin: 8px 0; display: flex; justify-content: space-between;">
+                                <span style="color: #666;">企业名称：</span>
+                                <span style="font-weight: 500;">${companyName}</span>
+                            </p>
+                            <p style="margin: 8px 0; display: flex; justify-content: space-between;">
+                                <span style="color: #666;">采购品类：</span>
+                                <span style="font-weight: 500;">${category}</span>
+                            </p>
+                            ${verificationInfo}
+                        `;
+                    }
 
                     // 显示用户信息摘要
                     summaryDiv.innerHTML = `
@@ -641,8 +893,9 @@
                                 <span style="color: #666;">用户角色：</span>
                                 <span style="font-weight: 500;">${role}</span>
                             </p>
+                            ${additionalInfo}
                         </div>
-                        <p style="font-size: 14px; color: #666;">请确认以上信息无误，点击"完成注册"按钮完成账号创建</p>
+                        <p style="font-size: 14px; color: #666; line-height: 1.5;">请确认以上信息无误，点击"完成注册"按钮完成账号创建。注册成功后，您将获得平台提供的所有功能。</p>
                     `;
 
                     // 显示协议和提交按钮，隐藏其他按钮
@@ -650,95 +903,251 @@
                     prevStepBtn.style.display = 'block';
                     nextStepBtn.style.display = 'none';
                     submitBtn.style.display = 'block';
+
+                    // 更新表单按钮文本
+                    prevStepBtn.textContent = '返回身份信息';
+                    submitBtn.textContent = '完成注册';
+
+                    // 更新表单标题
+                    document.querySelector('.register-title').textContent = '确认注册信息';
+                    document.querySelector('.register-subtitle').textContent = '最后一步，确认您的注册信息';
+                }
+            }
+
+            // 创建身份验证部分
+            function createIdentityVerificationSection() {
+                const identityVerification = document.createElement('div');
+                identityVerification.className = 'identity-verification';
+                identityVerification.style.marginTop = '20px';
+                identityVerification.style.padding = '15px';
+                identityVerification.style.border = '1px solid #eee';
+                identityVerification.style.borderRadius = '8px';
+                identityVerification.style.backgroundColor = '#f9f9f9';
+
+                identityVerification.innerHTML = `
+                    <h3 style="font-size: 16px; margin-top: 0; margin-bottom: 12px; color: #333;">身份验证选项</h3>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;">为确保平台安全和提高交易可信度，我们需要验证您的身份信息</p>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: flex; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: white; margin-bottom: 10px; cursor: pointer;">
+                            <input type="radio" name="verification-option" value="verified" style="margin-right: 10px;">
+                            <div>
+                                <div style="font-weight: 500; margin-bottom: 4px;">立即进行身份认证</div>
+                                <div style="font-size: 12px; color: #666;">上传身份证件和营业执照，立即获得完整功能</div>
+                            </div>
+                            <i class="fas fa-check-circle" style="margin-left: auto; color: #4CAF50; font-size: 20px;"></i>
+                        </label>
+                        
+                        <label style="display: flex; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: white; cursor: pointer;">
+                            <input type="radio" name="verification-option" value="later" style="margin-right: 10px;" checked>
+                            <div>
+                                <div style="font-weight: 500; margin-bottom: 4px;">稍后进行认证</div>
+                                <div style="font-size: 12px; color: #666;">您可以在注册后随时完成认证，部分功能将受限</div>
+                            </div>
+                            <i class="fas fa-clock" style="margin-left: auto; color: #FF9800; font-size: 20px;"></i>
+                        </label>
+                    </div>
+                    
+                    <div class="verification-upload" style="display: none; margin-top: 15px; padding: 15px; border: 1px dashed #ddd; border-radius: 6px; background: white;">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px;">上传身份证件正反面</label>
+                            <div style="display: flex; gap: 10px;">
+                                <div class="upload-box" style="width: 120px; height: 80px; border: 1px dashed #ddd; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;">
+                                    <i class="fas fa-id-card" style="font-size: 24px; color: #ccc; margin-bottom: 8px;"></i>
+                                    <span style="font-size: 12px; color: #666;">身份证正面</span>
+                                </div>
+                                <div class="upload-box" style="width: 120px; height: 80px; border: 1px dashed #ddd; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;">
+                                    <i class="fas fa-id-card" style="font-size: 24px; color: #ccc; margin-bottom: 8px;"></i>
+                                    <span style="font-size: 12px; color: #666;">身份证反面</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px;">上传营业执照</label>
+                            <div class="upload-box" style="width: 120px; height: 80px; border: 1px dashed #ddd; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;">
+                                <i class="fas fa-file-alt" style="font-size: 24px; color: #ccc; margin-bottom: 8px;"></i>
+                                <span style="font-size: 12px; color: #666;">营业执照</span>
+                            </div>
+                        </div>
+                        
+                        <p style="font-size: 12px; color: #999; margin-top: 15px; margin-bottom: 0;">
+                            <i class="fas fa-shield-alt"></i> 您的证件信息将被严格保密，仅用于身份验证
+                        </p>
+                    </div>
+                `;
+
+                // 插入到角色选择之后
+                const roleSelector = document.querySelector('.role-selector');
+                const parentElement = roleSelector.parentElement;
+
+                if (parentElement.nextElementSibling && parentElement.nextElementSibling.classList.contains('company-info')) {
+                    parentElement.nextElementSibling.after(identityVerification);
+                } else {
+                    parentElement.after(identityVerification);
                 }
 
-                currentStep = stepIndex;
+                // 添加身份验证选项变更事件
+                const verificationOptions = identityVerification.querySelectorAll('input[name="verification-option"]');
+                const verificationUpload = identityVerification.querySelector('.verification-upload');
+
+                verificationOptions.forEach(option => {
+                    option.addEventListener('change', function () {
+                        if (this.value === 'verified') {
+                            verificationUpload.style.display = 'block';
+                        } else {
+                            verificationUpload.style.display = 'none';
+                        }
+                    });
+                });
+
+                // 添加上传功能
+                const uploadBoxes = identityVerification.querySelectorAll('.upload-box');
+                uploadBoxes.forEach(box => {
+                    box.addEventListener('click', function () {
+                        // 模拟文件上传
+                        simulateFileUpload(this);
+                    });
+                });
+            }
+
+            // 模拟文件上传
+            function simulateFileUpload(element) {
+                // 创建文件输入框
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'image/*';
+                fileInput.style.display = 'none';
+
+                // 添加到页面
+                document.body.appendChild(fileInput);
+
+                // 触发点击
+                fileInput.click();
+
+                // 文件选择事件
+                fileInput.addEventListener('change', function () {
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // 创建预览图
+                            element.innerHTML = `
+                                <div style="width: 100%; height: 100%; background-image: url('${e.target.result}'); background-size: cover; background-position: center;"></div>
+                            `;
+
+                            // 显示上传成功提示
+                            showToast('证件上传成功');
+                        }
+
+                        reader.readAsDataURL(this.files[0]);
+                    }
+
+                    // 移除临时输入框
+                    document.body.removeChild(fileInput);
+                });
             }
 
             // 下一步按钮点击事件
             nextStepBtn.addEventListener('click', function () {
                 // 验证当前步骤的表单
                 if (currentStep === 0) {
+                    let isValid = true;
                     // 验证用户名
-                    const username = document.getElementById('username').value;
-                    if (username.length < 3 || username.length > 20) {
-                        alert('用户名长度应为3-20个字符');
-                        return;
+                    const username = document.getElementById('username');
+                    if (username.value.length < 3 || username.value.length > 20) {
+                        showError(username, '用户名长度应为3-20个字符');
+                        isValid = false;
                     }
 
                     // 验证手机号
-                    const phone = registerForm.querySelector('input[type="tel"]').value;
+                    const phone = registerForm.querySelector('input[type="tel"]');
                     const phonePattern = /^1[3-9]\d{9}$/;
-                    if (!phonePattern.test(phone)) {
-                        alert('请输入正确的手机号码');
-                        return;
+                    if (!phonePattern.test(phone.value)) {
+                        showError(phone, '请输入正确的手机号码');
+                        isValid = false;
                     }
 
                     // 验证验证码
-                    const code = registerForm.querySelector('input[pattern="\\d{6}"]').value;
-                    if (code.length !== 6 || !/^\d{6}$/.test(code)) {
-                        alert('请输入6位数字验证码');
-                        return;
+                    const code = registerForm.querySelector('input[pattern="\\d{6}"]');
+                    if (code.value.length !== 6 || !/^\d{6}$/.test(code.value)) {
+                        showError(code, '请输入6位数字验证码');
+                        isValid = false;
                     }
 
                     // 验证密码
-                    const password = document.getElementById('password').value;
-                    const confirmPassword = document.getElementById('confirmPassword').value;
-
-                    if (password.length < 8) {
-                        alert('密码长度至少为8位');
-                        return;
+                    const password = document.getElementById('password');
+                    if (password.value.length < 8) {
+                        showError(password, '密码长度至少为8位');
+                        isValid = false;
+                    } else if (!/(?=.*[A-Za-z])(?=.*\d)/.test(password.value)) {
+                        showError(password, '密码必须包含字母和数字');
+                        isValid = false;
                     }
 
-                    if (!/(?=.*[A-Za-z])(?=.*\d)/.test(password)) {
-                        alert('密码必须包含字母和数字');
-                        return;
+                    // 验证确认密码
+                    const confirmPassword = document.getElementById('confirmPassword');
+                    if (password.value !== confirmPassword.value) {
+                        showError(confirmPassword, '两次输入的密码不一致');
+                        isValid = false;
                     }
 
-                    if (password !== confirmPassword) {
-                        alert('两次输入的密码不一致');
-                        return;
-                    }
+                    if (!isValid) return;
                 } else if (currentStep === 1) {
+                    let isValid = true;
                     // 验证角色相关信息
                     const role = document.querySelector('.role-option.active').getAttribute('data-role');
 
                     if (role === 'supplier') {
-                        const farmName = document.querySelector('.supplier-info input').value;
-                        const category = document.querySelector('.supplier-info select').value;
+                        const farmName = document.querySelector('.supplier-info input');
+                        const category = document.querySelector('.supplier-info select');
 
-                        if (!farmName) {
-                            alert('请输入农场/企业名称');
-                            return;
+                        if (!farmName.value.trim()) {
+                            showError(farmName, '请输入农场/企业名称');
+                            isValid = false;
                         }
 
-                        if (!category) {
-                            alert('请选择主营产品类别');
-                            return;
+                        if (!category.value) {
+                            showError(category, '请选择主营产品类别');
+                            isValid = false;
                         }
                     } else {
-                        const companyName = document.querySelector('.buyer-info input').value;
-                        const category = document.querySelector('.buyer-info select').value;
+                        const companyName = document.querySelector('.buyer-info input');
+                        const category = document.querySelector('.buyer-info select');
 
-                        if (!companyName) {
-                            alert('请输入企业名称');
-                            return;
+                        if (!companyName.value.trim()) {
+                            showError(companyName, '请输入企业名称');
+                            isValid = false;
                         }
 
-                        if (!category) {
-                            alert('请选择采购需求类别');
-                            return;
+                        if (!category.value) {
+                            showError(category, '请选择采购需求类别');
+                            isValid = false;
                         }
                     }
+
+                    if (!isValid) return;
                 }
 
                 // 前进到下一步
                 showStep(currentStep + 1);
+
+                // 滚动到页面顶部
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
 
             // 上一步按钮点击事件
             prevStepBtn.addEventListener('click', function () {
                 showStep(currentStep - 1);
+
+                // 滚动到页面顶部
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
 
             // 表单提交处理
@@ -748,35 +1157,401 @@
                 // 验证协议是否勾选
                 const agreement = document.getElementById('agreement');
                 if (!agreement.checked) {
-                    alert('请阅读并同意用户协议和隐私政策');
+                    showToast('请阅读并同意用户协议和隐私政策');
                     return;
                 }
 
-                // 获取选择的角色
-                const selectedRole = document.querySelector('.role-option.active').getAttribute('data-role');
+                // 验证身份信息完整性
+                const role = document.querySelector('.role-option.active').getAttribute('data-role');
+                let userData = {
+                    username: document.getElementById('username').value,
+                    phone: registerForm.querySelector('input[type="tel"]').value,
+                    role: role
+                };
+
+                if (role === 'supplier') {
+                    userData.company = document.querySelector('.supplier-info input').value;
+                    userData.category = document.querySelector('.supplier-info select').value;
+                } else {
+                    userData.company = document.querySelector('.buyer-info input').value;
+                    userData.category = document.querySelector('.buyer-info select').value;
+                }
+
+                // 检查是否需要进行手机验证
+                const savedPhone = localStorage.getItem('verificationPhone');
+                const savedCode = localStorage.getItem('verificationCode');
+                const inputCode = registerForm.querySelector('input[pattern="\\d{6}"]').value;
+
+                if (savedPhone !== userData.phone || !savedCode) {
+                    showToast('手机号未通过验证，请重新获取验证码');
+                    return;
+                }
+
+                if (savedCode !== inputCode) {
+                    showToast('验证码错误，请重新输入');
+                    showError(registerForm.querySelector('input[pattern="\\d{6}"]'), '验证码错误');
+                    return;
+                }
 
                 // 显示加载状态
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 注册中...';
                 submitBtn.disabled = true;
 
-                // 存储注册手机号，用于登录页面自动填充
-                const phone = registerForm.querySelector('input[type="tel"]').value;
-                localStorage.setItem('registeredPhone', phone);
+                // 保存用户数据
+                localStorage.setItem('registeredPhone', userData.phone);
+                localStorage.setItem('userRole', role);
+                localStorage.setItem('userData', JSON.stringify(userData));
 
                 // 模拟注册过程
+                simulateRegistrationProcess(userData);
+            });
+
+            // 模拟注册过程
+            function simulateRegistrationProcess(userData) {
+                // 模拟网络延迟和服务器处理时间
                 setTimeout(() => {
-                    submitBtn.textContent = '注册成功!';
+                    // 更新按钮状态
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> 注册成功!';
                     submitBtn.style.backgroundColor = '#4CAF50';
+
+                    // 显示注册成功提示
+                    showToast('注册成功！即将跳转到登录页面');
+
+                    // 添加成功动画
+                    const successAnimation = document.createElement('div');
+                    successAnimation.className = 'success-animation';
+                    successAnimation.innerHTML = `
+                        <div class="checkmark-circle">
+                            <div class="background"></div>
+                            <div class="checkmark draw"></div>
+                        </div>
+                    `;
+                    document.querySelector('.user-summary').after(successAnimation);
+
+                    // 清除验证码信息
+                    localStorage.removeItem('verificationCode');
+                    localStorage.removeItem('verificationPhone');
 
                     // 1.5秒后跳转到登录页面
                     setTimeout(() => {
                         window.location.href = 'login.html?registered=true';
                     }, 1500);
                 }, 2000);
-            });
+            }
 
             // 默认显示第一步
             showStep(0);
+
+            // 动态添加表单样式
+            const style = document.createElement('style');
+            style.textContent = `
+                .step-number.completed { background-color: var(--primary-color); color: white; }
+                .form-group.error input { border-color: #f44336; }
+                .error-message { color: #f44336; font-size: 12px; margin-top: 6px; }
+                
+                /* 步骤指示器完成效果 */
+                .step.completed .step-number {
+                    position: relative;
+                    background-color: var(--primary-color);
+                    border-color: var(--primary-color);
+                    color: white;
+                }
+                
+                /* 平滑切换效果 */
+                .form-group {
+                    transition: opacity 0.3s, transform 0.3s;
+                }
+                
+                /* 输入框获取焦点效果 */
+                .form-input:focus + .input-icon {
+                    color: var(--primary-color);
+                }
+                
+                /* 按钮悬浮效果 */
+                .register-btn:hover {
+                    background-color: #1b7d48;
+                }
+                
+                /* 成功动画 */
+                .success-animation {
+                    margin: 20px auto;
+                    text-align: center;
+                }
+                
+                .checkmark-circle {
+                    width: 80px;
+                    height: 80px;
+                    position: relative;
+                    display: inline-block;
+                    vertical-align: top;
+                }
+                
+                .checkmark-circle .background {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                    background: var(--primary-color);
+                    position: absolute;
+                }
+                
+                .checkmark-circle .checkmark {
+                    border-radius: 5px;
+                }
+                
+                .checkmark-circle .checkmark.draw:after {
+                    animation-delay: 100ms;
+                    animation-duration: 1s;
+                    animation-timing-function: ease;
+                    animation-name: checkmark;
+                    transform: scaleX(-1) rotate(135deg);
+                    animation-fill-mode: forwards;
+                }
+                
+                .checkmark-circle .checkmark:after {
+                    opacity: 1;
+                    height: 40px;
+                    width: 20px;
+                    transform-origin: left top;
+                    border-right: 8px solid white;
+                    border-top: 8px solid white;
+                    content: '';
+                    left: 30px;
+                    top: 45px;
+                    position: absolute;
+                }
+                
+                @keyframes checkmark {
+                    0% {
+                        height: 0;
+                        width: 0;
+                        opacity: 1;
+                    }
+                    20% {
+                        height: 0;
+                        width: 20px;
+                        opacity: 1;
+                    }
+                    40% {
+                        height: 40px;
+                        width: 20px;
+                        opacity: 1;
+                    }
+                    100% {
+                        height: 40px;
+                        width: 20px;
+                        opacity: 1;
+                    }
+                }
+                
+                /* 表单错误抖动动画 */
+                @keyframes shake {
+                    0%, 100% {transform: translateX(0);}
+                    10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+                    20%, 40%, 60%, 80% {transform: translateX(5px);}
+                }
+                
+                .shake {
+                    animation: shake 0.6s;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // 添加用户协议和隐私政策弹窗
+            const agreementLinks = document.querySelectorAll('.agreement a');
+            agreementLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const modalTitle = this.textContent.replace('《', '').replace('》', '');
+                    const modalContent = getAgreementContent(modalTitle);
+
+                    showAgreementModal(modalTitle, modalContent);
+                });
+            });
+
+            function getAgreementContent(title) {
+                // 根据标题返回不同的协议内容
+                switch (title) {
+                    case '用户协议':
+                        return `<div style="line-height: 1.6;">
+                            <p><strong>一、总则</strong></p>
+                            <p>1.1 本协议是您与农产品供销信息平台之间关于使用本平台服务所订立的协议。</p>
+                            <p>1.2 您在使用本平台服务前，应当阅读并同意本协议。一旦您使用本平台服务，即表示您已阅读并同意本协议。</p>
+                            
+                            <p><strong>二、用户注册与账号管理</strong></p>
+                            <p>2.1 用户注册是指您按本平台要求完成注册程序并取得本平台账号的过程。</p>
+                            <p>2.2 您保证注册信息的真实、准确、完整，否则本平台有权暂停或终止向您提供服务。</p>
+                            <p>2.3 您应妥善保管账号密码，对账号下的所有活动负责。</p>
+                            
+                            <p><strong>三、用户行为规范</strong></p>
+                            <p>3.1 您在使用本平台服务过程中，必须遵守中华人民共和国相关法律法规。</p>
+                            <p>3.2 您不得利用本平台从事违法活动，包括但不限于发布违法信息、侵犯他人权益等。</p>
+                            
+                            <p><strong>四、服务变更、中断或终止</strong></p>
+                            <p>4.1 本平台有权在需要时变更、中断或终止服务。</p>
+                            <p>4.2 如您违反本协议，本平台有权终止向您提供服务。</p>
+                            
+                            <p><strong>五、隐私保护</strong></p>
+                            <p>5.1 本平台重视对用户隐私的保护，具体隐私保护政策请参见《隐私政策》。</p>
+                            
+                            <p><strong>六、其他</strong></p>
+                            <p>6.1 本协议的解释及争议解决均适用中华人民共和国法律。</p>
+                            <p>6.2 因使用本平台服务所产生的争议，应友好协商解决；协商不成的，任何一方均有权将争议提交至有管辖权的人民法院诉讼解决。</p>
+                        </div>`;
+                    case '隐私政策':
+                        return `<div style="line-height: 1.6;">
+                            <p><strong>一、信息收集</strong></p>
+                            <p>1.1 我们会收集您在注册和使用过程中主动提供的信息，如姓名、手机号、企业信息等。</p>
+                            <p>1.2 我们会自动收集某些信息，如设备信息、日志信息、位置信息等。</p>
+                            
+                            <p><strong>二、信息使用</strong></p>
+                            <p>2.1 我们使用收集的信息向您提供、维护、保护和改进服务。</p>
+                            <p>2.2 我们可能使用您的联系方式向您发送服务相关通知。</p>
+                            
+                            <p><strong>三、信息共享</strong></p>
+                            <p>3.1 除非获得您的明确同意，我们不会与第三方共享您的个人信息。</p>
+                            <p>3.2 在法律要求或允许的情况下，我们可能会披露您的信息。</p>
+                            
+                            <p><strong>四、信息安全</strong></p>
+                            <p>4.1 我们采取各种安全技术和程序保护您的个人信息不被未经授权的访问、使用或泄露。</p>
+                            
+                            <p><strong>五、您的权利</strong></p>
+                            <p>5.1 您有权访问、更正您的个人信息，也有权要求我们删除您的个人信息。</p>
+                            
+                            <p><strong>六、政策变更</strong></p>
+                            <p>6.1 我们可能会不时更新本隐私政策，更新后的政策将在平台上公布。</p>
+                            <p>6.2 继续使用我们的服务即表示您同意更新后的隐私政策。</p>
+                        </div>`;
+                    case '禁售规则':
+                        return `<div style="line-height: 1.6;">
+                            <p><strong>一、禁售商品类别</strong></p>
+                            <p>本平台禁止发布、销售以下类别的商品：</p>
+                            <p>1.1 违反国家法律法规的农产品</p>
+                            <p>1.2 未通过农产品质量安全认证的产品</p>
+                            <p>1.3 假冒伪劣、过期变质的农产品</p>
+                            <p>1.4 侵犯知识产权的农产品</p>
+                            <p>1.5 非法添加有害物质的农产品</p>
+                            
+                            <p><strong>二、违规处理</strong></p>
+                            <p>2.1 一经发现违规商品，平台将立即下架并视情节轻重给予警告、限制发布、永久禁售等处罚。</p>
+                            <p>2.2 对于违规行为情节严重者，本平台保留追究法律责任的权利。</p>
+                            
+                            <p><strong>三、申诉机制</strong></p>
+                            <p>3.1 如您认为处理结果有误，可通过平台客服提出申诉。</p>
+                            <p>3.2 申诉应提供相关证据，平台将在收到申诉后5个工作日内作出回复。</p>
+                            
+                            <p><strong>四、规则更新</strong></p>
+                            <p>4.1 本规则可能会根据法律法规变化或平台运营需要进行更新。</p>
+                            <p>4.2 规则更新后将在平台公告，继续使用平台即表示您接受更新后的规则。</p>
+                        </div>`;
+                    default:
+                        return '<p>内容加载中...</p>';
+                }
+            }
+
+            function showAgreementModal(title, content) {
+                // 创建模态框容器
+                const modal = document.createElement('div');
+                modal.className = 'agreement-modal';
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                modal.style.zIndex = '10000';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+
+                // 创建模态框内容
+                const modalContent = document.createElement('div');
+                modalContent.className = 'agreement-modal-content';
+                modalContent.style.width = '90%';
+                modalContent.style.maxWidth = '500px';
+                modalContent.style.maxHeight = '80vh';
+                modalContent.style.backgroundColor = 'white';
+                modalContent.style.borderRadius = '8px';
+                modalContent.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+                modalContent.style.overflow = 'hidden';
+                modalContent.style.display = 'flex';
+                modalContent.style.flexDirection = 'column';
+
+                // 创建模态框标题
+                const modalHeader = document.createElement('div');
+                modalHeader.className = 'agreement-modal-header';
+                modalHeader.style.padding = '16px';
+                modalHeader.style.borderBottom = '1px solid #eee';
+                modalHeader.style.display = 'flex';
+                modalHeader.style.justifyContent = 'space-between';
+                modalHeader.style.alignItems = 'center';
+
+                const modalTitle = document.createElement('h3');
+                modalTitle.textContent = title;
+                modalTitle.style.margin = '0';
+                modalTitle.style.fontSize = '18px';
+                modalTitle.style.color = '#333';
+
+                const closeButton = document.createElement('button');
+                closeButton.innerHTML = '&times;';
+                closeButton.style.background = 'none';
+                closeButton.style.border = 'none';
+                closeButton.style.fontSize = '24px';
+                closeButton.style.cursor = 'pointer';
+                closeButton.style.color = '#999';
+                closeButton.addEventListener('click', function () {
+                    document.body.removeChild(modal);
+                });
+
+                modalHeader.appendChild(modalTitle);
+                modalHeader.appendChild(closeButton);
+
+                // 创建模态框主体
+                const modalBody = document.createElement('div');
+                modalBody.className = 'agreement-modal-body';
+                modalBody.style.padding = '16px';
+                modalBody.style.overflowY = 'auto';
+                modalBody.style.maxHeight = 'calc(80vh - 120px)';
+                modalBody.innerHTML = content;
+
+                // 创建模态框底部
+                const modalFooter = document.createElement('div');
+                modalFooter.className = 'agreement-modal-footer';
+                modalFooter.style.padding = '16px';
+                modalFooter.style.borderTop = '1px solid #eee';
+                modalFooter.style.textAlign = 'right';
+
+                const confirmButton = document.createElement('button');
+                confirmButton.textContent = '我已阅读并同意';
+                confirmButton.style.padding = '8px 16px';
+                confirmButton.style.backgroundColor = 'var(--primary-color)';
+                confirmButton.style.color = 'white';
+                confirmButton.style.border = 'none';
+                confirmButton.style.borderRadius = '4px';
+                confirmButton.style.cursor = 'pointer';
+                confirmButton.addEventListener('click', function () {
+                    document.getElementById('agreement').checked = true;
+                    document.body.removeChild(modal);
+                });
+
+                modalFooter.appendChild(confirmButton);
+
+                // 组装模态框
+                modalContent.appendChild(modalHeader);
+                modalContent.appendChild(modalBody);
+                modalContent.appendChild(modalFooter);
+                modal.appendChild(modalContent);
+
+                // 添加到页面
+                document.body.appendChild(modal);
+
+                // 点击模态框外部关闭
+                modal.addEventListener('click', function (event) {
+                    if (event.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                });
+            }
         });
     </script>
 </body>

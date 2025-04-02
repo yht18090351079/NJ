@@ -448,70 +448,25 @@ select {
     font-size: var(--font-size-sm);
 }
 
-/* 手机框容器 */
-.phone-container {
-    width: 375px;
-    height: 812px;
-    margin: 20px auto;
-    background: #fff;
-    border-radius: 40px;
-    position: relative;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    border: 12px solid #333;
-    display: flex;
-    flex-direction: column;
-}
-
-/* 手机顶部刘海 */
-.phone-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px;
-    height: 25px;
-    background: #333;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    z-index: 100;
-}
-
-/* 手机底部按钮 */
-.phone-container::after {
-    content: '';
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-    height: 5px;
-    background: #333;
-    border-radius: 3px;
-    z-index: 101;
-}
-
-/* 页面内容区域 */
+/* 移除手机容器相关样式，更新页面布局样式 */
 .page-content {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    background-color: #f8f9fa;
     position: relative;
-    background: var(--bg-color);
-    padding-bottom: 56px;
-    /* 为底部导航栏留出空间 */
 }
 
-/* 底部导航栏 */
+/* 底部导航栏样式更新 */
 .bottom-navbar {
-    height: 80px;
-    background-color: var(--white);
-    border-top: 1px solid var(--border-color);
-    width: 100%;
-    flex-shrink: 0;
-    padding-bottom: 12px;
-    /* 为手机底部横幅留出空间 */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 8px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 100;
 }
 
 /* 导航项目容器 */
@@ -578,18 +533,6 @@ select {
 
 /* 调整响应式布局 */
 @media (max-width: 375px) {
-    .phone-container {
-        margin: 0 auto;
-        height: 100vh;
-        border-radius: 0;
-        border: none;
-    }
-
-    .phone-container::before,
-    .phone-container::after {
-        display: none;
-    }
-
     .product-grid {
         gap: var(--spacing-sm);
     }
