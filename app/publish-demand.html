@@ -14,6 +14,17 @@
     <!-- 主题色 -->
     <meta name="theme-color" content="#2E8B57">
     <style>
+        /* 隐藏底部导航栏 */
+        .bottom-navbar {
+            display: none !important;
+        }
+
+        /* 调整页面内容区域 */
+        .page-content {
+            padding-bottom: 0 !important;
+            min-height: 100vh;
+        }
+
         /* 发布表单样式 */
         .form-card {
             background-color: var(--white);
@@ -212,7 +223,7 @@
         }
 
         /* 角色切换模态框样式优化 */
-        .role-modal {
+        .app-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -225,14 +236,14 @@
             transition: opacity 0.3s ease;
         }
 
-        .role-modal.active {
+        .app-modal.active {
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 1;
         }
 
-        .role-modal-content {
+        .app-modal-content {
             background-color: var(--white);
             border-radius: var(--radius-lg);
             padding: 25px;
@@ -243,27 +254,182 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
-        .role-modal.active .role-modal-content {
+        .app-modal.active .app-modal-content {
             transform: translateY(0);
         }
 
-        .role-modal-content h3 {
+        .app-modal-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .app-modal-icon.success {
+            background-color: #E8F5E9;
+            color: var(--primary-color);
+        }
+
+        .app-modal-icon.confirm {
+            background-color: #FFF3E0;
+            color: #F57C00;
+        }
+
+        .app-modal-icon i {
+            font-size: 24px;
+        }
+
+        .app-modal-title {
             text-align: center;
-            margin-bottom: 20px;
-            color: var(--text-primary);
             font-size: 18px;
             font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .app-modal-message {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .app-modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .app-modal-button {
+            padding: 10px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .app-modal-button.confirm {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .app-modal-button.confirm:hover {
+            background-color: #236b4a;
+        }
+
+        .app-modal-button.cancel {
+            background-color: #f5f5f5;
+            color: var(--text-secondary);
+        }
+
+        .app-modal-button.cancel:hover {
+            background-color: #e0e0e0;
+        }
+
+        .app-modal-button.full {
+            width: 100%;
+        }
+
+        /* 删除角色切换模态框的重复样式 */
+        .role-modal {
+            display: none;
+        }
+
+        /* 搜索建议下拉框样式 */
+        .search-input-container {
             position: relative;
         }
 
-        .role-modal-content h3::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 3px;
-            background-color: var(--primary-color);
-            margin: 10px auto 0;
-            border-radius: 2px;
+        .suggestions-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .suggestion-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 产品特性标签样式 */
+        .feature-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .feature-tag input[type="checkbox"] {
+            display: none;
+        }
+
+        .feature-tag span {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .feature-tag input[type="checkbox"]:checked+span {
+            color: var(--primary-color);
+        }
+
+        .feature-tag:hover {
+            border-color: var(--primary-color);
+        }
+
+        .feature-tag input[type="checkbox"]:checked~.feature-tag {
+            background-color: #E8F5E9;
+            border-color: var(--primary-color);
+        }
+
+        .preset-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .preset-feature-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--white);
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .preset-feature-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .preset-feature-btn.selected {
+            background-color: #E8F5E9;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
         }
     </style>
 </head>
@@ -294,11 +460,12 @@
                 <!-- 发布需求表单区域 -->
                 <section class="form-section" style="padding: var(--spacing-md); background-color: #f8f9fa;">
                     <form id="demandForm" class="form-card">
-                        <h2 class="form-title"><i class="fas fa-shopping-cart"></i> 农产品采购需求</h2>
-
-                        <div class="form-group">
-                            <label class="form-label required" for="product-name">需求产品</label>
-                            <input type="text" id="product-name" class="form-input" placeholder="请输入您需要的产品名称" required>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md); padding-bottom: var(--spacing-sm); border-bottom: 1px solid var(--border-color);">
+                            <h2 class="form-title" style="margin: 0; border: none;"><i class="fas fa-shopping-cart"></i>
+                                农产品采购需求</h2>
+                            <button type="button" id="fillTestDataBtn"
+                                style="background: none; border: none; color: var(--text-secondary); font-size: 14px; padding: 4px 8px;">测试填充</button>
                         </div>
 
                         <div class="form-group">
@@ -312,6 +479,48 @@
                                 <option value="aquatic">水产品</option>
                                 <option value="other">其他</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="product-name">需求产品</label>
+                            <div class="search-input-container">
+                                <input type="text" id="product-name" class="form-input" placeholder="请输入或搜索产品名称"
+                                    required>
+                                <div id="product-suggestions" class="suggestions-dropdown" style="display: none;">
+                                    <!-- 搜索建议将在这里动态显示 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="delivery-region">收货地区</label>
+                            <div style="display: flex; gap: 8px;">
+                                <select id="province" class="form-select" style="flex: 1;" required>
+                                    <option value="">省份</option>
+                                </select>
+                                <select id="city" class="form-select" style="flex: 1;" required>
+                                    <option value="">城市</option>
+                                </select>
+                                <select id="district" class="form-select" style="flex: 1;" required>
+                                    <option value="">区县</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">产品特性</label>
+                            <div class="preset-features" style="margin-bottom: 8px;">
+                                <button type="button" class="preset-feature-btn" data-feature="有机认证">有机认证</button>
+                                <button type="button" class="preset-feature-btn" data-feature="绿色食品">绿色食品</button>
+                                <button type="button" class="preset-feature-btn" data-feature="无公害">无公害</button>
+                                <button type="button" class="preset-feature-btn" data-feature="地理标志">地理标志</button>
+                                <button type="button" class="preset-feature-btn" data-feature="新鲜采摘">新鲜采摘</button>
+                                <button type="button" class="preset-feature-btn" data-feature="冷链配送">冷链配送</button>
+                            </div>
+                            <div class="tags-input">
+                                <input type="text" class="tag-input" placeholder="输入自定义特性并回车">
+                            </div>
+                            <p class="form-help">点击添加预设特性或输入自定义特性</p>
                         </div>
 
                         <div class="form-group">
@@ -363,16 +572,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">需求标签</label>
-                            <div class="tags-input">
-                                <div class="tag">长期合作 <i class="fas fa-times"></i></div>
-                                <div class="tag">当季 <i class="fas fa-times"></i></div>
-                                <input type="text" class="tag-input" placeholder="输入需求标签并回车">
-                            </div>
-                            <p class="form-help">最多可添加5个标签</p>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-label required" for="contact-name">联系人</label>
                             <input type="text" id="contact-name" class="form-input" placeholder="请输入联系人姓名" required>
                         </div>
@@ -387,7 +586,11 @@
                             <input type="text" id="wechat" class="form-input" placeholder="请输入微信号（选填）">
                         </div>
 
-                        <button type="submit" class="submit-btn">发布采购需求</button>
+                        <div class="form-actions" style="display: flex; gap: var(--spacing-md);">
+                            <button type="button" id="saveDraftBtn" class="submit-btn"
+                                style="flex: 1; background-color: var(--white); color: var(--primary-color); border: 2px solid var(--primary-color);">保存草稿</button>
+                            <button type="submit" class="submit-btn" style="flex: 1;">发布采购需求</button>
+                        </div>
                     </form>
                 </section>
             </main>
@@ -422,6 +625,78 @@
         </nav>
     </div>
 
+    <!-- 确认发布弹窗 -->
+    <div class="app-modal" id="confirmPublishModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon confirm">
+                <i class="fas fa-exclamation"></i>
+            </div>
+            <div class="app-modal-title">确认发布</div>
+            <div class="app-modal-message">请确认您填写的信息准确无误，发布后将立即对外展示。</div>
+            <div class="app-modal-buttons">
+                <button id="cancelPublishBtn" class="app-modal-button cancel">取消</button>
+                <button id="confirmPublishBtn" class="app-modal-button confirm">确认发布</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发布成功弹窗 -->
+    <div class="app-modal" id="successModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon success">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="app-modal-title">发布成功</div>
+            <div class="app-modal-message">您的采购需求已提交成功，正在等待审核</div>
+            <div class="app-modal-buttons">
+                <button id="successBtn" class="app-modal-button confirm full">我知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 保存成功弹窗 -->
+    <div class="app-modal" id="saveSuccessModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon success">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="app-modal-title">保存成功</div>
+            <div class="app-modal-message">已保存为草稿，您可以稍后继续编辑</div>
+            <div class="app-modal-buttons">
+                <button id="saveDoneBtn" class="app-modal-button confirm full">我知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 离开确认 Modal -->
+    <div class="app-modal" id="leaveConfirmModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon confirm">
+                <i class="fas fa-exclamation"></i>
+            </div>
+            <div class="app-modal-title">确认离开</div>
+            <div class="app-modal-message">您填写的内容尚未保存，确定要离开吗？</div>
+            <div class="app-modal-buttons">
+                <button id="cancelLeaveBtn" class="app-modal-button cancel">取消</button>
+                <button id="confirmLeaveBtn" class="app-modal-button confirm">确认离开</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 标签限制提示 Modal -->
+    <div class="app-modal" id="tagLimitModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon confirm">
+                <i class="fas fa-exclamation"></i>
+            </div>
+            <div class="app-modal-title">提示</div>
+            <div class="app-modal-message">最多可添加5个标签</div>
+            <div class="app-modal-buttons">
+                <button id="tagLimitBtn" class="app-modal-button confirm full">我知道了</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 引入主JavaScript文件 -->
     <script src="js/main.js"></script>
     <!-- 引入应用程序交互脚本 -->
@@ -431,6 +706,31 @@
             // 获取底部导航栏的市场链接和文本元素
             const marketText = document.getElementById('marketText');
             const marketLink = document.getElementById('marketLink');
+            let formChanged = false;  // 添加表单变更标记
+
+            // 获取表单和相关元素
+            const form = document.getElementById('demandForm');
+            const confirmPublishModal = document.getElementById('confirmPublishModal');
+            const successModal = document.getElementById('successModal');
+            const successBtn = document.getElementById('successBtn');
+
+            // 监听所有表单元素的变化
+            const formElements = form.querySelectorAll('input, select, textarea');
+            formElements.forEach(element => {
+                element.addEventListener('change', () => {
+                    formChanged = true;
+                });
+                element.addEventListener('input', () => {
+                    formChanged = true;
+                });
+            });
+
+            // 监听标签添加和删除
+            const tagsContainer = document.querySelector('.tags-input');
+            const observer = new MutationObserver(() => {
+                formChanged = true;
+            });
+            observer.observe(tagsContainer, { childList: true });
 
             // 采购商访问此页面，设置底部导航栏的市场链接为供应大厅
             if (marketLink && marketText) {
@@ -439,53 +739,371 @@
             }
 
             // 表单提交处理
-            const form = document.getElementById('demandForm');
             if (form) {
                 form.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    alert('采购需求提交成功，等待审核');
-                    window.location.href = 'publish.html';
+                    // 显示确认发布弹窗
+                    confirmPublishModal.classList.add('active');
                 });
             }
 
-            // 标签输入处理
-            const tagInputs = document.querySelectorAll('.tag-input');
-            tagInputs.forEach(input => {
-                input.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' && this.value.trim() !== '') {
-                        e.preventDefault();
+            // 保存草稿按钮点击事件
+            document.getElementById('saveDraftBtn').addEventListener('click', function () {
+                // 收集表单数据
+                const formData = {
+                    productName: document.getElementById('product-name').value,
+                    category: document.getElementById('product-category').value,
+                    minPrice: document.getElementById('min-price').value,
+                    maxPrice: document.getElementById('max-price').value,
+                    priceUnit: document.getElementById('price-unit').value,
+                    quantity: document.getElementById('quantity').value,
+                    quantityUnit: document.getElementById('quantity-unit').value,
+                    requirements: document.getElementById('requirements').value,
+                    deliveryAddress: document.getElementById('delivery-address').value,
+                    deliveryTime: document.getElementById('delivery-time').value,
+                    contactName: document.getElementById('contact-name').value,
+                    contact: document.getElementById('contact').value,
+                    wechat: document.getElementById('wechat').value,
+                    tags: Array.from(document.querySelectorAll('.tags-input .tag')).map(tag =>
+                        tag.textContent.replace(/\s*×\s*$/, '').trim()
+                    )
+                };
 
-                        const tagsContainer = this.closest('.tags-input');
-                        const tagsCount = tagsContainer.querySelectorAll('.tag').length;
+                // 保存到本地存储
+                localStorage.setItem('demandDraft', JSON.stringify(formData));
+                formChanged = false;  // 保存后重置变更标记
 
-                        // 限制最多5个标签
-                        if (tagsCount < 5) {
+                // 显示保存成功弹窗
+                const saveSuccessModal = document.getElementById('saveSuccessModal');
+                saveSuccessModal.classList.add('active');
+            });
+
+            // 保存成功确认按钮点击事件
+            document.getElementById('saveDoneBtn').addEventListener('click', function () {
+                document.getElementById('saveSuccessModal').classList.remove('active');
+                window.location.href = 'publish.html?status=inactive';
+            });
+
+            // 确认发布按钮点击事件
+            document.getElementById('confirmPublishBtn').addEventListener('click', function () {
+                // 隐藏确认弹窗
+                confirmPublishModal.classList.remove('active');
+                // 显示发布成功弹窗
+                successModal.classList.add('active');
+                // 重置表单变更标记
+                formChanged = false;
+            });
+
+            // 取消发布按钮点击事件
+            document.getElementById('cancelPublishBtn').addEventListener('click', function () {
+                confirmPublishModal.classList.remove('active');
+            });
+
+            // 发布成功时重置表单变更标记
+            successBtn.addEventListener('click', function () {
+                formChanged = false;  // 发布成功后重置变更标记
+                successModal.classList.remove('active');
+                window.location.href = 'publish.html';
+            });
+
+            // 点击模态框外部或按钮关闭
+            [confirmPublishModal, successModal, saveSuccessModal, leaveConfirmModal, tagLimitModal].forEach(modal => {
+                // 点击模态框外部关闭
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+
+            // 确认离开按钮点击事件
+            document.getElementById('confirmLeaveBtn').addEventListener('click', function () {
+                leaveConfirmModal.classList.remove('active');
+                window.location.href = 'publish.html?status=inactive';
+            });
+
+            // 取消离开按钮点击事件
+            document.getElementById('cancelLeaveBtn').addEventListener('click', function () {
+                leaveConfirmModal.classList.remove('active');
+            });
+
+            // 返回按钮点击事件
+            document.querySelector('.top-navbar a').addEventListener('click', function (e) {
+                if (formChanged) {
+                    e.preventDefault();
+                    document.getElementById('leaveConfirmModal').classList.add('active');
+                }
+            });
+
+            // 产品搜索建议功能
+            const productNameInput = document.getElementById('product-name');
+            const suggestionsDropdown = document.getElementById('product-suggestions');
+            const productDatabase = {
+                'fruits': ['红富士苹果', '黄元帅苹果', '秦冠梨', '库尔勒香梨', '砀山酥梨'],
+                'vegetables': ['西红柿', '黄瓜', '茄子', '青椒', '土豆'],
+                'grains': ['小麦', '玉米', '水稻', '大豆', '高粱'],
+                'meat': ['生鲜猪肉', '鸡肉', '鸭肉', '牛肉', '羊肉'],
+                'aquatic': ['草鱼', '鲫鱼', '鲤鱼', '虾', '蟹']
+            };
+
+            productNameInput.addEventListener('input', function () {
+                const category = document.getElementById('product-category').value;
+                const searchText = this.value.trim().toLowerCase();
+
+                if (!searchText) {
+                    suggestionsDropdown.style.display = 'none';
+                    return;
+                }
+
+                const suggestions = [];
+                if (category) {
+                    suggestions.push(...productDatabase[category].filter(product =>
+                        product.toLowerCase().includes(searchText)
+                    ));
+                } else {
+                    Object.values(productDatabase).forEach(products => {
+                        suggestions.push(...products.filter(product =>
+                            product.toLowerCase().includes(searchText)
+                        ));
+                    });
+                }
+
+                if (suggestions.length > 0) {
+                    suggestionsDropdown.innerHTML = suggestions.map(product =>
+                        `<div class="suggestion-item">${product}</div>`
+                    ).join('');
+                    suggestionsDropdown.style.display = 'block';
+                } else {
+                    suggestionsDropdown.style.display = 'none';
+                }
+            });
+
+            // 点击建议项填充输入框
+            suggestionsDropdown.addEventListener('click', function (e) {
+                if (e.target.classList.contains('suggestion-item')) {
+                    productNameInput.value = e.target.textContent;
+                    suggestionsDropdown.style.display = 'none';
+                    formChanged = true;
+                }
+            });
+
+            // 点击外部关闭建议下拉框
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('.search-input-container')) {
+                    suggestionsDropdown.style.display = 'none';
+                }
+            });
+
+            // 地区级联选择
+            const provinceSelect = document.getElementById('province');
+            const citySelect = document.getElementById('city');
+            const districtSelect = document.getElementById('district');
+
+            // 地区数据
+            const regions = {
+                '广东省': {
+                    '广州市': ['天河区', '海珠区', '越秀区', '白云区', '黄埔区', '荔湾区'],
+                    '深圳市': ['福田区', '罗湖区', '南山区', '宝安区', '龙岗区']
+                },
+                '山东省': {
+                    '青岛市': ['市南区', '市北区', '李沧区', '城阳区'],
+                    '济南市': ['历下区', '市中区', '槐荫区', '天桥区']
+                },
+                '江苏省': {
+                    '南京市': ['玄武区', '秦淮区', '建邺区', '鼓楼区'],
+                    '苏州市': ['姑苏区', '虎丘区', '吴中区', '相城区']
+                }
+            };
+
+            // 填充省份选项
+            Object.keys(regions).forEach(province => {
+                const option = new Option(province, province);
+                provinceSelect.add(option);
+            });
+
+            // 省份变化时更新城市
+            provinceSelect.addEventListener('change', function () {
+                citySelect.innerHTML = '<option value="">城市</option>';
+                districtSelect.innerHTML = '<option value="">区县</option>';
+
+                if (this.value) {
+                    Object.keys(regions[this.value]).forEach(city => {
+                        const option = new Option(city, city);
+                        citySelect.add(option);
+                    });
+                }
+                formChanged = true;
+            });
+
+            // 城市变化时更新区县
+            citySelect.addEventListener('change', function () {
+                districtSelect.innerHTML = '<option value="">区县</option>';
+
+                if (this.value && provinceSelect.value) {
+                    regions[provinceSelect.value][this.value].forEach(district => {
+                        const option = new Option(district, district);
+                        districtSelect.add(option);
+                    });
+                }
+                formChanged = true;
+            });
+
+            // 区县选择变化时标记表单变更
+            districtSelect.addEventListener('change', function () {
+                formChanged = true;
+            });
+
+            // 产品特性预设按钮点击处理
+            document.querySelectorAll('.preset-feature-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const feature = this.dataset.feature;
+                    const tagsContainer = document.querySelector('.tags-input');
+                    const existingTags = Array.from(tagsContainer.querySelectorAll('.tag'))
+                        .map(tag => tag.textContent.trim());
+
+                    // 检查是否已存在该特性
+                    if (!existingTags.includes(feature)) {
+                        // 检查标签数量限制
+                        if (existingTags.length < 5) {
                             const tag = document.createElement('div');
                             tag.className = 'tag';
-                            tag.innerHTML = this.value.trim() + ' <i class="fas fa-times"></i>';
+                            tag.innerHTML = feature + ' <i class="fas fa-times"></i>';
 
                             // 插入新标签
-                            tagsContainer.insertBefore(tag, this);
-
-                            // 清空输入框
-                            this.value = '';
+                            tagsContainer.insertBefore(tag, tagsContainer.querySelector('.tag-input'));
 
                             // 添加删除标签的点击事件
                             tag.querySelector('i').addEventListener('click', function () {
                                 tag.remove();
+                                formChanged = true;
                             });
+
+                            formChanged = true;
                         } else {
-                            alert('最多添加5个标签');
+                            // 显示标签限制提示
+                            tagLimitModal.classList.add('active');
                         }
                     }
                 });
             });
 
-            // 删除标签点击事件
-            document.querySelectorAll('.tag i').forEach(icon => {
-                icon.addEventListener('click', function () {
-                    this.parentElement.remove();
+            // 测试数据填充功能
+            document.getElementById('fillTestDataBtn').addEventListener('click', async function () {
+                // 设置产品分类
+                document.getElementById('product-category').value = 'vegetables';
+
+                // 填充产品名称
+                document.getElementById('product-name').value = '西红柿';
+
+                // 设置地区（广东省广州市天河区）
+                document.getElementById('province').value = '广东省';
+                // 触发省份change事件以更新城市列表
+                provinceSelect.dispatchEvent(new Event('change'));
+
+                // 等待城市列表更新
+                await new Promise(resolve => setTimeout(resolve, 100));
+                document.getElementById('city').value = '广州市';
+                // 触发城市change事件以更新区县列表
+                citySelect.dispatchEvent(new Event('change'));
+
+                // 等待区县列表更新
+                await new Promise(resolve => setTimeout(resolve, 100));
+                document.getElementById('district').value = '天河区';
+
+                // 填充价格信息
+                document.getElementById('min-price').value = '3.5';
+                document.getElementById('max-price').value = '4.5';
+                document.getElementById('price-unit').value = 'per-jin';
+
+                // 填充采购量
+                document.getElementById('quantity').value = '1000';
+                document.getElementById('quantity-unit').value = 'jin';
+
+                // 填充质量要求
+                document.getElementById('requirements').value = '要求新鲜度高，颜色红润，果形圆正，无裂果，无病虫害，无机械损伤。';
+
+                // 填充收货地址
+                document.getElementById('delivery-address').value = '广东省广州市天河区天河路123号';
+
+                // 设置到货时间为3天后
+                const deliveryDate = new Date();
+                deliveryDate.setDate(deliveryDate.getDate() + 3);
+                document.getElementById('delivery-time').value = deliveryDate.toISOString().split('T')[0];
+
+                // 填充联系信息
+                document.getElementById('contact-name').value = '李经理';
+                document.getElementById('contact').value = '13800138000';
+                document.getElementById('wechat').value = 'manager_li';
+
+                // 清除现有产品特性标签
+                const tagsContainer = document.querySelector('.tags-input');
+                const existingTags = tagsContainer.querySelectorAll('.tag');
+                existingTags.forEach(tag => tag.remove());
+
+                // 添加预设的产品特性标签
+                const testFeatures = ['新鲜采摘', '无公害', '冷链配送'];
+                testFeatures.forEach(feature => {
+                    const tag = document.createElement('div');
+                    tag.className = 'tag';
+                    tag.innerHTML = feature + ' <i class="fas fa-times"></i>';
+                    tagsContainer.insertBefore(tag, tagsContainer.querySelector('.tag-input'));
+
+                    // 添加删除标签的点击事件
+                    tag.querySelector('i').addEventListener('click', function () {
+                        tag.remove();
+                        formChanged = true;
+                    });
                 });
+
+                // 触发表单变更
+                formChanged = true;
+            });
+
+            // 标签输入处理
+            const tagInput = document.querySelector('.tag-input');
+            tagInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // 阻止表单提交
+
+                    const value = this.value.trim();
+                    if (value) {
+                        const tagsContainer = this.closest('.tags-input');
+                        const existingTags = Array.from(tagsContainer.querySelectorAll('.tag'))
+                            .map(tag => tag.textContent.trim());
+
+                        // 检查是否已存在该特性
+                        if (!existingTags.includes(value)) {
+                            // 检查标签数量限制
+                            if (existingTags.length < 5) {
+                                const tag = document.createElement('div');
+                                tag.className = 'tag';
+                                tag.innerHTML = value + ' <i class="fas fa-times"></i>';
+
+                                // 插入新标签
+                                tagsContainer.insertBefore(tag, this);
+
+                                // 清空输入框
+                                this.value = '';
+
+                                // 添加删除标签的点击事件
+                                tag.querySelector('i').addEventListener('click', function () {
+                                    tag.remove();
+                                    formChanged = true;
+                                });
+
+                                formChanged = true;
+                            } else {
+                                // 显示标签限制提示
+                                tagLimitModal.classList.add('active');
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 标签限制提示确认按钮点击事件
+            document.getElementById('tagLimitBtn').addEventListener('click', function () {
+                tagLimitModal.classList.remove('active');
             });
         });
     </script>

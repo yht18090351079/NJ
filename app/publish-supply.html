@@ -22,6 +22,8 @@
             padding: var(--spacing-lg);
             box-shadow: var(--shadow-sm);
             transition: box-shadow 0.3s ease;
+            margin-bottom: 80px;
+            /* 确保底部有足够空间 */
         }
 
         .form-card:hover {
@@ -35,6 +37,7 @@
             margin-bottom: var(--spacing-md);
             display: flex;
             align-items: center;
+            justify-content: space-between;
             padding-bottom: var(--spacing-sm);
             border-bottom: 1px solid var(--border-color);
         }
@@ -284,13 +287,38 @@
             border-radius: var(--radius-lg);
             font-size: var(--font-size-md);
             font-weight: bold;
-            margin-top: var(--spacing-xl);
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
         .submit-btn:hover {
             background-color: #236b4a;
+        }
+
+        /* 按钮组样式 */
+        .button-group {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .save-btn {
+            display: block;
+            width: 100%;
+            padding: var(--spacing-md) 0;
+            background-color: var(--white);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-md);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background-color: #f0f8f4;
         }
 
         /* 角色切换模态框样式优化 */
@@ -347,6 +375,309 @@
             margin: 10px auto 0;
             border-radius: 2px;
         }
+
+        /* 新增样式 */
+        .autocomplete-wrapper {
+            position: relative;
+        }
+
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .autocomplete-item {
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #F5F5F5;
+        }
+
+        .autocomplete-item.add-new {
+            color: var(--primary-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .autocomplete-item.add-new i {
+            margin-right: var(--spacing-sm);
+        }
+
+        .autocomplete-item.no-results {
+            color: var(--text-tertiary);
+            font-style: italic;
+            cursor: default;
+        }
+
+        .autocomplete-item.no-results:hover {
+            background-color: transparent;
+        }
+
+        .product-category {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-sm);
+        }
+
+        .location-selector {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .predefined-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tag-suggestion {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background-color: #F5F5F5;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tag-suggestion:hover {
+            background-color: #E8F5E9;
+            color: var(--primary-color);
+        }
+
+        .selected-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #E8F5E9;
+            color: var(--primary-color);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            margin-right: var(--spacing-xs);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .tag i {
+            margin-left: var(--spacing-xs);
+            cursor: pointer;
+        }
+
+        /* 确认发布弹窗样式 */
+        .app-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .app-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .app-modal-content {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            width: 90%;
+            max-width: 320px;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .app-modal.active .app-modal-content {
+            transform: translateY(0);
+        }
+
+        .app-modal-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto var(--spacing-md);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-modal-icon.confirm {
+            background-color: #FFF3E0;
+        }
+
+        .app-modal-icon.success {
+            background-color: #E8F5E9;
+        }
+
+        .app-modal-icon i {
+            font-size: 24px;
+        }
+
+        .app-modal-icon.confirm i {
+            color: #FF9800;
+        }
+
+        .app-modal-icon.success i {
+            color: var(--primary-color);
+        }
+
+        .app-modal-title {
+            font-size: var(--font-size-lg);
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .app-modal-message {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.5;
+        }
+
+        .app-modal-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+
+        .app-modal-btn {
+            padding: var(--spacing-sm) var(--spacing-xl);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .app-modal-btn.cancel {
+            background-color: var(--white);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .app-modal-btn.cancel:hover {
+            background-color: #f5f5f5;
+        }
+
+        .app-modal-btn.confirm {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+        }
+
+        .app-modal-btn.confirm:hover {
+            background-color: #236b4a;
+        }
+
+        .app-modal-btn.full {
+            width: 100%;
+        }
+
+        .page-content {
+            position: relative;
+            height: 100%;
+            overflow-y: auto;
+            padding-bottom: 70px;
+            /* 为底部导航栏留出空间 */
+        }
+
+        .main-content {
+            padding-bottom: var(--spacing-xl);
+        }
+
+        .form-section {
+            padding: var(--spacing-md);
+            background-color: #f8f9fa;
+            margin-bottom: 60px;
+            /* 确保表单底部有足够空间 */
+        }
+
+        .bottom-navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            border-top: 1px solid var(--border-color);
+            z-index: 100;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* 调整手机容器的滚动行为 */
+        .phone-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            margin: 0 auto;
+            background-color: var(--background-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 确保主要内容区域可以滚动 */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            /* 在iOS上提供平滑滚动 */
+        }
+
+        .test-fill-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background-color: #f0f0f0;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .test-fill-btn:hover {
+            background-color: #e0e0e0;
+            color: var(--text-primary);
+        }
+
+        /* 隐藏底部导航栏 */
+        .bottom-navbar {
+            display: none !important;
+        }
+
+        /* 调整页面内容区域 */
+        .page-content {
+            padding-bottom: 0 !important;
+            min-height: 100vh;
+        }
     </style>
 </head>
 
@@ -376,12 +707,10 @@
                 <!-- 发布供应表单区域 -->
                 <section class="form-section" style="padding: var(--spacing-md); background-color: #f8f9fa;">
                     <form id="supplyForm" class="form-card">
-                        <h2 class="form-title"><i class="fas fa-box"></i> 农产品供应信息</h2>
-
-                        <div class="form-group">
-                            <label class="form-label required" for="product-name">产品名称</label>
-                            <input type="text" id="product-name" class="form-input" placeholder="请输入产品名称" required>
-                        </div>
+                        <h2 class="form-title">
+                            <div><i class="fas fa-box"></i> 农产品供应信息</div>
+                            <button type="button" class="test-fill-btn" id="testFillBtn">填充测试</button>
+                        </h2>
 
                         <div class="form-group">
                             <label class="form-label required" for="product-category">产品分类</label>
@@ -394,6 +723,32 @@
                                 <option value="aquatic">水产品</option>
                                 <option value="other">其他</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="product-name">产品名称</label>
+                            <div class="autocomplete-wrapper">
+                                <input type="text" id="product-name" class="form-input" placeholder="请输入或选择产品名称"
+                                    required>
+                                <div class="autocomplete-dropdown" style="display: none;">
+                                    <!-- 自动完成选项将通过 JavaScript 动态添加 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="location">产地</label>
+                            <div class="location-selector">
+                                <select id="province" class="form-select" style="flex: 1;" required>
+                                    <option value="">省份</option>
+                                </select>
+                                <select id="city" class="form-select" style="flex: 1;" required>
+                                    <option value="">城市</option>
+                                </select>
+                                <select id="district" class="form-select" style="flex: 1;" required>
+                                    <option value="">区县</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -425,18 +780,20 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label required" for="location">产地</label>
-                            <input type="text" id="location" class="form-input" placeholder="请输入产地" required>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-label">产品特性</label>
                             <div class="tags-input">
-                                <div class="tag">无公害 <i class="fas fa-times"></i></div>
-                                <div class="tag">新鲜 <i class="fas fa-times"></i></div>
+                                <div class="predefined-tags">
+                                    <span class="tag-suggestion" data-tag="无公害">无公害</span>
+                                    <span class="tag-suggestion" data-tag="有机认证">有机认证</span>
+                                    <span class="tag-suggestion" data-tag="绿色食品">绿色食品</span>
+                                    <span class="tag-suggestion" data-tag="地理标志">地理标志</span>
+                                    <span class="tag-suggestion" data-tag="新鲜">新鲜</span>
+                                    <span class="tag-suggestion" data-tag="当季">当季</span>
+                                </div>
+                                <div class="selected-tags"></div>
                                 <input type="text" class="tag-input" placeholder="输入特性标签并回车">
                             </div>
-                            <p class="form-help">最多可添加5个标签</p>
+                            <p class="form-help">点击选择或输入自定义标签，最多可添加5个标签</p>
                         </div>
 
                         <div class="form-group">
@@ -472,7 +829,10 @@
                             <input type="text" id="wechat" class="form-input" placeholder="请输入微信号（选填）">
                         </div>
 
-                        <button type="submit" class="submit-btn">发布供应信息</button>
+                        <div class="button-group">
+                            <button type="button" class="save-btn">保存草稿</button>
+                            <button type="submit" class="submit-btn">发布供应信息</button>
+                        </div>
                     </form>
                 </section>
             </main>
@@ -507,6 +867,45 @@
         </nav>
     </div>
 
+    <!-- 确认发布弹窗 -->
+    <div class="app-modal" id="confirmPublishModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon confirm">
+                <i class="fas fa-exclamation"></i>
+            </div>
+            <h3 class="app-modal-title">确认发布</h3>
+            <p class="app-modal-message">请确认您填写的信息准确无误，发布后将立即对外展示。</p>
+            <div class="app-modal-buttons">
+                <button class="app-modal-btn cancel" id="cancelPublishBtn">取消</button>
+                <button class="app-modal-btn confirm" id="confirmPublishBtn">确认发布</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发布成功弹窗 -->
+    <div class="app-modal" id="successModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon success">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3 class="app-modal-title">发布成功</h3>
+            <p class="app-modal-message">您的供应信息已提交成功，正在等待审核</p>
+            <button class="app-modal-btn confirm full" id="successBtn">我知道了</button>
+        </div>
+    </div>
+
+    <!-- 保存成功弹窗 -->
+    <div class="app-modal" id="saveSuccessModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon success">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3 class="app-modal-title">保存成功</h3>
+            <p class="app-modal-message">已保存为草稿，您可以稍后继续编辑</p>
+            <button class="app-modal-btn confirm full" id="saveDoneBtn">我知道了</button>
+        </div>
+    </div>
+
     <!-- 引入主JavaScript文件 -->
     <script src="js/main.js"></script>
     <!-- 引入应用程序交互脚本 -->
@@ -516,6 +915,26 @@
             // 获取底部导航栏的市场链接和文本元素
             const marketText = document.getElementById('marketText');
             const marketLink = document.getElementById('marketLink');
+            let formChanged = false;  // 添加表单变更标记
+
+            // 监听所有表单元素的变化
+            const form = document.getElementById('supplyForm');
+            const formElements = form.querySelectorAll('input, select, textarea');
+            formElements.forEach(element => {
+                element.addEventListener('change', () => {
+                    formChanged = true;
+                });
+                element.addEventListener('input', () => {
+                    formChanged = true;
+                });
+            });
+
+            // 监听标签添加和删除
+            const tagsContainer = document.querySelector('.selected-tags');
+            const observer = new MutationObserver(() => {
+                formChanged = true;
+            });
+            observer.observe(tagsContainer, { childList: true });
 
             // 供应商访问此页面，设置底部导航栏的市场链接为需求大厅
             if (marketLink && marketText) {
@@ -524,14 +943,74 @@
             }
 
             // 表单提交处理
-            const form = document.getElementById('supplyForm');
+            const confirmPublishModal = document.getElementById('confirmPublishModal');
+            const successModal = document.getElementById('successModal');
+            const cancelPublishBtn = document.getElementById('cancelPublishBtn');
+            const confirmPublishBtn = document.getElementById('confirmPublishBtn');
+            const successBtn = document.getElementById('successBtn');
+            let formData = null;
+
             if (form) {
                 form.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    alert('供应信息提交成功，等待审核');
-                    window.location.href = 'publish.html';
+                    // 收集表单数据
+                    const provinceSelect = document.getElementById('province');
+                    const citySelect = document.getElementById('city');
+                    const districtSelect = document.getElementById('district');
+                    formData = {
+                        category: document.getElementById('product-category').value,
+                        productName: document.getElementById('product-name').value,
+                        location: {
+                            province: provinceSelect.value,
+                            city: citySelect.value,
+                            district: districtSelect.value
+                        },
+                        price: document.getElementById('price').value,
+                        priceUnit: document.getElementById('price-unit').value,
+                        quantity: document.getElementById('quantity').value,
+                        quantityUnit: document.getElementById('quantity-unit').value,
+                        tags: Array.from(document.querySelectorAll('.selected-tags .tag')).map(tag =>
+                            tag.textContent.replace(/\s*×\s*$/, '').trim()
+                        )
+                    };
+
+                    // 显示确认发布弹窗
+                    confirmPublishModal.classList.add('active');
                 });
             }
+
+            // 取消发布
+            cancelPublishBtn.addEventListener('click', function () {
+                confirmPublishModal.classList.remove('active');
+            });
+
+            // 确认发布
+            confirmPublishBtn.addEventListener('click', function () {
+                if (formData) {
+                    console.log('提交的数据：', formData);
+                    confirmPublishModal.classList.remove('active');
+                    // 显示发布成功弹窗
+                    setTimeout(() => {
+                        successModal.classList.add('active');
+                    }, 300);
+                }
+            });
+
+            // 发布成功确认
+            successBtn.addEventListener('click', function () {
+                formChanged = false;  // 发布成功后重置变更标记
+                successModal.classList.remove('active');
+                window.location.href = 'publish.html';
+            });
+
+            // 点击弹窗外部关闭
+            [confirmPublishModal, successModal].forEach(modal => {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            });
 
             // 标签输入处理
             const tagInputs = document.querySelectorAll('.tag-input');
@@ -587,6 +1066,350 @@
                 btn.addEventListener('click', function () {
                     this.closest('.preview-item').remove();
                 });
+            });
+
+            // 预设产品数据库
+            const productDatabase = {
+                'vegetables': {
+                    '茄子': ['普通茄子', '长茄子', '圆茄子'],
+                    '番茄': ['普通番茄', '圣女果', '黄番茄']
+                },
+                'fruits': {
+                    '柑橘': ['耙耙柑', '爱媛', '沃柑', '茂谷柑'],
+                    '苹果': ['红富士', '嘎啦', '金帅']
+                },
+                'grains': {
+                    '水稻': ['早稻', '晚稻'],
+                    '小麦': ['普通小麦', '优质小麦']
+                },
+                'meat': {
+                    '猪肉': ['五花肉', '里脊肉', '梅花肉'],
+                    '牛肉': ['牛腩', '牛排', '牛肉馅']
+                },
+                'aquatic': {
+                    '鱼类': ['草鱼', '鲫鱼', '鲤鱼'],
+                    '虾类': ['基围虾', '龙虾', '明虾']
+                }
+            };
+
+            const productNameInput = document.getElementById('product-name');
+            const autocompleteDropdown = document.querySelector('.autocomplete-dropdown');
+            let selectedCategory = '';
+
+            // 监听分类变化
+            document.getElementById('product-category').addEventListener('change', function (e) {
+                selectedCategory = e.target.value;
+                productNameInput.value = '';
+                productNameInput.disabled = !selectedCategory;
+                if (!selectedCategory) {
+                    autocompleteDropdown.style.display = 'none';
+                }
+            });
+
+            // 监听产品名称输入
+            productNameInput.addEventListener('input', function (e) {
+                const input = e.target.value.trim();
+                if (!selectedCategory || !input) {
+                    autocompleteDropdown.style.display = 'none';
+                    return;
+                }
+
+                // 搜索匹配的产品
+                const matchedProducts = searchProducts(selectedCategory, input);
+                updateDropdown(matchedProducts, input);
+            });
+
+            // 搜索产品
+            function searchProducts(category, input) {
+                const results = [];
+                const categoryData = productDatabase[category] || {};
+
+                for (const [type, products] of Object.entries(categoryData)) {
+                    for (const product of products) {
+                        if (product.toLowerCase().includes(input.toLowerCase())) {
+                            results.push({ type, name: product });
+                        }
+                    }
+                }
+                return results;
+            }
+
+            // 更新下拉框
+            function updateDropdown(results, input) {
+                let html = '';
+
+                if (results.length > 0) {
+                    // 显示匹配的产品
+                    results.forEach(product => {
+                        html += `
+                            <div class="autocomplete-item" data-name="${product.name}">
+                                <span>${product.name}</span>
+                                <span class="product-category">${product.type}</span>
+                            </div>
+                        `;
+                    });
+                } else {
+                    // 未找到匹配产品，显示添加新产品选项
+                    html = `
+                        <div class="autocomplete-item no-results">未找到该产品</div>
+                        <div class="autocomplete-item add-new" data-name="${input}">
+                            <span><i class="fas fa-plus"></i>新增"${input}"</span>
+                        </div>
+                    `;
+                }
+
+                autocompleteDropdown.innerHTML = html;
+                autocompleteDropdown.style.display = 'block';
+            }
+
+            // 处理选择事件
+            autocompleteDropdown.addEventListener('click', function (e) {
+                const item = e.target.closest('.autocomplete-item');
+                if (!item) return;
+
+                if (item.classList.contains('no-results')) {
+                    return;
+                }
+
+                const productName = item.dataset.name;
+                productNameInput.value = productName;
+                autocompleteDropdown.style.display = 'none';
+            });
+
+            // 点击外部关闭下拉框
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('.autocomplete-wrapper')) {
+                    autocompleteDropdown.style.display = 'none';
+                }
+            });
+
+            // 禁用初始状态的产品名称输入框
+            productNameInput.disabled = true;
+
+            // 产地三级联动
+            const provinceSelect = document.getElementById('province');
+            const citySelect = document.getElementById('city');
+            const districtSelect = document.getElementById('district');
+
+            // 这里应该从后端获取完整的地区数据
+            const locationData = {
+                '北京': {
+                    '北京市': ['东城区', '西城区', '朝阳区', '海淀区']
+                },
+                '四川': {
+                    '成都': ['温江区', '双流区', '武侯区', '锦江区', '青羊区'],
+                    '绵阳': ['涪城区', '游仙区', '安州区'],
+                    '德阳': ['旌阳区', '罗江区']
+                },
+                '山东': {
+                    '青岛': ['市南区', '市北区', '李沧区'],
+                    '济南': ['历下区', '市中区', '槐荫区']
+                }
+            };
+
+            // 初始化省份
+            Object.keys(locationData).forEach(province => {
+                const option = new Option(province, province);
+                provinceSelect.add(option);
+            });
+
+            // 省份变化时更新城市
+            provinceSelect.addEventListener('change', function () {
+                citySelect.innerHTML = '<option value="">城市</option>';
+                districtSelect.innerHTML = '<option value="">区县</option>';
+
+                const province = this.value;
+                if (province && locationData[province]) {
+                    Object.keys(locationData[province]).forEach(city => {
+                        const option = new Option(city, city);
+                        citySelect.add(option);
+                    });
+                }
+            });
+
+            // 城市变化时更新区县
+            citySelect.addEventListener('change', function () {
+                districtSelect.innerHTML = '<option value="">区县</option>';
+
+                const province = provinceSelect.value;
+                const city = this.value;
+                if (province && city && locationData[province][city]) {
+                    locationData[province][city].forEach(district => {
+                        const option = new Option(district, district);
+                        districtSelect.add(option);
+                    });
+                }
+            });
+
+            // 产品特性标签管理
+            const tagsInput = document.querySelector('.tag-input');
+            const selectedTags = document.querySelector('.selected-tags');
+            const tagSuggestions = document.querySelectorAll('.tag-suggestion');
+            let tags = new Set();
+
+            // 点击预定义标签
+            tagSuggestions.forEach(suggestion => {
+                suggestion.addEventListener('click', function () {
+                    const tagText = this.dataset.tag;
+                    addTag(tagText);
+                });
+            });
+
+            // 输入自定义标签
+            tagsInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && this.value.trim()) {
+                    e.preventDefault();
+                    addTag(this.value.trim());
+                    this.value = '';
+                }
+            });
+
+            function addTag(tagText) {
+                if (tags.size >= 5) {
+                    alert('最多添加5个标签');
+                    return;
+                }
+                if (!tags.has(tagText)) {
+                    tags.add(tagText);
+                    const tagElement = document.createElement('div');
+                    tagElement.className = 'tag';
+                    tagElement.innerHTML = `${tagText} <i class="fas fa-times"></i>`;
+                    tagElement.querySelector('i').addEventListener('click', () => {
+                        tags.delete(tagText);
+                        tagElement.remove();
+                    });
+                    selectedTags.appendChild(tagElement);
+                }
+            }
+
+            // 测试数据填充功能
+            document.getElementById('testFillBtn').addEventListener('click', function () {
+                // 选择分类
+                const categorySelect = document.getElementById('product-category');
+                categorySelect.value = 'fruits';
+                categorySelect.dispatchEvent(new Event('change'));
+
+                // 填充产品名称
+                const productNameInput = document.getElementById('product-name');
+                productNameInput.disabled = false;
+                productNameInput.value = '耙耙柑';
+
+                // 填充价格
+                document.getElementById('price').value = '5.5';
+                document.getElementById('price-unit').value = 'per-jin';
+
+                // 填充数量
+                document.getElementById('quantity').value = '1000';
+                document.getElementById('quantity-unit').value = 'jin';
+
+                // 选择省市区
+                const provinceSelect = document.getElementById('province');
+                provinceSelect.value = '四川';
+                provinceSelect.dispatchEvent(new Event('change'));
+
+                // 等待省份选择更新城市列表
+                setTimeout(() => {
+                    const citySelect = document.getElementById('city');
+                    if (citySelect) {
+                        citySelect.value = '成都';
+                        citySelect.dispatchEvent(new Event('change'));
+
+                        // 等待城市选择更新区县列表
+                        setTimeout(() => {
+                            const districtSelect = document.getElementById('district');
+                            if (districtSelect) {
+                                districtSelect.value = '温江区';
+                            }
+                        }, 100);
+                    }
+                }, 100);
+
+                // 添加标签
+                const tags = ['无公害', '新鲜'];
+                tags.forEach(tag => {
+                    addTag(tag);
+                });
+
+                // 填充描述
+                document.getElementById('description').value = '优质耙耙柑，果形端正，色泽金黄，果肉细嫩，汁多味甜。';
+
+                // 填充联系方式
+                document.getElementById('contact').value = '13812345678';
+                document.getElementById('wechat').value = 'test123';
+            });
+
+            // 监听返回按钮点击
+            document.querySelector('.top-navbar a[href="publish.html"]').addEventListener('click', function (e) {
+                e.preventDefault();
+                if (formChanged) {
+                    // 显示确认弹窗
+                    const confirmPublishModal = document.getElementById('confirmPublishModal');
+                    confirmPublishModal.querySelector('.app-modal-icon').className = 'app-modal-icon confirm';
+                    confirmPublishModal.querySelector('.app-modal-icon i').className = 'fas fa-exclamation';
+                    confirmPublishModal.querySelector('.app-modal-title').textContent = '确认离开';
+                    confirmPublishModal.querySelector('.app-modal-message').textContent = '您填写的内容尚未保存，确定要离开吗？';
+                    confirmPublishModal.querySelector('#cancelPublishBtn').textContent = '取消';
+                    confirmPublishModal.querySelector('#confirmPublishBtn').textContent = '确认离开';
+
+                    confirmPublishModal.classList.add('active');
+
+                    // 修改确认按钮的点击事件
+                    const confirmBtn = confirmPublishModal.querySelector('#confirmPublishBtn');
+                    const originalClick = confirmBtn.onclick;
+                    confirmBtn.onclick = function () {
+                        confirmPublishModal.classList.remove('active');
+                        window.location.href = 'publish.html?status=inactive';
+                    };
+
+                    // 保存原始事件处理函数的引用
+                    confirmBtn.dataset.originalClick = originalClick;
+                } else {
+                    window.location.href = 'publish.html?status=inactive';
+                }
+            });
+
+            // 保存草稿按钮点击事件
+            document.querySelector('.save-btn').addEventListener('click', function () {
+                // 收集表单数据
+                const formData = {
+                    category: document.getElementById('product-category').value,
+                    productName: document.getElementById('product-name').value,
+                    location: {
+                        province: document.getElementById('province').value,
+                        city: document.getElementById('city').value,
+                        district: document.getElementById('district').value
+                    },
+                    price: document.getElementById('price').value,
+                    priceUnit: document.getElementById('price-unit').value,
+                    quantity: document.getElementById('quantity').value,
+                    quantityUnit: document.getElementById('quantity-unit').value,
+                    tags: Array.from(document.querySelectorAll('.selected-tags .tag')).map(tag =>
+                        tag.textContent.replace(/\s*×\s*$/, '').trim()
+                    )
+                };
+
+                // 保存到本地存储
+                localStorage.setItem('supplyDraft', JSON.stringify(formData));
+                formChanged = false;
+
+                // 显示保存成功弹窗
+                const saveSuccessModal = document.getElementById('saveSuccessModal');
+                saveSuccessModal.classList.add('active');
+            });
+
+            // 保存成功确认按钮点击事件
+            document.getElementById('saveDoneBtn').addEventListener('click', function () {
+                document.getElementById('saveSuccessModal').classList.remove('active');
+                window.location.href = 'publish.html?status=inactive';
+            });
+
+            // 恢复确认发布按钮的原始事件处理
+            confirmPublishModal.addEventListener('hidden', function () {
+                const confirmBtn = this.querySelector('#confirmPublishBtn');
+                if (confirmBtn.dataset.originalClick) {
+                    confirmBtn.onclick = confirmBtn.dataset.originalClick;
+                    delete confirmBtn.dataset.originalClick;
+                }
             });
         });
     </script>

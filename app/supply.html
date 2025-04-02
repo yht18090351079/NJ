@@ -455,6 +455,21 @@
             font-size: var(--font-size-sm);
             color: var(--primary-color);
         }
+
+        .switch-role-btn {
+            color: var(--text-primary);
+            padding: 8px;
+            border-radius: var(--radius-md);
+            transition: background-color 0.3s ease;
+        }
+
+        .switch-role-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .switch-role-btn i {
+            font-size: var(--font-size-lg);
+        }
     </style>
 </head>
 
@@ -474,9 +489,10 @@
                     <!-- 标题 -->
                     <h1>供应大厅</h1>
 
-                    <!-- 搜索按钮 -->
-                    <a href="javascript:void(0);" onclick="showSearchModal()">
-                        <i class="fas fa-search"></i>
+                    <!-- 右侧按钮 -->
+                    <a href="javascript:void(0);" class="role-switch" onclick="showRoleModal()">
+                        <span id="currentRole">采购商</span>
+                        <i class="fas fa-exchange-alt"></i>
                     </a>
                 </div>
             </header>
@@ -486,318 +502,308 @@
                 <!-- 搜索框 -->
                 <div class="search-section">
                     <div class="search-bar">
-                        <!-- 搜索框 -->
-                        <div class="search-section">
-                            <div class="search-bar">
-                                <i class="fas fa-search search-icon"></i>
-                                <input type="text" placeholder="搜索农产品">
-                                <i class="fas fa-microphone voice-icon"></i>
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="搜索农产品">
+                        <i class="fas fa-microphone voice-icon"></i>
+                    </div>
+                </div>
+
+                <!-- 筛选栏 -->
+                <div class="filter-section">
+                    <div class="filter-grid">
+                        <div class="filter-item active" data-filter="category">
+                            全部分类 <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="filter-item" data-filter="area">
+                            所在地区 <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="filter-item" data-filter="price">
+                            价格区间 <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="filter-item" data-filter="season">
+                            当季时令 <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="filter-item" data-filter="certification">
+                            认证类型 <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 已选标签 -->
+                <div class="tag-list">
+                    <div class="filter-tag">有机认证 <i class="fas fa-times"></i></div>
+                    <div class="filter-tag">四川省 <i class="fas fa-times"></i></div>
+                </div>
+
+                <!-- 结果信息栏 -->
+                <div class="result-bar">
+                    <div class="result-count">共12324个结果</div>
+                    <div class="result-sort">默认排序 <i class="fas fa-chevron-down"></i></div>
+                </div>
+
+                <!-- 产品列表 -->
+                <div class="product-grid">
+                    <!-- 产品卡片1 -->
+                    <a href="product-detail.html?id=1" class="product-card">
+                        <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
+                            alt="草莓" class="product-image" loading="lazy" width="300" height="200">
+                        <div class="product-info">
+                            <div class="product-name">丹东九九草莓</div>
+                            <div class="product-price">
+                                ¥32.80<span class="product-unit">/斤</span>
+                            </div>
+                            <div class="product-address">
+                                <i class="fas fa-map-marker-alt"></i>辽宁-丹东
+                            </div>
+                            <div class="product-desc">精选丹东九九草莓，果大色艳，香甜多汁，现摘现发。</div>
+                        </div>
+                    </a>
+
+                    <!-- 产品卡片2 -->
+                    <a href="product-detail.html?id=2" class="product-card">
+                        <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg"
+                            alt="西红柿" class="product-image" loading="lazy" width="300" height="200">
+                        <div class="product-info">
+                            <div class="product-name">河北寿光西红柿</div>
+                            <div class="product-price">
+                                ¥4.50<span class="product-unit">/斤</span>
+                            </div>
+                            <div class="product-address">
+                                <i class="fas fa-map-marker-alt"></i>山东-寿光
+                            </div>
+                            <div class="product-desc">产地直发，绿色种植，新鲜采摘，口感酸甜。</div>
+                        </div>
+                    </a>
+
+                    <!-- 产品卡片3 -->
+                    <a href="product-detail.html?id=3" class="product-card">
+                        <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg"
+                            alt="土豆" class="product-image" loading="lazy" width="300" height="200">
+                        <div class="product-info">
+                            <div class="product-name">内蒙古乌兰察布土豆</div>
+                            <div class="product-price">
+                                ¥2.98<span class="product-unit">/斤</span>
+                            </div>
+                            <div class="product-address">
+                                <i class="fas fa-map-marker-alt"></i>内蒙古-乌兰察布
+                            </div>
+                            <div class="product-desc">高原土豆，无污染，沙质土壤种植，口感细腻，富含淀粉。</div>
+                        </div>
+                    </a>
+
+                    <!-- 产品卡片4 -->
+                    <a href="product-detail.html?id=4" class="product-card">
+                        <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg"
+                            alt="玉米" class="product-image" loading="lazy" width="300" height="200">
+                        <div class="product-info">
+                            <div class="product-name">东北黑土地有机玉米</div>
+                            <div class="product-price">
+                                ¥3.50<span class="product-unit">/斤</span>
+                            </div>
+                            <div class="product-address">
+                                <i class="fas fa-map-marker-alt"></i>黑龙江-哈尔滨
+                            </div>
+                            <div class="product-desc">有机认证，黑土地种植，颗粒饱满，口感香甜。</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 加载更多 -->
+                <div class="load-more">
+                    加载更多
+                </div>
+
+                <!-- 空状态提示 -->
+                <div class="empty-state">
+                    <img src="https://img.icons8.com/color/96/null/search-in-list.png" alt="暂无数据">
+                    <p>暂无符合条件的产品</p>
+                    <button>清除筛选条件</button>
+                </div>
+            </main>
+
+            <!-- 底部导航栏 -->
+            <nav class="bottom-navbar">
+                <div class="nav-items">
+                    <a href="index.html" class="nav-item" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    <a href="#" class="nav-item active" data-page="market" id="marketLink">
+                        <i class="fas fa-shopping-basket"></i>
+                        <span id="marketText">供应大厅</span>
+                    </a>
+                    <a href="publish.html" class="nav-item nav-publish">
+                        <div class="publish-btn">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <span>发布</span>
+                    </a>
+                    <a href="policy.html" class="nav-item" data-page="policy">
+                        <i class="fas fa-newspaper"></i>
+                        <span>消息快报</span>
+                    </a>
+                    <a href="user.html" class="nav-item" data-page="user">
+                        <i class="fas fa-user"></i>
+                        <span>个人中心</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- 筛选弹窗 -->
+            <div class="filter-modal" id="categoryModal">
+                <div class="filter-content">
+                    <div class="filter-title">选择分类</div>
+                    <div class="filter-options">
+                        <div class="filter-option active">全部</div>
+                        <div class="filter-option">蔬菜</div>
+                        <div class="filter-option">水果</div>
+                        <div class="filter-option">粮油</div>
+                        <div class="filter-option">肉禽蛋</div>
+                        <div class="filter-option">水产</div>
+                        <div class="filter-option">干货</div>
+                        <div class="filter-option">茶叶</div>
+                        <div class="filter-option">药材</div>
+                        <div class="filter-option">其他</div>
+                    </div>
+                    <div class="filter-buttons">
+                        <div class="filter-reset">重置</div>
+                        <div class="filter-confirm">确定</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 角色切换模态框 -->
+            <div class="role-modal">
+                <div class="role-modal-content">
+                    <h3>切换角色</h3>
+                    <div class="role-options">
+                        <div class="role-option" data-role="supplier">
+                            <i class="fas fa-store"></i>
+                            <div class="role-info">
+                                <h4>供应商</h4>
+                                <p>发布农产品供应信息</p>
                             </div>
                         </div>
-
-                        <!-- 筛选栏 -->
-                        <div class="filter-section">
-                            <div class="filter-grid">
-                                <div class="filter-item active" data-filter="category">
-                                    全部分类 <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="filter-item" data-filter="area">
-                                    所在地区 <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="filter-item" data-filter="price">
-                                    价格区间 <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="filter-item" data-filter="season">
-                                    当季时令 <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="filter-item" data-filter="certification">
-                                    认证类型 <i class="fas fa-chevron-down"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 已选标签 -->
-                        <div class="tag-list">
-                            <div class="filter-tag">有机认证 <i class="fas fa-times"></i></div>
-                            <div class="filter-tag">四川省 <i class="fas fa-times"></i></div>
-                        </div>
-
-                        <!-- 结果信息栏 -->
-                        <div class="result-bar">
-                            <div class="result-count">共12324个结果</div>
-                            <div class="result-sort">默认排序 <i class="fas fa-chevron-down"></i></div>
-                        </div>
-
-                        <!-- 产品列表 -->
-                        <div class="product-grid">
-                            <!-- 产品卡片1 -->
-                            <a href="product-detail.html?id=1" class="product-card">
-                                <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
-                                    alt="草莓" class="product-image" loading="lazy" width="300" height="200">
-                                <div class="product-info">
-                                    <div class="product-name">丹东九九草莓</div>
-                                    <div class="product-price">
-                                        ¥32.80<span class="product-unit">/斤</span>
-                                    </div>
-                                    <div class="product-address">
-                                        <i class="fas fa-map-marker-alt"></i>辽宁-丹东
-                                    </div>
-                                    <div class="product-desc">精选丹东九九草莓，果大色艳，香甜多汁，现摘现发。</div>
-                                </div>
-                            </a>
-
-                            <!-- 产品卡片2 -->
-                            <a href="product-detail.html?id=2" class="product-card">
-                                <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg"
-                                    alt="西红柿" class="product-image" loading="lazy" width="300" height="200">
-                                <div class="product-info">
-                                    <div class="product-name">河北寿光西红柿</div>
-                                    <div class="product-price">
-                                        ¥4.50<span class="product-unit">/斤</span>
-                                    </div>
-                                    <div class="product-address">
-                                        <i class="fas fa-map-marker-alt"></i>山东-寿光
-                                    </div>
-                                    <div class="product-desc">产地直发，绿色种植，新鲜采摘，口感酸甜。</div>
-                                </div>
-                            </a>
-
-                            <!-- 产品卡片3 -->
-                            <a href="product-detail.html?id=3" class="product-card">
-                                <img src="https://img.freepik.com/free-photo/top-view-potatoes-white-background_176474-752.jpg"
-                                    alt="土豆" class="product-image" loading="lazy" width="300" height="200">
-                                <div class="product-info">
-                                    <div class="product-name">内蒙古乌兰察布土豆</div>
-                                    <div class="product-price">
-                                        ¥2.98<span class="product-unit">/斤</span>
-                                    </div>
-                                    <div class="product-address">
-                                        <i class="fas fa-map-marker-alt"></i>内蒙古-乌兰察布
-                                    </div>
-                                    <div class="product-desc">高原土豆，无污染，沙质土壤种植，口感细腻，富含淀粉。</div>
-                                </div>
-                            </a>
-
-                            <!-- 产品卡片4 -->
-                            <a href="product-detail.html?id=4" class="product-card">
-                                <img src="https://img.freepik.com/free-photo/corn-bright-yellow-color-isolated-white-background-fresh-vegetable_1205-10128.jpg"
-                                    alt="玉米" class="product-image" loading="lazy" width="300" height="200">
-                                <div class="product-info">
-                                    <div class="product-name">东北黑土地有机玉米</div>
-                                    <div class="product-price">
-                                        ¥3.50<span class="product-unit">/斤</span>
-                                    </div>
-                                    <div class="product-address">
-                                        <i class="fas fa-map-marker-alt"></i>黑龙江-哈尔滨
-                                    </div>
-                                    <div class="product-desc">有机认证，黑土地种植，颗粒饱满，口感香甜。</div>
-                                </div>
-                            </a>
-
-                            <!-- 更多产品卡片... -->
-                        </div>
-
-                        <!-- 加载更多 -->
-                        <div class="load-more">
-                            加载更多
-                        </div>
-
-                        <!-- 筛选弹窗 -->
-                        <div class="filter-modal" id="categoryModal">
-                            <div class="filter-content">
-                                <div class="filter-title">选择分类</div>
-                                <div class="filter-options">
-                                    <div class="filter-option active">全部</div>
-                                    <div class="filter-option">蔬菜</div>
-                                    <div class="filter-option">水果</div>
-                                    <div class="filter-option">粮油</div>
-                                    <div class="filter-option">肉禽蛋</div>
-                                    <div class="filter-option">水产</div>
-                                    <div class="filter-option">干货</div>
-                                    <div class="filter-option">茶叶</div>
-                                    <div class="filter-option">药材</div>
-                                    <div class="filter-option">其他</div>
-                                </div>
-                                <div class="filter-buttons">
-                                    <div class="filter-reset">重置</div>
-                                    <div class="filter-confirm">确定</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 空状态提示 -->
-                        <div class="empty-state">
-                            <img src="https://img.icons8.com/color/96/null/search-in-list.png" alt="暂无数据">
-                            <p>暂无符合条件的产品</p>
-                            <button>清除筛选条件</button>
-                        </div>
-
-                        <!-- 角色切换模态框 -->
-                        <div class="role-modal">
-                            <div class="role-modal-content">
-                                <h3>切换角色</h3>
-                                <div class="role-options">
-                                    <div class="role-option" data-role="supplier">
-                                        <i class="fas fa-store"></i>
-                                        <div class="role-info">
-                                            <h4>供应商</h4>
-                                            <p>发布农产品供应信息</p>
-                                        </div>
-                                    </div>
-                                    <div class="role-option active" data-role="buyer">
-                                        <i class="fas fa-shopping-cart"></i>
-                                        <div class="role-info">
-                                            <h4>采购商</h4>
-                                            <p>发布农产品采购需求</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="role-modal-footer">
-                                    <button class="role-confirm">确认切换</button>
-                                </div>
+                        <div class="role-option active" data-role="buyer">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="role-info">
+                                <h4>采购商</h4>
+                                <p>发布农产品采购需求</p>
                             </div>
                         </div>
                     </div>
-                    <!-- 底部导航栏 -->
-                    <nav class="bottom-navbar">
-                        <div class="nav-items">
-                            <a href="index.html" class="nav-item" data-page="home">
-                                <i class="fas fa-home"></i>
-                                <span>首页</span>
-                            </a>
-                            <a href="#" class="nav-item active" data-page="market" id="marketLink">
-                                <i class="fas fa-shopping-basket"></i>
-                                <span id="marketText">供应大厅</span>
-                            </a>
-                            <a href="publish.html" class="nav-item nav-publish">
-                                <div class="publish-btn">
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                                <span>发布</span>
-                            </a>
-                            <a href="policy.html" class="nav-item" data-page="policy">
-                                <i class="fas fa-newspaper"></i>
-                                <span>消息快报</span>
-                            </a>
-                            <a href="user.html" class="nav-item" data-page="user">
-                                <i class="fas fa-user"></i>
-                                <span>个人中心</span>
-                            </a>
-                        </div>
-                    </nav>
+                    <div class="role-modal-footer">
+                        <button class="role-confirm">确认切换</button>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <!-- 引入JavaScript脚本 -->
-                <script src="js/supply.js"></script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        // 阻止联系按钮的点击事件冒泡
-                        const contactLinks = document.querySelectorAll('.product-grid a.product-card');
-                        contactLinks.forEach(link => {
-                            // 为每个卡片添加点击事件
-                            link.addEventListener('click', function (e) {
-                                // 正常链接行为
-                            });
-                        });
+    <!-- 引入JavaScript脚本 -->
+    <script src="js/supply.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化角色切换
+            const roleSwitch = document.querySelector('.role-switch');
+            const roleModal = document.querySelector('.role-modal');
+            const roleOptions = document.querySelectorAll('.role-option');
+            const roleConfirm = document.querySelector('.role-confirm');
+            const currentRoleText = document.getElementById('currentRole');
+            const marketText = document.getElementById('marketText');
+            const marketLink = document.getElementById('marketLink');
 
-                        // 初始化角色切换
-                        const roleSwitch = document.querySelector('.role-switch');
-                        const roleModal = document.querySelector('.role-modal');
-                        const roleOptions = document.querySelectorAll('.role-option');
-                        const roleConfirm = document.querySelector('.role-confirm');
-                        const currentRoleText = document.getElementById('currentRole');
-                        const marketText = document.getElementById('marketText');
-                        const marketLink = document.getElementById('marketLink');
+            // 从localStorage获取当前角色
+            let currentRole = localStorage.getItem('userRole') || 'supplier';
 
-                        // 从localStorage获取当前角色
-                        let currentRole = localStorage.getItem('userRole') || 'supplier';
+            // 更新UI显示
+            function updateRoleUI(role) {
+                currentRoleText.textContent = role === 'supplier' ? '供应商' : '采购商';
+                marketText.textContent = role === 'supplier' ? '需求大厅' : '供应大厅';
+                marketLink.href = role === 'supplier' ? 'demand.html' : 'supply.html';
 
-                        // 更新UI显示
-                        function updateRoleUI(role) {
-                            currentRoleText.textContent = role === 'supplier' ? '供应商' : '采购商';
-                            marketText.textContent = role === 'supplier' ? '需求大厅' : '供应大厅';
-                            marketLink.href = role === 'supplier' ? 'demand.html' : 'supply.html';
+                // 更新角色选项的激活状态
+                roleOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.role === role);
+                });
 
-                            // 更新角色选项的激活状态
-                            roleOptions.forEach(option => {
-                                option.classList.toggle('active', option.dataset.role === role);
-                            });
+                // 如果角色变化且当前在市场页面，则需要重定向
+                const currentPage = window.location.pathname.split('/').pop().split('.')[0];
+                if (currentPage === 'supply' && role === 'supplier') {
+                    window.location.href = 'demand.html';
+                } else if (currentPage === 'demand' && role === 'buyer') {
+                    window.location.href = 'supply.html';
+                }
+            }
 
-                            // 如果角色变化且当前在市场页面，则需要重定向
-                            const currentPage = window.location.pathname.split('/').pop().split('.')[0];
-                            if (currentPage === 'demand' && role === 'buyer') {
-                                window.location.href = 'supply.html';
-                            } else if (currentPage === 'supply' && role === 'supplier') {
-                                window.location.href = 'demand.html';
-                            }
-                        }
+            // 初始化UI
+            updateRoleUI(currentRole);
 
-                        // 初始化UI
-                        updateRoleUI(currentRole);
+            // 角色切换按钮点击事件
+            roleSwitch.addEventListener('click', () => {
+                // 添加点击效果
+                roleSwitch.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    roleSwitch.style.transform = 'scale(1)';
+                }, 200);
 
-                        // 角色切换按钮点击事件
-                        roleSwitch.addEventListener('click', () => {
-                            // 添加点击效果
-                            roleSwitch.style.transform = 'scale(0.95)';
-                            setTimeout(() => {
-                                roleSwitch.style.transform = 'scale(1)';
-                            }, 200);
+                // 显示模态框
+                roleModal.classList.add('active');
 
-                            // 显示模态框
-                            roleModal.classList.add('active');
+                // 根据当前角色预选对应选项
+                roleOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.role === currentRole);
+                });
+            });
 
-                            // 根据当前角色预选对应选项
-                            roleOptions.forEach(option => {
-                                option.classList.toggle('active', option.dataset.role === currentRole);
-                            });
-                        });
+            // 角色选项点击事件
+            roleOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    roleOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                });
+            });
 
-                        // 角色选项点击事件
-                        roleOptions.forEach(option => {
-                            option.addEventListener('click', () => {
-                                roleOptions.forEach(opt => opt.classList.remove('active'));
-                                option.classList.add('active');
-                            });
-                        });
+            // 确认按钮点击事件
+            roleConfirm.addEventListener('click', () => {
+                const selectedRole = document.querySelector('.role-option.active').dataset.role;
+                if (selectedRole !== currentRole) {
+                    currentRole = selectedRole;
+                    localStorage.setItem('userRole', currentRole);
+                    updateRoleUI(currentRole);
+                }
+                roleModal.classList.remove('active');
+            });
 
-                        // 确认按钮点击事件
-                        roleConfirm.addEventListener('click', () => {
-                            const selectedRole = document.querySelector('.role-option.active').dataset.role;
-                            if (selectedRole !== currentRole) {
-                                currentRole = selectedRole;
-                                localStorage.setItem('userRole', currentRole);
-                                updateRoleUI(currentRole);
-                            }
-                            roleModal.classList.remove('active');
-                        });
-
-                        // 点击模态框外部关闭
-                        roleModal.addEventListener('click', (e) => {
-                            if (e.target === roleModal) {
-                                roleModal.classList.remove('active');
-                                // 重置选项状态
-                                roleOptions.forEach(option => {
-                                    option.classList.toggle('active', option.dataset.role === currentRole);
-                                });
-                            }
-                        });
-
-                        // 底部导航栏高亮显示当前页面
-                        const currentPage = window.location.pathname.split('/').pop().split('.')[0];
-                        const navItems = document.querySelectorAll('.nav-item');
-                        navItems.forEach(item => {
-                            const dataPage = item.getAttribute('data-page');
-                            if (currentPage === dataPage ||
-                                (currentPage === 'policy' && dataPage === 'policy') ||
-                                (currentPage === 'demand' && dataPage === 'market' && currentRole === 'supplier') ||
-                                (currentPage === 'supply' && dataPage === 'market' && currentRole === 'buyer')) {
-                                item.classList.add('active');
-                            } else {
-                                item.classList.remove('active');
-                            }
-                        });
+            // 点击模态框外部关闭
+            roleModal.addEventListener('click', (e) => {
+                if (e.target === roleModal) {
+                    roleModal.classList.remove('active');
+                    // 重置选项状态
+                    roleOptions.forEach(option => {
+                        option.classList.toggle('active', option.dataset.role === currentRole);
                     });
-                </script>
+                }
+            });
+
+            // 底部导航栏高亮显示当前页面
+            const currentPage = window.location.pathname.split('/').pop().split('.')[0];
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                const dataPage = item.getAttribute('data-page');
+                if (currentPage === dataPage ||
+                    (currentPage === 'policy' && dataPage === 'policy') ||
+                    (currentPage === 'demand' && dataPage === 'market' && currentRole === 'supplier') ||
+                    (currentPage === 'supply' && dataPage === 'market' && currentRole === 'buyer')) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            window.showRoleModal = showRoleModal;
+        });
+    </script>
 </body>
 
 </html>

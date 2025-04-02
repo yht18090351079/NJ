@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>采购需求详情 - 农产品供销信息平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .detail-header {
+            padding: var(--spacing-lg);
+            background: var(--white);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .detail-title {
+            font-size: var(--font-size-xl);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-weight: bold;
+        }
+
+        .detail-price {
+            font-size: var(--font-size-xl);
+            color: #F44336;
+            font-weight: bold;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .detail-info {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+        }
+
+        .info-label {
+            flex-shrink: 0;
+            width: 80px;
+            color: var(--text-tertiary);
+        }
+
+        .info-value {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .detail-section {
+            background: var(--white);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .section-title {
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+
+        .tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .tag {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background-color: #E8F5E9;
+            color: var(--primary-color);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+        }
+
+        .contact-btn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--spacing-md);
+            background: var(--white);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .contact-btn button {
+            width: 100%;
+            padding: var(--spacing-md);
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-lg);
+            font-weight: bold;
+        }
+
+        .contact-btn button:active {
+            transform: scale(0.98);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+            color: var(--white);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .status-badge.active {
+            background: var(--primary-color);
+        }
+
+        .status-badge.inactive {
+            background: var(--text-tertiary);
+        }
+
+        .status-badge.reviewing {
+            background: #FF9800;
+        }
+
+        /* 应用通用模态框样式 */
+        .app-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .app-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .app-modal-content {
+            position: relative;
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+            margin: auto;
+        }
+
+        .app-modal.active .app-modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .app-modal-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-md);
+        }
+
+        .app-modal-icon.confirm {
+            background-color: #FFF3E0;
+        }
+
+        .app-modal-icon.confirm i {
+            color: #F57C00;
+            font-size: 24px;
+        }
+
+        .app-modal-title {
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .app-modal-message {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .app-modal-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .app-modal-btn {
+            flex: 1;
+            padding: var(--spacing-sm) 0;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .app-modal-btn.cancel {
+            background-color: #F5F5F5;
+            color: var(--text-secondary);
+        }
+
+        .app-modal-btn.confirm {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .app-modal-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .app-modal-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mobile-frame-container">
+        <div class="page-content">
+            <!-- 顶部导航栏 -->
+            <header class="top-navbar">
+                <div class="container flex-between">
+                    <a href="javascript:history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>采购需求详情</h1>
+                    <div class="role-switch">
+                        <span id="currentRole">供应商</span>
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 详情内容 -->
+            <div class="detail-header">
+                <div class="status-badge active">展示中</div>
+                <h2 class="detail-title">求购优质红薯</h2>
+                <div class="detail-price">¥2.5-3.2/斤</div>
+                <div class="detail-info">
+                    <div class="info-item">
+                        <span class="info-label">采购数量</span>
+                        <span class="info-value">10000斤</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">交货地点</span>
+                        <span class="info-value">湖北省武汉市洪山区</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">发布时间</span>
+                        <span class="info-value">2024-02-20</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">截止时间</span>
+                        <span class="info-value">2024-03-20</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 产品要求 -->
+            <div class="detail-section">
+                <h3 class="section-title">
+                    <i class="fas fa-clipboard-check"></i>
+                    产品要求
+                </h3>
+                <div class="tags-list">
+                    <span class="tag">个头均匀</span>
+                    <span class="tag">无病虫害</span>
+                    <span class="tag">新鲜</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">规格要求</span>
+                    <span class="info-value">单个重量200-300g，表皮光滑无损伤</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">质量标准</span>
+                    <span class="info-value">符合国家农产品质量安全标准</span>
+                </div>
+            </div>
+
+            <!-- 其他说明 -->
+            <div class="detail-section">
+                <h3 class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    其他说明
+                </h3>
+                <div class="info-item">
+                    <span class="info-label">付款方式</span>
+                    <span class="info-value">现款现结</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">验收方式</span>
+                    <span class="info-value">现场验收</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">补充说明</span>
+                    <span class="info-value">希望能建立长期合作关系，每周固定采购</span>
+                </div>
+            </div>
+
+            <!-- 联系按钮 -->
+            <div class="contact-btn" id="contactSection">
+                <button onclick="showContactInfo()">
+                    <i class="fas fa-phone-alt"></i>
+                    联系采购商
+                </button>
+            </div>
+
+            <!-- 管理按钮 - 仅在查看自己发布的需求时显示 -->
+            <div class="contact-btn" id="managementSection" style="display: none;">
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="editDemand()" style="flex: 1; background: #4CAF50;">
+                        <i class="fas fa-edit"></i>
+                        编辑
+                    </button>
+                    <button onclick="showToggleStatusModal()" style="flex: 1; background: #FF9800;"
+                        id="toggleStatusBtn">
+                        <i class="fas fa-arrow-down" id="toggleStatusIcon"></i>
+                        <span id="toggleStatusText">下架</span>
+                    </button>
+                    <button onclick="deleteDemand()" style="flex: 1; background: #f44336;">
+                        <i class="fas fa-trash"></i>
+                        删除
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-modal" id="toggleStatusModal">
+        <div class="app-modal-content">
+            <div class="app-modal-icon confirm">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="app-modal-title">确认操作</div>
+            <div class="app-modal-message">确定要更改需求状态吗？</div>
+            <div class="app-modal-buttons">
+                <button class="app-modal-btn cancel" onclick="closeModal()">取消</button>
+                <button class="app-modal-btn confirm" onclick="toggleDemandStatus()">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 从localStorage获取当前角色
+            const currentRole = localStorage.getItem('userRole') || 'supplier';
+            const currentRoleText = document.getElementById('currentRole');
+
+            // 更新角色显示
+            if (currentRoleText) {
+                currentRoleText.textContent = currentRole === 'supplier' ? '供应商' : '采购商';
+            }
+
+            // 判断是否是自己发布的需求
+            const isOwnDemand = true; // 这里应该根据实际业务逻辑判断是否是自己的需求
+            const contactSection = document.getElementById('contactSection');
+            const managementSection = document.getElementById('managementSection');
+
+            if (isOwnDemand) {
+                contactSection.style.display = 'none';
+                managementSection.style.display = 'block';
+            } else {
+                contactSection.style.display = 'block';
+                managementSection.style.display = 'none';
+            }
+        });
+
+        function showContactInfo() {
+            alert('联系方式：\n电话：138xxxx8888\n微信：same as phone');
+        }
+
+        function editDemand() {
+            window.location.href = 'publish-demand.html?edit=true';
+        }
+
+        function showToggleStatusModal() {
+            const statusBadge = document.querySelector('.status-badge');
+            const isActive = statusBadge.classList.contains('active');
+            const modal = document.getElementById('toggleStatusModal');
+            const message = modal.querySelector('.app-modal-message');
+
+            message.textContent = isActive ? '确定要下架该需求吗？' : '确定要上架该需求吗？';
+            modal.classList.add('active');
+        }
+
+        function toggleDemandStatus() {
+            const statusBadge = document.querySelector('.status-badge');
+            const toggleBtn = document.getElementById('toggleStatusBtn');
+            const toggleIcon = document.getElementById('toggleStatusIcon');
+            const toggleText = document.getElementById('toggleStatusText');
+            const modal = document.getElementById('toggleStatusModal');
+
+            if (statusBadge.classList.contains('active')) {
+                // 当前是上架状态，点击后下架
+                statusBadge.classList.remove('active');
+                statusBadge.classList.add('inactive');
+                statusBadge.textContent = '已下架';
+
+                // 更新按钮样式和文字
+                toggleBtn.style.background = '#4CAF50';
+                toggleIcon.classList.remove('fa-arrow-down');
+                toggleIcon.classList.add('fa-arrow-up');
+                toggleText.textContent = '上架';
+            } else {
+                // 当前是下架状态，点击后上架
+                statusBadge.classList.remove('inactive');
+                statusBadge.classList.add('active');
+                statusBadge.textContent = '展示中';
+
+                // 更新按钮样式和文字
+                toggleBtn.style.background = '#FF9800';
+                toggleIcon.classList.remove('fa-arrow-up');
+                toggleIcon.classList.add('fa-arrow-down');
+                toggleText.textContent = '下架';
+            }
+
+            // 关闭模态框
+            modal.classList.remove('active');
+        }
+
+        function deleteDemand() {
+            if (confirm('确定要删除这条需求吗？')) {
+                // 这里添加删除逻辑
+                window.location.href = 'publish.html';
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('toggleStatusModal');
+            modal.classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

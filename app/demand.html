@@ -418,6 +418,29 @@
         a.demand-card:hover {
             background-color: var(--bg-hover);
         }
+
+        .load-more {
+            text-align: center;
+            padding: var(--spacing-lg);
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+            cursor: pointer;
+        }
+
+        .switch-role-btn {
+            color: var(--text-primary);
+            padding: 8px;
+            border-radius: var(--radius-md);
+            transition: background-color 0.3s ease;
+        }
+
+        .switch-role-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .switch-role-btn i {
+            font-size: var(--font-size-lg);
+        }
     </style>
 </head>
 
@@ -437,9 +460,10 @@
                     <!-- 标题 -->
                     <h1>需求大厅</h1>
 
-                    <!-- 搜索按钮 -->
-                    <a href="javascript:void(0);" onclick="showSearchModal()">
-                        <i class="fas fa-search"></i>
+                    <!-- 右侧按钮 -->
+                    <a href="javascript:void(0);" class="role-switch" onclick="showRoleModal()">
+                        <span id="currentRole">供应商</span>
+                        <i class="fas fa-exchange-alt"></i>
                     </a>
                 </div>
             </header>
@@ -662,384 +686,171 @@
                                 </div>
                                 <div class="demand-item">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <!-- 角色切换模态框 -->
-                                    <div class="role-modal">
-                                        <div class="role-modal-content">
-                                            <h3>切换角色</h3>
-                                            <div class="role-options">
-                                                <div class="role-option active" data-role="supplier">
-                                                    <i class="fas fa-store"></i>
-                                                    <div class="role-info">
-                                                        <h4>供应商</h4>
-                                                        <p>发布农产品供应信息</p>
-                                                    </div>
-                                                </div>
-                                                <div class="role-option" data-role="buyer">
-                                                    <i class="fas fa-shopping-cart"></i>
-                                                    <div class="role-info">
-                                                        <h4>采购商</h4>
-                                                        <p>发布农产品采购需求</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="role-modal-footer">
-                                                <button class="role-confirm">确认切换</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- 搜索框 -->
-                                    <div class="search-section">
-                                        <div class="search-bar">
-                                            <i class="fas fa-search search-icon"></i>
-                                            <input type="text" placeholder="搜索农产品">
-                                            <i class="fas fa-microphone voice-icon"></i>
-                                        </div>
-                                    </div>
-
-                                    <!-- 筛选栏 -->
-                                    <div class="filter-section">
-                                        <div class="filter-grid">
-                                            <div class="filter-item active" data-filter="category">
-                                                全部分类 <i class="fas fa-chevron-down"></i>
-                                            </div>
-                                            <div class="filter-item" data-filter="area">
-                                                所在地区 <i class="fas fa-chevron-down"></i>
-                                            </div>
-                                            <div class="filter-item" data-filter="price">
-                                                价格区间 <i class="fas fa-chevron-down"></i>
-                                            </div>
-                                            <div class="filter-item" data-filter="season">
-                                                当季时令 <i class="fas fa-chevron-down"></i>
-                                            </div>
-                                            <div class="filter-item" data-filter="certification">
-                                                认证类型 <i class="fas fa-chevron-down"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- 需求列表 -->
-                                    <section class="demand-list">
-                                        <!-- 需求卡片1 -->
-                                        <div class="demand-card-wrapper">
-                                            <a href="product-detail.html?id=5" class="demand-card">
-                                                <div class="demand-header">
-                                                    <div class="demand-title">寿光大型蔬菜加工厂采购西红柿</div>
-                                                    <div class="demand-status">进行中</div>
-                                                </div>
-
-                                                <div class="demand-info">
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-boxes"></i>
-                                                        <span class="demand-item-label">需求量：</span>
-                                                        <span class="demand-item-value">50吨</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-calendar-alt"></i>
-                                                        <span class="demand-item-label">截止日期：</span>
-                                                        <span class="demand-item-value">2023-08-15</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-money-bill-wave"></i>
-                                                        <span class="demand-item-label">预算：</span>
-                                                        <span class="demand-item-value">3.2-4.5元/斤</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        <span class="demand-item-label">交货地：</span>
-                                                        <span class="demand-item-value">山东寿光</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="demand-desc">
-                                                    寿光永泰食品加工有限公司长期采购西红柿，要求：个头均匀，直径8cm左右，颜色鲜红，无病害，无农残。可长期合作，价格随行就市，支持合同种植。
-                                                </div>
-
-                                                <div class="demand-tags">
-                                                    <div class="demand-tag">蔬菜</div>
-                                                    <div class="demand-tag">西红柿</div>
-                                                    <div class="demand-tag">大宗采购</div>
-                                                    <div class="demand-tag">长期合作</div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                        <!-- 需求卡片2 -->
-                                        <div class="demand-card-wrapper">
-                                            <a href="product-detail.html?id=6" class="demand-card">
-                                                <div class="demand-header">
-                                                    <div class="demand-title">北京连锁餐厅采购有机土豆</div>
-                                                    <div class="demand-status">进行中</div>
-                                                </div>
-
-                                                <div class="demand-info">
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-boxes"></i>
-                                                        <span class="demand-item-label">需求量：</span>
-                                                        <span class="demand-item-value">2吨/周</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-calendar-alt"></i>
-                                                        <span class="demand-item-label">截止日期：</span>
-                                                        <span class="demand-item-value">长期</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-money-bill-wave"></i>
-                                                        <span class="demand-item-label">预算：</span>
-                                                        <span class="demand-item-value">5-6元/斤</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        <span class="demand-item-label">交货地：</span>
-                                                        <span class="demand-item-value">北京市朝阳区</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="demand-desc">
-                                                    北京健康食客连锁餐厅常年采购有机认证土豆，要求：大小均匀，无病斑，无虫害，无损伤，有机认证必须，需每周定量供应。
-                                                </div>
-
-                                                <div class="demand-tags">
-                                                    <div class="demand-tag">有机认证</div>
-                                                    <div class="demand-tag">土豆</div>
-                                                    <div class="demand-tag">餐饮原料</div>
-                                                    <div class="demand-tag">定期供应</div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                        <!-- 需求卡片3 -->
-                                        <div class="demand-card-wrapper">
-                                            <a href="product-detail.html?id=7" class="demand-card">
-                                                <div class="demand-header">
-                                                    <div class="demand-title">广州水果连锁超市采购季节性水果</div>
-                                                    <div class="demand-status">进行中</div>
-                                                </div>
-
-                                                <div class="demand-info">
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-boxes"></i>
-                                                        <span class="demand-item-label">需求量：</span>
-                                                        <span class="demand-item-value">根据季节调整</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-calendar-alt"></i>
-                                                        <span class="demand-item-label">截止日期：</span>
-                                                        <span class="demand-item-value">长期</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-money-bill-wave"></i>
-                                                        <span class="demand-item-label">预算：</span>
-                                                        <span class="demand-item-value">市场价-10%</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        <span class="demand-item-label">交货地：</span>
-                                                        <span class="demand-item-value">广州市白云区</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="demand-desc">
-                                                    广州鲜果多连锁超市采购季节性水果，当前需求：杨梅、芒果、荔枝等夏季水果。要求：新鲜，外观好，口感佳，品质稳定。有品牌认证或绿色/有机认证优先。
-                                                </div>
-
-                                                <div class="demand-tags">
-                                                    <div class="demand-tag">水果</div>
-                                                    <div class="demand-tag">季节性</div>
-                                                    <div class="demand-tag">连锁超市</div>
-                                                    <div class="demand-tag">大量需求</div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                        <!-- 已截止需求 -->
-                                        <div class="demand-card-wrapper">
-                                            <div class="demand-card">
-                                                <div class="demand-header">
-                                                    <div class="demand-title">上海餐饮集团采购绿色蔬菜</div>
-                                                    <div class="demand-status"
-                                                        style="background-color:#F5F5F5;color:#666;">已截止</div>
-                                                </div>
-
-                                                <div class="demand-info">
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-boxes"></i>
-                                                        <span class="demand-item-label">需求量：</span>
-                                                        <span class="demand-item-value">10吨/月</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-calendar-alt"></i>
-                                                        <span class="demand-item-label">截止日期：</span>
-                                                        <span class="demand-item-value">2023-06-30</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-money-bill-wave"></i>
-                                                        <span class="demand-item-label">预算：</span>
-                                                        <span class="demand-item-value">8-10元/斤</span>
-                                                    </div>
-                                                    <div class="demand-item">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        <span class="demand-item-label">交货地：</span>
-                                                        <span class="demand-item-value">上海市松江区</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="demand-desc">
-                                                    上海餐饮集团采购绿色蔬菜，包括生菜、小白菜、菠菜等叶菜类蔬菜，要求：新鲜，无农残，绿色种植。
-                                                </div>
-
-                                                <div class="demand-tags">
-                                                    <div class="demand-tag">叶菜类</div>
-                                                    <div class="demand-tag">绿色种植</div>
-                                                    <div class="demand-tag">餐饮原料</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    <!-- 加载更多 -->
-                                    <div class="load-more">
-                                        加载更多
-                                    </div>
-
-                                    <!-- 空状态 -->
-                                    <div class="empty-state">
-                                        <img src="https://via.placeholder.com/200x200?text=EmptyState" alt="暂无数据">
-                                        <p>暂无符合条件的需求信息</p>
-                                        <button>返回全部需求</button>
-                                    </div>
+                                    <span class="demand-item-label">交货地：</span>
+                                    <span class="demand-item-value">上海市松江区</span>
                                 </div>
-                                <!-- 底部导航栏 -->
-                                <nav class="bottom-navbar">
-                                    <div class="nav-items">
-                                        <a href="index.html" class="nav-item" data-page="home">
-                                            <i class="fas fa-home"></i>
-                                            <span>首页</span>
-                                        </a>
-                                        <a href="#" class="nav-item" data-page="market" id="marketLink">
-                                            <i class="fas fa-shopping-basket"></i>
-                                            <span id="marketText">需求大厅</span>
-                                        </a>
-                                        <a href="publish.html" class="nav-item nav-publish">
-                                            <div class="publish-btn">
-                                                <i class="fas fa-plus"></i>
-                                            </div>
-                                            <span>发布</span>
-                                        </a>
-                                        <a href="policy.html" class="nav-item" data-page="policy">
-                                            <i class="fas fa-newspaper"></i>
-                                            <span>消息快报</span>
-                                        </a>
-                                        <a href="user.html" class="nav-item" data-page="user">
-                                            <i class="fas fa-user"></i>
-                                            <span>个人中心</span>
-                                        </a>
-                                    </div>
-                                </nav>
                             </div>
 
-                            <!-- 引入JavaScript -->
-                            <script src="js/main.js"></script>
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    // 角色切换相关功能
-                                    const roleSwitch = document.querySelector('.role-switch');
-                                    const roleModal = document.querySelector('.role-modal');
-                                    const roleOptions = document.querySelectorAll('.role-option');
-                                    const roleConfirm = document.querySelector('.role-confirm');
-                                    const currentRoleText = document.getElementById('currentRole');
-                                    const marketText = document.getElementById('marketText');
-                                    const marketLink = document.getElementById('marketLink');
+                            <div class="demand-desc">
+                                上海餐饮集团采购绿色蔬菜，包括生菜、小白菜、菠菜等叶菜类蔬菜，要求：新鲜，无农残，绿色种植。
+                            </div>
 
-                                    // 从localStorage获取当前角色
-                                    let currentRole = localStorage.getItem('userRole') || 'supplier';
+                            <div class="demand-tags">
+                                <div class="demand-tag">叶菜类</div>
+                                <div class="demand-tag">绿色种植</div>
+                                <div class="demand-tag">餐饮原料</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-                                    // 更新UI显示
-                                    function updateRoleUI(role) {
-                                        currentRoleText.textContent = role === 'supplier' ? '供应商' : '采购商';
-                                        marketText.textContent = role === 'supplier' ? '需求大厅' : '供应大厅';
-                                        marketLink.href = role === 'supplier' ? 'demand.html' : 'supply.html';
+                <!-- 加载更多 -->
+                <div class="load-more">
+                    加载更多
+                </div>
 
-                                        // 更新角色选项的激活状态
-                                        roleOptions.forEach(option => {
-                                            option.classList.toggle('active', option.dataset.role === role);
-                                        });
+                <!-- 空状态 -->
+                <div class="empty-state">
+                    <img src="https://via.placeholder.com/200x200?text=EmptyState" alt="暂无数据">
+                    <p>暂无符合条件的需求信息</p>
+                    <button>返回全部需求</button>
+                </div>
+            </main>
 
-                                        // 如果角色变化且当前在市场页面，则需要重定向
-                                        const currentPage = window.location.pathname.split('/').pop().split('.')[0];
-                                        if (currentPage === 'demand' && role === 'buyer') {
-                                            window.location.href = 'supply.html';
-                                        } else if (currentPage === 'supply' && role === 'supplier') {
-                                            window.location.href = 'demand.html';
-                                        }
-                                    }
+            <!-- 底部导航栏 -->
+            <nav class="bottom-navbar">
+                <div class="nav-items">
+                    <a href="index.html" class="nav-item" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                    <a href="#" class="nav-item active" data-page="market" id="marketLink">
+                        <i class="fas fa-shopping-basket"></i>
+                        <span id="marketText">需求大厅</span>
+                    </a>
+                    <a href="publish.html" class="nav-item nav-publish">
+                        <div class="publish-btn">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <span>发布</span>
+                    </a>
+                    <a href="policy.html" class="nav-item" data-page="policy">
+                        <i class="fas fa-newspaper"></i>
+                        <span>消息快报</span>
+                    </a>
+                    <a href="user.html" class="nav-item" data-page="user">
+                        <i class="fas fa-user"></i>
+                        <span>个人中心</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
 
-                                    // 初始化UI
-                                    updateRoleUI(currentRole);
+    <!-- 引入主JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化角色切换
+            const roleSwitch = document.querySelector('.role-switch');
+            const roleModal = document.querySelector('.role-modal');
+            const roleOptions = document.querySelectorAll('.role-option');
+            const roleConfirm = document.querySelector('.role-confirm');
+            const currentRoleText = document.getElementById('currentRole');
+            const marketText = document.getElementById('marketText');
+            const marketLink = document.getElementById('marketLink');
 
-                                    // 角色切换按钮点击事件
-                                    roleSwitch.addEventListener('click', () => {
-                                        // 添加点击效果
-                                        roleSwitch.style.transform = 'scale(0.95)';
-                                        setTimeout(() => {
-                                            roleSwitch.style.transform = 'scale(1)';
-                                        }, 200);
+            // 从localStorage获取当前角色
+            let currentRole = localStorage.getItem('userRole') || 'supplier';
 
-                                        // 显示模态框
-                                        roleModal.classList.add('active');
+            // 更新UI显示
+            function updateRoleUI(role) {
+                currentRoleText.textContent = role === 'supplier' ? '供应商' : '采购商';
+                marketText.textContent = role === 'supplier' ? '需求大厅' : '供应大厅';
+                marketLink.href = role === 'supplier' ? 'demand.html' : 'supply.html';
 
-                                        // 根据当前角色预选对应选项
-                                        roleOptions.forEach(option => {
-                                            option.classList.toggle('active', option.dataset.role === currentRole);
-                                        });
-                                    });
+                // 更新角色选项的激活状态
+                roleOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.role === role);
+                });
 
-                                    // 角色选项点击事件
-                                    roleOptions.forEach(option => {
-                                        option.addEventListener('click', () => {
-                                            roleOptions.forEach(opt => opt.classList.remove('active'));
-                                            option.classList.add('active');
-                                        });
-                                    });
+                // 如果角色变化且当前在市场页面，则需要重定向
+                const currentPage = window.location.pathname.split('/').pop().split('.')[0];
+                if (currentPage === 'supply' && role === 'supplier') {
+                    window.location.href = 'demand.html';
+                } else if (currentPage === 'demand' && role === 'buyer') {
+                    window.location.href = 'supply.html';
+                }
+            }
 
-                                    // 确认按钮点击事件
-                                    roleConfirm.addEventListener('click', () => {
-                                        const selectedRole = document.querySelector('.role-option.active').dataset.role;
-                                        if (selectedRole !== currentRole) {
-                                            currentRole = selectedRole;
-                                            localStorage.setItem('userRole', currentRole);
-                                            updateRoleUI(currentRole);
-                                        }
-                                        roleModal.classList.remove('active');
-                                    });
+            // 初始化UI
+            updateRoleUI(currentRole);
 
-                                    // 点击模态框外部关闭
-                                    roleModal.addEventListener('click', (e) => {
-                                        if (e.target === roleModal) {
-                                            roleModal.classList.remove('active');
-                                            // 重置选项状态
-                                            roleOptions.forEach(option => {
-                                                option.classList.toggle('active', option.dataset.role === currentRole);
-                                            });
-                                        }
-                                    });
+            // 角色切换按钮点击事件
+            roleSwitch.addEventListener('click', () => {
+                // 添加点击效果
+                roleSwitch.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    roleSwitch.style.transform = 'scale(1)';
+                }, 200);
 
-                                    // 底部导航栏高亮显示当前页面
-                                    const currentPage = window.location.pathname.split('/').pop().split('.')[0];
-                                    const navItems = document.querySelectorAll('.nav-item');
-                                    navItems.forEach(item => {
-                                        const dataPage = item.getAttribute('data-page');
-                                        if (currentPage === dataPage ||
-                                            (currentPage === 'policy' && dataPage === 'policy') ||
-                                            (currentPage === 'demand' && dataPage === 'market' && currentRole === 'supplier') ||
-                                            (currentPage === 'supply' && dataPage === 'market' && currentRole === 'buyer')) {
-                                            item.classList.add('active');
-                                        } else {
-                                            item.classList.remove('active');
-                                        }
-                                    });
-                                });
-                            </script>
+                // 显示模态框
+                roleModal.classList.add('active');
+
+                // 根据当前角色预选对应选项
+                roleOptions.forEach(option => {
+                    option.classList.toggle('active', option.dataset.role === currentRole);
+                });
+            });
+
+            // 角色选项点击事件
+            roleOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    roleOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                });
+            });
+
+            // 确认按钮点击事件
+            roleConfirm.addEventListener('click', () => {
+                const selectedRole = document.querySelector('.role-option.active').dataset.role;
+                if (selectedRole !== currentRole) {
+                    currentRole = selectedRole;
+                    localStorage.setItem('userRole', currentRole);
+                    updateRoleUI(currentRole);
+                }
+                roleModal.classList.remove('active');
+            });
+
+            // 点击模态框外部关闭
+            roleModal.addEventListener('click', (e) => {
+                if (e.target === roleModal) {
+                    roleModal.classList.remove('active');
+                    // 重置选项状态
+                    roleOptions.forEach(option => {
+                        option.classList.toggle('active', option.dataset.role === currentRole);
+                    });
+                }
+            });
+
+            // 底部导航栏高亮显示当前页面
+            const currentPage = window.location.pathname.split('/').pop().split('.')[0];
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                const dataPage = item.getAttribute('data-page');
+                if (currentPage === dataPage ||
+                    (currentPage === 'policy' && dataPage === 'policy') ||
+                    (currentPage === 'demand' && dataPage === 'market' && currentRole === 'supplier') ||
+                    (currentPage === 'supply' && dataPage === 'market' && currentRole === 'buyer')) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            window.showRoleModal = showRoleModal;
+        });
+    </script>
 </body>
 
 </html>
