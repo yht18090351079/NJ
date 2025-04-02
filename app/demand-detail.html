@@ -249,34 +249,36 @@
                         <i class="fas fa-arrow-left"></i>
                     </a>
                     <h1>采购需求详情</h1>
-                    <div class="role-switch">
-                        <span id="currentRole">供应商</span>
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
                 </div>
             </header>
 
             <!-- 详情内容 -->
             <div class="detail-header">
                 <div class="status-badge active">展示中</div>
-                <h2 class="detail-title">求购优质红薯</h2>
-                <div class="detail-price">¥2.5-3.2/斤</div>
+                <h2 class="detail-title" id="productTitle">求购优质红薯</h2>
+                <div class="detail-price">
+                    ¥<span id="minPrice">2.5</span>-<span id="maxPrice">3.2</span>
+                    <span id="priceUnit">/斤</span>
+                </div>
                 <div class="detail-info">
                     <div class="info-item">
                         <span class="info-label">采购数量</span>
-                        <span class="info-value">10000斤</span>
+                        <span class="info-value">
+                            <span id="quantity">10000</span>
+                            <span id="quantityUnit">斤</span>
+                        </span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">交货地点</span>
-                        <span class="info-value">湖北省武汉市洪山区</span>
+                        <span class="info-label">收货地点</span>
+                        <span class="info-value" id="deliveryAddress">湖北省武汉市洪山区</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">发布时间</span>
-                        <span class="info-value">2024-02-20</span>
+                        <span class="info-value" id="publishTime">2024-02-20</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">截止时间</span>
-                        <span class="info-value">2024-03-20</span>
+                        <span class="info-label">到货时间</span>
+                        <span class="info-value" id="deliveryTime">2024-03-20</span>
                     </div>
                 </div>
             </div>
@@ -287,38 +289,40 @@
                     <i class="fas fa-clipboard-check"></i>
                     产品要求
                 </h3>
-                <div class="tags-list">
-                    <span class="tag">个头均匀</span>
-                    <span class="tag">无病虫害</span>
-                    <span class="tag">新鲜</span>
+                <div class="tags-list" id="featureTags">
+                    <!-- 标签将通过JavaScript动态添加 -->
                 </div>
                 <div class="info-item">
-                    <span class="info-label">规格要求</span>
-                    <span class="info-value">单个重量200-300g，表皮光滑无损伤</span>
+                    <span class="info-label">分类</span>
+                    <span class="info-value">
+                        <span id="categoryLevel1"></span> >
+                        <span id="categoryLevel2"></span> >
+                        <span id="categoryLevel3"></span>
+                    </span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">质量标准</span>
-                    <span class="info-value">符合国家农产品质量安全标准</span>
+                    <span class="info-label">质量要求</span>
+                    <span class="info-value" id="requirements"></span>
                 </div>
             </div>
 
-            <!-- 其他说明 -->
+            <!-- 联系信息 -->
             <div class="detail-section">
                 <h3 class="section-title">
-                    <i class="fas fa-info-circle"></i>
-                    其他说明
+                    <i class="fas fa-user"></i>
+                    联系方式
                 </h3>
                 <div class="info-item">
-                    <span class="info-label">付款方式</span>
-                    <span class="info-value">现款现结</span>
+                    <span class="info-label">联系人</span>
+                    <span class="info-value" id="contactName"></span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">验收方式</span>
-                    <span class="info-value">现场验收</span>
+                    <span class="info-label">联系电话</span>
+                    <span class="info-value" id="contactPhone"></span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">补充说明</span>
-                    <span class="info-value">希望能建立长期合作关系，每周固定采购</span>
+                    <span class="info-label">微信号</span>
+                    <span class="info-value" id="contactWechat"></span>
                 </div>
             </div>
 
@@ -367,14 +371,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 从localStorage获取当前角色
-            const currentRole = localStorage.getItem('userRole') || 'supplier';
-            const currentRoleText = document.getElementById('currentRole');
-
-            // 更新角色显示
-            if (currentRoleText) {
-                currentRoleText.textContent = currentRole === 'supplier' ? '供应商' : '采购商';
-            }
+            // 从URL获取状态参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const statusParam = urlParams.get('status');
 
             // 判断是否是自己发布的需求
             const isOwnDemand = true; // 这里应该根据实际业务逻辑判断是否是自己的需求
@@ -388,6 +387,126 @@
                 contactSection.style.display = 'block';
                 managementSection.style.display = 'none';
             }
+
+            // 模拟从服务器获取的数据
+            const demandData = {
+                status: statusParam || 'active', // 使用URL参数或默认为active
+                title: '求购优质红薯',
+                category: {
+                    level1: '蔬菜',
+                    level2: '根茎类',
+                    level3: '红薯'
+                },
+                price: {
+                    min: 2.5,
+                    max: 3.2,
+                    unit: '元/斤'
+                },
+                quantity: {
+                    value: 10000,
+                    unit: '斤'
+                },
+                location: {
+                    province: '湖北省',
+                    city: '武汉市',
+                    district: '洪山区'
+                },
+                deliveryAddress: '湖北省武汉市洪山区光谷大道100号',
+                requirements: '要求个头均匀，无病虫害，新鲜度高',
+                features: ['个头均匀', '无病虫害', '新鲜'],
+                contact: {
+                    name: '张经理',
+                    phone: '13812345678',
+                    wechat: 'manager123'
+                },
+                publishTime: '2024-02-20',
+                deliveryTime: '2024-03-20'
+            };
+
+            // 更新页面内容
+            function updatePageContent(data) {
+                // 更新标题和状态
+                document.getElementById('productTitle').textContent = data.title;
+
+                // 更新状态标签
+                const statusBadge = document.querySelector('.status-badge');
+                statusBadge.className = 'status-badge';
+                const toggleStatusBtn = document.getElementById('toggleStatusBtn');
+
+                if (data.status === 'active') {
+                    statusBadge.classList.add('active');
+                    statusBadge.textContent = '展示中';
+
+                    // 显示下架按钮
+                    if (toggleStatusBtn) {
+                        toggleStatusBtn.style.display = 'block';
+                        toggleStatusBtn.style.background = '#FF9800';
+                        document.getElementById('toggleStatusIcon').className = 'fas fa-arrow-down';
+                        document.getElementById('toggleStatusText').textContent = '下架';
+                    }
+                } else if (data.status === 'inactive') {
+                    statusBadge.classList.add('inactive');
+                    statusBadge.textContent = '已下架';
+
+                    // 显示上架按钮
+                    if (toggleStatusBtn) {
+                        toggleStatusBtn.style.display = 'block';
+                        toggleStatusBtn.style.background = '#4CAF50';
+                        document.getElementById('toggleStatusIcon').className = 'fas fa-arrow-up';
+                        document.getElementById('toggleStatusText').textContent = '上架';
+                    }
+                } else if (data.status === 'reviewing') {
+                    statusBadge.classList.add('reviewing');
+                    statusBadge.textContent = '审核中';
+
+                    // 审核中状态下隐藏上下架按钮
+                    if (toggleStatusBtn) {
+                        toggleStatusBtn.style.display = 'none';
+                    }
+                }
+
+                // 更新价格
+                document.getElementById('minPrice').textContent = data.price.min;
+                document.getElementById('maxPrice').textContent = data.price.max;
+                document.getElementById('priceUnit').textContent = data.price.unit;
+
+                // 更新数量
+                document.getElementById('quantity').textContent = data.quantity.value;
+                document.getElementById('quantityUnit').textContent = data.quantity.unit;
+
+                // 更新地址
+                document.getElementById('deliveryAddress').textContent = data.deliveryAddress;
+
+                // 更新时间
+                document.getElementById('publishTime').textContent = data.publishTime;
+                document.getElementById('deliveryTime').textContent = data.deliveryTime;
+
+                // 更新分类
+                document.getElementById('categoryLevel1').textContent = data.category.level1;
+                document.getElementById('categoryLevel2').textContent = data.category.level2;
+                document.getElementById('categoryLevel3').textContent = data.category.level3;
+
+                // 更新要求
+                document.getElementById('requirements').textContent = data.requirements;
+
+                // 更新标签
+                const tagsContainer = document.getElementById('featureTags');
+                tagsContainer.innerHTML = '';
+                data.features.forEach(feature => {
+                    const tag = document.createElement('span');
+                    tag.className = 'tag';
+                    tag.textContent = feature;
+                    tagsContainer.appendChild(tag);
+                });
+
+                // 更新联系方式
+                document.getElementById('contactName').textContent = data.contact.name;
+                document.getElementById('contactPhone').textContent = data.contact.phone;
+                document.getElementById('contactWechat').textContent = data.contact.wechat;
+            }
+
+            // 初始化页面数据
+            updatePageContent(demandData);
         });
 
         function showContactInfo() {

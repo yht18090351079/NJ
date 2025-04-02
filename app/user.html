@@ -648,6 +648,71 @@
                 opacity: 1;
             }
         }
+
+        /* 浏览记录样式 */
+        .browse-history {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .history-item {
+            display: flex;
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-image {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background-color: #f5f5f5;
+            margin-right: var(--spacing-md);
+            flex-shrink: 0;
+        }
+
+        .history-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-title {
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-category {
+            display: inline-block;
+            font-size: var(--font-size-xs);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            background-color: #F0FFF0;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .history-time {
+            font-size: var(--font-size-xs);
+            color: var(--text-tertiary);
+        }
+
+        .empty-history {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl) 0;
+        }
     </style>
 </head>
 
@@ -694,7 +759,6 @@
                     <div class="user-details">
                         <div class="user-name">加载中...</div>
                         <div class="user-role">
-                            <span class="role-tag">加载中...</span>
                             <span class="verified-badge" id="verificationStatus"><i class="fas fa-check-circle"></i>
                                 已认证</span>
                         </div>
@@ -702,25 +766,10 @@
                 </div>
             </header>
 
-            <!-- 用户数据概览 -->
-            <div class="user-data">
-                <div class="data-item">
-                    <div class="data-value">0</div>
-                    <div class="data-label">发布信息</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-value">0</div>
-                    <div class="data-label">浏览记录</div>
-                </div>
-
-            </div>
-
-
-
             <!-- 账户设置 -->
             <section class="menu-section">
                 <div class="menu-title">账户设置</div>
-                <a href="javascript:void(0)" class="menu-link">
+                <a href="profile.html" class="menu-link">
                     <div class="menu-link-icon">
                         <i class="fas fa-user-circle"></i>
                     </div>
@@ -729,7 +778,7 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </a>
-                <a href="javascript:void(0)" class="menu-link">
+                <a href="security.html" class="menu-link">
                     <div class="menu-link-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
@@ -738,20 +787,11 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </a>
-                <a href="javascript:void(0)" class="menu-link">
+                <a href="browse-history.html" class="menu-link">
                     <div class="menu-link-icon">
-                        <i class="fas fa-certificate"></i>
+                        <i class="fas fa-history"></i>
                     </div>
-                    <div class="menu-link-label">认证信息</div>
-                    <div class="menu-link-arrow">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </a>
-                <a href="javascript:void(0)" class="menu-link">
-                    <div class="menu-link-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="menu-link-label">地址管理</div>
+                    <div class="menu-link-label">浏览记录</div>
                     <div class="menu-link-arrow">
                         <i class="fas fa-chevron-right"></i>
                     </div>
@@ -998,7 +1038,6 @@
                 link.addEventListener('click', function () {
                     const linkLabel = this.querySelector('.menu-link-label').textContent;
                     // 访客用户直接点击，不显示登录提示
-                    alert(`您点击了: ${linkLabel}`);
                 });
             });
 
@@ -1052,77 +1091,10 @@
 
                         // 跳转到详情页（如果实现了）或显示提示
                         alert(`查看产品: ${this.querySelector('.product-name').textContent}`);
-                        // window.location.href = `product-detail.html?id=${productId}`;
                     });
                 });
             }
-
-            // 图片错误处理
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                img.onerror = function () {
-                    // 设置默认错误图片
-                    if (this.classList.contains('user-avatar')) {
-                        this.src = 'https://via.placeholder.com/100x100?text=用户头像';
-                    } else {
-                        this.src = 'https://via.placeholder.com/100x100?text=图片暂时无法显示';
-                    }
-                    this.alt = '图片加载失败';
-                };
-            });
         });
-
-        // 表单提交处理
-        const forms = document.querySelectorAll('form');
-        forms.forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                // 显示加载状态
-                const submitBtn = form.querySelector('.submit-btn');
-                const originalText = submitBtn.textContent;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
-                submitBtn.disabled = true;
-
-                // 模拟提交延迟
-                setTimeout(() => {
-                    alert('信息提交成功，等待审核');
-
-                    // 根据表单类型跳转到不同页面
-                    if (form.id === 'supplyForm') {
-                        window.location.href = 'supply.html'; // 跳转到供应大厅
-                    } else {
-                        window.location.href = 'demand.html'; // 跳转到需求大厅
-                    }
-                }, 1500);
-            });
-        });
-
-        // 页面状态管理
-        const pageState = {
-            // 保存状态到本地存储
-            saveState: function (key, value) {
-                localStorage.setItem(key, JSON.stringify(value));
-            },
-
-            // 获取状态
-            getState: function (key) {
-                const value = localStorage.getItem(key);
-                if (value) {
-                    try {
-                        return JSON.parse(value);
-                    } catch (e) {
-                        console.error('状态解析错误', e);
-                    }
-                }
-                return null;
-            },
-
-            // 清除状态
-            clearState: function (key) {
-                localStorage.removeItem(key);
-            }
-        };
     </script>
 </body>
 

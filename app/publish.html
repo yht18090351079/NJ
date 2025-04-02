@@ -1240,12 +1240,14 @@
                     <div class="waterfall-grid">
                         <!-- 供应商发布的供应信息 -->
                         <div class="post-card supplier-item" data-status="reviewing">
-                            <div class="post-image" onclick="window.location.href='supply-detail.html'">
+                            <div class="post-image"
+                                onclick="window.location.href='supply-detail.html?status=reviewing'">
                                 <img src="images/product5.jpg" alt="新鲜水果">
                                 <div class="post-status reviewing">审核中</div>
                             </div>
                             <div class="post-content">
-                                <h3 onclick="window.location.href='supply-detail.html'" style="cursor: pointer;">优质柑橘供应
+                                <h3 onclick="window.location.href='supply-detail.html?status=reviewing'"
+                                    style="cursor: pointer;">优质柑橘供应
                                 </h3>
                                 <p class="price">¥4.5/斤</p>
                                 <p class="location"><i class="fas fa-map-marker-alt"></i> 四川省成都市</p>
@@ -1257,12 +1259,13 @@
                         </div>
 
                         <div class="post-card supplier-item" data-status="active">
-                            <div class="post-image" onclick="window.location.href='supply-detail.html'">
+                            <div class="post-image" onclick="window.location.href='supply-detail.html?status=active'">
                                 <img src="images/product1.jpg" alt="优质大米">
                                 <div class="post-status active">展示中</div>
                             </div>
                             <div class="post-content">
-                                <h3 onclick="window.location.href='supply-detail.html'" style="cursor: pointer;">优质大米供应
+                                <h3 onclick="window.location.href='supply-detail.html?status=active'"
+                                    style="cursor: pointer;">优质大米供应
                                 </h3>
                                 <p class="price">¥3.5/斤</p>
                                 <p class="location"><i class="fas fa-map-marker-alt"></i> 湖南省长沙市</p>
@@ -1275,12 +1278,13 @@
                         </div>
 
                         <div class="post-card supplier-item" data-status="active">
-                            <div class="post-image" onclick="window.location.href='supply-detail.html'">
+                            <div class="post-image" onclick="window.location.href='supply-detail.html?status=active'">
                                 <img src="images/product2.jpg" alt="新鲜蔬菜">
                                 <div class="post-status active">展示中</div>
                             </div>
                             <div class="post-content">
-                                <h3 onclick="window.location.href='supply-detail.html'" style="cursor: pointer;">新鲜蔬菜供应
+                                <h3 onclick="window.location.href='supply-detail.html?status=active'"
+                                    style="cursor: pointer;">新鲜蔬菜供应
                                 </h3>
                                 <p class="price">¥2.8/斤</p>
                                 <p class="location"><i class="fas fa-map-marker-alt"></i> 山东省潍坊市</p>
@@ -1293,12 +1297,13 @@
                         </div>
 
                         <div class="post-card supplier-item" data-status="active">
-                            <div class="post-image" onclick="window.location.href='supply-detail.html'">
+                            <div class="post-image" onclick="window.location.href='supply-detail.html?status=active'">
                                 <img src="images/product3.jpg" alt="新鲜蔬菜">
                                 <div class="post-status active">展示中</div>
                             </div>
                             <div class="post-content">
-                                <h3 onclick="window.location.href='supply-detail.html'" style="cursor: pointer;">绿色有机蔬菜
+                                <h3 onclick="window.location.href='supply-detail.html?status=active'"
+                                    style="cursor: pointer;">绿色有机蔬菜
                                 </h3>
                                 <p class="price">¥4.2/斤</p>
                                 <p class="location"><i class="fas fa-map-marker-alt"></i> 山东省青岛市</p>
@@ -1312,7 +1317,7 @@
 
                         <!-- 采购商发布的需求信息 -->
                         <div class="post-card buyer-item" data-status="active" style="display: none;">
-                            <div class="post-content" onclick="window.location.href='demand-detail.html'"
+                            <div class="post-content" onclick="window.location.href='demand-detail.html?status=active'"
                                 style="cursor: pointer;">
                                 <div class="post-status active">展示中</div>
                                 <h3>求购优质红薯</h3>
@@ -1327,7 +1332,7 @@
                         </div>
 
                         <div class="post-card buyer-item" data-status="active" style="display: none;">
-                            <div class="post-content" onclick="window.location.href='demand-detail.html'"
+                            <div class="post-content" onclick="window.location.href='demand-detail.html?status=active'"
                                 style="cursor: pointer;">
                                 <div class="post-status active">展示中</div>
                                 <h3>采购各类淡水鱼</h3>
@@ -1343,12 +1348,13 @@
 
                         <!-- 已下架的发布信息 -->
                         <div class="post-card supplier-item" data-status="inactive">
-                            <div class="post-image" onclick="window.location.href='supply-detail.html'">
+                            <div class="post-image" onclick="window.location.href='supply-detail.html?status=inactive'">
                                 <img src="images/product4.jpg" alt="特级茶叶">
                                 <div class="post-status inactive">已下架</div>
                             </div>
                             <div class="post-content">
-                                <h3 onclick="window.location.href='supply-detail.html'" style="cursor: pointer;">明前龙井茶
+                                <h3 onclick="window.location.href='supply-detail.html?status=inactive'"
+                                    style="cursor: pointer;">明前龙井茶
                                 </h3>
                                 <p class="price">¥280/斤</p>
                                 <p class="location"><i class="fas fa-map-marker-alt"></i> 浙江省杭州市</p>
@@ -1361,7 +1367,8 @@
                         </div>
 
                         <div class="post-card buyer-item" data-status="inactive" style="display: none;">
-                            <div class="post-content" onclick="window.location.href='demand-detail.html'"
+                            <div class="post-content"
+                                onclick="window.location.href='demand-detail.html?status=inactive'"
                                 style="cursor: pointer;">
                                 <div class="post-status inactive">已下架</div>
                                 <h3>采购有机蔬菜</h3>
@@ -1376,12 +1383,13 @@
                         </div>
 
                         <div class="post-card supplier-item" data-status="active">
-                            <div class="post-image" onclick="window.location.href='supply-detail.html'">
+                            <div class="post-image" onclick="window.location.href='supply-detail.html?status=active'">
                                 <img src="images/product6.jpg" alt="水产">
                                 <div class="post-status active">展示中</div>
                             </div>
                             <div class="post-content">
-                                <h3 onclick="window.location.href='supply-detail.html'" style="cursor: pointer;">淡水鱼批发
+                                <h3 onclick="window.location.href='supply-detail.html?status=active'"
+                                    style="cursor: pointer;">淡水鱼批发
                                 </h3>
                                 <p class="price">¥12/斤</p>
                                 <p class="location"><i class="fas fa-map-marker-alt"></i> 江苏省苏州市</p>
@@ -2132,7 +2140,10 @@
                     e.stopPropagation();
                     const card = this.closest('.post-card');
                     const isBuyerItem = card.classList.contains('buyer-item');
-                    window.location.href = isBuyerItem ? 'publish-demand.html?edit=true' : 'publish-supply.html?edit=true';
+                    const status = card.getAttribute('data-status');
+                    window.location.href = isBuyerItem ?
+                        `publish-demand.html?edit=true&status=${status}` :
+                        `publish-supply.html?edit=true&status=${status}`;
                 }
 
                 // 初始绑定所有按钮事件
@@ -2175,7 +2186,10 @@
                             imageDiv.style.cursor = 'pointer';
                             imageDiv.onclick = function () {
                                 const isBuyerItem = item.classList.contains('buyer-item');
-                                window.location.href = isBuyerItem ? 'demand-detail.html' : 'supply-detail.html';
+                                const status = item.getAttribute('data-status');
+                                window.location.href = isBuyerItem ?
+                                    `demand-detail.html?status=${status}` :
+                                    `supply-detail.html?status=${status}`;
                             };
                         }
 
@@ -2185,7 +2199,10 @@
                             titleH3.style.cursor = 'pointer';
                             titleH3.onclick = function () {
                                 const isBuyerItem = item.classList.contains('buyer-item');
-                                window.location.href = isBuyerItem ? 'demand-detail.html' : 'supply-detail.html';
+                                const status = item.getAttribute('data-status');
+                                window.location.href = isBuyerItem ?
+                                    `demand-detail.html?status=${status}` :
+                                    `supply-detail.html?status=${status}`;
                             };
                         }
                     });

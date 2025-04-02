@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人资料 - 农产品供销信息平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .profile-form {
+            padding: var(--spacing-lg);
+            background-color: var(--white);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .avatar-upload {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto var(--spacing-md);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-upload-btn {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+            padding: var(--spacing-md);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            margin-top: var(--spacing-xl);
+            cursor: pointer;
+        }
+
+        .save-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone-container">
+        <header class="top-navbar">
+            <div class="container flex-between">
+                <a href="javascript:history.back()">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1>个人资料</h1>
+                <div style="width: 24px;"></div>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <form class="profile-form" id="profileForm">
+                <div class="avatar-upload">
+                    <div class="avatar-preview">
+                        <img src="https://img.icons8.com/color/96/null/user-circle.png" alt="用户头像" id="avatarPreview">
+                    </div>
+                    <button type="button" class="avatar-upload-btn">
+                        <i class="fas fa-camera"></i> 更换头像
+                    </button>
+                    <input type="file" id="avatarInput" hidden accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">昵称</label>
+                    <input type="text" class="form-input" id="nickname" placeholder="请输入昵称">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">真实姓名</label>
+                    <input type="text" class="form-input" id="realName" placeholder="未设置" readonly
+                        style="background-color: #f5f5f5;">
+                </div>
+
+
+
+                <button type="submit" class="save-btn">保存修改</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 获取表单元素
+            const profileForm = document.getElementById('profileForm');
+            const avatarInput = document.getElementById('avatarInput');
+            const avatarPreview = document.getElementById('avatarPreview');
+            const avatarUploadBtn = document.querySelector('.avatar-upload-btn');
+
+            // 从localStorage获取用户信息
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+
+            // 填充表单数据
+            document.getElementById('nickname').value = userInfo.nickname || '';
+            document.getElementById('realName').value = userInfo.realName || '';
+            document.getElementById('phone').value = userInfo.phone || '';
+            if (userInfo.avatar) {
+                avatarPreview.src = userInfo.avatar;
+            }
+
+            // 头像上传按钮点击事件
+            avatarUploadBtn.addEventListener('click', function () {
+                avatarInput.click();
+            });
+
+            // 头像文件改变事件
+            avatarInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        avatarPreview.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 表单提交事件
+            profileForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // 获取表单数据（只包含可编辑字段）
+                const formData = {
+                    nickname: document.getElementById('nickname').value,
+                    avatar: avatarPreview.src
+                };
+
+                // 更新本地存储的用户信息，保留其他字段不变
+                const updatedUserInfo = { ...userInfo, ...formData };
+                localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+
+                // 显示保存成功提示
+                alert('保存成功');
+
+                // 返回上一页
+                history.back();
+            });
+        });
+    </script>
+</body>
+
+</html>

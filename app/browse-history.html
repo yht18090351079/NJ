@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>浏览记录 - 农产品供销信息平台</title>
+
+    <!-- 立即执行登录检查，确保在页面加载任何资源前就进行重定向 -->
+    <script>
+        // 检查登录状态
+        (function () {
+            // 检查本地存储中是否有token或者是否是访客登录
+            const token = localStorage.getItem('token');
+            const isGuest = localStorage.getItem('isGuest') === 'true';
+            if (!token && !isGuest) {
+                // 如果未登录且不是访客，立即重定向到登录页
+                window.location.replace('login.html?redirect=browse-history.html');
+                return;
+            }
+        })();
+    </script>
+
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 页面描述 -->
+    <meta name="description" content="农产品供销信息平台浏览记录，查看您的浏览历史">
+    <!-- 主题色 -->
+    <meta name="theme-color" content="#2E8B57">
+    <style>
+        /* 浏览记录页面特有样式 */
+        .page-header {
+            background-color: var(--primary-color);
+            padding: var(--spacing-lg) var(--spacing-lg);
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-title {
+            font-size: var(--font-size-xl);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .history-list {
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+
+        .history-item {
+            display: flex;
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .history-item:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-image {
+            width: 70px;
+            height: 70px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background-color: #f5f5f5;
+            margin-right: var(--spacing-md);
+            flex-shrink: 0;
+        }
+
+        .history-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-title {
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-category {
+            display: inline-block;
+            font-size: var(--font-size-xs);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            background-color: #F0FFF0;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .history-time {
+            font-size: var(--font-size-xs);
+            color: var(--text-tertiary);
+        }
+
+        .empty-history {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: calc(var(--spacing-xl) * 2) 0;
+            color: var(--text-tertiary);
+            text-align: center;
+        }
+
+        .empty-history .icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.4;
+        }
+
+        .empty-history .text {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .empty-history .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .action-bar {
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+            align-items: center;
+        }
+
+        .clear-btn {
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .clear-btn i {
+            margin-right: var(--spacing-xs);
+            font-size: var(--font-size-sm);
+            color: #F44336;
+        }
+
+        /* 角色切换标签样式 */
+        .role-tabs {
+            display: flex;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin: 0 var(--spacing-lg) var(--spacing-md);
+            background-color: var(--white);
+        }
+
+        .role-tab {
+            flex: 1;
+            text-align: center;
+            padding: var(--spacing-sm) 0;
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .role-tab.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .role-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px 2px 0 0;
+        }
+
+        /* 标记历史记录类型的标签 */
+        .history-type {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-type.supply {
+            color: #2E8B57;
+            border: 1px solid #2E8B57;
+        }
+
+        .history-type.demand {
+            color: #FF9800;
+            border: 1px solid #FF9800;
+        }
+
+        .history-wrap {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 手机框容器 -->
+    <div class="phone-container">
+        <!-- 顶部导航栏 -->
+        <header class="top-navbar">
+            <div class="container flex-between">
+                <!-- 返回按钮 -->
+                <a href="javascript:history.back()">
+                    <i class="fas fa-arrow-left" style="font-size: 18px; color: #333;"></i>
+                </a>
+
+                <!-- 标题 -->
+                <h1 style="font-size: 16px; font-weight: bold;">浏览记录</h1>
+
+                <!-- 右侧占位 -->
+                <div style="width: 24px;"></div>
+            </div>
+        </header>
+
+        <!-- 页面内容区域 -->
+        <div class="page-content">
+            <!-- 角色切换标签 -->
+            <div class="role-tabs">
+                <div class="role-tab active" data-role="all">全部记录</div>
+                <div class="role-tab" data-role="supply">供应浏览记录</div>
+                <div class="role-tab" data-role="demand">采购浏览记录</div>
+            </div>
+
+            <!-- 操作栏 -->
+            <div class="action-bar">
+                <div>
+                    <span id="historyCount" style="font-size: 14px; color: var(--text-secondary);">共 0 条记录</span>
+                </div>
+                <button id="clearHistoryBtn" class="clear-btn">
+                    <i class="fas fa-trash"></i>
+                    <span>清空记录</span>
+                </button>
+            </div>
+
+            <!-- 浏览记录列表 -->
+            <div class="history-list" id="historyList">
+                <!-- 浏览记录项将通过JavaScript动态添加 -->
+                <div class="empty-history" id="emptyHistory">
+                    <div class="icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="text">暂无浏览记录</div>
+                    <a href="index.html" class="btn">去浏览商品</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <nav class="bottom-navbar">
+            <div class="nav-items">
+                <a href="index.html" class="nav-item" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </a>
+                <a href="#" class="nav-item" data-page="market" id="marketLink">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span id="marketText">需求大厅</span>
+                </a>
+                <a href="publish.html" class="nav-item nav-publish">
+                    <div class="publish-btn">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <span>发布</span>
+                </a>
+                <a href="policy.html" class="nav-item" data-page="policy">
+                    <i class="fas fa-newspaper"></i>
+                    <span>消息快报</span>
+                </a>
+                <a href="user.html" class="nav-item active" data-page="user">
+                    <i class="fas fa-user"></i>
+                    <span>个人中心</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 引入主JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <!-- 引入应用程序交互脚本 -->
+    <script src="js/app.js"></script>
+
+    <script>
+        // 浏览记录页面特有交互
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("DOM内容加载完成，开始初始化...");
+
+            // 从localStorage获取当前角色
+            let currentRole = localStorage.getItem('userRole') || 'supplier';
+            let currentTab = 'all'; // 默认显示全部记录
+
+            // 更新市场链接和文本
+            const marketText = document.getElementById('marketText');
+            const marketLink = document.getElementById('marketLink');
+            if (marketText && marketLink) {
+                marketText.textContent = currentRole === 'supplier' ? '需求大厅' : '供应大厅';
+                marketLink.href = currentRole === 'supplier' ? 'demand.html' : 'supply.html';
+            }
+
+            // 更新底部导航栏高亮
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                // 用户中心应该高亮，因为浏览记录是从用户中心进入的
+                if (item.getAttribute('data-page') === 'user') {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // 角色标签切换
+            const roleTabs = document.querySelectorAll('.role-tab');
+            roleTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    roleTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentTab = tab.getAttribute('data-role');
+                    loadBrowsingHistory(currentTab); // 切换标签后重新加载对应记录
+                });
+            });
+
+            // 加载浏览记录
+            loadBrowsingHistory(currentTab);
+
+            // 清空浏览记录按钮点击事件
+            const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+            if (clearHistoryBtn) {
+                clearHistoryBtn.addEventListener('click', () => {
+                    localStorage.removeItem('browsingHistory');
+                    loadBrowsingHistory(currentTab); // 重新加载显示
+                });
+            }
+
+            // 加载浏览记录函数
+            function loadBrowsingHistory(tab = 'all') {
+                // 从localStorage获取浏览记录
+                const browsingHistory = JSON.parse(localStorage.getItem('browsingHistory') || '[]');
+                const historyList = document.getElementById('historyList');
+                const emptyHistory = document.getElementById('emptyHistory');
+                const historyCount = document.getElementById('historyCount');
+
+                // 根据标签筛选记录
+                let filteredHistory = browsingHistory;
+                if (tab === 'supply') {
+                    filteredHistory = browsingHistory.filter(item => item.type === 'supply');
+                } else if (tab === 'demand') {
+                    filteredHistory = browsingHistory.filter(item => item.type === 'demand');
+                }
+
+                // 更新记录数量显示
+                historyCount.textContent = `共 ${filteredHistory.length} 条记录`;
+
+                if (filteredHistory.length > 0) {
+                    // 隐藏空记录提示
+                    if (emptyHistory) {
+                        emptyHistory.style.display = 'none';
+                    }
+
+                    // 清空容器中的现有记录
+                    // 移除除了emptyHistory以外的所有子元素
+                    const children = Array.from(historyList.children);
+                    children.forEach(child => {
+                        if (child.id !== 'emptyHistory') {
+                            historyList.removeChild(child);
+                        }
+                    });
+
+                    // 显示所有记录，按时间倒序排列
+                    const sortedHistory = filteredHistory.sort((a, b) => b.timestamp - a.timestamp);
+
+                    sortedHistory.forEach(item => {
+                        // 创建记录项
+                        const historyItem = document.createElement('div');
+                        historyItem.className = 'history-item';
+
+                        // 格式化时间
+                        const date = new Date(item.timestamp);
+                        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+
+                        // 设置角色类型标签
+                        const typeText = item.type === 'supply' ? '供应' : '采购';
+                        const typeClass = item.type === 'supply' ? 'supply' : 'demand';
+
+                        // 设置内容
+                        historyItem.innerHTML = `
+                            <div class="history-wrap">
+                                <img class="history-image" src="${item.image || 'https://via.placeholder.com/70x70'}" alt="${item.title}">
+                                <span class="history-type ${typeClass}">${typeText}</span>
+                            </div>
+                            <div class="history-info">
+                                <div class="history-title">${item.title}</div>
+                                <div class="history-category">${item.category || '农产品'}</div>
+                                <div class="history-time">${formattedDate}</div>
+                            </div>
+                        `;
+
+                        // 添加点击事件
+                        historyItem.addEventListener('click', () => {
+                            window.location.href = item.url;
+                        });
+
+                        // 添加到容器，确保在emptyHistory之前插入
+                        historyList.insertBefore(historyItem, emptyHistory);
+                    });
+                } else {
+                    // 显示空记录提示
+                    if (emptyHistory) {
+                        emptyHistory.style.display = 'flex';
+                    }
+                }
+            }
+
+            // 为了模拟演示效果，添加一些测试记录（如果没有）
+            addTestBrowsingHistory();
+
+            function addTestBrowsingHistory() {
+                // 只有在记录为空时才添加测试数据
+                const browsingHistory = JSON.parse(localStorage.getItem('browsingHistory') || '[]');
+                if (browsingHistory.length === 0) {
+                    const now = new Date();
+                    const testData = [
+                        {
+                            id: 1,
+                            title: '优质红富士苹果',
+                            category: '水果',
+                            type: 'supply', // 供应商记录
+                            image: 'https://img.icons8.com/doodle/48/apple--v1.png',
+                            url: 'product-supply-detail.html?id=1',
+                            timestamp: now.getTime() - 1000 * 60 * 60 * 2 // 2小时前
+                        },
+                        {
+                            id: 2,
+                            title: '有机蔬菜采购需求',
+                            category: '蔬菜',
+                            type: 'demand', // 采购商记录
+                            image: 'https://img.icons8.com/doodle/48/vegetable.png',
+                            url: 'product-demand-detail.html?id=2',
+                            timestamp: now.getTime() - 1000 * 60 * 60 * 5 // 5小时前
+                        },
+                        {
+                            id: 3,
+                            title: '云南鲜花供应',
+                            category: '鲜花',
+                            type: 'supply', // 供应商记录
+                            image: 'https://img.icons8.com/doodle/48/flower--v1.png',
+                            url: 'product-supply-detail.html?id=3',
+                            timestamp: now.getTime() - 1000 * 60 * 60 * 24 // 1天前
+                        },
+                        {
+                            id: 4,
+                            title: '东北大米批发',
+                            category: '粮食',
+                            type: 'supply', // 供应商记录
+                            image: 'https://img.icons8.com/doodle/48/rice-bowl.png',
+                            url: 'product-supply-detail.html?id=4',
+                            timestamp: now.getTime() - 1000 * 60 * 60 * 48 // 2天前
+                        },
+                        {
+                            id: 5,
+                            title: '新鲜水产品采购',
+                            category: '水产',
+                            type: 'demand', // 采购商记录
+                            image: 'https://img.icons8.com/doodle/48/fish--v1.png',
+                            url: 'product-demand-detail.html?id=5',
+                            timestamp: now.getTime() - 1000 * 60 * 60 * 72 // 3天前
+                        }
+                    ];
+
+                    localStorage.setItem('browsingHistory', JSON.stringify(testData));
+                    loadBrowsingHistory(); // 加载新增的测试记录
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>需求详情 - 农产品供销信息平台</title>
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .product-detail {
+            padding: var(--spacing-lg);
+            background-color: var(--white);
+        }
+
+        .product-images {
+            position: relative;
+            margin: calc(-1 * var(--spacing-lg));
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .product-images img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .image-count {
+            position: absolute;
+            right: var(--spacing-md);
+            bottom: var(--spacing-md);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: var(--white);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .product-header {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .product-title {
+            font-size: var(--font-size-xl);
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .product-price {
+            font-size: var(--font-size-xxl);
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .product-price .unit {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            margin-left: var(--spacing-xs);
+        }
+
+        .info-section {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .info-title {
+            font-size: var(--font-size-lg);
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+        }
+
+        .info-title i {
+            margin-right: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+
+        .info-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: var(--spacing-sm);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-label {
+            width: 80px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .phone-container {
+            position: relative;
+            /* 确保容器是相对定位的 */
+        }
+
+        .page-content {
+            padding-bottom: 70px;
+            /* 为底部联系栏预留空间 */
+            height: calc(100% - 70px);
+            /* 减去底部联系栏的高度 */
+            overflow-y: auto;
+        }
+
+        .contact-bar {
+            position: absolute;
+            /* 绝对定位 */
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            /* 固定高度 */
+            background-color: var(--white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: var(--spacing-md);
+            z-index: 999;
+            box-sizing: border-box;
+        }
+
+        .contact-btn {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-size: var(--font-size-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .contact-btn i {
+            margin-right: var(--spacing-xs);
+            font-size: 16px;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: var(--white);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+            margin-right: var(--spacing-xs);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .tag-supply {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .tag-demand {
+            background-color: #FFF3E0;
+            color: #EF6C00;
+        }
+
+        /* 媒体查询 - 针对较小的手机屏幕 */
+        @media screen and (max-width: 375px) {
+            .contact-btn {
+                font-size: var(--font-size-sm);
+                padding: var(--spacing-sm) var(--spacing-xs);
+            }
+
+            .contact-btn i {
+                font-size: 14px;
+            }
+        }
+
+        /* 响应手机容器样式 */
+        @media (min-width: 376px) {
+            .contact-bar {
+                /* 确保在模拟器中也呆在容器内 */
+                width: 100%;
+                left: 0;
+                bottom: 0;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+
+        /* 弹窗相关样式 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            width: 80%;
+            max-width: 320px;
+            background-color: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .close-btn {
+            font-size: 24px;
+            color: var(--text-tertiary);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: var(--spacing-lg);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .spinner {
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .contact-value {
+            margin: var(--spacing-lg) 0;
+        }
+
+        .contact-value i {
+            font-size: 36px;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .contact-value h2 {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin: var(--spacing-md) 0;
+            word-break: break-all;
+        }
+
+        .text-muted {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-sm);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 主容器 -->
+    <div class="mobile-frame-container">
+        <!-- 页面内容区域 -->
+        <div class="page-content">
+            <!-- 顶部导航栏 -->
+            <header class="top-navbar">
+                <div class="container flex-between">
+                    <!-- 返回按钮 -->
+                    <a href="javascript:history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+
+                    <!-- 标题 -->
+                    <h1 id="pageTitle">需求详情</h1>
+
+                    <!-- 分享按钮 -->
+                    <a href="javascript:void(0);" onclick="showShareModal()">
+                        <i class="fas fa-share-alt"></i>
+                    </a>
+                </div>
+            </header>
+
+            <!-- 主要内容区 -->
+            <main class="main-content">
+                <div class="product-detail">
+                    <!-- 商品图片 -->
+                    <div class="product-images">
+                        <img src="images/default_demand.jpg" alt="" id="productImage">
+                        <div class="image-count">
+                            <i class="fas fa-image"></i>
+                            <span id="imageCount">1/1</span>
+                        </div>
+                    </div>
+
+                    <!-- 商品信息头部 -->
+                    <div class="product-header">
+                        <div class="product-meta">
+                            <span id="productType" class="tag tag-demand">求购</span>
+                            <span id="publishTime"></span>
+                        </div>
+                        <h1 id="productTitle" class="product-title"></h1>
+                        <div class="product-price">
+                            ¥<span id="productPrice"></span>
+                            <span class="unit" id="productUnit"></span>
+                        </div>
+                    </div>
+
+                    <!-- 基本信息 -->
+                    <div class="info-section">
+                        <div class="info-title">
+                            <i class="fas fa-info-circle"></i>
+                            基本信息
+                        </div>
+                        <ul class="info-list">
+                            <li class="info-item">
+                                <span class="info-label">分类</span>
+                                <span class="info-value">
+                                    <span id="categoryLevel1"></span> >
+                                    <span id="categoryLevel2"></span> >
+                                    <span id="categoryLevel3"></span>
+                                </span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">收货地址</span>
+                                <span class="info-value" id="deliveryAddress"></span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">数量</span>
+                                <span class="info-value">
+                                    <span id="quantity"></span>
+                                    <span id="quantityUnit"></span>
+                                </span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">交货日期</span>
+                                <span class="info-value" id="deliveryTime"></span>
+                            </li>
+                            <li class="info-item">
+                                <span class="info-label">更新时间</span>
+                                <span class="info-value" id="updateTime"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 详细要求 -->
+                    <div class="info-section">
+                        <div class="info-title">
+                            <i class="fas fa-align-left"></i>
+                            详细要求
+                        </div>
+                        <div class="info-content" id="requirements">
+                        </div>
+                    </div>
+
+                    <!-- 需求特性 -->
+                    <div class="info-section">
+                        <div class="info-title">
+                            <i class="fas fa-tags"></i>
+                            需求特性
+                        </div>
+                        <div id="featureTags" class="tags-list">
+                            <!-- 标签将通过JavaScript动态添加 -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- 底部导航栏 -->
+        <nav class="bottom-navbar">
+            <div class="contact-bar">
+                <button class="contact-btn btn-outline" id="wechatBtn">
+                    <i class="fab fa-weixin"></i>
+                    <span>获取微信</span>
+                </button>
+                <button class="contact-btn btn-primary" id="phoneBtn">
+                    <i class="fas fa-phone"></i>
+                    <span>联系采购商</span>
+                </button>
+            </div>
+
+            <!-- 联系方式弹窗 -->
+            <div id="contactModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalTitle">联系信息</h3>
+                        <span class="close-btn">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div id="loadingState" class="text-center">
+                            <div class="spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                            <p>正在等待系统审核，请稍候...</p>
+                        </div>
+                        <div id="contactInfo" class="text-center" style="display: none;">
+                            <div class="contact-value">
+                                <i id="contactIcon" class="fas fa-phone"></i>
+                                <h2 id="contactValue">13800138000</h2>
+                            </div>
+                            <p id="contactTip" class="text-muted">点击复制</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 引入主JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <!-- 引入应用程序交互脚本 -->
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const status = urlParams.get('status') || 'active'; // 状态：active, inactive, reviewing
+
+            console.log("需求详情页加载 - 状态:", status);
+
+            // 模拟需求数据
+            const demandData = {
+                id: productId || '2',
+                title: '求购优质红薯',
+                category: {
+                    level1: '蔬菜',
+                    level2: '根茎类',
+                    level3: '红薯'
+                },
+                location: {
+                    province: '湖北省',
+                    city: '武汉市',
+                    district: '洪山区',
+                    detail: '湖北省武汉市洪山区光谷大道100号'
+                },
+                price: {
+                    min: 2.5,
+                    max: 3.2,
+                    unit: '元/斤'
+                },
+                quantity: {
+                    value: 10000,
+                    unit: '斤'
+                },
+                requirements: '要求个头均匀，无病虫害，新鲜度高',
+                features: ['个头均匀', '无病虫害', '新鲜'],
+                contact: {
+                    name: '张经理',
+                    phone: '13812345678',
+                    wechat: 'manager123'
+                },
+                status: status,
+                publishTime: '2024-03-28',
+                updateTime: '2024-03-28',
+                deliveryTime: '2024-04-15'
+            };
+
+            // 更新页面内容
+            updateDemandContent(demandData);
+
+            // 设置事件监听器
+            setupEventListeners(demandData);
+        });
+
+        // 更新页面内容
+        function updateDemandContent(data) {
+            // 更新标题
+            document.getElementById('productTitle').textContent = data.title;
+
+            // 更新产品类型和发布时间
+            document.getElementById('publishTime').textContent = data.publishTime;
+
+            // 更新价格信息
+            document.getElementById('productPrice').textContent =
+                `${data.price.min.toFixed(2)}-${data.price.max.toFixed(2)}`;
+            document.getElementById('productUnit').textContent = data.price.unit;
+
+            // 更新分类
+            document.getElementById('categoryLevel1').textContent = data.category.level1;
+            document.getElementById('categoryLevel2').textContent = data.category.level2;
+            document.getElementById('categoryLevel3').textContent = data.category.level3;
+
+            // 更新收货地址
+            document.getElementById('deliveryAddress').textContent =
+                `${data.location.province} ${data.location.city} ${data.location.district}`;
+
+            // 更新数量
+            document.getElementById('quantity').textContent = data.quantity.value;
+            document.getElementById('quantityUnit').textContent = data.quantity.unit;
+
+            // 更新交货日期
+            document.getElementById('deliveryTime').textContent = data.deliveryTime;
+
+            // 更新时间
+            document.getElementById('updateTime').textContent = data.updateTime;
+
+            // 更新详细要求
+            document.getElementById('requirements').textContent = data.requirements;
+
+            // 更新特性标签
+            const tagsContainer = document.getElementById('featureTags');
+            tagsContainer.innerHTML = '';
+            if (data.features && data.features.length > 0) {
+                data.features.forEach(feature => {
+                    const tag = document.createElement('span');
+                    tag.className = 'tag';
+                    tag.textContent = feature;
+                    tagsContainer.appendChild(tag);
+                });
+            }
+        }
+
+        // 设置页面事件监听
+        function setupEventListeners(data) {
+            // 处理按钮点击事件
+            document.getElementById('wechatBtn').addEventListener('click', function () {
+                // 检查是否为游客
+                const isGuest = localStorage.getItem('isGuest') === 'true';
+                if (isGuest) {
+                    showLoginTip();
+                    return;
+                }
+                // 获取微信功能
+                showContactModal('wechat', data.contact.wechat);
+            });
+
+            document.getElementById('phoneBtn').addEventListener('click', function () {
+                // 检查是否为游客
+                const isGuest = localStorage.getItem('isGuest') === 'true';
+                if (isGuest) {
+                    showLoginTip();
+                    return;
+                }
+                // 电话联系功能
+                showContactModal('phone', data.contact.phone);
+            });
+
+            // 关闭弹窗
+            document.querySelector('.close-btn').addEventListener('click', function () {
+                document.getElementById('contactModal').style.display = 'none';
+            });
+
+            // 点击弹窗外部关闭
+            document.getElementById('contactModal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+
+            // 复制联系信息
+            document.getElementById('contactValue').addEventListener('click', function () {
+                const value = this.textContent;
+                navigator.clipboard.writeText(value).then(() => {
+                    document.getElementById('contactTip').textContent = '已复制到剪贴板';
+                    setTimeout(() => {
+                        document.getElementById('contactTip').textContent = '点击复制';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败: ', err);
+                });
+            });
+        }
+
+        // 显示联系方式弹窗
+        function showContactModal(type, value) {
+            // 设置标题和图标
+            if (type === 'phone') {
+                document.getElementById('modalTitle').textContent = '联系电话';
+                document.getElementById('contactIcon').className = 'fas fa-phone';
+            } else {
+                document.getElementById('modalTitle').textContent = '微信号';
+                document.getElementById('contactIcon').className = 'fab fa-weixin';
+            }
+
+            // 显示弹窗
+            const modal = document.getElementById('contactModal');
+            modal.style.display = 'flex';
+
+            // 显示加载状态
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('contactInfo').style.display = 'none';
+
+            // 模拟加载延迟
+            setTimeout(() => {
+                // 隐藏加载状态，显示联系信息
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('contactInfo').style.display = 'block';
+
+                // 设置联系值
+                document.getElementById('contactValue').textContent = value;
+            }, 800);
+        }
+
+        // 显示登录提示
+        function showLoginTip() {
+            const modal = document.getElementById('contactModal');
+            document.getElementById('modalTitle').textContent = '提示';
+            document.getElementById('loadingState').style.display = 'none';
+
+            // 创建登录提示内容
+            const contactInfo = document.getElementById('contactInfo');
+            contactInfo.style.display = 'block';
+            contactInfo.innerHTML = `
+                <div class="contact-value">
+                    <i class="fas fa-exclamation-circle" style="color: #FF9800;"></i>
+                    <p style="margin-top: 15px; color: #333; font-size: 16px;">游客无法查看联系方式</p>
+                    <p style="margin-top: 10px; color: #666; font-size: 14px;">请登录后再获取联系信息</p>
+                </div>
+                <a href="login.html?noredir=true&clearstate=true" class="login-btn" style="
+                    display: inline-block;
+                    background-color: var(--primary-color);
+                    color: white;
+                    padding: 10px 25px;
+                    border-radius: 20px;
+                    text-decoration: none;
+                    margin-top: 15px;
+                    font-weight: bold;">
+                    <i class="fas fa-sign-in-alt" style="margin-right: 6px;"></i>去登录
+                </a>
+            `;
+
+            modal.style.display = 'flex';
+        }
+
+        function showShareModal() {
+            // 实现分享功能
+            if (navigator.share) {
+                navigator.share({
+                    title: document.getElementById('productTitle').textContent,
+                    text: document.getElementById('requirements').textContent,
+                    url: window.location.href
+                });
+            } else {
+                alert('您的浏览器不支持分享功能');
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -138,11 +138,18 @@
             margin-bottom: var(--spacing-md);
             box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .policy-item:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
+        }
+
+        .policy-item:active {
+            transform: translateY(0);
         }
 
         .policy-header {
@@ -294,7 +301,7 @@
             <main class="main-content">
                 <!-- 政策列表 -->
                 <section class="policy-list">
-                    <div class="policy-item">
+                    <a href="policy-detail.html" class="policy-item">
                         <div class="policy-header">
                             <span class="policy-tag">补贴政策</span>
                             <span class="policy-date">2024-03-15</span>
@@ -306,14 +313,14 @@
                                 <i class="fas fa-building"></i>
                                 农业农村部
                             </span>
-                            <a href="javascript:void(0)" class="read-more">
+                            <span class="read-more">
                                 查看详情
                                 <i class="fas fa-chevron-right"></i>
-                            </a>
+                            </span>
                         </div>
-                    </div>
+                    </a>
 
-                    <div class="policy-item">
+                    <a href="policy-detail.html" class="policy-item">
                         <div class="policy-header">
                             <span class="policy-tag">市场规范</span>
                             <span class="policy-date">2024-03-14</span>
@@ -325,14 +332,14 @@
                                 <i class="fas fa-balance-scale"></i>
                                 市场监督管理局
                             </span>
-                            <a href="javascript:void(0)" class="read-more">
+                            <span class="read-more">
                                 查看详情
                                 <i class="fas fa-chevron-right"></i>
-                            </a>
+                            </span>
                         </div>
-                    </div>
+                    </a>
 
-                    <div class="policy-item">
+                    <a href="policy-detail.html" class="policy-item">
                         <div class="policy-header">
                             <span class="policy-tag">技术支持</span>
                             <span class="policy-date">2024-03-13</span>
@@ -344,12 +351,12 @@
                                 <i class="fas fa-flask"></i>
                                 科技部
                             </span>
-                            <a href="javascript:void(0)" class="read-more">
+                            <span class="read-more">
                                 查看详情
                                 <i class="fas fa-chevron-right"></i>
-                            </a>
+                            </span>
                         </div>
-                    </div>
+                    </a>
                 </section>
             </main>
         </div>

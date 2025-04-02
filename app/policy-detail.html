@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>政策详情 - 农产品供销信息平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .policy-detail {
+            padding: var(--spacing-md);
+            background: #f8f9fa;
+            min-height: calc(100vh - 60px);
+        }
+
+        .detail-card {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .detail-header {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .detail-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .detail-tag {
+            background-color: #E8F5E9;
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+        }
+
+        .detail-date {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-xs);
+        }
+
+        .detail-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .detail-source {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--text-tertiary);
+            font-size: var(--font-size-sm);
+        }
+
+        .detail-source i {
+            color: var(--primary-color);
+        }
+
+        .detail-content {
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+            line-height: 1.8;
+        }
+
+        .detail-content h4 {
+            color: var(--text-primary);
+            font-size: var(--font-size-lg);
+            margin: var(--spacing-lg) 0 var(--spacing-md);
+        }
+
+        .detail-content p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .detail-content ul {
+            padding-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .detail-content li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .detail-attachments {
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .attachment-title {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .attachment-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-sm);
+            background-color: #f8f9fa;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .attachment-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .attachment-item i {
+            color: var(--primary-color);
+            margin-right: var(--spacing-sm);
+        }
+
+        .attachment-info {
+            flex: 1;
+        }
+
+        .attachment-name {
+            font-size: var(--font-size-sm);
+            margin-bottom: 2px;
+        }
+
+        .attachment-size {
+            font-size: var(--font-size-xs);
+            color: var(--text-tertiary);
+        }
+
+        .attachment-download {
+            color: var(--primary-color);
+            font-size: var(--font-size-lg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone-container">
+        <div class="page-content">
+            <!-- 顶部导航栏 -->
+            <header class="top-navbar">
+                <div class="container flex-between">
+                    <a href="javascript:history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>政策详情</h1>
+                    <div style="width: 24px;"></div>
+                </div>
+            </header>
+
+            <!-- 主要内容区 -->
+            <main class="main-content">
+                <section class="policy-detail">
+                    <div class="detail-card">
+                        <div class="detail-header">
+                            <div class="detail-meta">
+                                <span class="detail-tag">补贴政策</span>
+                                <span class="detail-date">2024-03-15</span>
+                            </div>
+                            <h2 class="detail-title">关于2024年农业补贴政策调整的通知</h2>
+                            <div class="detail-source">
+                                <i class="fas fa-building"></i>
+                                <span>农业农村部</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-content">
+                            <p>为深入贯彻落实党中央、国务院关于"三农"工作的决策部署，进一步完善农业补贴政策，提高补贴政策的指向性和精准性，现就2024年农业补贴政策调整事项通知如下：</p>
+
+                            <h4>一、总体要求</h4>
+                            <p>坚持稳中求进工作总基调，全面贯彻新发展理念，落实高质量发展要求，以实施乡村振兴战略为总抓手，以保障国家粮食安全和重要农产品有效供给为目标，优化农业补贴政策，提高补贴效能。</p>
+
+                            <h4>二、主要政策调整</h4>
+                            <ul>
+                                <li>提高耕地地力保护补贴标准，每亩补贴提高20元</li>
+                                <li>扩大农机购置补贴范围，新增智能农机具补贴类型</li>
+                                <li>完善粮食适度规模经营补贴政策，向种粮大户倾斜</li>
+                                <li>建立农业绿色发展奖励机制，支持生态友好型农业发展</li>
+                            </ul>
+
+                            <h4>三、实施时间</h4>
+                            <p>本政策自2024年4月1日起实施。各地要抓紧制定具体实施方案，确保政策及时落地见效。</p>
+                        </div>
+
+                        <div class="detail-attachments">
+                            <h3 class="attachment-title">附件下载</h3>
+                            <div class="attachment-list">
+                                <a href="#" class="attachment-item">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <div class="attachment-info">
+                                        <div class="attachment-name">2024年农业补贴政策调整文件.pdf</div>
+                                        <div class="attachment-size">2.5 MB</div>
+                                    </div>
+                                    <i class="fas fa-download attachment-download"></i>
+                                </a>
+                                <a href="#" class="attachment-item">
+                                    <i class="fas fa-file-excel"></i>
+                                    <div class="attachment-info">
+                                        <div class="attachment-name">补贴标准明细表.xlsx</div>
+                                        <div class="attachment-size">1.2 MB</div>
+                                    </div>
+                                    <i class="fas fa-download attachment-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

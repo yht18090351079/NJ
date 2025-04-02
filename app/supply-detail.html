@@ -315,10 +315,6 @@
                         <i class="fas fa-arrow-left"></i>
                     </a>
                     <h1>供应详情</h1>
-                    <div class="role-switch">
-                        <span id="currentRole">采购商</span>
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
                 </div>
             </header>
 
@@ -327,38 +323,32 @@
                 <div class="status-badge active">展示中</div>
                 <div class="image-gallery">
                     <div class="gallery-main">
-                        <img src="images/product1.jpg" alt="优质大米" id="mainImage">
+                        <img src="images/product1.jpg" alt="" id="mainImage">
                     </div>
-                    <div class="gallery-thumbs">
-                        <div class="thumb-item active" onclick="changeImage('images/product1.jpg', this)">
-                            <img src="images/product1.jpg" alt="优质大米">
-                        </div>
-                        <div class="thumb-item" onclick="changeImage('images/product2.jpg', this)">
-                            <img src="images/product2.jpg" alt="优质大米">
-                        </div>
-                        <div class="thumb-item" onclick="changeImage('images/product3.jpg', this)">
-                            <img src="images/product3.jpg" alt="优质大米">
-                        </div>
+                    <div class="gallery-thumbs" id="imageThumbs">
+                        <!-- 缩略图将通过JavaScript动态添加 -->
                     </div>
                 </div>
-                <h2 class="detail-title">优质大米供应</h2>
-                <div class="detail-price">¥3.5/斤</div>
+                <h2 class="detail-title" id="productTitle">优质大米供应</h2>
+                <div class="detail-price">
+                    ¥<span id="price">3.5</span>
+                    <span id="priceUnit">/斤</span>
+                </div>
                 <div class="detail-info">
                     <div class="info-item">
                         <span class="info-label">供应数量</span>
-                        <span class="info-value">50000斤</span>
+                        <span class="info-value">
+                            <span id="quantity">50000</span>
+                            <span id="quantityUnit">斤</span>
+                        </span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">发货地点</span>
-                        <span class="info-value">湖南省长沙市望城区</span>
+                        <span class="info-value" id="deliveryAddress">湖南省长沙市望城区</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">发布时间</span>
-                        <span class="info-value">2024-02-20</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">供应周期</span>
-                        <span class="info-value">长期供应</span>
+                        <span class="info-value" id="publishTime">2024-02-20</span>
                     </div>
                 </div>
             </div>
@@ -369,50 +359,40 @@
                     <i class="fas fa-info-circle"></i>
                     产品信息
                 </h3>
-                <div class="tags-list">
-                    <span class="tag">优质品种</span>
-                    <span class="tag">无公害</span>
-                    <span class="tag">绿色种植</span>
+                <div class="info-item">
+                    <span class="info-label">分类</span>
+                    <span class="info-value">
+                        <span id="categoryLevel1"></span> >
+                        <span id="categoryLevel2"></span> >
+                        <span id="categoryLevel3"></span>
+                    </span>
+                </div>
+                <div class="tags-list" id="featureTags">
+                    <!-- 标签将通过JavaScript动态添加 -->
                 </div>
                 <div class="info-item">
-                    <span class="info-label">品种</span>
-                    <span class="info-value">稻花香</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">产地</span>
-                    <span class="info-value">湖南望城</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">规格</span>
-                    <span class="info-value">25kg/袋</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">保质期</span>
-                    <span class="info-value">12个月</span>
+                    <span class="info-label">产品描述</span>
+                    <span class="info-value" id="description"></span>
                 </div>
             </div>
 
-            <!-- 供应说明 -->
+            <!-- 联系信息 -->
             <div class="detail-section">
                 <h3 class="section-title">
-                    <i class="fas fa-clipboard-check"></i>
-                    供应说明
+                    <i class="fas fa-user"></i>
+                    联系方式
                 </h3>
                 <div class="info-item">
-                    <span class="info-label">起订量</span>
-                    <span class="info-value">1000斤</span>
+                    <span class="info-label">联系人</span>
+                    <span class="info-value" id="contactName"></span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">配送方式</span>
-                    <span class="info-value">可自提，可配送</span>
+                    <span class="info-label">联系电话</span>
+                    <span class="info-value" id="contactPhone"></span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">支付方式</span>
-                    <span class="info-value">支持定金，支持分期</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">补充说明</span>
-                    <span class="info-value">支持实地考察，产品经过严格质量检测，欢迎各大米商前来考察合作</span>
+                    <span class="info-label">微信号</span>
+                    <span class="info-value" id="contactWechat"></span>
                 </div>
             </div>
 
@@ -477,14 +457,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 从localStorage获取当前角色
-            const currentRole = localStorage.getItem('userRole') || 'buyer';
-            const currentRoleText = document.getElementById('currentRole');
-
-            // 更新角色显示
-            if (currentRoleText) {
-                currentRoleText.textContent = currentRole === 'supplier' ? '供应商' : '采购商';
-            }
+            // 从URL获取状态参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const statusParam = urlParams.get('status');
 
             // 判断是否是自己发布的供应
             const isOwnSupply = true; // 这里应该根据实际业务逻辑判断
@@ -498,6 +473,147 @@
                 contactSection.style.display = 'block';
                 managementSection.style.display = 'none';
             }
+
+            // 模拟从服务器获取的数据
+            const supplyData = {
+                status: statusParam || 'active', // 使用URL参数或默认为active
+                title: '优质大米供应',
+                category: {
+                    level1: '粮油',
+                    level2: '大米',
+                    level3: '稻花香'
+                },
+                price: {
+                    value: 3.5,
+                    unit: '元/斤'
+                },
+                quantity: {
+                    value: 50000,
+                    unit: '斤'
+                },
+                location: {
+                    province: '湖南省',
+                    city: '长沙市',
+                    district: '望城区'
+                },
+                deliveryAddress: '湖南省长沙市望城区高塘岭街道',
+                description: '精选优质稻花香大米，颗粒饱满，口感好，支持实地考察。',
+                features: ['优质品种', '无公害', '绿色种植'],
+                contact: {
+                    name: '李经理',
+                    phone: '13912345678',
+                    wechat: 'rice_manager'
+                },
+                publishTime: '2024-02-20',
+                images: [
+                    'images/product1.jpg',
+                    'images/product2.jpg',
+                    'images/product3.jpg'
+                ]
+            };
+
+            // 更新页面内容
+            function updatePageContent(data) {
+                // 更新标题和状态
+                document.getElementById('productTitle').textContent = data.title;
+
+                // 更新状态标签
+                const statusBadge = document.querySelector('.status-badge');
+                statusBadge.className = 'status-badge';
+                const toggleStatusBtn = document.getElementById('toggleStatusBtn');
+
+                if (data.status === 'active') {
+                    statusBadge.classList.add('active');
+                    statusBadge.textContent = '展示中';
+
+                    // 显示下架按钮
+                    if (toggleStatusBtn) {
+                        toggleStatusBtn.style.display = 'block';
+                        toggleStatusBtn.style.background = '#FF9800';
+                        document.getElementById('toggleStatusIcon').className = 'fas fa-arrow-down';
+                        document.getElementById('toggleStatusText').textContent = '下架';
+                    }
+                } else if (data.status === 'inactive') {
+                    statusBadge.classList.add('inactive');
+                    statusBadge.textContent = '已下架';
+
+                    // 显示上架按钮
+                    if (toggleStatusBtn) {
+                        toggleStatusBtn.style.display = 'block';
+                        toggleStatusBtn.style.background = '#4CAF50';
+                        document.getElementById('toggleStatusIcon').className = 'fas fa-arrow-up';
+                        document.getElementById('toggleStatusText').textContent = '上架';
+                    }
+                } else if (data.status === 'reviewing') {
+                    statusBadge.classList.add('reviewing');
+                    statusBadge.textContent = '审核中';
+
+                    // 审核中状态下隐藏上下架按钮
+                    if (toggleStatusBtn) {
+                        toggleStatusBtn.style.display = 'none';
+                    }
+                }
+
+                // 更新价格
+                document.getElementById('price').textContent = data.price.value;
+                document.getElementById('priceUnit').textContent = data.price.unit;
+
+                // 更新数量
+                document.getElementById('quantity').textContent = data.quantity.value;
+                document.getElementById('quantityUnit').textContent = data.quantity.unit;
+
+                // 更新地址
+                document.getElementById('deliveryAddress').textContent = data.deliveryAddress;
+
+                // 更新时间
+                document.getElementById('publishTime').textContent = data.publishTime;
+
+                // 更新分类
+                document.getElementById('categoryLevel1').textContent = data.category.level1;
+                document.getElementById('categoryLevel2').textContent = data.category.level2;
+                document.getElementById('categoryLevel3').textContent = data.category.level3;
+
+                // 更新描述
+                document.getElementById('description').textContent = data.description;
+
+                // 更新标签
+                const tagsContainer = document.getElementById('featureTags');
+                tagsContainer.innerHTML = '';
+                data.features.forEach(feature => {
+                    const tag = document.createElement('span');
+                    tag.className = 'tag';
+                    tag.textContent = feature;
+                    tagsContainer.appendChild(tag);
+                });
+
+                // 更新联系方式
+                document.getElementById('contactName').textContent = data.contact.name;
+                document.getElementById('contactPhone').textContent = data.contact.phone;
+                document.getElementById('contactWechat').textContent = data.contact.wechat;
+
+                // 更新图片
+                document.getElementById('mainImage').src = data.images[0];
+                document.getElementById('mainImage').alt = data.title;
+
+                // 更新缩略图
+                const thumbsContainer = document.getElementById('imageThumbs');
+                thumbsContainer.innerHTML = '';
+                data.images.forEach((image, index) => {
+                    const thumbDiv = document.createElement('div');
+                    thumbDiv.className = `thumb-item ${index === 0 ? 'active' : ''}`;
+                    thumbDiv.onclick = () => changeImage(image, thumbDiv);
+
+                    const img = document.createElement('img');
+                    img.src = image;
+                    img.alt = data.title;
+
+                    thumbDiv.appendChild(img);
+                    thumbsContainer.appendChild(thumbDiv);
+                });
+            }
+
+            // 初始化页面数据
+            updatePageContent(supplyData);
         });
 
         function showContactInfo() {
