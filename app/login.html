@@ -436,6 +436,14 @@
                             <div class="register-link">
                                 还没有账号? <a href="register.html">立即注册</a>
                             </div>
+
+                            <!-- 添加自动填充按钮 -->
+                            <div class="auto-fill-section" style="text-align: center; margin-top: 12px;">
+                                <button type="button" id="autoFillBtn" class="auto-fill-btn"
+                                    style="padding: 8px 16px; background-color: #f0f0f0; border: 1px solid #ddd; border-radius: 4px; color: #666; font-size: 13px; cursor: pointer;">
+                                    <i class="fas fa-magic" style="margin-right: 4px;"></i>自动填充
+                                </button>
+                            </div>
                         </form>
 
                         <!-- 验证码登录表单 -->
@@ -692,8 +700,8 @@
                             localStorage.setItem('rememberedPhone', phone);
                         }
 
-                        // 登录成功，跳转到首页
-                        window.location.replace('index.html');
+                        // 登录成功，跳转到首页或重定向页面
+                        window.location.href = getRedirectUrl();
                     }, 1500);
                 });
             });
@@ -745,34 +753,12 @@
                 };
             });
 
-            // 表单提交
-            passwordForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                // 保存角色选择
-                localStorage.setItem('userRole', selectedRole);
-                // 模拟登录过程
-                alert('登录成功！正在跳转到首页...');
-                window.location.href = 'index.html';
-            });
-
-            codeForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                // 保存角色选择
-                localStorage.setItem('userRole', selectedRole);
-                // 模拟登录过程
-                alert('登录成功！正在跳转到首页...');
-                window.location.href = 'index.html';
-            });
-
             // 游客登录
             const guestLoginBtn = document.getElementById('guestLoginBtn');
             guestLoginBtn.addEventListener('click', function () {
                 // 保存角色选择，但标记为游客
                 localStorage.setItem('userRole', selectedRole);
                 localStorage.setItem('isGuest', 'true');
-
-                // 模拟登录过程
-                alert('您正在以游客身份登录，部分功能将受限');
 
                 // 获取适当的跳转地址
                 const urlParams = new URLSearchParams(window.location.search);
@@ -783,6 +769,41 @@
                     // 正常重定向逻辑
                     window.location.href = getRedirectUrl();
                 }
+            });
+
+            // 自动填充功能
+            const autoFillBtn = document.getElementById('autoFillBtn');
+            autoFillBtn.addEventListener('click', function () {
+                // 填充测试数据
+                document.querySelectorAll('input[type="tel"]').forEach(input => {
+                    input.value = '13800138000';
+                });
+
+                // 填充密码
+                const passwordInput = document.getElementById('password');
+                if (passwordInput) {
+                    passwordInput.value = 'test123456';
+
+                    // 如果密码是隐藏的，显示密码字符
+                    if (passwordInput.type === 'password') {
+                        const passwordToggle = document.getElementById('passwordToggle');
+                        passwordToggle.classList.remove('fa-eye');
+                        passwordToggle.classList.add('fa-eye-slash');
+                        passwordInput.type = 'text';
+                    }
+                }
+
+                // 验证码表单填充
+                const codeInput = codeForm.querySelector('input[type="text"]');
+                if (codeInput) {
+                    codeInput.value = '123456';
+                }
+
+                // 添加一个简短的视觉反馈
+                this.innerHTML = '<i class="fas fa-check" style="margin-right: 4px;"></i>已填充';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-magic" style="margin-right: 4px;"></i>自动填充';
+                }, 1000);
             });
         });
     </script>
