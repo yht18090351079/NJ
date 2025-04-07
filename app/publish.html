@@ -33,6 +33,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
+            white-space: nowrap;
+            /* 确保文本不换行 */
+            overflow: hidden;
+            /* 防止内容溢出 */
+            text-overflow: ellipsis;
+            /* 如果文本太长，显示省略号 */
         }
 
         .type-option.active {
@@ -612,7 +618,8 @@
 
         .waterfall-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-template-columns: 1fr;
+            /* 修改为单列布局 */
             gap: var(--spacing-md);
             padding: var(--spacing-sm);
             min-height: 200px;
@@ -628,6 +635,10 @@
             transform-origin: center;
             opacity: 1;
             transform: scale(1) translateY(0);
+            margin-bottom: var(--spacing-md);
+            /* 增加卡片间的垂直间距 */
+            width: 100%;
+            /* 确保卡片宽度占满容器 */
         }
 
         .post-card.hidden {
@@ -993,6 +1004,19 @@
             padding: var(--spacing-md);
             border-radius: var(--radius-lg);
             background: var(--white);
+            width: 100%;
+            /* 确保内容区域占满宽度 */
+            box-shadow: var(--shadow-sm);
+            /* 添加阴影效果 */
+            border: 1px solid var(--border-color);
+            /* 添加边框 */
+        }
+
+        .buyer-item.post-card {
+            background: transparent;
+            /* 移除背景 */
+            box-shadow: none;
+            /* 移除阴影 */
         }
 
         .buyer-item .post-status {
@@ -1158,6 +1182,45 @@
         .app-modal-btn.delete:hover {
             background-color: #D32F2F;
         }
+
+        /* 供应商卡片样式优化 */
+        .supplier-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .supplier-item .post-image {
+            height: 180px;
+            /* 增大图片高度 */
+        }
+
+        .supplier-item .post-content {
+            padding: var(--spacing-md);
+            /* 增加内边距 */
+        }
+
+        .supplier-item .post-content h3 {
+            font-size: var(--font-size-md);
+            /* 增大标题字体 */
+        }
+
+        .supplier-item .price {
+            font-size: var(--font-size-lg);
+            /* 增大价格字体 */
+        }
+
+        .supplier-item .location {
+            font-size: var(--font-size-sm);
+            /* 调整位置字体 */
+        }
+
+        /* 按钮样式优化，在单列布局下增大点击区域 */
+        .action-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            /* 增加按钮内边距 */
+            font-size: var(--font-size-sm);
+            /* 增大按钮字体 */
+        }
     </style>
 </head>
 
@@ -1217,7 +1280,9 @@
                 <section class="type-selector-section" style="padding: var(--spacing-md);">
                     <div class="type-selector">
                         <div id="supplyOption" class="type-option active" data-type="supply">我要卖</div>
-                        <div id="demandOption" class="type-option" data-type="demand">我要买</div>
+                        <div id="demandOption" class="type-option" data-type="demand"
+                            style="width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1; padding: 15px 0; font-size: 16px; letter-spacing: 0;">
+                            我要买</div>
                     </div>
                 </section>
 
@@ -1512,7 +1577,8 @@
                     }
                     if (demandOption) {
                         demandOption.classList.add('active');
-                        demandOption.textContent = '我要买';
+                        demandOption.textContent = '我要买'; // 确保只有"我要买"文本
+                        demandOption.style.display = 'block'; // 显示我要买选项
                     }
                     if (typeSelector) {
                         typeSelector.style.display = 'none'; // 采购商只能买
@@ -1817,6 +1883,11 @@
                             supplyOption.style.display = 'none';
                             demandOption.classList.add('active');
                             demandOption.style.display = '';
+                            demandOption.style.lineHeight = '1';
+                            demandOption.style.padding = '15px 0';
+                            demandOption.style.fontSize = '16px';
+                            demandOption.style.letterSpacing = '0';
+                            demandOption.style.whiteSpace = 'nowrap';
                         }
                     }
 

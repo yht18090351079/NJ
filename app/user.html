@@ -871,31 +871,6 @@
         </div>
     </div>
 
-    <!-- 退出登录确认模态框 -->
-    <div class="modal" id="logoutModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="logoutModalTitle">退出确认</h2>
-                <span class="close" id="closeLogoutModal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p id="logoutModalMessage">确定要退出登录吗？</p>
-                <div style="text-align: center; margin-top: 20px;">
-                    <img src="https://img.icons8.com/color/96/null/exit.png" alt="退出" width="60" height="60">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="cancelLogout"
-                    style="background-color: #f5f5f5; color: #666; border: none; padding: 10px 20px; border-radius: 20px; margin-right: 10px; cursor: pointer;">
-                    取消
-                </button>
-                <button id="confirmLogout" class="confirm-btn">
-                    确认退出
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- 引入主JavaScript文件 -->
     <script src="js/main.js"></script>
     <!-- 引入应用程序交互脚本 -->
@@ -1074,58 +1049,27 @@
 
             // 退出登录点击事件
             const logoutBtn = document.querySelector('.logout-btn');
-            const logoutModal = document.getElementById('logoutModal');
-            const closeLogoutModal = document.getElementById('closeLogoutModal');
-            const cancelLogout = document.getElementById('cancelLogout');
-            const confirmLogout = document.getElementById('confirmLogout');
-            const logoutModalTitle = document.getElementById('logoutModalTitle');
-            const logoutModalMessage = document.getElementById('logoutModalMessage');
-
             logoutBtn.addEventListener('click', function () {
                 const isGuest = localStorage.getItem('isGuest') === 'true';
+                let confirmMessage = isGuest ? '确定要退出访客模式吗？' : '确定要退出登录吗？';
 
-                // 设置模态框标题和消息
-                logoutModalTitle.textContent = isGuest ? '退出访客模式' : '退出登录';
-                logoutModalMessage.textContent = isGuest ? '确定要退出访客模式吗？' : '确定要退出登录吗？';
+                if (confirm(confirmMessage)) {
+                    // 显示加载状态
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 退出中...';
+                    this.disabled = true;
 
-                // 显示模态框
-                logoutModal.style.display = 'block';
-            });
+                    // 清除所有登录状态和用户数据
+                    localStorage.removeItem('userInfo');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('selectedMenu');
+                    localStorage.removeItem('isGuest'); // 清除访客状态
+                    sessionStorage.clear();
 
-            // 关闭模态框
-            closeLogoutModal.addEventListener('click', function () {
-                logoutModal.style.display = 'none';
-            });
-
-            // 点击取消按钮
-            cancelLogout.addEventListener('click', function () {
-                logoutModal.style.display = 'none';
-            });
-
-            // 点击确认按钮
-            confirmLogout.addEventListener('click', function () {
-                // 显示加载状态
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 退出中...';
-                this.disabled = true;
-
-                // 清除所有登录状态和用户数据
-                localStorage.removeItem('userInfo');
-                localStorage.removeItem('token');
-                localStorage.removeItem('selectedMenu');
-                localStorage.removeItem('isGuest'); // 清除访客状态
-                sessionStorage.clear();
-
-                // 模拟网络延迟
-                setTimeout(() => {
-                    // 跳转到登录页
-                    window.location.href = 'login.html';
-                }, 800);
-            });
-
-            // 点击模态框外部关闭
-            window.addEventListener('click', function (event) {
-                if (event.target == logoutModal) {
-                    logoutModal.style.display = 'none';
+                    // 模拟网络延迟
+                    setTimeout(() => {
+                        // 跳转到登录页
+                        window.location.href = 'login.html';
+                    }, 800);
                 }
             });
 
