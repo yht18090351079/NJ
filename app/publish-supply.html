@@ -753,12 +753,12 @@
                         </h2>
 
                         <div class="form-group">
-                            <label class="form-label required" for="category-level1">大类：</label>
+                            <label class="form-label required" for="category-level1">一级分类：</label>
                             <div class="search-select-container">
                                 <input type="text" class="form-input search-input" id="category-level1-search"
-                                    placeholder="搜索或选择大类" required>
+                                    placeholder="搜索或选择一级分类" required>
                                 <select id="category-level1" class="form-select" style="display: none;">
-                                    <option value="">请选择大类</option>
+                                    <option value="">请选择一级分类</option>
                                 </select>
                                 <div class="search-dropdown" id="category-level1-dropdown" style="display: none;"></div>
                                 <div class="input-tip">点击输入框查看选项，或输入关键字搜索</div>
@@ -766,29 +766,54 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label required" for="category-level2">小类：</label>
+                            <label class="form-label required" for="category-level2">二级分类：</label>
                             <div class="search-select-container">
                                 <input type="text" class="form-input search-input" id="category-level2-search"
-                                    placeholder="搜索或选择小类" disabled required>
+                                    placeholder="搜索或选择二级分类" disabled required>
                                 <select id="category-level2" class="form-select" style="display: none;">
-                                    <option value="">请选择小类</option>
+                                    <option value="">请选择二级分类</option>
                                 </select>
                                 <div class="search-dropdown" id="category-level2-dropdown" style="display: none;"></div>
-                                <div class="input-tip">请先选择大类</div>
+                                <div class="input-tip">请先选择一级分类</div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label required" for="category-level3">名称：</label>
+                            <label class="form-label required" for="category-level3">三级分类：</label>
                             <div class="search-select-container">
                                 <input type="text" class="form-input search-input" id="category-level3-search"
-                                    placeholder="搜索或选择名称" disabled required>
+                                    placeholder="搜索或选择三级分类" disabled required>
                                 <select id="category-level3" class="form-select" style="display: none;">
-                                    <option value="">请选择名称</option>
+                                    <option value="">请选择三级分类</option>
                                 </select>
                                 <div class="search-dropdown" id="category-level3-dropdown" style="display: none;"></div>
-                                <div class="input-tip">请先选择小类</div>
+                                <div class="input-tip">请先选择二级分类</div>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="category-level4">品种：</label>
+                            <div class="search-select-container">
+                                <input type="text" class="form-input search-input" id="category-level4-search"
+                                    placeholder="搜索或选择品种" disabled required>
+                                <select id="category-level4" class="form-select" style="display: none;">
+                                    <option value="">请选择品种</option>
+                                </select>
+                                <div class="search-dropdown" id="category-level4-dropdown" style="display: none;"></div>
+                                <div class="input-tip">请先选择三级分类</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="product-name">品名：</label>
+                            <input type="text" id="product-name" class="form-input" placeholder="请输入具体品名或品种（选填）">
+                            <div class="input-tip">例如：洛川苹果、富士王、晚秋黄梨等</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required" for="supply-title">标题：</label>
+                            <input type="text" id="supply-title" class="form-input" placeholder="请输入供应标题，简洁明了" required>
+                            <div class="input-tip">例如：四川温江优质耙耙柑大量供应 或 新鲜采摘红富士苹果批发</div>
                         </div>
 
                         <div class="form-group">
@@ -1013,8 +1038,11 @@
                         category: {
                             level1: document.getElementById('category-level1-search').value,
                             level2: document.getElementById('category-level2-search').value,
-                            level3: document.getElementById('category-level3-search').value
+                            level3: document.getElementById('category-level3-search').value,
+                            level4: document.getElementById('category-level4-search').value
                         },
+                        productName: document.getElementById('product-name').value,
+                        title: document.getElementById('supply-title').value,
                         location: {
                             province: document.getElementById('province').value,
                             city: document.getElementById('city').value,
@@ -1129,21 +1157,35 @@
             // 三级分类数据
             const categoryData = {
                 '水果': {
-                    '柑橘': ['耙耙柑'],
-                    '西瓜': ['8424']
+                    '柑橘类': {
+                        '柑桔': ['耙耙柑', '沃柑', '不知火']
+                    },
+                    '西瓜': {
+                        '普通西瓜': ['8424', '京欣']
+                    }
                 },
                 '水产': {
-                    '虾': ['澳洲龙虾', '基围虾']
+                    '虾': {
+                        '海水虾': ['澳洲龙虾', '基围虾']
+                    }
                 },
                 '家禽': {
-                    '鸡': ['肉鸡']
+                    '鸡': {
+                        '肉鸡': ['白羽鸡', '黄羽鸡']
+                    }
                 },
                 '家畜': {
-                    '牛': ['和牛'],
-                    '猪': ['黑猪']
+                    '牛': {
+                        '肉牛': ['和牛', '西门塔尔牛']
+                    },
+                    '猪': {
+                        '肉猪': ['黑猪', '大白猪']
+                    }
                 },
                 '蔬菜': {
-                    '茄果类': ['番茄']
+                    '茄果类': {
+                        '番茄': ['大红番茄', '小番茄']
+                    }
                 }
             };
 
@@ -1165,6 +1207,7 @@
             const level1Select = document.getElementById('category-level1');
             const level2Select = document.getElementById('category-level2');
             const level3Select = document.getElementById('category-level3');
+            const level4Select = document.getElementById('category-level4');
 
             // 初始化省份选择器
             const provinceSelect = document.getElementById('province');
@@ -1175,9 +1218,11 @@
             const level1Search = document.getElementById('category-level1-search');
             const level2Search = document.getElementById('category-level2-search');
             const level3Search = document.getElementById('category-level3-search');
+            const level4Search = document.getElementById('category-level4-search');
             const level1Dropdown = document.getElementById('category-level1-dropdown');
             const level2Dropdown = document.getElementById('category-level2-dropdown');
             const level3Dropdown = document.getElementById('category-level3-dropdown');
+            const level4Dropdown = document.getElementById('category-level4-dropdown');
 
             // 填充一级分类
             Object.keys(categoryData).forEach(category => {
@@ -1191,42 +1236,83 @@
                 provinceSelect.add(option);
             });
 
-            // 一级分类变化时更新二级分类
+            // 更新一级分类变化事件处理
             level1Select.addEventListener('change', function () {
+                level2Search.value = '';
+                level3Search.value = '';
+                level4Search.value = '';
                 level2Select.innerHTML = '<option value="">请选择二级分类</option>';
                 level3Select.innerHTML = '<option value="">请选择三级分类</option>';
+                level4Select.innerHTML = '<option value="">请选择品种</option>';
+                const level2Tip = level2Search.parentElement.querySelector('.input-tip');
+                const level3Tip = level3Search.parentElement.querySelector('.input-tip');
+                const level4Tip = level4Search.parentElement.querySelector('.input-tip');
 
                 if (this.value) {
-                    level2Select.disabled = false;
+                    level2Search.disabled = false;
+                    level2Tip.textContent = '点击输入框查看选项，或输入关键字搜索';
                     Object.keys(categoryData[this.value]).forEach(subcategory => {
                         const option = new Option(subcategory, subcategory);
                         level2Select.add(option);
                     });
                 } else {
-                    level2Select.disabled = true;
-                    level3Select.disabled = true;
+                    level2Search.disabled = true;
+                    level3Search.disabled = true;
+                    level4Search.disabled = true;
+                    level2Tip.textContent = '请先选择一级分类';
+                    level3Tip.textContent = '请先选择二级分类';
+                    level4Tip.textContent = '请先选择三级分类';
                 }
                 formChanged = true;
             });
 
             // 二级分类变化时更新三级分类
             level2Select.addEventListener('change', function () {
+                level3Search.value = '';
+                level4Search.value = '';
                 level3Select.innerHTML = '<option value="">请选择三级分类</option>';
+                level4Select.innerHTML = '<option value="">请选择品种</option>';
+                const level3Tip = level3Search.parentElement.querySelector('.input-tip');
+                const level4Tip = level4Search.parentElement.querySelector('.input-tip');
 
                 if (this.value && level1Select.value) {
-                    level3Select.disabled = false;
-                    categoryData[level1Select.value][this.value].forEach(product => {
-                        const option = new Option(product, product);
+                    level3Search.disabled = false;
+                    level3Tip.textContent = '点击输入框查看选项，或输入关键字搜索';
+                    Object.keys(categoryData[level1Select.value][this.value]).forEach(subcategory => {
+                        const option = new Option(subcategory, subcategory);
                         level3Select.add(option);
                     });
                 } else {
-                    level3Select.disabled = true;
+                    level3Search.disabled = true;
+                    level4Search.disabled = true;
+                    level3Tip.textContent = '请先选择二级分类';
+                    level4Tip.textContent = '请先选择三级分类';
                 }
                 formChanged = true;
             });
 
-            // 三级分类变化时标记表单变更
+            // 三级分类变化时更新四级分类
             level3Select.addEventListener('change', function () {
+                level4Search.value = '';
+                level4Select.innerHTML = '<option value="">请选择品种</option>';
+                const level4Tip = level4Search.parentElement.querySelector('.input-tip');
+
+                if (this.value && level1Select.value && level2Select.value) {
+                    level4Search.disabled = false;
+                    level4Tip.textContent = '点击输入框查看选项，或输入关键字搜索';
+                    categoryData[level1Select.value][level2Select.value][this.value].forEach(product => {
+                        const option = new Option(product, product);
+                        level4Select.add(option);
+                    });
+                } else {
+                    level4Search.disabled = true;
+                    level4Tip.textContent = '请先选择三级分类';
+                }
+                formChanged = true;
+            });
+
+            // 四级分类变化时标记表单变更
+            level4Select.addEventListener('change', function () {
                 formChanged = true;
             });
 
@@ -1277,56 +1363,66 @@
                 level1Select.dispatchEvent(new Event('change'));
 
                 setTimeout(() => {
-                    level2Search.value = '柑橘';
-                    level2Select.value = '柑橘';
+                    level2Search.value = '柑橘类';
+                    level2Select.value = '柑橘类';
                     level2Select.dispatchEvent(new Event('change'));
 
                     setTimeout(() => {
-                        level3Search.value = '耙耙柑';
-                        level3Select.value = '耙耙柑';
+                        level3Search.value = '柑桔';
+                        level3Select.value = '柑桔';
                         level3Select.dispatchEvent(new Event('change'));
 
-                        // 设置省市区
-                        provinceSelect.value = '四川省';
-                        provinceSelect.dispatchEvent(new Event('change'));
-
                         setTimeout(() => {
-                            citySelect.value = '成都市';
-                            citySelect.dispatchEvent(new Event('change'));
+                            level4Search.value = '耙耙柑';
+                            level4Select.value = '耙耙柑';
+                            level4Select.dispatchEvent(new Event('change'));
+
+                            // 设置品名和标题
+                            document.getElementById('product-name').value = '正宗温江耙耙柑';
+                            document.getElementById('supply-title').value = '四川温江优质耙耙柑现摘现发';
+
+                            // 设置省市区
+                            provinceSelect.value = '四川省';
+                            provinceSelect.dispatchEvent(new Event('change'));
 
                             setTimeout(() => {
-                                districtSelect.value = '温江区';
-                                districtSelect.dispatchEvent(new Event('change'));
+                                citySelect.value = '成都市';
+                                citySelect.dispatchEvent(new Event('change'));
 
-                                // 填充其他测试数据
-                                document.getElementById('price').value = '5.5';
-                                document.getElementById('price-unit').value = 'per-jin';
-                                document.getElementById('quantity').value = '5000';
-                                document.getElementById('quantity-unit').value = 'jin';
-                                document.getElementById('description').value = '果形端正，色泽金黄，皮薄多汁，产地直供，支持现场看货。';
-                                document.getElementById('contact').value = '13812345678';
-                                document.getElementById('wechat').value = 'supplier123';
+                                setTimeout(() => {
+                                    districtSelect.value = '温江区';
+                                    districtSelect.dispatchEvent(new Event('change'));
 
-                                // 清除现有产品特性标签
-                                const existingTags = document.querySelectorAll('.selected-tags .tag');
-                                existingTags.forEach(tag => tag.remove());
+                                    // 填充其他测试数据
+                                    document.getElementById('price').value = '5.5';
+                                    document.getElementById('price-unit').value = 'per-jin';
+                                    document.getElementById('quantity').value = '5000';
+                                    document.getElementById('quantity-unit').value = 'jin';
+                                    document.getElementById('description').value = '果形端正，色泽金黄，皮薄多汁，产地直供，支持现场看货。';
+                                    document.getElementById('contact').value = '13812345678';
+                                    document.getElementById('wechat').value = 'supplier123';
 
-                                // 添加预设的产品特性标签
-                                const testFeatures = ['无公害', '新鲜', '当季'];
-                                testFeatures.forEach(feature => {
-                                    const tag = document.createElement('div');
-                                    tag.className = 'tag';
-                                    tag.innerHTML = feature + ' <i class="fas fa-times"></i>';
-                                    document.querySelector('.selected-tags').appendChild(tag);
+                                    // 清除现有产品特性标签
+                                    const existingTags = document.querySelectorAll('.selected-tags .tag');
+                                    existingTags.forEach(tag => tag.remove());
 
-                                    // 添加删除标签的点击事件
-                                    tag.querySelector('i').addEventListener('click', function () {
-                                        tag.remove();
-                                        formChanged = true;
+                                    // 添加预设的产品特性标签
+                                    const testFeatures = ['无公害', '新鲜', '当季'];
+                                    testFeatures.forEach(feature => {
+                                        const tag = document.createElement('div');
+                                        tag.className = 'tag';
+                                        tag.innerHTML = feature + ' <i class="fas fa-times"></i>';
+                                        document.querySelector('.selected-tags').appendChild(tag);
+
+                                        // 添加删除标签的点击事件
+                                        tag.querySelector('i').addEventListener('click', function () {
+                                            tag.remove();
+                                            formChanged = true;
+                                        });
                                     });
-                                });
 
-                                formChanged = true;
+                                    formChanged = true;
+                                }, 100);
                             }, 100);
                         }, 100);
                     }, 100);
@@ -1370,8 +1466,11 @@
                     category: {
                         level1: level1Search.value,
                         level2: level2Search.value,
-                        level3: level3Search.value
+                        level3: level3Search.value,
+                        level4: level4Search.value
                     },
+                    productName: document.getElementById('product-name').value,
+                    title: document.getElementById('supply-title').value,
                     location: {
                         province: document.getElementById('province').value,
                         city: document.getElementById('city').value,
@@ -1413,41 +1512,58 @@
                 }
             });
 
-            // 大类搜索
+            // 一级分类搜索
             level1Search.addEventListener('input', function () {
-                showDropdownOptions(this, level1Dropdown, Object.keys(regionData));
+                showDropdownOptions(this, level1Dropdown, Object.keys(categoryData));
             });
 
             level1Search.addEventListener('click', function () {
-                showDropdownOptions(this, level1Dropdown, Object.keys(regionData));
+                showDropdownOptions(this, level1Dropdown, Object.keys(categoryData));
             });
 
-            // 小类搜索
+            // 二级分类搜索
             level2Search.addEventListener('input', function () {
                 const level1Value = level1Select.value;
                 if (!level1Value) return;
-                showDropdownOptions(this, level2Dropdown, Object.keys(regionData[level1Value]));
+                showDropdownOptions(this, level2Dropdown, Object.keys(categoryData[level1Value]));
             });
 
             level2Search.addEventListener('click', function () {
                 const level1Value = level1Select.value;
                 if (!level1Value) return;
-                showDropdownOptions(this, level2Dropdown, Object.keys(regionData[level1Value]));
+                showDropdownOptions(this, level2Dropdown, Object.keys(categoryData[level1Value]));
             });
 
-            // 名称搜索
+            // 三级分类搜索
             level3Search.addEventListener('input', function () {
                 const level1Value = level1Select.value;
                 const level2Value = level2Select.value;
                 if (!level1Value || !level2Value) return;
-                showDropdownOptions(this, level3Dropdown, regionData[level1Value][level2Value]);
+                showDropdownOptions(this, level3Dropdown, Object.keys(categoryData[level1Value][level2Value]));
             });
 
             level3Search.addEventListener('click', function () {
                 const level1Value = level1Select.value;
                 const level2Value = level2Select.value;
                 if (!level1Value || !level2Value) return;
-                showDropdownOptions(this, level3Dropdown, regionData[level1Value][level2Value]);
+                showDropdownOptions(this, level3Dropdown, Object.keys(categoryData[level1Value][level2Value]));
+            });
+
+            // 四级分类搜索
+            level4Search.addEventListener('input', function () {
+                const level1Value = level1Select.value;
+                const level2Value = level2Select.value;
+                const level3Value = level3Select.value;
+                if (!level1Value || !level2Value || !level3Value) return;
+                showDropdownOptions(this, level4Dropdown, categoryData[level1Value][level2Value][level3Value]);
+            });
+
+            level4Search.addEventListener('click', function () {
+                const level1Value = level1Select.value;
+                const level2Value = level2Select.value;
+                const level3Value = level3Select.value;
+                if (!level1Value || !level2Value || !level3Value) return;
+                showDropdownOptions(this, level4Dropdown, categoryData[level1Value][level2Value][level3Value]);
             });
 
             // 通用的显示下拉选项函数
@@ -1472,15 +1588,15 @@
                         };
                         dropdown.appendChild(div);
                     });
-                } else if (searchInput === level3Search) {
+                } else if (searchInput === level4Search) {
                     const div = document.createElement('div');
                     div.className = 'search-dropdown-item no-results';
                     div.textContent = '暂未收录，选择为其他';
                     div.onclick = () => {
                         searchInput.value = '其他';
-                        level3Select.value = '其他';
+                        level4Select.value = '其他';
                         dropdown.style.display = 'none';
-                        level3Select.dispatchEvent(new Event('change'));
+                        level4Select.dispatchEvent(new Event('change'));
                     };
                     dropdown.appendChild(div);
                 }
@@ -1493,49 +1609,7 @@
                     level1Dropdown.style.display = 'none';
                     level2Dropdown.style.display = 'none';
                     level3Dropdown.style.display = 'none';
-                }
-            });
-
-            // 更新一级分类变化事件处理
-            level1Select.addEventListener('change', function () {
-                level2Search.value = '';
-                level3Search.value = '';
-                level2Select.innerHTML = '<option value="">请选择小类</option>';
-                level3Select.innerHTML = '<option value="">请选择名称</option>';
-                const level2Tip = level2Search.parentElement.querySelector('.input-tip');
-                const level3Tip = level3Search.parentElement.querySelector('.input-tip');
-
-                if (this.value) {
-                    level2Search.disabled = false;
-                    level2Tip.textContent = '点击输入框查看选项，或输入关键字搜索';
-                    Object.keys(regionData[this.value]).forEach(subcategory => {
-                        const option = new Option(subcategory, subcategory);
-                        level2Select.add(option);
-                    });
-                } else {
-                    level2Search.disabled = true;
-                    level3Search.disabled = true;
-                    level2Tip.textContent = '请先选择大类';
-                    level3Tip.textContent = '请先选择小类';
-                }
-            });
-
-            // 更新二级分类变化事件处理
-            level2Select.addEventListener('change', function () {
-                level3Search.value = '';
-                level3Select.innerHTML = '<option value="">请选择名称</option>';
-                const level3Tip = level3Search.parentElement.querySelector('.input-tip');
-
-                if (this.value && level1Select.value) {
-                    level3Search.disabled = false;
-                    level3Tip.textContent = '点击输入框查看选项，或输入关键字搜索';
-                    regionData[level1Select.value][this.value].forEach(product => {
-                        const option = new Option(product, product);
-                        level3Select.add(option);
-                    });
-                } else {
-                    level3Search.disabled = true;
-                    level3Tip.textContent = '请先选择小类';
+                    level4Dropdown.style.display = 'none';
                 }
             });
         });
