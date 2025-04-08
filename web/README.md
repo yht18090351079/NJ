@@ -1,4 +1,6 @@
+git add .
 git commit -m "Your commit message"
+git push origin main
 
 # 农产品供销信息平台 - Web应用端
 
