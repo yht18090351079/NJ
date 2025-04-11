@@ -15,12 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 阻止产品操作按钮点击事件传播
     initProductActionButtons();
-
-    // 确保导航条显示正确
-    if (typeof updateNavigationVisibility === 'function') {
-        const currentRole = localStorage.getItem('userRole') || '采购商';
-        updateNavigationVisibility(currentRole);
-    }
 });
 
 /**

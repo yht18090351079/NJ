@@ -72,69 +72,12 @@ function confirmRoleChange() {
     }
 }
 
-// 根据角色更新导航链接的可见性
+// 根据角色更新导航链接的可见性 - 不再需要，使用交易大厅统一入口
 function updateNavigationVisibility(role) {
-    console.log('[Role Modal Debug] 更新导航链接可见性，当前角色:', role);
-
-    // 获取所有导航链接
-    const supplyNavLinks = document.querySelectorAll('.horizontal-nav-link[href*="supply.html"], .mobile-nav-link[href*="supply.html"]');
-    const demandNavLinks = document.querySelectorAll('.horizontal-nav-link[href*="demand.html"], .mobile-nav-link[href*="demand.html"]');
-
-    // 根据角色显示/隐藏导航链接
-    if (role === '供应商') {
-        // 供应商可以看到需求大厅，但看不到供应大厅
-        supplyNavLinks.forEach(link => {
-            const listItem = link.closest('.horizontal-nav-item') || link.closest('.mobile-nav-item');
-            if (listItem) {
-                listItem.style.display = 'none';
-            }
-        });
-
-        demandNavLinks.forEach(link => {
-            const listItem = link.closest('.horizontal-nav-item') || link.closest('.mobile-nav-item');
-            if (listItem) {
-                listItem.style.display = '';
-            }
-        });
-    } else if (role === '采购商') {
-        // 采购商可以看到供应大厅，但看不到需求大厅
-        supplyNavLinks.forEach(link => {
-            const listItem = link.closest('.horizontal-nav-item') || link.closest('.mobile-nav-item');
-            if (listItem) {
-                listItem.style.display = '';
-            }
-        });
-
-        demandNavLinks.forEach(link => {
-            const listItem = link.closest('.horizontal-nav-item') || link.closest('.mobile-nav-item');
-            if (listItem) {
-                listItem.style.display = 'none';
-            }
-        });
-    } else {
-        // 默认情况下设置为采购商状态
-        supplyNavLinks.forEach(link => {
-            const listItem = link.closest('.horizontal-nav-item') || link.closest('.mobile-nav-item');
-            if (listItem) {
-                listItem.style.display = '';
-            }
-        });
-
-        demandNavLinks.forEach(link => {
-            const listItem = link.closest('.horizontal-nav-item') || link.closest('.mobile-nav-item');
-            if (listItem) {
-                listItem.style.display = 'none';
-            }
-        });
-
-        // 设置默认角色为采购商
-        if (!localStorage.getItem('userRole')) {
-            localStorage.setItem('userRole', '采购商');
-            const currentRoleElement = document.getElementById('currentRole');
-            if (currentRoleElement) {
-                currentRoleElement.textContent = '采购商';
-            }
-        }
+    console.log('[Role Modal Debug] 角色已更新为:', role);
+    // 更新交易大厅链接文本和图标 - 如果函数存在
+    if (typeof updateTradeHallLinkText === 'function') {
+        updateTradeHallLinkText(role);
     }
 }
 
@@ -176,8 +119,18 @@ function initRoleSwitch() {
             currentRoleElement.textContent = savedRole;
         }
 
-        // 根据保存的角色更新导航链接显示
+        // 更新交易大厅入口
         updateNavigationVisibility(savedRole);
+    } else {
+        // 设置默认角色为采购商
+        localStorage.setItem('userRole', '采购商');
+        const currentRoleElement = document.getElementById('currentRole');
+        if (currentRoleElement) {
+            currentRoleElement.textContent = '采购商';
+        }
+
+        // 更新交易大厅入口
+        updateNavigationVisibility('采购商');
     }
 
     // 点击模态框外部关闭
