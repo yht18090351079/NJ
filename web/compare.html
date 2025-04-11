@@ -33,8 +33,7 @@
                 <!-- 中间导航链接 -->
                 <nav class="web-nav">
                     <a href="index.html" class="web-nav-link" data-page="index">首页</a>
-                    <a href="supply.html" class="web-nav-link" data-page="supply">供应大厅</a>
-                    <a href="demand.html" class="web-nav-link" data-page="demand">需求大厅</a>
+                    <a href="javascript:void(0)" class="web-nav-link" id="trade-hall-link">交易大厅</a>
                     <a href="publish.html" class="web-nav-link" data-page="publish">发布信息</a>
                     <a href="user.html" class="web-nav-link" data-page="user">个人中心</a>
                 </nav>
@@ -61,11 +60,8 @@
                     <a href="index.html" class="sidebar-menu-item" data-page="index">
                         <i class="fas fa-home"></i>首页
                     </a>
-                    <a href="supply.html" class="sidebar-menu-item" data-page="supply">
-                        <i class="fas fa-shopping-basket"></i>供应大厅
-                    </a>
-                    <a href="demand.html" class="sidebar-menu-item" data-page="demand">
-                        <i class="fas fa-clipboard-list"></i>需求大厅
+                    <a href="javascript:void(0)" class="sidebar-menu-item" id="sidebar-trade-hall-link">
+                        <i class="fas fa-building"></i>交易大厅
                     </a>
                     <a href="publish.html" class="sidebar-menu-item" data-page="publish">
                         <i class="fas fa-plus-circle"></i>发布信息
@@ -205,6 +201,11 @@
     <script src="../app/js/app.js"></script>
     <!-- 引入Web端特有脚本 -->
     <script src="js/web-app.js"></script>
+    <!-- 引入JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script src="js/trade-hall.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
