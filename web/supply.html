@@ -72,12 +72,6 @@
                                 <span>消息快报</span>
                             </a>
                         </div>
-                        <div class="horizontal-nav-item">
-                            <a href="market.html" class="horizontal-nav-link">
-                                <i class="fas fa-chart-line"></i>
-                                <span>市场行情</span>
-                            </a>
-                        </div>
                     </div>
 
                     <!-- 添加用户图标到导航栏 -->
@@ -86,16 +80,9 @@
                             <i class="fas fa-exchange-alt"></i>
                             <span id="currentRole">采购商</span>
                         </div>
-                        <a href="notifications.html" class="header-icon">
-                            <i class="far fa-bell"></i>
-                            <span class="notification-dot"></span>
-                        </a>
-                        <a href="messages.html" class="header-icon">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                        <div class="avatar-wrapper">
+                        <a href="user.html" class="avatar-wrapper">
                             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
-                        </div>
+                        </a>
                     </div>
                 </div>
             </nav>
@@ -1211,314 +1198,202 @@
                     <!-- 产品网格 -->
                     <div class="product-grid grid-view">
                         <!-- 产品卡片示例 - 水果 - 热带水果 - 芒果 -->
-                        <div class="product-card" data-primary-category="水果" data-secondary-category="热带水果"
-                            data-third-category="芒果" data-area="华南" data-certification="有机认证">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/mango-fruit_74190-5339.jpg" alt="海南小台农芒果">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                        <a href="supply-detail.html?id=1" class="product-card-link">
+                            <div class="product-card" data-primary-category="水果" data-secondary-category="热带水果"
+                                data-third-category="芒果" data-area="华南" data-certification="有机认证">
+                                <div class="product-image">
+                                    <img src="https://img.freepik.com/free-photo/mango-fruit_74190-5339.jpg"
+                                        alt="海南小台农芒果">
+                                    <div class="product-actions">
+                                        <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                        <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-name">海南小台农芒果</div>
+                                    <div class="product-price">
+                                        ¥12.90<span class="product-unit">/斤</span>
+                                    </div>
+                                    <div class="product-address">
+                                        <i class="fas fa-map-marker-alt"></i>海南-三亚
+                                    </div>
+                                    <div class="product-desc">果肉饱满，细腻无纤维，香甜多汁，现摘现发。</div>
                                 </div>
                             </div>
-                            <div class="product-info">
-                                <div class="product-name">海南小台农芒果</div>
-                                <div class="product-price">
-                                    ¥12.90<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>海南-三亚
-                                </div>
-                                <div class="product-desc">果肉饱满，细腻无纤维，香甜多汁，现摘现发。</div>
-                            </div>
-                        </div>
+                        </a>
 
                         <!-- 产品卡片示例 - 水果 - 核果仁果类 - 苹果 -->
-                        <div class="product-card" data-primary-category="水果" data-secondary-category="核果仁果类"
-                            data-third-category="苹果" data-area="西北" data-certification="绿色食品">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/red-apple-with-green-leaf_144627-5663.jpg"
-                                    alt="陕西红富士苹果">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                        <a href="supply-detail.html?id=2" class="product-card-link">
+                            <div class="product-card" data-primary-category="水果" data-secondary-category="核果仁果类"
+                                data-third-category="苹果" data-area="西北" data-certification="绿色食品">
+                                <div class="product-image">
+                                    <img src="https://img.freepik.com/free-photo/red-apple-with-green-leaf_144627-5663.jpg"
+                                        alt="陕西红富士苹果">
+                                    <div class="product-actions">
+                                        <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                        <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-name">陕西红富士苹果</div>
+                                    <div class="product-price">
+                                        ¥5.90<span class="product-unit">/斤</span>
+                                    </div>
+                                    <div class="product-address">
+                                        <i class="fas fa-map-marker-alt"></i>陕西-延安
+                                    </div>
+                                    <div class="product-desc">果型周正，色泽鲜艳，口感脆甜，果肉细腻。</div>
                                 </div>
                             </div>
-                            <div class="product-info">
-                                <div class="product-name">陕西红富士苹果</div>
-                                <div class="product-price">
-                                    ¥5.90<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>陕西-延安
-                                </div>
-                                <div class="product-desc">果型周正，色泽鲜艳，口感脆甜，果肉细腻。</div>
-                            </div>
-                        </div>
+                        </a>
 
                         <!-- 产品卡片示例 - 蔬菜 - 叶菜类 - 生菜 -->
-                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="叶菜类"
-                            data-third-category="生菜" data-area="华东" data-certification="无公害">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/lettuce-white-background_144627-16802.jpg"
-                                    alt="山东有机生菜">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                        <a href="supply-detail.html?id=3" class="product-card-link">
+                            <div class="product-card" data-primary-category="蔬菜" data-secondary-category="叶菜类"
+                                data-third-category="生菜" data-area="华东" data-certification="无公害">
+                                <div class="product-image">
+                                    <img src="https://img.freepik.com/free-photo/lettuce-white-background_144627-16802.jpg"
+                                        alt="山东有机生菜">
+                                    <div class="product-actions">
+                                        <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                        <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-name">山东有机生菜</div>
+                                    <div class="product-price">
+                                        ¥3.50<span class="product-unit">/斤</span>
+                                    </div>
+                                    <div class="product-address">
+                                        <i class="fas fa-map-marker-alt"></i>山东-潍坊
+                                    </div>
+                                    <div class="product-desc">叶片柔嫩，口感清脆，富含维生素，无农药残留。</div>
                                 </div>
                             </div>
-                            <div class="product-info">
-                                <div class="product-name">山东有机生菜</div>
-                                <div class="product-price">
-                                    ¥3.50<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>山东-潍坊
-                                </div>
-                                <div class="product-desc">叶片柔嫩，口感清脆，富含维生素，无农药残留。</div>
-                            </div>
-                        </div>
+                        </a>
 
                         <!-- 产品卡片示例 - 蔬菜 - 茄果菜类 - 西红柿 -->
-                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
-                            data-third-category="西红柿" data-area="华北" data-certification="绿色食品">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/tomatoes_144627-15412.jpg" alt="河北硬粉番茄">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                        <a href="supply-detail.html?id=4" class="product-card-link">
+                            <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
+                                data-third-category="西红柿" data-area="华北" data-certification="绿色食品">
+                                <div class="product-image">
+                                    <img src="https://img.freepik.com/free-photo/tomatoes_144627-15412.jpg"
+                                        alt="河北硬粉番茄">
+                                    <div class="product-actions">
+                                        <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                        <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-name">河北硬粉番茄</div>
+                                    <div class="product-price">
+                                        ¥4.20<span class="product-unit">/斤</span>
+                                    </div>
+                                    <div class="product-address">
+                                        <i class="fas fa-map-marker-alt"></i>河北-唐山
+                                    </div>
+                                    <div class="product-desc">色泽鲜红，肉质紧实，酸甜适中，富含番茄红素。</div>
                                 </div>
                             </div>
-                            <div class="product-info">
-                                <div class="product-name">河北硬粉番茄</div>
-                                <div class="product-price">
-                                    ¥4.20<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>河北-唐山
-                                </div>
-                                <div class="product-desc">色泽鲜红，肉质紧实，酸甜适中，富含番茄红素。</div>
-                            </div>
-                        </div>
+                        </a>
 
-
-
-                        <div class="product-card" data-primary-category="粮油米面" data-secondary-category="谷类作物"
-                            data-third-category="小麦" data-area="华北" data-certification="绿色食品">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/wheat_144627-20517.jpg" alt="河北小麦">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                        <a href="supply-detail.html?id=5" class="product-card-link">
+                            <div class="product-card" data-primary-category="粮油米面" data-secondary-category="谷类作物"
+                                data-third-category="小麦" data-area="华北" data-certification="绿色食品">
+                                <div class="product-image">
+                                    <img src="https://img.freepik.com/free-photo/wheat_144627-20517.jpg" alt="河北小麦">
+                                    <div class="product-actions">
+                                        <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                        <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-name">河北小麦</div>
+                                    <div class="product-price">
+                                        ¥2.80<span class="product-unit">/斤</span>
+                                    </div>
+                                    <div class="product-address">
+                                        <i class="fas fa-map-marker-alt"></i>河北-邯郸
+                                    </div>
+                                    <div class="product-desc">颗粒饱满，麦香浓郁，蛋白质含量高。</div>
                                 </div>
                             </div>
-                            <div class="product-info">
-                                <div class="product-name">河北小麦</div>
-                                <div class="product-price">
-                                    ¥2.80<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>河北-邯郸
-                                </div>
-                                <div class="product-desc">颗粒饱满，麦香浓郁，蛋白质含量高。</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card" data-primary-category="水果" data-secondary-category="热带水果"
-                            data-third-category="香蕉" data-area="华南" data-certification="无公害">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/bananas_144627-5042.jpg" alt="广西香蕉">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-name">广西香蕉</div>
-                                <div class="product-price">
-                                    ¥3.90<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>广西-南宁
-                                </div>
-                                <div class="product-desc">果形饱满，香甜软糯，营养丰富。</div>
-                            </div>
-                        </div>
+                        </a>
 
                         <!-- Continue adding more product cards... -->
-                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="根茎菜类"
-                            data-third-category="胡萝卜" data-area="华北" data-certification="无公害">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/carrots_144627-20544.jpg" alt="山东胡萝卜">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                        <a href="supply-detail.html?id=6" class="product-card-link">
+                            <div class="product-card" data-primary-category="蔬菜" data-secondary-category="根茎菜类"
+                                data-third-category="胡萝卜" data-area="华北" data-certification="无公害">
+                                <div class="product-image">
+                                    <img src="https://img.freepik.com/free-photo/carrots_144627-20544.jpg" alt="山东胡萝卜">
+                                    <div class="product-actions">
+                                        <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                        <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-name">山东胡萝卜</div>
+                                    <div class="product-price">
+                                        ¥2.20<span class="product-unit">/斤</span>
+                                    </div>
+                                    <div class="product-address">
+                                        <i class="fas fa-map-marker-alt"></i>山东-寿光
+                                    </div>
+                                    <div class="product-desc">色泽鲜艳，肉质脆嫩，甜度适中。</div>
                                 </div>
                             </div>
-                            <div class="product-info">
-                                <div class="product-name">山东胡萝卜</div>
-                                <div class="product-price">
-                                    ¥2.20<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>山东-寿光
-                                </div>
-                                <div class="product-desc">色泽鲜艳，肉质脆嫩，甜度适中。</div>
-                            </div>
-                        </div>
+                        </a>
 
                         <!-- Add remaining product cards... -->
 
-                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="豆类"
-                            data-third-category="豆角" data-area="华中" data-certification="无公害">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/green-beans_144627-20518.jpg" alt="湖北豆角">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                        <a href="supply-detail.html?id=7" class="product-card-link">
+                            <div class="product-card" data-primary-category="蔬菜" data-secondary-category="豆类"
+                                data-third-category="豆角" data-area="华中" data-certification="无公害">
+                                <div class="product-image">
+                                    <img src="https://img.freepik.com/free-photo/green-beans_144627-20518.jpg"
+                                        alt="湖北豆角">
+                                    <div class="product-actions">
+                                        <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                        <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <div class="product-name">湖北豆角</div>
+                                    <div class="product-price">
+                                        ¥4.50<span class="product-unit">/斤</span>
+                                    </div>
+                                    <div class="product-address">
+                                        <i class="fas fa-map-marker-alt"></i>湖北-宜昌
+                                    </div>
+                                    <div class="product-desc">新鲜嫩绿，口感清脆，营养丰富。</div>
                                 </div>
                             </div>
-                            <div class="product-info">
-                                <div class="product-name">湖北豆角</div>
-                                <div class="product-price">
-                                    ¥4.50<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>湖北-宜昌
-                                </div>
-                                <div class="product-desc">新鲜嫩绿，口感清脆，营养丰富。</div>
-                            </div>
-                        </div>
+                        </a>
 
 
-
-                        <div class="product-card" data-primary-category="粮油米面" data-secondary-category="食用油"
-                            data-third-category="花生油" data-area="华东" data-certification="ISO认证">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/oil-bottle_144627-16774.jpg" alt="山东花生油">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                        <a href="supply-detail.html?id=8" class="product-card-link">
+                            <div class="product-card" data-primary-category="粮油米面" data-secondary-category="食用油"
+                                data-third-category="花生油" data-area="华东" data-certification="ISO认证">
+                                <div class="product-image">
+                                    <img src="https://img.freepik.com/free-photo/oil-bottle_144627-16774.jpg"
+                                        alt="山东花生油">
+                                    <div class="product-actions">
+                                        <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                        <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-name">山东花生油</div>
-                                <div class="product-price">
-                                    ¥42.90<span class="product-unit">/升</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>山东-济南
-                                </div>
-                                <div class="product-desc">物理压榨，清香醇厚，营养丰富，零添加。</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card" data-primary-category="水果" data-secondary-category="浆果类"
-                            data-third-category="草莓" data-area="华东" data-certification="绿色食品">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/strawberries-white-background_144627-6904.jpg"
-                                    alt="丹东草莓">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                <div class="product-info">
+                                    <div class="product-name">山东花生油</div>
+                                    <div class="product-price">
+                                        ¥36.80<span class="product-unit">/升</span>
+                                    </div>
+                                    <div class="product-address">
+                                        <i class="fas fa-map-marker-alt"></i>山东-青岛
+                                    </div>
+                                    <div class="product-desc">纯天然压榨，不含添加剂，醇香浓郁。</div>
                                 </div>
                             </div>
-                            <div class="product-info">
-                                <div class="product-name">丹东草莓</div>
-                                <div class="product-price">
-                                    ¥15.90<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>辽宁-丹东
-                                </div>
-                                <div class="product-desc">果大形正，色泽鲜艳，甜度适中，现摘现发。</div>
-                            </div>
-                        </div>
-
-                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
-                            data-third-category="茄子" data-area="西北" data-certification="无公害">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/eggplant_144627-20822.jpg" alt="陕西茄子">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-name">陕西茄子</div>
-                                <div class="product-price">
-                                    ¥3.80<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>陕西-西安
-                                </div>
-                                <div class="product-desc">皮薄肉嫩，紫黑发亮，口感细腻，新鲜采摘。</div>
-                            </div>
-                        </div>
-
-
-
-                        <!-- 产品卡片示例 - 蔬菜 - 茄果菜类 - 西红柿 -->
-                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
-                            data-third-category="西红柿" data-area="华北" data-certification="绿色食品">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/tomatoes_144627-15412.jpg" alt="河北硬粉番茄">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-name">河北硬粉番茄</div>
-                                <div class="product-price">
-                                    ¥4.20<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>河北-唐山
-                                </div>
-                                <div class="product-desc">色泽鲜红，肉质紧实，酸甜适中，富含番茄红素。</div>
-                            </div>
-                        </div>
-                        <!-- 产品卡片示例 - 蔬菜 - 茄果菜类 - 西红柿 -->
-                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
-                            data-third-category="西红柿" data-area="华北" data-certification="绿色食品">
-                            <div class="product-image">
-                                <img src="https://img.freepik.com/free-photo/tomatoes_144627-15412.jpg" alt="河北硬粉番茄">
-                                <div class="product-actions">
-                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-name">河北硬粉番茄</div>
-                                <div class="product-price">
-                                    ¥4.20<span class="product-unit">/斤</span>
-                                </div>
-                                <div class="product-address">
-                                    <i class="fas fa-map-marker-alt"></i>河北-唐山
-                                </div>
-                                <div class="product-desc">色泽鲜红，肉质紧实，酸甜适中，富含番茄红素。</div>
-                            </div>
-                        </div>
-
-
-
-
-
-
-                        <!-- Continue with more product cards... -->
+                        </a>
                     </div>
 
                     <!-- 分页 -->

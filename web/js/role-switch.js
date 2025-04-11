@@ -7,71 +7,33 @@
 let selectedRole = null;
 
 // 角色切换函数 - 显示角色模态框
-function showRoleModal(event) {
-    console.log('[Role Modal Debug] 显示角色模态框被调用');
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        console.log('[Role Modal Debug] 阻止事件默认行为和传播');
-    }
-
+function showRoleModal() {
     const roleModal = document.getElementById('roleModal');
-    if (!roleModal) {
-        console.error('[Role Modal Debug] 无法找到ID为roleModal的元素!');
-        return;
+    if (roleModal) {
+        roleModal.style.display = 'block';
+        roleModal.classList.add('active'); // 添加active类以确保可见性
+
+        // 获取当前角色
+        const currentRole = document.getElementById('currentRole').textContent;
+
+        // 设置选中的角色选项
+        const roleOptions = document.querySelectorAll('.role-option');
+        roleOptions.forEach(option => {
+            if (option.getAttribute('data-role') === currentRole) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
     }
-
-    // 获取当前角色
-    const currentRoleElement = document.getElementById('currentRole');
-    if (!currentRoleElement) {
-        console.error('[Role Modal Debug] 无法找到currentRole元素');
-        return;
-    }
-
-    const currentRole = currentRoleElement.textContent.trim();
-    selectedRole = currentRole; // 初始化为当前角色
-    console.log('[Role Modal Debug] 当前角色:', currentRole);
-
-    console.log('[Role Modal Debug] 正在设置模态框样式...');
-    // 强制显示模态框
-    roleModal.style.display = 'flex';
-    roleModal.style.visibility = 'visible';
-    roleModal.style.opacity = '1';
-    roleModal.classList.add('active');
-
-    // 更新模态框中的选中状态
-    const roleOptions = roleModal.querySelectorAll('.role-option');
-    let foundMatch = false;
-
-    roleOptions.forEach(option => {
-        const roleName = option.getAttribute('data-role');
-        option.classList.remove('active');
-        if (roleName === currentRole) {
-            option.classList.add('active');
-            foundMatch = true;
-            console.log('[Role Modal Debug] 设置选中角色:', roleName);
-        }
-    });
-
-    // 如果没有找到匹配项，默认选中第一个选项
-    if (!foundMatch && roleOptions.length > 0) {
-        roleOptions[0].classList.add('active');
-        console.log('[Role Modal Debug] 未找到匹配角色，默认选中第一个选项:', roleOptions[0].getAttribute('data-role'));
-    }
-
-    console.log('[Role Modal Debug] 模态框显示完成');
 }
 
 // 关闭角色模态框
 function closeRoleModal() {
-    console.log('[Role Modal Debug] 关闭角色模态框');
     const roleModal = document.getElementById('roleModal');
     if (roleModal) {
         roleModal.style.display = 'none';
-        roleModal.classList.remove('active');
-        console.log('[Role Modal Debug] 角色模态框已关闭');
-    } else {
-        console.error('[Role Modal Debug] 无法找到角色模态框');
+        roleModal.classList.remove('active'); // 移除active类
     }
 }
 

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>需求详情 - 农产品供销信息平台</title>
+    <!-- 网站描述 -->
+    <meta name="description" content="农产品供销信息平台需求详情，查看采购商的具体需求信息">
+    <!-- 关键词 -->
+    <meta name="keywords" content="农产品,需求详情,采购需求,农产品需求,供销平台">
+    <!-- 主题色 -->
+    <meta name="theme-color" content="#2E8B57">
+
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- 详情页专用样式 -->
+    <link rel="stylesheet" href="css/demand-detail.css">
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://img.icons8.com/color/96/null/natural-food.png" as="image">
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
+</head>
+
+<body>
+    <!-- Web应用布局 -->
+    <div class="web-layout">
+        <!-- 顶部导航栏 -->
+        <header class="web-header">
+            <!-- 水平导航菜单 - 包含logo和用户图标 -->
+            <nav class="horizontal-nav">
+                <div class="horizontal-nav-menu">
+                    <!-- 添加logo到导航栏 -->
+                    <div class="logo">
+                        <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                        <span class="logo-text">农产品供销平台</span>
+                    </div>
+
+                    <!-- 中间导航链接 -->
+                    <div class="nav-links">
+                        <div class="horizontal-nav-item">
+                            <a href="index.html" class="horizontal-nav-link">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="supply.html" class="horizontal-nav-link">
+                                <i class="fas fa-store"></i>
+                                <span>供应大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item active">
+                            <a href="demand.html" class="horizontal-nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>需求大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="publish.html" class="horizontal-nav-link">
+                                <i class="fas fa-edit"></i>
+                                <span>发布信息</span>
+                            </a>
+                        </div>
+
+                        <div class="nav-group-divider"></div>
+
+                        <div class="horizontal-nav-item">
+                            <a href="policy.html" class="horizontal-nav-link">
+                                <i class="fas fa-newspaper"></i>
+                                <span>消息快报</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 添加用户图标到导航栏 -->
+                    <div class="header-icons">
+                        <div class="role-switch" onclick="showRoleModal(); return false;">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span id="currentRole">供应商</span>
+                        </div>
+                        <a href="user.html" class="avatar-wrapper">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 顶部区域 - 仅保留搜索 -->
+            <div class="header-top">
+                <!-- 移动端显示的logo -->
+                <div class="logo mobile-logo">
+                    <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                    <span class="logo-text">农产品供销平台</span>
+                </div>
+
+                <div class="search-wrapper">
+                    <form class="search-form">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="search" class="search-input" placeholder="搜索农产品、种类、地区...">
+                        <button type="button" class="advanced-search-toggle">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 移动端菜单按钮 -->
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- 面包屑导航 -->
+                <div class="breadcrumb">
+                    <div class="breadcrumb-item">
+                        <a href="index.html">首页</a>
+                    </div>
+                    <div class="breadcrumb-item">
+                        <a href="demand.html">需求大厅</a>
+                    </div>
+                    <div class="breadcrumb-item">
+                        <a href="demand-detail.html">需求详情</a>
+                    </div>
+                </div>
+
+                <!-- 需求详情内容 -->
+                <div class="detail-container">
+                    <div class="detail-header">
+                        <h1 class="detail-title">急需五常稻花香大米 长期合作</h1>
+                        <div class="detail-meta">
+                            <span class="detail-time"><i class="far fa-clock"></i> 发布时间: 2023-10-05</span>
+                            <span class="detail-views"><i class="far fa-eye"></i> 浏览: 356</span>
+                            <span class="detail-area"><i class="fas fa-map-marker-alt"></i> 广东省广州市</span>
+                        </div>
+                        <div class="detail-actions">
+                            <button class="btn-detail-action btn-favorite" onclick="toggleFavorite(3)">
+                                <i class="far fa-heart"></i> 收藏
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="detail-content">
+                        <div class="detail-info">
+                            <div class="info-item">
+                                <span class="info-label">采购价格</span>
+                                <span class="info-value price-value">¥90/10斤</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">采购数量</span>
+                                <span class="info-value">5000斤</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">产品分类</span>
+                                <span class="info-value">大米</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">采购周期</span>
+                                <span class="info-value">长期合作</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">采购商类型</span>
+                                <span class="info-value">批发商</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">支付方式</span>
+                                <span class="info-value">货到付款</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-description">
+                            <h3 class="section-title">需求描述</h3>
+                            <div class="description-content">
+                                <p>我公司是广州本地大型米业批发商，现寻求黑龙江五常优质稻花香大米的长期供应商。需求量大，价格合理，希望建立长期稳定的合作关系。</p>
+                                <p>产品要求：</p>
+                                <ul>
+                                    <li>品种：五常稻花香</li>
+                                    <li>规格：10斤/袋</li>
+                                    <li>品质：一级优质大米，无杂质</li>
+                                    <li>包装：真空包装</li>
+                                    <li>保质期：12个月以上</li>
+                                </ul>
+                                <p>期望合作模式：</p>
+                                <ul>
+                                    <li>可按月供货，每月约需5000斤</li>
+                                    <li>价格需稳定，可根据季节适当浮动</li>
+                                    <li>货到付款，验收合格后3个工作日内付款</li>
+                                </ul>
+                                <p>感兴趣的供应商请联系我们，期待您的合作！</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info">
+                            <h3 class="section-title">联系方式</h3>
+                            <div class="contact-content">
+                                <div class="contact-item">
+                                    <i class="fas fa-user"></i>
+                                    <span class="contact-label">联系人：</span>
+                                    <span class="contact-value">张经理</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-building"></i>
+                                    <span class="contact-label">公司名称：</span>
+                                    <span class="contact-value">广州市******贸易有限公司</span>
+                                </div>
+                            </div>
+                            <div class="contact-buttons">
+                                <button class="btn-contact btn-phone" data-contact-type="phone" data-company-id="3">
+                                    <i class="fas fa-phone"></i> 联系电话
+                                </button>
+                                <button class="btn-contact btn-wechat" data-contact-type="wechat" data-company-id="3">
+                                    <i class="fab fa-weixin"></i> 微信号
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 相关推荐 -->
+                <div class="related-products">
+                    <h3 class="section-title">相关需求</h3>
+                    <div class="product-grid">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://source.unsplash.com/300x300/?rice" alt="泰国香米">
+                                <span class="product-tag demand-tag">需求</span>
+                            </div>
+                            <div class="product-info">
+                                <h4 class="product-title"><a href="demand-detail.html?id=7">寻找泰国茉莉香米供应商</a></h4>
+                                <div class="product-price">¥100/10斤</div>
+                                <div class="product-meta">
+                                    <span class="product-location"><i class="fas fa-map-marker-alt"></i> 上海市</span>
+                                    <span class="product-time">3天前</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://source.unsplash.com/300x300/?organic+rice" alt="有机大米">
+                                <span class="product-tag demand-tag">需求</span>
+                            </div>
+                            <div class="product-info">
+                                <h4 class="product-title"><a href="demand-detail.html?id=8">有机大米长期采购</a></h4>
+                                <div class="product-price">¥120/10斤</div>
+                                <div class="product-meta">
+                                    <span class="product-location"><i class="fas fa-map-marker-alt"></i> 北京市</span>
+                                    <span class="product-time">1周前</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://source.unsplash.com/300x300/?northern+rice" alt="东北大米">
+                                <span class="product-tag demand-tag">需求</span>
+                            </div>
+                            <div class="product-info">
+                                <h4 class="product-title"><a href="demand-detail.html?id=9">寻东北优质粳米</a></h4>
+                                <div class="product-price">¥85/10斤</div>
+                                <div class="product-meta">
+                                    <span class="product-location"><i class="fas fa-map-marker-alt"></i> 浙江省杭州市</span>
+                                    <span class="product-time">5天前</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 页脚区域 -->
+        <div id="footer-container"></div>
+
+        <!-- 返回按钮 -->
+        <div class="back-button" title="返回需求列表">
+            <i class="fas fa-arrow-left"></i>
+            返回列表
+        </div>
+
+        <!-- 移动端底部导航 -->
+        <div class="mobile-nav" style="display: none;">
+            <a href="index.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </a>
+            <a href="supply.html" class="mobile-nav-item">
+                <i class="fas fa-store"></i>
+                <span>供应</span>
+            </a>
+            <a href="publish.html" class="mobile-nav-item">
+                <div class="publish-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <span>发布</span>
+            </a>
+            <a href="demand.html" class="mobile-nav-item active">
+                <i class="fas fa-shopping-cart"></i>
+                <span>需求</span>
+            </a>
+            <a href="user.html" class="mobile-nav-item">
+                <i class="fas fa-user"></i>
+                <span>我的</span>
+            </a>
+        </div>
+
+        <!-- 返回顶部按钮 -->
+        <div class="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </div>
+
+        <!-- 角色切换模态框 -->
+        <div class="role-modal" id="roleModal" style="display:none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>切换角色</h3>
+                    <button type="button" class="close-btn" id="roleModalCloseBtn" onclick="closeRoleModal()"><i
+                            class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="role-options">
+                        <div class="role-option" data-role="采购商" onclick="selectRoleOption(this)">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="role-option-info">
+                                <h4>采购商</h4>
+                                <p>发布农产品采购需求</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="供应商" onclick="selectRoleOption(this)">
+                            <i class="fas fa-store"></i>
+                            <div class="role-option-info">
+                                <h4>供应商</h4>
+                                <p>发布农产品供应信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-confirm" id="roleModalConfirmBtn"
+                        onclick="confirmRoleChange()">确认切换</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系方式模态框 -->
+        <div class="role-modal contact-modal" id="contactModal" style="z-index: 2000; display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="contactModalTitle">联系采购商</h3>
+                    <button class="close-btn" id="contactModalCloseBtn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="contact-info">
+                        <div class="company-profile">
+                            <img src="images/avatar/company3.jpg" alt="公司头像" id="modalCompanyAvatar"
+                                class="modal-company-avatar">
+                            <div class="company-details">
+                                <h4 id="modalCompanyName">广州市鲜果多贸易有限公司</h4>
+                            </div>
+                        </div>
+                        <div class="contact-method" id="phoneContactMethod">
+                            <h4>联系电话</h4>
+                            <div class="contact-value-wrapper">
+                                <p class="contact-value hidden-value" id="phoneValue">***********</p>
+                                <div class="loading-spinner" id="phoneLoadingSpinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>申请审核中</span>
+                                </div>
+                            </div>
+                            <p class="contact-note">联系时请说明来自"农产品供销平台"</p>
+                        </div>
+                        <div class="contact-method" id="wechatContactMethod">
+                            <h4>微信号</h4>
+                            <div class="contact-value-wrapper">
+                                <p class="contact-value hidden-value" id="wechatValue">***********</p>
+                                <div class="loading-spinner" id="wechatLoadingSpinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>申请审核中</span>
+                                </div>
+                            </div>
+                            <p class="contact-note">添加微信时请说明来自"农产品供销平台"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p class="privacy-note"><i class="fas fa-shield-alt"></i> 平台保障用户隐私安全</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 加载页脚组件
+            loadComponent('footer-container', 'components/footer.html');
+
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const demandId = urlParams.get('id') || '3'; // 默认显示ID为3的需求
+
+            // 更新当前角色
+            updateCurrentRole();
+
+            // 添加收藏按钮交互
+            const favoriteBtn = document.querySelector('.btn-favorite');
+            if (favoriteBtn) {
+                // 检查是否已收藏
+                const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+                if (favorites.includes('demand-' + demandId)) {
+                    favoriteBtn.innerHTML = '<i class="fas fa-heart"></i> 已收藏';
+                    favoriteBtn.classList.add('favorited');
+                }
+            }
+
+            // 返回顶部按钮
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', function () {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+
+                backToTopBtn.addEventListener('click', function () {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // 联系模态框功能
+            initContactModal();
+
+            // 监听返回按钮
+            const backButton = document.querySelector('.back-button');
+            if (backButton) {
+                backButton.addEventListener('click', function () {
+                    // 尝试获取之前的页面，如果是从demand.html来的，则返回
+                    if (document.referrer.includes('demand.html')) {
+                        window.history.back();
+                    } else {
+                        // 如果不是从demand.html来的，则直接跳转到demand.html
+                        window.location.href = 'demand.html';
+                    }
+                });
+            }
+        });
+
+        // 更新当前角色
+        function updateCurrentRole() {
+            const currentRole = localStorage.getItem('userRole') || '采购商';
+            const currentRoleSpan = document.getElementById('currentRole');
+            if (currentRoleSpan) {
+                currentRoleSpan.textContent = currentRole;
+            }
+        }
+
+        // 切换收藏状态
+        function toggleFavorite(id) {
+            const isGuest = localStorage.getItem('isGuest') === 'true';
+            if (isGuest) {
+                alert('访客模式下无法收藏，请先登录');
+                return;
+            }
+
+            const favoriteBtn = document.querySelector('.btn-favorite');
+            const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            const itemId = 'demand-' + id;
+
+            if (favorites.includes(itemId)) {
+                // 取消收藏
+                const index = favorites.indexOf(itemId);
+                favorites.splice(index, 1);
+                favoriteBtn.innerHTML = '<i class="far fa-heart"></i> 收藏';
+                favoriteBtn.classList.remove('favorited');
+                alert('已取消收藏');
+            } else {
+                // 添加收藏
+                favorites.push(itemId);
+                favoriteBtn.innerHTML = '<i class="fas fa-heart"></i> 已收藏';
+                favoriteBtn.classList.add('favorited');
+                alert('已添加到收藏');
+            }
+
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        // 初始化联系模态框
+        function initContactModal() {
+            console.log('初始化联系模态框');
+
+            // 获取模态框和相关元素
+            const contactModal = document.getElementById('contactModal');
+            const closeModalBtn = document.getElementById('contactModalCloseBtn');
+            const companyAvatar = document.getElementById('modalCompanyAvatar');
+            const companyName = document.getElementById('modalCompanyName');
+            const phoneWrapper = document.getElementById('phoneContactMethod');
+            const wechatWrapper = document.getElementById('wechatContactMethod');
+            const phoneValue = document.getElementById('phoneValue');
+            const wechatValue = document.getElementById('wechatValue');
+            const phoneLoadingSpinner = document.getElementById('phoneLoadingSpinner');
+            const wechatLoadingSpinner = document.getElementById('wechatLoadingSpinner');
+
+            // 模拟公司数据
+            const companyData = {
+                "3": {
+                    name: "广州市鲜果多贸易有限公司",
+                    avatar: "images/avatar/company3.jpg",
+                    phone: "13512346789",
+                    wechatId: "GZfresh888"
+                }
+            };
+
+            // 重置联系方式显示
+            function resetContactView() {
+                phoneWrapper.style.display = 'block';
+                wechatWrapper.style.display = 'block';
+
+                if (phoneLoadingSpinner) {
+                    phoneLoadingSpinner.style.display = 'flex';
+                }
+
+                if (wechatLoadingSpinner) {
+                    wechatLoadingSpinner.style.display = 'flex';
+                }
+
+                if (phoneValue) {
+                    phoneValue.style.display = 'none';
+                    phoneValue.classList.add('hidden-value');
+                    phoneValue.style.textShadow = '0 0 6px rgba(0, 0, 0, 0.5)';
+                    phoneValue.style.color = 'transparent';
+                }
+
+                if (wechatValue) {
+                    wechatValue.style.display = 'none';
+                    wechatValue.classList.add('hidden-value');
+                    wechatValue.style.textShadow = '0 0 6px rgba(0, 0, 0, 0.5)';
+                    wechatValue.style.color = 'transparent';
+                }
+
+                phoneValue.textContent = '***********';
+                wechatValue.textContent = '***********';
+            }
+
+            // 初始化联系按钮点击事件
+            const contactButtons = document.querySelectorAll('.btn-contact');
+            contactButtons.forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // 获取公司ID和联系方式类型
+                    const companyId = this.getAttribute('data-company-id');
+                    const contactType = this.getAttribute('data-contact-type');
+
+                    if (!companyId || !contactType || !companyData[companyId]) {
+                        console.error('无效的公司ID或联系方式类型');
+                        return;
+                    }
+
+                    // 更新公司信息
+                    companyName.textContent = companyData[companyId].name;
+                    companyAvatar.src = companyData[companyId].avatar;
+
+                    // 显示模态框
+                    contactModal.classList.add('active');
+                    contactModal.style.display = 'flex';
+
+                    // 重置联系方式视图
+                    resetContactView();
+
+                    // 根据类型显示不同的联系方式
+                    if (contactType === 'phone') {
+                        wechatWrapper.style.display = 'none'; // 隐藏微信联系方式
+
+                        // 模拟加载延迟
+                        setTimeout(function () {
+                            if (phoneLoadingSpinner) {
+                                phoneLoadingSpinner.style.display = 'none';
+                            }
+
+                            if (phoneValue) {
+                                phoneValue.textContent = companyData[companyId].phone;
+                                phoneValue.classList.remove('hidden-value');
+                                phoneValue.style.display = 'block';
+                                phoneValue.style.color = 'var(--text-primary)';
+                                phoneValue.style.textShadow = 'none';
+                            }
+                        }, 800);
+                    } else if (contactType === 'wechat') {
+                        phoneWrapper.style.display = 'none'; // 隐藏电话联系方式
+
+                        // 模拟加载延迟
+                        setTimeout(function () {
+                            if (wechatLoadingSpinner) {
+                                wechatLoadingSpinner.style.display = 'none';
+                            }
+
+                            if (wechatValue) {
+                                wechatValue.textContent = companyData[companyId].wechatId;
+                                wechatValue.classList.remove('hidden-value');
+                                wechatValue.style.display = 'block';
+                                wechatValue.style.color = 'var(--text-primary)';
+                                wechatValue.style.textShadow = 'none';
+                            }
+                        }, 800);
+                    }
+                });
+            });
+
+            // 关闭模态框
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function () {
+                    contactModal.classList.remove('active');
+                    contactModal.style.display = 'none';
+                });
+            }
+
+            // 点击模态框背景关闭
+            contactModal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    contactModal.classList.remove('active');
+                    contactModal.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

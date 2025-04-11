@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
     initProductCompare();
     initLocationFilter();
     initTagFilter();
+
+    // 初始化产品卡片按钮
+    initProductCardButtons();
 });
 
 /**
@@ -2550,4 +2553,39 @@ function updatePageContent(page) {
 // 页面加载完成后初始化分页
 document.addEventListener('DOMContentLoaded', () => {
     initPagination();
+});
+
+// 初始化产品卡片中的按钮点击事件，阻止点击按钮时触发导航
+function initProductCardButtons() {
+    // 为收藏按钮添加点击事件
+    document.querySelectorAll('.add-to-favorite').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // 收藏逻辑...
+            const productCard = this.closest('.product-card');
+            const productName = productCard.querySelector('.product-name').textContent;
+            alert(`已将 ${productName} 添加到收藏`);
+        });
+    });
+
+    // 为对比按钮添加点击事件
+    document.querySelectorAll('.add-to-compare').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // 对比逻辑...
+            const productCard = this.closest('.product-card');
+            const productName = productCard.querySelector('.product-name').textContent;
+            alert(`已将 ${productName} 添加到对比`);
+        });
+    });
+}
+
+// 在文档加载完成后初始化
+document.addEventListener('DOMContentLoaded', function () {
+    // 其它初始化代码...
+
+    // 初始化产品卡片按钮
+    initProductCardButtons();
 }); 

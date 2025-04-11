@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的收藏 - 农产品供销信息平台</title>
+    <!-- 网站描述 -->
+    <meta name="description" content="农产品供销信息平台个人中心，管理您收藏的农产品信息">
+    <!-- 关键词 -->
+    <meta name="keywords" content="农产品,我的收藏,个人中心,农产品收藏,供销平台">
+    <!-- 主题色 -->
+    <meta name="theme-color" content="#2E8B57">
+
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- 引入个人中心特有样式 -->
+    <link rel="stylesheet" href="css/user-web.css">
+
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://img.icons8.com/color/96/null/natural-food.png" as="image">
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
+
+    <!-- 立即执行登录检查，确保在页面加载任何资源前就进行重定向 -->
+    <script>
+        // 检查登录状态
+        (function () {
+            // 检查本地存储中是否有token或者是否是访客登录
+            const token = localStorage.getItem('token');
+            const isGuest = localStorage.getItem('isGuest') === 'true';
+            if (!token && !isGuest) {
+                // 如果未登录且不是访客，立即重定向到登录页
+                window.location.replace('login.html?redirect=user-favorites.html');
+                return;
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- Web应用布局 -->
+    <div class="web-layout">
+        <!-- 顶部导航栏 -->
+        <header class="web-header">
+            <!-- 水平导航菜单 - 包含logo和用户图标 -->
+            <nav class="horizontal-nav">
+                <div class="horizontal-nav-menu">
+                    <!-- 添加logo到导航栏 -->
+                    <div class="logo">
+                        <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                        <span class="logo-text">农产品供销平台</span>
+                    </div>
+
+                    <!-- 中间导航链接 -->
+                    <div class="nav-links">
+                        <div class="horizontal-nav-item">
+                            <a href="index.html" class="horizontal-nav-link">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="supply.html" class="horizontal-nav-link">
+                                <i class="fas fa-store"></i>
+                                <span>供应大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="demand.html" class="horizontal-nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>需求大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="publish.html" class="horizontal-nav-link">
+                                <i class="fas fa-edit"></i>
+                                <span>发布信息</span>
+                            </a>
+                        </div>
+
+                        <div class="nav-group-divider"></div>
+
+                        <div class="horizontal-nav-item">
+                            <a href="policy.html" class="horizontal-nav-link">
+                                <i class="fas fa-newspaper"></i>
+                                <span>消息快报</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 添加用户图标到导航栏 -->
+                    <div class="header-icons">
+                        <div class="role-switch" onclick="showRoleModal(); return false;">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span id="currentRole"
+                                onclick="showRoleModal(); event.stopPropagation(); return false;">采购商</span>
+                        </div>
+                        <a href="user.html" class="avatar-wrapper active">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 顶部区域 - 仅保留搜索 -->
+            <div class="header-top">
+                <!-- 移动端显示的logo -->
+                <div class="logo mobile-logo">
+                    <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                    <span class="logo-text">农产品供销平台</span>
+                </div>
+
+                <div class="search-wrapper">
+                    <form class="search-form">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="search" class="search-input" placeholder="搜索农产品、种类、地区...">
+                        <button type="button" class="advanced-search-toggle">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 移动端菜单按钮 -->
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- 面包屑导航 -->
+                <div class="breadcrumb">
+                    <div class="breadcrumb-item">
+                        <a href="index.html">首页</a>
+                    </div>
+                    <div class="breadcrumb-item">
+                        <a href="user.html">个人中心</a>
+                    </div>
+                    <div class="breadcrumb-item">
+                        <a href="user-favorites.html">我的收藏</a>
+                    </div>
+                </div>
+
+                <!-- 访客模式提示横幅 -->
+                <div id="guestBanner"
+                    style="display: none; background-color: #FFF4E5; padding: 12px 16px; margin-bottom: 20px; color: #773800; font-size: 14px; text-align: center; line-height: 1.4; border-radius: 8px;">
+                    <i class="fas fa-info-circle" style="margin-right: 6px;"></i>
+                    <span>您正在使用访客模式浏览，部分功能受限。</span>
+                    <a href="login.html" style="color: #FF9800; text-decoration: underline; margin-left: 6px;">去登录</a>
+                </div>
+
+                <!-- 内容区布局 -->
+                <div class="content-layout">
+                    <!-- 侧边栏导航 -->
+                    <aside class="user-sidebar">
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">账户管理</h3>
+                            <ul class="sidebar-menu">
+                                <li class="sidebar-menu-item">
+                                    <a href="user.html" class="sidebar-menu-link">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>个人资料</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a href="user-security.html" class="sidebar-menu-link">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <span>账号安全</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">信息管理</h3>
+                            <ul class="sidebar-menu">
+                                <li class="sidebar-menu-item active">
+                                    <a href="user-favorites.html" class="sidebar-menu-link">
+                                        <i class="fas fa-heart"></i>
+                                        <span>我的收藏</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a href="user-history.html" class="sidebar-menu-link">
+                                        <i class="fas fa-history"></i>
+                                        <span>浏览历史</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 退出登录按钮 -->
+                        <div class="sidebar-section">
+                            <button class="logout-btn" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                退出登录
+                            </button>
+                        </div>
+                    </aside>
+
+                    <!-- 主要内容区 -->
+                    <div class="user-main-content">
+                        <!-- 我的收藏卡片 -->
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h3 class="card-title">我的收藏</h3>
+                                <div class="card-actions">
+                                    <div class="card-filter">
+                                        <select id="favoriteFilter" class="select-control">
+                                            <option value="all">全部收藏</option>
+                                            <option value="supply">供应信息</option>
+                                            <option value="demand">需求信息</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn-batch" id="batchSelectBtn">
+                                        <i class="fas fa-check-square"></i>
+                                        批量管理
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- 收藏列表 -->
+                                <div class="favorites-list" id="favoritesList">
+                                    <!-- 收藏项 -->
+                                    <div class="favorite-item">
+                                        <div class="favorite-checkbox">
+                                            <input type="checkbox" id="favorite1" class="favorite-check"
+                                                style="display: none;">
+                                            <label for="favorite1"></label>
+                                        </div>
+                                        <div class="favorite-image">
+                                            <img src="https://source.unsplash.com/300x300/?apple,fruit" alt="红富士苹果">
+                                            <span class="favorite-tag supply-tag">供应</span>
+                                        </div>
+                                        <div class="favorite-info">
+                                            <div class="favorite-title">
+                                                <a href="supply-detail.html?id=1">山东烟台红富士苹果 现货供应</a>
+                                            </div>
+                                            <div class="favorite-meta">
+                                                <span class="favorite-price">¥6.5/斤</span>
+                                                <span class="favorite-quantity">起订: 100斤</span>
+                                                <span class="favorite-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    山东省烟台市
+                                                </span>
+                                            </div>
+                                            <div class="favorite-time">收藏于: 2023-10-12</div>
+                                        </div>
+                                        <div class="favorite-actions">
+                                            <button class="btn-favorite-action" onclick="removeFavorite(1)">
+                                                <i class="fas fa-trash-alt"></i>
+                                                取消收藏
+                                            </button>
+                                            <button class="btn-favorite-action" onclick="contactSupplier(1)">
+                                                <i class="fas fa-comment"></i>
+                                                联系商家
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="favorite-item">
+                                        <div class="favorite-checkbox">
+                                            <input type="checkbox" id="favorite2" class="favorite-check"
+                                                style="display: none;">
+                                            <label for="favorite2"></label>
+                                        </div>
+                                        <div class="favorite-image">
+                                            <img src="https://source.unsplash.com/300x300/?vegetable,organic"
+                                                alt="有机蔬菜">
+                                            <span class="favorite-tag supply-tag">供应</span>
+                                        </div>
+                                        <div class="favorite-info">
+                                            <div class="favorite-title">
+                                                <a href="supply-detail.html?id=2">有机蔬菜礼盒装 绿色健康</a>
+                                            </div>
+                                            <div class="favorite-meta">
+                                                <span class="favorite-price">¥168/箱</span>
+                                                <span class="favorite-quantity">起订: 5箱</span>
+                                                <span class="favorite-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    江苏省南京市
+                                                </span>
+                                            </div>
+                                            <div class="favorite-time">收藏于: 2023-10-10</div>
+                                        </div>
+                                        <div class="favorite-actions">
+                                            <button class="btn-favorite-action" onclick="removeFavorite(2)">
+                                                <i class="fas fa-trash-alt"></i>
+                                                取消收藏
+                                            </button>
+                                            <button class="btn-favorite-action" onclick="contactSupplier(2)">
+                                                <i class="fas fa-comment"></i>
+                                                联系商家
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="favorite-item">
+                                        <div class="favorite-checkbox">
+                                            <input type="checkbox" id="favorite3" class="favorite-check"
+                                                style="display: none;">
+                                            <label for="favorite3"></label>
+                                        </div>
+                                        <div class="favorite-image">
+                                            <img src="https://source.unsplash.com/300x300/?rice" alt="五常大米">
+                                            <span class="favorite-tag demand-tag">需求</span>
+                                        </div>
+                                        <div class="favorite-info">
+                                            <div class="favorite-title">
+                                                <a href="demand-detail.html?id=3">急需五常稻花香大米 长期合作</a>
+                                            </div>
+                                            <div class="favorite-meta">
+                                                <span class="favorite-price">≤¥90/10斤</span>
+                                                <span class="favorite-quantity">采购量: 5000斤</span>
+                                                <span class="favorite-address">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    广东省广州市
+                                                </span>
+                                            </div>
+                                            <div class="favorite-time">收藏于: 2023-10-05</div>
+                                        </div>
+                                        <div class="favorite-actions">
+                                            <button class="btn-favorite-action" onclick="removeFavorite(3)">
+                                                <i class="fas fa-trash-alt"></i>
+                                                取消收藏
+                                            </button>
+                                            <button class="btn-favorite-action" onclick="contactBuyer(3)">
+                                                <i class="fas fa-comment"></i>
+                                                联系采购商
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 批量操作工具栏 -->
+                                <div class="batch-toolbar" id="batchToolbar" style="display: none;">
+                                    <div class="batch-select">
+                                        <input type="checkbox" id="selectAll">
+                                        <label for="selectAll">全选</label>
+                                    </div>
+                                    <div class="batch-actions">
+                                        <button class="btn-batch-action" id="batchRemoveBtn">
+                                            <i class="fas fa-trash-alt"></i>
+                                            批量删除
+                                        </button>
+                                        <button class="btn-batch-action" id="batchCancelBtn">
+                                            取消
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- 分页控件 -->
+                                <div class="pagination">
+                                    <button class="btn-page" disabled>
+                                        <i class="fas fa-angle-left"></i>
+                                    </button>
+                                    <button class="btn-page active">1</button>
+                                    <button class="btn-page">2</button>
+                                    <button class="btn-page">3</button>
+                                    <button class="btn-page">
+                                        <i class="fas fa-angle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 空状态提示 -->
+                        <div class="empty-state" id="emptyState" style="display: none;">
+                            <div class="empty-icon">
+                                <i class="fas fa-heart-broken"></i>
+                            </div>
+                            <div class="empty-text">您还没有收藏任何商品</div>
+                            <button class="btn-primary" onclick="window.location.href='supply.html'">
+                                去逛逛
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 页脚区域 -->
+        <div id="footer-container"></div>
+
+        <!-- 移动端底部导航 -->
+        <div class="mobile-nav" style="display: none;">
+            <a href="index.html" class="mobile-nav-item">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </a>
+            <a href="supply.html" class="mobile-nav-item">
+                <i class="fas fa-store"></i>
+                <span>供应</span>
+            </a>
+            <a href="publish.html" class="mobile-nav-item">
+                <div class="publish-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <span>发布</span>
+            </a>
+            <a href="demand.html" class="mobile-nav-item">
+                <i class="fas fa-shopping-cart"></i>
+                <span>需求</span>
+            </a>
+            <a href="user.html" class="mobile-nav-item active">
+                <i class="fas fa-user"></i>
+                <span>我的</span>
+            </a>
+        </div>
+
+        <!-- 返回顶部按钮 -->
+        <div class="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </div>
+
+        <!-- 角色切换模态框 -->
+        <div class="role-modal" id="roleModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>切换角色</h3>
+                    <button type="button" class="close-btn" id="roleModalCloseBtn" onclick="closeRoleModal()"><i
+                            class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="role-options">
+                        <div class="role-option" data-role="采购商" onclick="selectRoleOption(this)">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="role-option-info">
+                                <h4>采购商</h4>
+                                <p>发布农产品采购需求</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="供应商" onclick="selectRoleOption(this)">
+                            <i class="fas fa-store"></i>
+                            <div class="role-option-info">
+                                <h4>供应商</h4>
+                                <p>发布农产品供应信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-confirm" id="roleModalConfirmBtn"
+                        onclick="confirmRoleChange()">确认切换</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 加载页脚组件
+            loadComponent('footer-container', 'components/footer.html');
+
+            // 从localStorage获取用户信息和访客状态
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            const isGuest = localStorage.getItem('isGuest') === 'true';
+            const currentRole = localStorage.getItem('userRole') || '采购商';
+
+            // 更新当前角色
+            const currentRoleSpan = document.getElementById('currentRole');
+            if (currentRoleSpan) {
+                currentRoleSpan.textContent = currentRole;
+            }
+
+            // 根据是否是访客更新显示
+            if (isGuest) {
+                // 显示访客模式提示横幅
+                const guestBanner = document.getElementById('guestBanner');
+                if (guestBanner) {
+                    guestBanner.style.display = 'block';
+                }
+            }
+
+            // 批量选择按钮事件
+            const batchSelectBtn = document.getElementById('batchSelectBtn');
+            const batchToolbar = document.getElementById('batchToolbar');
+            const checkboxes = document.querySelectorAll('.favorite-check');
+
+            if (batchSelectBtn) {
+                batchSelectBtn.addEventListener('click', function () {
+                    if (batchToolbar.style.display === 'none') {
+                        // 显示批量工具栏和复选框
+                        batchToolbar.style.display = 'flex';
+                        checkboxes.forEach(checkbox => {
+                            checkbox.style.display = 'block';
+                        });
+                        // 更改按钮文本
+                        batchSelectBtn.innerHTML = '<i class="fas fa-check-square"></i> 退出批量';
+                    } else {
+                        // 隐藏批量工具栏和复选框
+                        batchToolbar.style.display = 'none';
+                        checkboxes.forEach(checkbox => {
+                            checkbox.style.display = 'none';
+                            checkbox.checked = false;
+                        });
+                        document.getElementById('selectAll').checked = false;
+                        // 恢复按钮文本
+                        batchSelectBtn.innerHTML = '<i class="fas fa-check-square"></i> 批量管理';
+                    }
+                });
+            }
+
+            // 全选/取消全选
+            const selectAllCheckbox = document.getElementById('selectAll');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function () {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = selectAllCheckbox.checked;
+                    });
+                });
+            }
+
+            // 取消批量管理
+            const batchCancelBtn = document.getElementById('batchCancelBtn');
+            if (batchCancelBtn) {
+                batchCancelBtn.addEventListener('click', function () {
+                    batchToolbar.style.display = 'none';
+                    checkboxes.forEach(checkbox => {
+                        checkbox.style.display = 'none';
+                        checkbox.checked = false;
+                    });
+                    document.getElementById('selectAll').checked = false;
+                    batchSelectBtn.innerHTML = '<i class="fas fa-check-square"></i> 批量管理';
+                });
+            }
+
+            // 批量删除
+            const batchRemoveBtn = document.getElementById('batchRemoveBtn');
+            if (batchRemoveBtn) {
+                batchRemoveBtn.addEventListener('click', function () {
+                    // 检查是否有选中项
+                    const selectedItems = document.querySelectorAll('.favorite-check:checked');
+                    if (selectedItems.length === 0) {
+                        alert('请至少选择一项进行操作');
+                        return;
+                    }
+
+                    if (confirm(`确定要删除所选的${selectedItems.length}条收藏记录吗？`)) {
+                        // 删除所选项
+                        selectedItems.forEach(item => {
+                            const favoriteItem = item.closest('.favorite-item');
+                            favoriteItem.style.opacity = '0';
+                            setTimeout(() => {
+                                favoriteItem.style.display = 'none';
+                            }, 300);
+                        });
+
+                        // 更新显示
+                        setTimeout(() => {
+                            const remaining = document.querySelectorAll('.favorite-item[style="display: block"], .favorite-item:not([style])');
+                            if (remaining.length === 0) {
+                                document.getElementById('favoritesList').style.display = 'none';
+                                document.getElementById('emptyState').style.display = 'block';
+                                document.querySelector('.pagination').style.display = 'none';
+                                batchToolbar.style.display = 'none';
+                                batchSelectBtn.style.display = 'none';
+                            }
+                        }, 350);
+
+                        // 退出批量模式
+                        setTimeout(() => {
+                            batchToolbar.style.display = 'none';
+                            checkboxes.forEach(checkbox => {
+                                checkbox.style.display = 'none';
+                                checkbox.checked = false;
+                            });
+                            document.getElementById('selectAll').checked = false;
+                            batchSelectBtn.innerHTML = '<i class="fas fa-check-square"></i> 批量管理';
+                        }, 400);
+                    }
+                });
+            }
+
+            // 过滤器事件
+            const favoriteFilter = document.getElementById('favoriteFilter');
+            if (favoriteFilter) {
+                favoriteFilter.addEventListener('change', function () {
+                    const filterValue = this.value;
+                    const items = document.querySelectorAll('.favorite-item');
+
+                    items.forEach(item => {
+                        const tag = item.querySelector('.favorite-tag');
+                        if (filterValue === 'all') {
+                            item.style.display = 'flex';
+                        } else if (filterValue === 'supply' && tag.classList.contains('supply-tag')) {
+                            item.style.display = 'flex';
+                        } else if (filterValue === 'demand' && tag.classList.contains('demand-tag')) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+
+                    // 检查是否有可见项
+                    const visibleItems = document.querySelectorAll('.favorite-item[style="display: flex"]');
+                    if (visibleItems.length === 0) {
+                        document.getElementById('emptyState').style.display = 'block';
+                        document.getElementById('emptyState').querySelector('.empty-text').textContent = '没有符合条件的收藏项';
+                    } else {
+                        document.getElementById('emptyState').style.display = 'none';
+                    }
+                });
+            }
+
+            // 分页按钮事件
+            const pageButtons = document.querySelectorAll('.btn-page');
+            pageButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    if (!this.classList.contains('active') && !this.disabled) {
+                        document.querySelector('.btn-page.active').classList.remove('active');
+                        this.classList.add('active');
+
+                        // 这里可以实现页面切换逻辑
+                        alert('正在切换到第 ' + this.textContent + ' 页');
+                    }
+                });
+            });
+
+            // 退出登录按钮点击事件
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function () {
+                    const isGuest = localStorage.getItem('isGuest') === 'true';
+                    let confirmMessage = isGuest ? '确定要退出访客模式吗？' : '确定要退出登录吗？';
+
+                    if (confirm(confirmMessage)) {
+                        // 显示加载状态
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 退出中...';
+                        this.disabled = true;
+
+                        // 清除所有登录状态和用户数据
+                        localStorage.removeItem('userInfo');
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('isGuest');
+                        sessionStorage.clear();
+
+                        // 模拟网络延迟
+                        setTimeout(() => {
+                            // 跳转到登录页
+                            window.location.href = 'login.html';
+                        }, 800);
+                    }
+                });
+            }
+
+            // 返回顶部按钮
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', function () {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+
+                backToTopBtn.addEventListener('click', function () {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+
+        // 取消收藏函数
+        function removeFavorite(id) {
+            if (confirm('确定要取消收藏此项吗？')) {
+                // 找到对应的收藏项
+                const favoriteItem = document.getElementById('favorite' + id).closest('.favorite-item');
+
+                // 添加淡出效果
+                favoriteItem.style.opacity = '0';
+                setTimeout(() => {
+                    favoriteItem.style.display = 'none';
+
+                    // 检查是否还有收藏项
+                    const remaining = document.querySelectorAll('.favorite-item[style="display: block"], .favorite-item:not([style])');
+                    if (remaining.length === 0) {
+                        document.getElementById('favoritesList').style.display = 'none';
+                        document.getElementById('emptyState').style.display = 'block';
+                        document.querySelector('.pagination').style.display = 'none';
+                        document.getElementById('batchSelectBtn').style.display = 'none';
+                    }
+                }, 300);
+            }
+        }
+
+        // 联系供应商函数
+        function contactSupplier(id) {
+            alert('即将联系供应商，商品ID: ' + id);
+            // 实际应用中应该跳转到聊天页面或显示联系方式
+        }
+
+        // 联系采购商函数
+        function contactBuyer(id) {
+            alert('即将联系采购商，需求ID: ' + id);
+            // 实际应用中应该跳转到聊天页面或显示联系方式
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function (event) {
+            const roleModal = document.getElementById('roleModal');
+            if (event.target == roleModal) {
+                closeRoleModal();
+            }
+        }
+    </script>
+</body>
+
+</html>

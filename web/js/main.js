@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 初始化分类选择
     initCategorySelection();
+
+    // 初始化产品操作按钮
+    initProductActionButtons();
 });
 
 /**
@@ -1223,95 +1226,114 @@ function initHeatmapToggle() {
 }
 
 /**
- * 初始化产品轮播功能
- * 处理轮播切换及控制
+ * 初始化产品轮播
  */
 function initProductSlider() {
     const sliderContainer = document.querySelector('.slider-container');
-    const prevButton = document.querySelector('.slider-arrow.prev');
-    const nextButton = document.querySelector('.slider-arrow.next');
+    const slides = document.querySelectorAll('.slide-item');
+    const prevBtn = document.querySelector('.slider-arrow.prev');
+    const nextBtn = document.querySelector('.slider-arrow.next');
     const dots = document.querySelectorAll('.slider-dot');
-    const slideItems = document.querySelectorAll('.slide-item');
 
-    if (!sliderContainer || !prevButton || !nextButton) return;
+    if (!sliderContainer || !slides.length) return;
 
-    let currentSlide = 0;
-    const itemsPerSlide = window.innerWidth < 768 ? 2 : 4;
-    let totalSlides = Math.ceil(slideItems.length / itemsPerSlide);
+    let currentIndex = 0;
+    const slideWidth = 100; // 百分比宽度
 
-    // 更新小圆点数量匹配幻灯片数
+    // 更新小圆点指示器
     const updateDots = () => {
-        const dotsContainer = document.querySelector('.slider-dots');
-        if (dotsContainer) {
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < totalSlides; i++) {
-                const dot = document.createElement('span');
-                dot.className = i === 0 ? 'slider-dot active' : 'slider-dot';
-                dot.setAttribute('data-slide', i);
-                dot.addEventListener('click', () => goToSlide(i));
-                dotsContainer.appendChild(dot);
+        dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
             }
-        }
+        });
     };
 
-    updateDots();
+    // 过滤掉隐藏的幻灯片
+    const getVisibleSlides = () => {
+        return Array.from(slides).filter(slide => slide.style.display !== 'none');
+    };
 
-    // 移动到指定幻灯片
+    // 切换到指定幻灯片
     function goToSlide(slideIndex) {
-        if (slideIndex < 0) slideIndex = totalSlides - 1;
-        if (slideIndex >= totalSlides) slideIndex = 0;
+        const visibleSlides = getVisibleSlides();
+        if (!visibleSlides.length) return;
 
-        currentSlide = slideIndex;
-        const offset = -(currentSlide * 100 / totalSlides);
-        sliderContainer.style.transform = `translateX(${offset}%)`;
+        // 确保索引在有效范围内
+        if (slideIndex < 0) {
+            slideIndex = 0;
+        } else if (slideIndex >= visibleSlides.length) {
+            slideIndex = visibleSlides.length - 1;
+        }
 
-        // 更新小圆点激活状态
-        document.querySelectorAll('.slider-dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentSlide);
+        // 找到可见幻灯片中的索引对应的实际幻灯片索引
+        const actualIndex = Array.from(slides).indexOf(visibleSlides[slideIndex]);
+        currentIndex = actualIndex;
+
+        // 更新轮播位置
+        sliderContainer.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
+        updateDots();
+    }
+
+    // 绑定点击事件
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+        });
+    });
+
+    // 上一张/下一张按钮
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            let newIndex = currentIndex - 1;
+            if (newIndex < 0) {
+                newIndex = getVisibleSlides().length - 1;
+            }
+            goToSlide(newIndex);
         });
     }
 
-    // 将goToSlide暴露给全局
-    window.goToSlide = goToSlide;
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            let newIndex = currentIndex + 1;
+            if (newIndex >= getVisibleSlides().length) {
+                newIndex = 0;
+            }
+            goToSlide(newIndex);
+        });
+    }
 
-    // 监听前后按钮点击
-    prevButton.addEventListener('click', () => goToSlide(currentSlide - 1));
-    nextButton.addEventListener('click', () => goToSlide(currentSlide + 1));
-
-    // 窗口大小变化时重新计算显示项目数
-    window.addEventListener('resize', () => {
-        const newItemsPerSlide = window.innerWidth < 768 ? 2 : 4;
-        const visibleItems = Array.from(slideItems).filter(item => item.style.display !== 'none');
-        totalSlides = Math.ceil(visibleItems.length / newItemsPerSlide);
-
-        updateDots();
-        goToSlide(0);
-    });
-
-    // 监听重置轮播事件
-    document.addEventListener('resetSlider', () => {
-        const visibleItems = Array.from(slideItems).filter(item => item.style.display !== 'none');
-        totalSlides = Math.ceil(visibleItems.length / itemsPerSlide);
-
-        updateDots();
-        goToSlide(0);
-    });
-
-    // 自动轮播
-    let autoSlideInterval = setInterval(() => {
-        goToSlide(currentSlide + 1);
-    }, 5000);
-
-    // 鼠标悬停时暂停自动轮播
-    sliderContainer.addEventListener('mouseenter', () => {
-        clearInterval(autoSlideInterval);
-    });
-
-    // 鼠标离开时恢复自动轮播
-    sliderContainer.addEventListener('mouseleave', () => {
-        autoSlideInterval = setInterval(() => {
-            goToSlide(currentSlide + 1);
+    // 自动播放
+    let autoplayInterval;
+    const startAutoplay = () => {
+        autoplayInterval = setInterval(() => {
+            let newIndex = currentIndex + 1;
+            if (newIndex >= getVisibleSlides().length) {
+                newIndex = 0;
+            }
+            goToSlide(newIndex);
         }, 5000);
+    };
+
+    const stopAutoplay = () => {
+        clearInterval(autoplayInterval);
+    };
+
+    // 启动自动播放
+    startAutoplay();
+
+    // 鼠标悬停时暂停自动播放
+    sliderContainer.addEventListener('mouseenter', stopAutoplay);
+    sliderContainer.addEventListener('mouseleave', startAutoplay);
+
+    // 初始化轮播
+    goToSlide(0);
+
+    // 窗口调整大小时重新计算
+    window.addEventListener('resize', () => {
+        goToSlide(currentIndex);
     });
 }
 
@@ -1747,7 +1769,17 @@ function initCategorySelection() {
     }
 }
 
-// 确保在页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', () => {
-    initCategorySelection();
-}); 
+/**
+ * 阻止产品操作按钮点击事件的传播
+ */
+function initProductActionButtons() {
+    // 为所有产品操作按钮添加阻止事件传播的处理
+    document.querySelectorAll('.product-actions button').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // 不需要在这里添加特定的操作，各自的功能已经在其他函数中处理
+        });
+    });
+} 

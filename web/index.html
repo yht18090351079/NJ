@@ -72,31 +72,18 @@
                                 <span>消息快报</span>
                             </a>
                         </div>
-                        <div class="horizontal-nav-item">
-                            <a href="market.html" class="horizontal-nav-link">
-                                <i class="fas fa-chart-line"></i>
-                                <span>市场行情</span>
-                            </a>
-                        </div>
                     </div>
 
                     <!-- 添加用户图标到导航栏 -->
                     <div class="header-icons">
-                        <div class="role-switch" onclick="showRoleModal(); return false;">
+                        <div class="role-switch" onclick="showRoleModal(); return false;" style="cursor:pointer;">
                             <i class="fas fa-exchange-alt"></i>
                             <span id="currentRole"
                                 onclick="showRoleModal(); event.stopPropagation(); return false;">采购商</span>
                         </div>
-                        <a href="notifications.html" class="header-icon">
-                            <i class="far fa-bell"></i>
-                            <span class="notification-dot"></span>
-                        </a>
-                        <a href="messages.html" class="header-icon">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                        <div class="avatar-wrapper">
+                        <a href="user.html" class="avatar-wrapper">
                             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
-                        </div>
+                        </a>
                     </div>
                 </div>
             </nav>
@@ -620,248 +607,331 @@
                     <!-- 产品轮播 -->
                     <div class="product-slider">
                         <div class="slider-container">
-                            <!-- 产品1 -->
+                            <!-- 产品1 - 供应商产品 (对采购商显示) -->
                             <div class="slide-item">
-                                <div class="product-card" data-category="fruits" data-id="p1">
-                                    <div class="product-badge new">新品</div>
-                                    <div class="product-image">
-                                        <img src="https://images.pexels.com/photos/1510392/pexels-photo-1510392.jpeg"
-                                            alt="红富士苹果">
-                                        <div class="product-actions">
-                                            <button class="add-to-cart" title="加入购物车"><i
-                                                    class="fas fa-shopping-cart"></i></button>
-                                            <button class="add-to-favorite" title="收藏"><i
-                                                    class="far fa-heart"></i></button>
-                                            <button class="add-to-compare" title="加入对比"><i
-                                                    class="fas fa-balance-scale"></i></button>
-                                            <button class="quick-view" title="快速查看"><i class="fas fa-eye"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-info">
-                                        <h3 class="product-name">红富士苹果</h3>
-                                        <div class="product-meta">
-                                            <span class="product-origin">产地: 陕西洛川</span>
-                                            <span class="product-category">类别: 水果</span>
-                                        </div>
-                                        <div class="product-price">
-                                            <span class="current-price">¥8.5/斤</span>
-                                            <span class="original-price">¥10/斤</span>
-                                        </div>
-                                        <div class="product-rating">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
+                                <a href="supply-detail.html?id=1" class="product-card-link">
+                                    <div class="product-card" data-category="fruits" data-id="p1" data-role="采购商">
+                                        <div class="product-badge new">新品</div>
+                                        <div class="product-image">
+                                            <img src="https://images.pexels.com/photos/1510392/pexels-photo-1510392.jpeg"
+                                                alt="红富士苹果">
+                                            <div class="product-actions">
+                                                <button class="add-to-cart" title="加入购物车"><i
+                                                        class="fas fa-shopping-cart"></i></button>
+                                                <button class="add-to-favorite" title="收藏"><i
+                                                        class="far fa-heart"></i></button>
+                                                <button class="add-to-compare" title="加入对比"><i
+                                                        class="fas fa-balance-scale"></i></button>
+                                                <button class="quick-view" title="快速查看"><i
+                                                        class="fas fa-eye"></i></button>
                                             </div>
-                                            <span class="rating-count">(120)</span>
+                                        </div>
+                                        <div class="product-info">
+                                            <h3 class="product-name">红富士苹果</h3>
+                                            <div class="product-meta">
+                                                <span class="product-origin">产地: 陕西洛川</span>
+                                                <span class="product-category">类别: 水果</span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span class="current-price">¥8.5/斤</span>
+                                                <span class="original-price">¥10/斤</span>
+                                            </div>
+                                            <div class="product-rating">
+                                                <div class="stars">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                </div>
+                                                <span class="rating-count">(120)</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
 
-                            <!-- 产品2 -->
+                            <!-- 产品2 - 供应商产品 (对采购商显示) -->
                             <div class="slide-item">
-                                <div class="product-card" data-category="grains" data-id="p2">
-                                    <div class="product-badge hot">热销</div>
-                                    <div class="product-image">
-                                        <img src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg"
-                                            alt="东北大米">
-                                        <div class="product-actions">
-                                            <button class="add-to-cart" title="加入购物车"><i
-                                                    class="fas fa-shopping-cart"></i></button>
-                                            <button class="add-to-favorite" title="收藏"><i
-                                                    class="far fa-heart"></i></button>
-                                            <button class="add-to-compare" title="加入对比"><i
-                                                    class="fas fa-balance-scale"></i></button>
-                                            <button class="quick-view" title="快速查看"><i class="fas fa-eye"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-info">
-                                        <h3 class="product-name">东北五常大米</h3>
-                                        <div class="product-meta">
-                                            <span class="product-origin">产地: 黑龙江五常</span>
-                                            <span class="product-category">类别: 粮食</span>
-                                        </div>
-                                        <div class="product-price">
-                                            <span class="current-price">¥39.9/5kg</span>
-                                            <span class="original-price">¥48/5kg</span>
-                                        </div>
-                                        <div class="product-rating">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
+                                <a href="supply-detail.html?id=2" class="product-card-link">
+                                    <div class="product-card" data-category="grains" data-id="p2" data-role="采购商">
+                                        <div class="product-badge hot">热销</div>
+                                        <div class="product-image">
+                                            <img src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg"
+                                                alt="东北大米">
+                                            <div class="product-actions">
+                                                <button class="add-to-cart" title="加入购物车"><i
+                                                        class="fas fa-shopping-cart"></i></button>
+                                                <button class="add-to-favorite" title="收藏"><i
+                                                        class="far fa-heart"></i></button>
+                                                <button class="add-to-compare" title="加入对比"><i
+                                                        class="fas fa-balance-scale"></i></button>
+                                                <button class="quick-view" title="快速查看"><i
+                                                        class="fas fa-eye"></i></button>
                                             </div>
-                                            <span class="rating-count">(356)</span>
+                                        </div>
+                                        <div class="product-info">
+                                            <h3 class="product-name">东北五常大米</h3>
+                                            <div class="product-meta">
+                                                <span class="product-origin">产地: 黑龙江五常</span>
+                                                <span class="product-category">类别: 粮食</span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span class="current-price">¥39.9/5kg</span>
+                                                <span class="original-price">¥48/5kg</span>
+                                            </div>
+                                            <div class="product-rating">
+                                                <div class="stars">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                                <span class="rating-count">(356)</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
 
-                            <!-- 产品3 -->
+                            <!-- 产品3 - 供应商产品 (对采购商显示) -->
                             <div class="slide-item">
-                                <div class="product-card" data-category="fruits" data-id="p3">
-                                    <div class="product-image">
-                                        <img src="https://images.pexels.com/photos/327098/pexels-photo-327098.jpeg"
-                                            alt="赣南脐橙">
-                                        <div class="product-actions">
-                                            <button class="add-to-cart" title="加入购物车"><i
-                                                    class="fas fa-shopping-cart"></i></button>
-                                            <button class="add-to-favorite" title="收藏"><i
-                                                    class="far fa-heart"></i></button>
-                                            <button class="add-to-compare" title="加入对比"><i
-                                                    class="fas fa-balance-scale"></i></button>
-                                            <button class="quick-view" title="快速查看"><i class="fas fa-eye"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-info">
-                                        <h3 class="product-name">赣南脐橙</h3>
-                                        <div class="product-meta">
-                                            <span class="product-origin">产地: 江西赣州</span>
-                                            <span class="product-category">类别: 水果</span>
-                                        </div>
-                                        <div class="product-price">
-                                            <span class="current-price">¥7.9/斤</span>
-                                            <span class="original-price">¥9.5/斤</span>
-                                        </div>
-                                        <div class="product-rating">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
+                                <a href="supply-detail.html?id=3" class="product-card-link">
+                                    <div class="product-card" data-category="fruits" data-id="p3" data-role="采购商">
+                                        <div class="product-image">
+                                            <img src="https://images.pexels.com/photos/327098/pexels-photo-327098.jpeg"
+                                                alt="赣南脐橙">
+                                            <div class="product-actions">
+                                                <button class="add-to-cart" title="加入购物车"><i
+                                                        class="fas fa-shopping-cart"></i></button>
+                                                <button class="add-to-favorite" title="收藏"><i
+                                                        class="far fa-heart"></i></button>
+                                                <button class="add-to-compare" title="加入对比"><i
+                                                        class="fas fa-balance-scale"></i></button>
+                                                <button class="quick-view" title="快速查看"><i
+                                                        class="fas fa-eye"></i></button>
                                             </div>
-                                            <span class="rating-count">(88)</span>
+                                        </div>
+                                        <div class="product-info">
+                                            <h3 class="product-name">赣南脐橙</h3>
+                                            <div class="product-meta">
+                                                <span class="product-origin">产地: 江西赣州</span>
+                                                <span class="product-category">类别: 水果</span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span class="current-price">¥7.9/斤</span>
+                                                <span class="original-price">¥9.5/斤</span>
+                                            </div>
+                                            <div class="product-rating">
+                                                <div class="stars">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </div>
+                                                <span class="rating-count">(88)</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
 
-                            <!-- 产品4 -->
+                            <!-- 产品4 - 供应商产品 (对采购商显示) -->
                             <div class="slide-item">
-                                <div class="product-card" data-category="vegetables" data-id="p4">
-                                    <div class="product-badge organic">有机</div>
-                                    <div class="product-image">
-                                        <img src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg"
-                                            alt="有机西红柿">
-                                        <div class="product-actions">
-                                            <button class="add-to-cart" title="加入购物车"><i
-                                                    class="fas fa-shopping-cart"></i></button>
-                                            <button class="add-to-favorite" title="收藏"><i
-                                                    class="far fa-heart"></i></button>
-                                            <button class="add-to-compare" title="加入对比"><i
-                                                    class="fas fa-balance-scale"></i></button>
-                                            <button class="quick-view" title="快速查看"><i class="fas fa-eye"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-info">
-                                        <h3 class="product-name">有机西红柿</h3>
-                                        <div class="product-meta">
-                                            <span class="product-origin">产地: 山东寿光</span>
-                                            <span class="product-category">类别: 蔬菜</span>
-                                        </div>
-                                        <div class="product-price">
-                                            <span class="current-price">¥6.5/斤</span>
-                                            <span class="original-price">¥8/斤</span>
-                                        </div>
-                                        <div class="product-rating">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
+                                <a href="supply-detail.html?id=4" class="product-card-link">
+                                    <div class="product-card" data-category="vegetables" data-id="p4" data-role="采购商">
+                                        <div class="product-badge organic">有机</div>
+                                        <div class="product-image">
+                                            <img src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg"
+                                                alt="有机西红柿">
+                                            <div class="product-actions">
+                                                <button class="add-to-cart" title="加入购物车"><i
+                                                        class="fas fa-shopping-cart"></i></button>
+                                                <button class="add-to-favorite" title="收藏"><i
+                                                        class="far fa-heart"></i></button>
+                                                <button class="add-to-compare" title="加入对比"><i
+                                                        class="fas fa-balance-scale"></i></button>
+                                                <button class="quick-view" title="快速查看"><i
+                                                        class="fas fa-eye"></i></button>
                                             </div>
-                                            <span class="rating-count">(92)</span>
+                                        </div>
+                                        <div class="product-info">
+                                            <h3 class="product-name">有机西红柿</h3>
+                                            <div class="product-meta">
+                                                <span class="product-origin">产地: 山东寿光</span>
+                                                <span class="product-category">类别: 蔬菜</span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span class="current-price">¥6.5/斤</span>
+                                                <span class="original-price">¥8/斤</span>
+                                            </div>
+                                            <div class="product-rating">
+                                                <div class="stars">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                </div>
+                                                <span class="rating-count">(92)</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
 
-                            <!-- 产品5 -->
+                            <!-- 产品5 - 需求产品 (对供应商显示) -->
                             <div class="slide-item">
-                                <div class="product-card" data-category="specials" data-id="p5">
-                                    <div class="product-badge sale">促销</div>
-                                    <div class="product-image">
-                                        <img src="https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg"
-                                            alt="草鸡蛋">
-                                        <div class="product-actions">
-                                            <button class="add-to-cart" title="加入购物车"><i
-                                                    class="fas fa-shopping-cart"></i></button>
-                                            <button class="add-to-favorite" title="收藏"><i
-                                                    class="far fa-heart"></i></button>
-                                            <button class="add-to-compare" title="加入对比"><i
-                                                    class="fas fa-balance-scale"></i></button>
-                                            <button class="quick-view" title="快速查看"><i class="fas fa-eye"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-info">
-                                        <h3 class="product-name">农家散养草鸡蛋</h3>
-                                        <div class="product-meta">
-                                            <span class="product-origin">产地: 河北承德</span>
-                                            <span class="product-category">类别: 特产</span>
-                                        </div>
-                                        <div class="product-price">
-                                            <span class="current-price">¥4.8/枚</span>
-                                            <span class="original-price">¥6/枚</span>
-                                        </div>
-                                        <div class="product-rating">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
+                                <a href="demand-detail.html?id=1" class="product-card-link">
+                                    <div class="demand-card" data-category="specials" data-id="p5" data-role="供应商">
+                                        <div class="demand-badge urgent">急需</div>
+                                        <div class="demand-content">
+                                            <h3 class="demand-title">求购优质散养土鸡蛋 — 农家散养草鸡蛋</h3>
+                                            <div class="demand-company">
+                                                <span class="company-name">北京有机食品有限公司</span>
+                                                <span class="company-verify"><i
+                                                        class="fas fa-check-circle"></i>已认证</span>
                                             </div>
-                                            <span class="rating-count">(156)</span>
+                                            <div class="demand-details">
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <span>收货地: 北京朝阳区</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-boxes"></i>
+                                                    <span>类别: 家禽产品</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-certificate"></i>
+                                                    <span>要求: 有机认证</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-truck"></i>
+                                                    <span>运费: 买家承担</span>
+                                                </div>
+                                            </div>
+                                            <div class="demand-price">采购价: ¥4.8/枚</div>
+                                            <div class="demand-quantity">采购量: 5000枚/周</div>
+                                            <div class="demand-date">发布时间: 2023-05-16</div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
 
-                            <!-- 产品6 -->
+                            <!-- 产品6 - 需求产品 (对供应商显示) -->
                             <div class="slide-item">
-                                <div class="product-card" data-category="vegetables" data-id="p6">
-                                    <div class="product-image">
-                                        <img src="https://images.pexels.com/photos/10308060/pexels-photo-10308060.jpeg"
-                                            alt="胡萝卜">
-                                        <div class="product-actions">
-                                            <button class="add-to-cart" title="加入购物车"><i
-                                                    class="fas fa-shopping-cart"></i></button>
-                                            <button class="add-to-favorite" title="收藏"><i
-                                                    class="far fa-heart"></i></button>
-                                            <button class="add-to-compare" title="加入对比"><i
-                                                    class="fas fa-balance-scale"></i></button>
-                                            <button class="quick-view" title="快速查看"><i class="fas fa-eye"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="product-info">
-                                        <h3 class="product-name">新鲜胡萝卜</h3>
-                                        <div class="product-meta">
-                                            <span class="product-origin">产地: 山东潍坊</span>
-                                            <span class="product-category">类别: 蔬菜</span>
-                                        </div>
-                                        <div class="product-price">
-                                            <span class="current-price">¥2.5/斤</span>
-                                            <span class="original-price">¥3.2/斤</span>
-                                        </div>
-                                        <div class="product-rating">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
+                                <a href="demand-detail.html?id=3" class="product-card-link">
+                                    <div class="demand-card" data-category="vegetables" data-id="p6" data-role="供应商">
+                                        <div class="demand-badge hot">热门</div>
+                                        <div class="demand-content">
+                                            <h3 class="demand-title">大量收购优质胡萝卜 — 山东新鲜胡萝卜</h3>
+                                            <div class="demand-company">
+                                                <span class="company-name">上海鲜食配送中心</span>
+                                                <span class="company-verify"><i
+                                                        class="fas fa-check-circle"></i>已认证</span>
                                             </div>
-                                            <span class="rating-count">(76)</span>
+                                            <div class="demand-details">
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <span>收货地: 上海浦东新区</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-boxes"></i>
+                                                    <span>类别: 根茎类蔬菜</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-certificate"></i>
+                                                    <span>要求: 无公害</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-truck"></i>
+                                                    <span>运费: 协商</span>
+                                                </div>
+                                            </div>
+                                            <div class="demand-price">采购价: ¥2.5/斤</div>
+                                            <div class="demand-quantity">采购量: 10000斤/月</div>
+                                            <div class="demand-date">发布时间: 2023-05-20</div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+                            </div>
+
+                            <!-- 产品7 - 需求产品 (对供应商显示) -->
+                            <div class="slide-item">
+                                <a href="demand-detail.html?id=4" class="product-card-link">
+                                    <div class="demand-card" data-category="fruits" data-id="p7" data-role="供应商">
+                                        <div class="demand-badge new">新发布</div>
+                                        <div class="demand-content">
+                                            <h3 class="demand-title">求购优质红富士苹果 — 陕西洛川苹果</h3>
+                                            <div class="demand-company">
+                                                <span class="company-name">广州果鲜连锁超市</span>
+                                                <span class="company-verify"><i
+                                                        class="fas fa-check-circle"></i>已认证</span>
+                                            </div>
+                                            <div class="demand-details">
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <span>收货地: 广州白云区</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-boxes"></i>
+                                                    <span>类别: 仁果类水果</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-certificate"></i>
+                                                    <span>要求: 一级果</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-truck"></i>
+                                                    <span>运费: 卖家承担</span>
+                                                </div>
+                                            </div>
+                                            <div class="demand-price">采购价: ¥7.5/斤</div>
+                                            <div class="demand-quantity">采购量: 15000斤/月</div>
+                                            <div class="demand-date">发布时间: 2023-05-23</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- 产品8 - 需求产品 (对供应商显示) -->
+                            <div class="slide-item">
+                                <a href="demand-detail.html?id=5" class="product-card-link">
+                                    <div class="demand-card" data-category="grains" data-id="p8" data-role="供应商">
+                                        <div class="demand-badge urgent">长期合作</div>
+                                        <div class="demand-content">
+                                            <h3 class="demand-title">长期采购东北优质大米 — 五常稻花香</h3>
+                                            <div class="demand-company">
+                                                <span class="company-name">成都餐饮集团</span>
+                                                <span class="company-verify"><i
+                                                        class="fas fa-check-circle"></i>已认证</span>
+                                            </div>
+                                            <div class="demand-details">
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <span>收货地: 成都锦江区</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-boxes"></i>
+                                                    <span>类别: 粮食作物</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-certificate"></i>
+                                                    <span>要求: 优质一级</span>
+                                                </div>
+                                                <div class="demand-detail-item">
+                                                    <i class="fas fa-truck"></i>
+                                                    <span>运费: 协商</span>
+                                                </div>
+                                            </div>
+                                            <div class="demand-price">采购价: ¥6.2/斤</div>
+                                            <div class="demand-quantity">采购量: 20000斤/月</div>
+                                            <div class="demand-date">发布时间: 2023-05-18</div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
@@ -872,6 +942,11 @@
                                 <span class="slider-dot active" data-slide="0"></span>
                                 <span class="slider-dot" data-slide="1"></span>
                                 <span class="slider-dot" data-slide="2"></span>
+                                <span class="slider-dot" data-slide="3"></span>
+                                <span class="slider-dot" data-slide="4"></span>
+                                <span class="slider-dot" data-slide="5"></span>
+                                <span class="slider-dot" data-slide="6"></span>
+                                <span class="slider-dot" data-slide="7"></span>
                             </div>
                             <button class="slider-arrow next"><i class="fas fa-chevron-right"></i></button>
                         </div>
@@ -961,11 +1036,77 @@
         </div>
     </div>
 
+    <!-- 辅助功能组件 -->
+    <div class="utility-components">
+        <!-- 角色切换模态框 -->
+        <div class="role-modal" id="roleModal" style="display:none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>切换角色</h3>
+                    <button type="button" class="close-btn" id="roleModalCloseBtn" onclick="closeRoleModal()"><i
+                            class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="role-options">
+                        <div class="role-option" data-role="采购商" onclick="selectRoleOption(this)">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="role-option-info">
+                                <h4>采购商</h4>
+                                <p>发布农产品采购需求</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="供应商" onclick="selectRoleOption(this)">
+                            <i class="fas fa-store"></i>
+                            <div class="role-option-info">
+                                <h4>供应商</h4>
+                                <p>发布农产品供应信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-confirm" id="roleModalConfirmBtn"
+                        onclick="confirmRoleChange()">确认切换</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 加载稳定版本的Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 
     <!-- 自定义脚本 -->
-    <script src="js/main.js" defer></script>
+    <script src="js/main.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script src="js/role-products.js"></script>
+    <script src="js/components.js"></script>
+
+    <!-- 确保角色切换功能正常工作 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('检查角色切换功能...');
+            const roleSwitch = document.querySelector('.role-switch');
+            const roleModal = document.getElementById('roleModal');
+
+            // 手动绑定点击事件
+            if (roleSwitch) {
+                roleSwitch.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (roleModal) {
+                        roleModal.style.display = 'block';
+                        roleModal.classList.add('active');
+                        console.log('角色切换模态框已显示');
+                    } else {
+                        console.error('找不到角色模态框元素');
+                    }
+                });
+            }
+
+            // 检查角色元素
+            console.log('角色切换元素:', roleSwitch ? '存在' : '不存在');
+            console.log('角色模态框:', roleModal ? '存在' : '不存在');
+        });
+    </script>
 
     <!-- 内联脚本直接初始化价格趋势图表 -->
     <script>
@@ -1304,50 +1445,6 @@
             console.log('视图设置完成');
         });
     </script>
-
-    <!-- 辅助功能组件 -->
-    <div class="utility-components">
-        <!-- 角色切换模态框 -->
-        <div class="role-modal" id="roleModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>切换角色</h3>
-                    <button type="button" class="close-btn" id="roleModalCloseBtn" onclick="closeRoleModal()"><i
-                            class="fas fa-times"></i></button>
-                </div>
-                <div class="modal-body">
-                    <div class="role-options">
-                        <div class="role-option" data-role="采购商" onclick="selectRoleOption(this)">
-                            <i class="fas fa-shopping-cart"></i>
-                            <div class="role-option-info">
-                                <h4>采购商</h4>
-                                <p>发布农产品采购需求</p>
-                            </div>
-                        </div>
-                        <div class="role-option" data-role="供应商" onclick="selectRoleOption(this)">
-                            <i class="fas fa-store"></i>
-                            <div class="role-option-info">
-                                <h4>供应商</h4>
-                                <p>发布农产品供应信息</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn-confirm" id="roleModalConfirmBtn"
-                        onclick="confirmRoleChange()">确认切换</button>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-    <!-- 引入JavaScript文件 -->
-    <script src="js/main.js"></script>
-    <script src="js/index.js"></script>
-    <script src="js/role-switch.js"></script>
-    <script src="js/components.js"></script>
 </body>
 
 </html>

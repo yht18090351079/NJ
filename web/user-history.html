@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人中心 - 农产品供销信息平台</title>
+    <title>浏览历史 - 农产品供销信息平台</title>
     <!-- 网站描述 -->
-    <meta name="description" content="农产品供销信息平台个人中心，管理您的账户信息和交易记录">
+    <meta name="description" content="农产品供销信息平台个人中心，查看您的浏览历史记录">
     <!-- 关键词 -->
-    <meta name="keywords" content="农产品,个人中心,用户资料,交易记录,订单管理,供销平台">
+    <meta name="keywords" content="农产品,浏览历史,个人中心,历史记录,供销平台">
     <!-- 主题色 -->
     <meta name="theme-color" content="#2E8B57">
 
@@ -33,7 +33,7 @@
             const isGuest = localStorage.getItem('isGuest') === 'true';
             if (!token && !isGuest) {
                 // 如果未登录且不是访客，立即重定向到登录页
-                window.location.replace('login.html?redirect=user.html');
+                window.location.replace('login.html?redirect=user-history.html');
                 return;
             }
         })();
@@ -141,68 +141,17 @@
                     <div class="breadcrumb-item">
                         <a href="user.html">个人中心</a>
                     </div>
+                    <div class="breadcrumb-item">
+                        <a href="user-history.html">浏览历史</a>
+                    </div>
                 </div>
 
                 <!-- 访客模式提示横幅 -->
                 <div id="guestBanner"
                     style="display: none; background-color: #FFF4E5; padding: 12px 16px; margin-bottom: 20px; color: #773800; font-size: 14px; text-align: center; line-height: 1.4; border-radius: 8px;">
                     <i class="fas fa-info-circle" style="margin-right: 6px;"></i>
-                    <span>您正在使用访客模式浏览，部分功能受限。</span>
+                    <span>您正在使用访客模式浏览，浏览历史将不会被保存。</span>
                     <a href="login.html" style="color: #FF9800; text-decoration: underline; margin-left: 6px;">去登录</a>
-                </div>
-
-                <!-- 用户信息卡片 -->
-                <div class="user-card">
-                    <div class="user-card-header">
-                        <h2 class="section-title">个人中心</h2>
-                    </div>
-                    <div class="user-card-content">
-                        <div class="user-info">
-                            <div class="user-avatar-large">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像"
-                                    id="userAvatarLarge">
-                            </div>
-                            <div class="user-details">
-                                <h3 class="user-name" id="userName">加载中...</h3>
-                                <div class="user-meta">
-                                    <span class="user-role" id="userRoleDisplay">
-                                        <i class="fas fa-user-tag"></i>
-                                        <span>采购商</span>
-                                    </span>
-                                    <span class="user-verification" id="verificationStatus">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>已认证</span>
-                                    </span>
-                                    <span class="user-join-date">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        <span>加入于 2023-09-15</span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="user-actions">
-                                <button class="btn-edit-profile">
-                                    <i class="fas fa-edit"></i>
-                                    编辑资料
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- 用户数据概览 -->
-                        <div class="user-stats">
-                            <div class="stat-item">
-                                <div class="stat-value">12</div>
-                                <div class="stat-label">发布信息</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">36</div>
-                                <div class="stat-label">收藏商品</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-value">58</div>
-                                <div class="stat-label">浏览记录</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- 内容区布局 -->
@@ -212,7 +161,7 @@
                         <div class="sidebar-section">
                             <h3 class="sidebar-title">账户管理</h3>
                             <ul class="sidebar-menu">
-                                <li class="sidebar-menu-item active">
+                                <li class="sidebar-menu-item">
                                     <a href="user.html" class="sidebar-menu-link">
                                         <i class="fas fa-user-circle"></i>
                                         <span>个人资料</span>
@@ -236,7 +185,7 @@
                                         <span>我的收藏</span>
                                     </a>
                                 </li>
-                                <li class="sidebar-menu-item">
+                                <li class="sidebar-menu-item active">
                                     <a href="user-history.html" class="sidebar-menu-link">
                                         <i class="fas fa-history"></i>
                                         <span>浏览历史</span>
@@ -256,94 +205,160 @@
 
                     <!-- 主要内容区 -->
                     <div class="user-main-content">
-                        <!-- 最近活动卡片 -->
+                        <!-- 浏览历史卡片 -->
                         <div class="content-card">
                             <div class="card-header">
-                                <h3 class="card-title">最近活动</h3>
-                                <a href="#" class="card-more">查看全部</a>
-                            </div>
-                            <div class="card-body">
-                                <div class="activity-list">
-                                    <div class="activity-item">
-                                        <div class="activity-icon">
-                                            <i class="fas fa-heart"></i>
-                                        </div>
-                                        <div class="activity-content">
-                                            <div class="activity-title">收藏了商品</div>
-                                            <div class="activity-desc">有机蔬菜礼盒 168元/箱</div>
-                                            <div class="activity-time">2023-10-12 09:15</div>
-                                        </div>
+                                <h3 class="card-title">浏览历史</h3>
+                                <div class="card-actions">
+                                    <div class="card-filter">
+                                        <select id="historyFilter" class="select-control">
+                                            <option value="all">全部记录</option>
+                                            <option value="supply">供应信息</option>
+                                            <option value="demand">需求信息</option>
+                                            <option value="today">今日浏览</option>
+                                            <option value="week">本周浏览</option>
+                                        </select>
                                     </div>
+                                    <button class="btn-clear" id="clearHistoryBtn">
+                                        <i class="fas fa-trash"></i>
+                                        清空历史
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- 最近浏览记录 -->
-                        <div class="content-card">
-                            <div class="card-header">
-                                <h3 class="card-title">最近浏览</h3>
-                                <a href="user-history.html" class="card-more">查看全部</a>
-                            </div>
                             <div class="card-body">
-                                <div class="browse-history" id="browseHistory">
-                                    <div class="history-grid">
+                                <!-- 时间分组 -->
+                                <div class="history-date-group">
+                                    <div class="date-label">今天</div>
+
+                                    <!-- 历史记录网格 -->
+                                    <div class="history-grid" id="historyGrid">
+                                        <!-- 历史项目 -->
                                         <div class="history-item">
                                             <div class="history-image">
-                                                <img src="images/product1.jpg" alt="红富士苹果">
+                                                <img src="https://source.unsplash.com/300x300/?apple,fruit" alt="红富士苹果">
+                                                <span class="product-tag supply-tag">供应</span>
                                             </div>
                                             <div class="history-info">
-                                                <div class="history-title">山东烟台红富士苹果</div>
+                                                <div class="history-title">
+                                                    <a href="supply-detail.html?id=1">山东烟台红富士苹果 现货供应</a>
+                                                </div>
                                                 <div class="history-price">¥6.5/斤</div>
-                                                <div class="history-time">2023-10-15</div>
+                                                <div class="history-time">浏览于: 1小时前</div>
                                             </div>
                                         </div>
+
                                         <div class="history-item">
                                             <div class="history-image">
-                                                <img src="images/product2.jpg" alt="有机蔬菜">
+                                                <img src="https://source.unsplash.com/300x300/?vegetable,organic"
+                                                    alt="有机蔬菜">
+                                                <span class="product-tag supply-tag">供应</span>
                                             </div>
                                             <div class="history-info">
-                                                <div class="history-title">有机蔬菜礼盒装</div>
+                                                <div class="history-title">
+                                                    <a href="supply-detail.html?id=2">有机蔬菜礼盒装 绿色健康</a>
+                                                </div>
                                                 <div class="history-price">¥168/箱</div>
-                                                <div class="history-time">2023-10-14</div>
-                                            </div>
-                                        </div>
-                                        <div class="history-item">
-                                            <div class="history-image">
-                                                <img src="images/product3.jpg" alt="五常大米">
-                                            </div>
-                                            <div class="history-info">
-                                                <div class="history-title">五常稻花香大米</div>
-                                                <div class="history-price">¥98/10斤</div>
-                                                <div class="history-time">2023-10-12</div>
-                                            </div>
-                                        </div>
-                                        <div class="history-item">
-                                            <div class="history-image">
-                                                <img src="images/product4.jpg" alt="猕猴桃">
-                                            </div>
-                                            <div class="history-info">
-                                                <div class="history-title">陕西眉县猕猴桃</div>
-                                                <div class="history-price">¥89/10斤</div>
-                                                <div class="history-time">2023-10-10</div>
+                                                <div class="history-time">浏览于: 3小时前</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="history-date-group">
+                                    <div class="date-label">昨天</div>
+
+                                    <!-- 历史记录网格 -->
+                                    <div class="history-grid" id="historyGrid">
+                                        <!-- 历史项目 -->
+                                        <div class="history-item">
+                                            <div class="history-image">
+                                                <img src="https://source.unsplash.com/300x300/?rice" alt="五常大米">
+                                                <span class="product-tag demand-tag">需求</span>
+                                            </div>
+                                            <div class="history-info">
+                                                <div class="history-title">
+                                                    <a href="demand-detail.html?id=3">急需五常稻花香大米 长期合作</a>
+                                                </div>
+                                                <div class="history-price">≤¥90/10斤</div>
+                                                <div class="history-time">浏览于: 昨天</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="history-item">
+                                            <div class="history-image">
+                                                <img src="https://source.unsplash.com/300x300/?kiwi,fruit" alt="猕猴桃">
+                                                <span class="product-tag supply-tag">供应</span>
+                                            </div>
+                                            <div class="history-info">
+                                                <div class="history-title">
+                                                    <a href="supply-detail.html?id=4">陕西眉县猕猴桃</a>
+                                                </div>
+                                                <div class="history-price">¥89/10斤</div>
+                                                <div class="history-time">浏览于: 2天前</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="history-date-group">
+                                    <div class="date-label">10月12日</div>
+
+                                    <!-- 历史记录网格 -->
+                                    <div class="history-grid" id="historyGrid">
+                                        <!-- 历史项目 -->
+                                        <div class="history-item">
+                                            <div class="history-image">
+                                                <img src="https://source.unsplash.com/300x300/?mushroom" alt="黑木耳">
+                                                <span class="product-tag supply-tag">供应</span>
+                                            </div>
+                                            <div class="history-info">
+                                                <div class="history-title">
+                                                    <a href="supply-detail.html?id=5">东北特产黑木耳</a>
+                                                </div>
+                                                <div class="history-price">¥28/袋</div>
+                                                <div class="history-time">浏览于: 2天前</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="history-item">
+                                            <div class="history-image">
+                                                <img src="https://source.unsplash.com/300x300/?beef" alt="牛肉">
+                                                <span class="product-tag demand-tag">需求</span>
+                                            </div>
+                                            <div class="history-info">
+                                                <div class="history-title">
+                                                    <a href="demand-detail.html?id=6">求购内蒙古草原牛肉</a>
+                                                </div>
+                                                <div class="history-price">≤¥65/斤</div>
+                                                <div class="history-time">浏览于: 3天前</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 分页控件 -->
+                                <div class="pagination">
+                                    <button class="btn-page" disabled>
+                                        <i class="fas fa-angle-left"></i>
+                                    </button>
+                                    <button class="btn-page active">1</button>
+                                    <button class="btn-page">2</button>
+                                    <button class="btn-page">3</button>
+                                    <button class="btn-page">
+                                        <i class="fas fa-angle-right"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 帮助中心卡片 -->
-                        <div class="help-banner">
-                            <div class="help-icon">
-                                <i class="fas fa-headset"></i>
+                        <!-- 空状态提示 -->
+                        <div class="empty-state" id="emptyState" style="display: none;">
+                            <div class="empty-icon">
+                                <i class="fas fa-history"></i>
                             </div>
-                            <div class="help-content">
-                                <div class="help-title">专业客服为您服务</div>
-                                <div class="help-desc">如有疑问或需要帮助，请联系我们的客服团队</div>
-                            </div>
-                            <button class="help-btn">
-                                <i class="fas fa-comments"></i>
-                                在线咨询
+                            <div class="empty-text">暂无浏览记录</div>
+                            <button class="btn-primary" onclick="window.location.href='supply.html'">
+                                去浏览商品
                             </button>
                         </div>
                     </div>
@@ -417,6 +432,18 @@
                 </div>
             </div>
         </div>
+
+        <!-- 确认清空历史记录模态框 -->
+        <div class="modal" id="clearHistoryModal">
+            <div class="modal-content">
+                <h3 class="modal-title">确认清空</h3>
+                <p class="modal-message">确定要清空所有浏览历史记录吗？此操作不可恢复。</p>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-cancel" onclick="hideClearHistoryModal()">取消</button>
+                    <button class="modal-btn modal-confirm" onclick="confirmClearHistory()">确定清空</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 引入JavaScript文件 -->
@@ -433,46 +460,105 @@
             const isGuest = localStorage.getItem('isGuest') === 'true';
             const currentRole = localStorage.getItem('userRole') || '采购商';
 
-            // 更新用户信息显示
-            const userName = document.getElementById('userName');
-            const userAvatarLarge = document.getElementById('userAvatarLarge');
-            const verificationStatus = document.getElementById('verificationStatus');
-            const userRoleDisplay = document.getElementById('userRoleDisplay');
-            const guestBanner = document.getElementById('guestBanner');
+            // 更新当前角色
             const currentRoleSpan = document.getElementById('currentRole');
-
-            // 设置当前角色
             if (currentRoleSpan) {
                 currentRoleSpan.textContent = currentRole;
             }
 
-            if (userRoleDisplay) {
-                userRoleDisplay.querySelector('span').textContent = currentRole;
-            }
-
             // 根据是否是访客更新显示
             if (isGuest) {
-                if (userName) userName.textContent = '访客用户';
-                if (verificationStatus) {
-                    verificationStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #FF9800;"></i><span>未认证</span>';
-                }
                 // 显示访客模式提示横幅
+                const guestBanner = document.getElementById('guestBanner');
                 if (guestBanner) {
                     guestBanner.style.display = 'block';
                 }
-            } else {
-                if (userName) userName.textContent = userInfo.name || '未登录用户';
-                if (verificationStatus) {
-                    verificationStatus.innerHTML = '<i class="fas fa-check-circle"></i><span>已认证</span>';
-                }
             }
 
-            if (userAvatarLarge) {
-                userAvatarLarge.src = userInfo.avatar || 'https://randomuser.me/api/portraits/men/32.jpg';
-                userAvatarLarge.onerror = function () {
-                    this.src = 'https://randomuser.me/api/portraits/men/32.jpg';
-                };
+            // 清空历史按钮
+            const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+            if (clearHistoryBtn) {
+                clearHistoryBtn.addEventListener('click', function () {
+                    // 显示确认模态框
+                    document.getElementById('clearHistoryModal').classList.add('active');
+                });
             }
+
+            // 过滤器事件
+            const historyFilter = document.getElementById('historyFilter');
+            if (historyFilter) {
+                historyFilter.addEventListener('change', function () {
+                    const filterValue = this.value;
+                    const dateGroups = document.querySelectorAll('.history-date-group');
+
+                    // 根据选择的过滤条件显示/隐藏历史记录
+                    dateGroups.forEach(group => {
+                        const items = group.querySelectorAll('.history-item');
+                        let visibleItems = 0;
+
+                        items.forEach(item => {
+                            const tag = item.querySelector('.product-tag');
+                            let shouldShow = false;
+
+                            // 根据类型过滤
+                            if (filterValue === 'all') {
+                                shouldShow = true;
+                            } else if (filterValue === 'supply' && tag.classList.contains('supply-tag')) {
+                                shouldShow = true;
+                            } else if (filterValue === 'demand' && tag.classList.contains('demand-tag')) {
+                                shouldShow = true;
+                            } else if (filterValue === 'today' && group.querySelector('.date-label').textContent === '今天') {
+                                shouldShow = true;
+                            } else if (filterValue === 'week') {
+                                // 假设"今天"、"昨天"都是本周的
+                                const dateLabel = group.querySelector('.date-label').textContent;
+                                if (dateLabel === '今天' || dateLabel === '昨天') {
+                                    shouldShow = true;
+                                }
+                            }
+
+                            if (shouldShow) {
+                                item.style.display = 'flex';
+                                visibleItems++;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+
+                        // 如果该日期组下没有可见项，则隐藏整个日期组
+                        if (visibleItems === 0) {
+                            group.style.display = 'none';
+                        } else {
+                            group.style.display = 'block';
+                        }
+                    });
+
+                    // 检查是否全部隐藏，显示空状态
+                    const visibleGroups = document.querySelectorAll('.history-date-group[style="display: block"]');
+                    if (visibleGroups.length === 0) {
+                        document.getElementById('emptyState').style.display = 'block';
+                        document.getElementById('emptyState').querySelector('.empty-text').textContent = '没有符合条件的浏览记录';
+                        document.querySelector('.pagination').style.display = 'none';
+                    } else {
+                        document.getElementById('emptyState').style.display = 'none';
+                        document.querySelector('.pagination').style.display = 'flex';
+                    }
+                });
+            }
+
+            // 分页按钮事件
+            const pageButtons = document.querySelectorAll('.btn-page');
+            pageButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    if (!this.classList.contains('active') && !this.disabled) {
+                        document.querySelector('.btn-page.active').classList.remove('active');
+                        this.classList.add('active');
+
+                        // 这里可以实现页面切换逻辑
+                        alert('正在切换到第 ' + this.textContent + ' 页');
+                    }
+                });
+            });
 
             // 退出登录按钮点击事件
             const logoutBtn = document.getElementById('logoutBtn');
@@ -501,14 +587,6 @@
                 });
             }
 
-            // 编辑资料按钮点击事件
-            const btnEditProfile = document.querySelector('.btn-edit-profile');
-            if (btnEditProfile) {
-                btnEditProfile.addEventListener('click', function () {
-                    window.location.href = 'user-profile-edit.html';
-                });
-            }
-
             // 返回顶部按钮
             const backToTopBtn = document.querySelector('.back-to-top');
             if (backToTopBtn) {
@@ -527,21 +605,98 @@
                     });
                 });
             }
-
-            // 帮助中心按钮点击事件
-            const helpBtn = document.querySelector('.help-btn');
-            if (helpBtn) {
-                helpBtn.addEventListener('click', function () {
-                    alert('正在连接客服，请稍候...');
-                });
-            }
         });
+
+        // 添加到收藏
+        function addToFavorite(id) {
+            const isGuest = localStorage.getItem('isGuest') === 'true';
+            if (isGuest) {
+                alert('访客模式下无法收藏商品，请先登录');
+                return;
+            }
+
+            // 这里应该是发送请求到服务器添加收藏
+            // 为了演示，我们只显示一个提示
+            alert('已添加到收藏');
+
+            // 切换按钮状态
+            const btn = event.target.closest('.btn-add-favorite');
+            btn.innerHTML = '<i class="fas fa-heart"></i> 已收藏';
+            btn.style.color = '#ff4757';
+            btn.disabled = true;
+        }
+
+        // 移除历史记录
+        function removeHistory(id) {
+            if (confirm('确定要删除这条浏览记录吗？')) {
+                const item = event.target.closest('.history-item');
+
+                // 添加淡出效果
+                item.style.opacity = '0';
+                setTimeout(() => {
+                    item.style.display = 'none';
+
+                    // 检查该日期组下是否还有可见项
+                    const dateGroup = item.closest('.history-date-group');
+                    const visibleItems = dateGroup.querySelectorAll('.history-item[style="display: flex"], .history-item:not([style])');
+
+                    if (visibleItems.length === 0) {
+                        dateGroup.style.display = 'none';
+                    }
+
+                    // 检查是否还有日期组
+                    const visibleGroups = document.querySelectorAll('.history-date-group[style="display: block"], .history-date-group:not([style])');
+                    if (visibleGroups.length === 0) {
+                        document.getElementById('emptyState').style.display = 'block';
+                        document.querySelector('.pagination').style.display = 'none';
+                    }
+                }, 300);
+            }
+        }
+
+        // 显示/隐藏清空历史模态框
+        function showClearHistoryModal() {
+            document.getElementById('clearHistoryModal').classList.add('active');
+        }
+
+        function hideClearHistoryModal() {
+            document.getElementById('clearHistoryModal').classList.remove('active');
+        }
+
+        // 确认清空历史
+        function confirmClearHistory() {
+            // 隐藏所有历史记录
+            const dateGroups = document.querySelectorAll('.history-date-group');
+            dateGroups.forEach(group => {
+                group.style.opacity = '0';
+            });
+
+            setTimeout(() => {
+                dateGroups.forEach(group => {
+                    group.style.display = 'none';
+                });
+
+                // 显示空状态
+                document.getElementById('emptyState').style.display = 'block';
+                document.querySelector('.pagination').style.display = 'none';
+
+                // 隐藏模态框
+                hideClearHistoryModal();
+            }, 300);
+
+            // 实际应用中，这里应该发送请求到服务器清空历史记录
+        }
 
         // 点击模态框外部关闭
         window.onclick = function (event) {
             const roleModal = document.getElementById('roleModal');
             if (event.target == roleModal) {
                 closeRoleModal();
+            }
+
+            const clearHistoryModal = document.getElementById('clearHistoryModal');
+            if (event.target == clearHistoryModal) {
+                hideClearHistoryModal();
             }
         }
     </script>

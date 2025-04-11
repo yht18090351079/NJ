@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>消息快报 - 农产品供销信息平台</title>
+    <meta name="description" content="农产品供销平台消息快报，提供农业政策、市场资讯和技术动态">
+    <meta name="keywords" content="农产品,农业政策,市场资讯,技术动态,消息快报">
+    <meta name="theme-color" content="#4CAF50">
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* 政策资讯列表样式 */
+        .policy-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .policy-item {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-lg);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .policy-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .policy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .policy-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--radius-md);
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary-color);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+        }
+
+        .policy-date {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-xs);
+        }
+
+        .policy-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.4;
+        }
+
+        .policy-summary {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .policy-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .policy-source {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .source-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .source-name {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .policy-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .btn-view {
+            padding: 6px 16px;
+            border-radius: var(--radius-md);
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* 标签筛选样式 */
+        .policy-tabs {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .tabs-header {
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .tabs-header::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-item {
+            padding: var(--spacing-sm) var(--spacing-md);
+            margin-right: var(--spacing-md);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            position: relative;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .tab-item:hover {
+            color: var(--primary-color);
+        }
+
+        /* 日期范围样式 */
+        .custom-date-range {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+
+        .date-inputs {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .date-input {
+            width: 120px;
+            padding: 4px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+        }
+
+        .btn-apply-date {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 4px 12px;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            cursor: pointer;
+        }
+
+        /* 筛选标签区域样式 */
+        .filter-section {
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .policy-item {
+                padding: var(--spacing-md);
+            }
+
+            .policy-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-sm);
+            }
+
+            .policy-actions {
+                width: 100%;
+                justify-content: flex-end;
+                margin-top: var(--spacing-sm);
+            }
+
+            .tabs-header {
+                padding-bottom: var(--spacing-xs);
+            }
+
+            .tab-item {
+                padding: var(--spacing-xs) var(--spacing-sm);
+                margin-right: var(--spacing-sm);
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 网页布局容器 -->
+    <div class="web-layout">
+        <!-- 顶部导航栏 -->
+        <header class="web-header">
+            <!-- 水平导航菜单 - 包含logo和用户图标 -->
+            <nav class="horizontal-nav">
+                <div class="horizontal-nav-menu">
+                    <!-- 添加logo到导航栏 -->
+                    <div class="logo">
+                        <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                        <span class="logo-text">农产品供销平台</span>
+                    </div>
+
+                    <!-- 中间导航链接 -->
+                    <div class="nav-links">
+                        <div class="horizontal-nav-item">
+                            <a href="index.html" class="horizontal-nav-link">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="supply.html" class="horizontal-nav-link">
+                                <i class="fas fa-store"></i>
+                                <span>供应大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="demand.html" class="horizontal-nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>需求大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="publish.html" class="horizontal-nav-link">
+                                <i class="fas fa-edit"></i>
+                                <span>发布信息</span>
+                            </a>
+                        </div>
+
+                        <div class="nav-group-divider"></div>
+
+                        <div class="horizontal-nav-item">
+                            <a href="policy.html" class="horizontal-nav-link active">
+                                <i class="fas fa-newspaper"></i>
+                                <span>消息快报</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 添加用户图标到导航栏 -->
+                    <div class="header-icons">
+                        <div class="role-switch">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span id="currentRole">采购商</span>
+                        </div>
+
+                        <a href="user.html" class="avatar-wrapper">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 顶部区域 - 仅保留搜索 -->
+            <div class="header-top">
+                <!-- 移动端显示的logo -->
+                <div class="logo mobile-logo">
+                    <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                    <span class="logo-text">农产品供销平台</span>
+                </div>
+
+                <div class="search-wrapper">
+                    <form class="search-form">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="search" class="search-input" placeholder="搜索政策、资讯关键词...">
+                        <button type="button" class="advanced-search-toggle">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 移动端菜单按钮 -->
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- 高级搜索面板 -->
+            <div class="advanced-search-panel">
+                <div class="advanced-search-content">
+                    <div class="search-row">
+                        <label>资讯类别</label>
+                        <select>
+                            <option value="">全部类别</option>
+                            <option value="policy">政策法规</option>
+                            <option value="market">市场动态</option>
+                            <option value="tech">技术资讯</option>
+                            <option value="subsidy">补贴信息</option>
+                        </select>
+                    </div>
+                    <div class="search-row">
+                        <label>发布日期</label>
+                        <div class="date-range">
+                            <input type="date" placeholder="开始日期">
+                            <span>-</span>
+                            <input type="date" placeholder="结束日期">
+                        </div>
+                    </div>
+                    <div class="search-row">
+                        <label>发布部门</label>
+                        <select>
+                            <option value="">全部部门</option>
+                            <option value="agriculture">农业农村部</option>
+                            <option value="finance">财政部</option>
+                            <option value="commerce">商务部</option>
+                            <option value="market">市场监管总局</option>
+                        </select>
+                    </div>
+                    <div class="search-actions">
+                        <button type="reset" class="btn-reset">重置</button>
+                        <button type="submit" class="btn-search">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容区 -->
+        <main class="web-main">
+            <div class="web-content">
+                <div class="container">
+                    <!-- 面包屑导航 -->
+                    <div class="breadcrumb">
+                        <a href="index.html">首页</a>
+                        <i class="fas fa-angle-right"></i>
+                        <span>消息快报</span>
+                    </div>
+
+                    <!-- 分类选项卡 -->
+                    <div class="policy-tabs">
+                        <div class="tabs-header">
+                            <div class="tab-item active" data-target="all">全部</div>
+                            <div class="tab-item" data-target="policy">政策法规</div>
+                            <div class="tab-item" data-target="market">市场动态</div>
+                            <div class="tab-item" data-target="tech">技术资讯</div>
+                            <div class="tab-item" data-target="subsidy">补贴信息</div>
+                        </div>
+                    </div>
+
+                    <!-- 筛选标签 -->
+                    <div class="filter-section">
+                        <!-- 标签筛选 -->
+                        <div class="filter-group" id="tagFilter">
+                            <div class="filter-group-title">信息来源</div>
+                            <div class="filter-chips">
+                                <span class="filter-chip active" data-filter="source-all">全部</span>
+                                <span class="filter-chip" data-filter="source-agriculture">农业农村部</span>
+                                <span class="filter-chip" data-filter="source-finance">财政部</span>
+                                <span class="filter-chip" data-filter="source-commerce">商务部</span>
+                                <span class="filter-chip" data-filter="source-market">市场监管总局</span>
+                                <span class="filter-chip" data-filter="source-tech">农业科学院</span>
+                                <span class="filter-chip" data-filter="source-province">省级部门</span>
+                                <span class="filter-chip" data-filter="source-industry">行业协会</span>
+                            </div>
+                        </div>
+
+                        <!-- 时间筛选 -->
+                        <div class="filter-group">
+                            <h4 class="filter-group-title">发布时间</h4>
+                            <div class="filter-chips">
+                                <span class="filter-chip active" data-filter="time-all">全部</span>
+                                <span class="filter-chip" data-filter="time-week">一周内</span>
+                                <span class="filter-chip" data-filter="time-month">一个月内</span>
+                                <span class="filter-chip" data-filter="time-quarter">三个月内</span>
+                                <span class="filter-chip" data-filter="time-year">一年内</span>
+                                <div class="custom-date-range">
+                                    <div class="date-inputs">
+                                        <input type="date" class="date-input" id="startDate" placeholder="开始日期">
+                                        <span class="date-separator">-</span>
+                                        <input type="date" class="date-input" id="endDate" placeholder="结束日期">
+                                    </div>
+                                    <button class="btn-apply-date">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 筛选结果统计 -->
+                    <div class="section-header">
+                        <h2 class="section-title">最新消息快报</h2>
+                        <div class="section-actions">
+                            <div class="result-count">共找到 <span id="resultCount">98</span> 条资讯</div>
+                        </div>
+                    </div>
+                    <div class="selected-filters" id="selectedFilters">
+                        <!-- 这里会动态添加已选择的筛选条件 -->
+                    </div>
+
+                    <!-- 政策资讯列表 -->
+                    <div class="policy-list">
+                        <!-- 政策资讯项1 -->
+                        <div class="policy-item" data-category="policy" data-source="agriculture"
+                            data-date="2024-03-15">
+                            <div class="policy-header">
+                                <span class="policy-tag">补贴政策</span>
+                                <span class="policy-date">2024-03-15</span>
+                            </div>
+                            <h3 class="policy-title">关于2024年农业补贴政策调整的通知</h3>
+                            <p class="policy-summary">
+                                为进一步支持农业发展，促进农民增收，现就2024年农业补贴政策调整有关事项通知如下：一、提高粮食直补标准，落实农资综合补贴；二、扩大良种补贴覆盖范围；三、优化农机购置补贴实施方案；四、完善生态补偿机制...
+                            </p>
+                            <div class="policy-footer">
+                                <div class="policy-source">
+                                    <img src="images/icons/department-agriculture.png" alt="农业农村部"
+                                        class="source-avatar">
+                                    <span class="source-name">农业农村部</span>
+                                </div>
+                                <div class="policy-actions">
+                                    <a href="policy-detail.html?id=1" class="btn-view">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 政策资讯项2 -->
+                        <div class="policy-item" data-category="market" data-source="market" data-date="2024-03-14">
+                            <div class="policy-header">
+                                <span class="policy-tag">市场规范</span>
+                                <span class="policy-date">2024-03-14</span>
+                            </div>
+                            <h3 class="policy-title">农产品市场交易规范管理办法</h3>
+                            <p class="policy-summary">
+                                为规范农产品市场交易行为，维护市场秩序，保护交易双方合法权益，特制定本办法。本办法适用于全国农产品批发市场、农贸市场以及其他农产品交易场所的交易活动管理。农产品交易应当遵循公开、公平、公正和诚实信用的原则...
+                            </p>
+                            <div class="policy-footer">
+                                <div class="policy-source">
+                                    <img src="images/icons/department-market.png" alt="市场监督管理局" class="source-avatar">
+                                    <span class="source-name">市场监督管理局</span>
+                                </div>
+                                <div class="policy-actions">
+                                    <a href="policy-detail.html?id=2" class="btn-view">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 政策资讯项3 -->
+                        <div class="policy-item" data-category="tech" data-source="tech" data-date="2024-03-13">
+                            <div class="policy-header">
+                                <span class="policy-tag">技术支持</span>
+                                <span class="policy-date">2024-03-13</span>
+                            </div>
+                            <h3 class="policy-title">农业技术推广服务体系建设指导意见</h3>
+                            <p class="policy-summary">
+                                为加强农业技术推广服务体系建设，提高农业科技水平，促进农业现代化发展，特制定本指导意见。各地区应当整合科研教学和推广资源，建立以农业技术推广机构为主导、科研教学单位为支撑、社会化服务组织为补充的农业技术推广服务体系...
+                            </p>
+                            <div class="policy-footer">
+                                <div class="policy-source">
+                                    <img src="images/icons/department-tech.png" alt="农业科学院" class="source-avatar">
+                                    <span class="source-name">农业科学院</span>
+                                </div>
+                                <div class="policy-actions">
+                                    <a href="policy-detail.html?id=3" class="btn-view">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 政策资讯项4 -->
+                        <div class="policy-item" data-category="subsidy" data-source="finance" data-date="2024-03-10">
+                            <div class="policy-header">
+                                <span class="policy-tag">补贴信息</span>
+                                <span class="policy-date">2024-03-10</span>
+                            </div>
+                            <h3 class="policy-title">关于进一步支持农业保险发展的实施方案</h3>
+                            <p class="policy-summary">
+                                为贯彻落实中央农村工作会议精神，加快发展政策性农业保险，进一步提高农业风险保障水平，现就完善农业保险保费补贴政策提出如下实施方案：一、提高中央财政保费补贴比例；二、扩大保险品种范围；三、优化理赔服务机制...
+                            </p>
+                            <div class="policy-footer">
+                                <div class="policy-source">
+                                    <img src="images/icons/department-finance.png" alt="财政部" class="source-avatar">
+                                    <span class="source-name">财政部</span>
+                                </div>
+                                <div class="policy-actions">
+                                    <a href="policy-detail.html?id=4" class="btn-view">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 政策资讯项5 -->
+                        <div class="policy-item" data-category="market" data-source="commerce" data-date="2024-03-08">
+                            <div class="policy-header">
+                                <span class="policy-tag">市场动态</span>
+                                <span class="policy-date">2024-03-08</span>
+                            </div>
+                            <h3 class="policy-title">关于促进农产品电商发展的实施意见</h3>
+                            <p class="policy-summary">
+                                为加快推进农产品电子商务发展，拓宽农产品销售渠道，促进农民增收，特制定本实施意见。鼓励电商平台加大对农产品上行的支持力度，支持农产品生产经营主体开设网店，发展农村电商物流体系，推动"互联网+"农产品出村进城...
+                            </p>
+                            <div class="policy-footer">
+                                <div class="policy-source">
+                                    <img src="images/icons/department-commerce.png" alt="商务部" class="source-avatar">
+                                    <span class="source-name">商务部</span>
+                                </div>
+                                <div class="policy-actions">
+                                    <a href="policy-detail.html?id=5" class="btn-view">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 政策资讯项6 -->
+                        <div class="policy-item" data-category="policy" data-source="province" data-date="2024-03-05">
+                            <div class="policy-header">
+                                <span class="policy-tag">地方政策</span>
+                                <span class="policy-date">2024-03-05</span>
+                            </div>
+                            <h3 class="policy-title">江苏省关于支持家庭农场发展的若干措施</h3>
+                            <p class="policy-summary">
+                                为进一步推进家庭农场高质量发展，充分发挥其在乡村振兴和农业现代化建设中的引领作用，特制定本措施。重点在土地流转、金融支持、财政补贴、技术服务等方面给予家庭农场政策支持，鼓励家庭农场提升生产经营规模化、标准化水平...
+                            </p>
+                            <div class="policy-footer">
+                                <div class="policy-source">
+                                    <img src="images/icons/department-province.png" alt="江苏省农业农村厅"
+                                        class="source-avatar">
+                                    <span class="source-name">江苏省农业农村厅</span>
+                                </div>
+                                <div class="policy-actions">
+                                    <a href="policy-detail.html?id=6" class="btn-view">查看详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="pagination" data-total-pages="10">
+                        <a href="#" class="page-prev" aria-label="上一页">&lt;</a>
+                        <span class="page-number active" data-page="1">1</span>
+                        <span class="page-number" data-page="2">2</span>
+                        <span class="page-number" data-page="3">3</span>
+                        <span class="page-number" data-page="4">4</span>
+                        <span class="page-number" data-page="5">5</span>
+                        <span class="page-ellipsis">...</span>
+                        <span class="page-number" data-page="10">10</span>
+                        <a href="#" class="page-next" aria-label="下一页">&gt;</a>
+                        <div class="page-jump">
+                            <input type="number" placeholder="页码" min="1" max="10">
+                            <button class="btn-jump">跳转</button>
+                        </div>
+                    </div>
+
+                    <!-- 空状态 -->
+                    <div class="empty-state" style="display: none;">
+                        <img src="images/icons/empty-state.png" alt="暂无数据">
+                        <p>暂无符合条件的消息资讯</p>
+                        <button class="btn-reset-filter">返回全部资讯</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部区域 -->
+        <div data-component="footer"></div>
+    </div>
+
+    <!-- 辅助功能组件 -->
+    <div class="utility-components">
+        <!-- 角色切换模态框 -->
+        <div class="role-modal" id="roleModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>切换角色</h3>
+                    <button type="button" class="close-btn" id="roleModalCloseBtn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="role-options">
+                        <div class="role-option" data-role="采购商">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="role-option-info">
+                                <h4>采购商</h4>
+                                <p>发布农产品采购需求</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="供应商">
+                            <i class="fas fa-store"></i>
+                            <div class="role-option-info">
+                                <h4>供应商</h4>
+                                <p>发布农产品供应信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-confirm" id="roleModalConfirmBtn">确认切换</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 回到顶部按钮 -->
+        <div class="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="mobile-nav-close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="mobile-nav-content">
+                <ul class="mobile-nav-menu">
+                    <li class="mobile-nav-item">
+                        <a href="index.html" class="mobile-nav-link">
+                            <i class="fas fa-home"></i> 首页
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="supply.html" class="mobile-nav-link">
+                            <i class="fas fa-store"></i> 供应大厅
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="demand.html" class="mobile-nav-link">
+                            <i class="fas fa-shopping-cart"></i> 需求大厅
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="publish.html" class="mobile-nav-link">
+                            <i class="fas fa-edit"></i> 发布信息
+                        </a>
+                    </li>
+
+                    <li class="mobile-nav-divider"></li>
+
+                    <li class="mobile-nav-item">
+                        <a href="policy.html" class="mobile-nav-link active">
+                            <i class="fas fa-newspaper"></i> 消息快报
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="market.html" class="mobile-nav-link">
+                            <i class="fas fa-chart-line"></i> 市场行情
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script src="js/components.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('政策快报页面加载完成');
+
+            // 获取所有政策项
+            const policyItems = document.querySelectorAll('.policy-item');
+            // 获取结果计数器
+            const resultCount = document.getElementById('resultCount');
+            // 获取标签筛选容器
+            const tabsContainer = document.querySelector('.tabs-header');
+            const tabItems = tabsContainer.querySelectorAll('.tab-item');
+            // 获取筛选芯片
+            const filterChips = document.querySelectorAll('.filter-chip');
+            // 获取日期范围筛选按钮
+            const dateRangeBtn = document.querySelector('.btn-apply-date');
+            // 获取空状态提示
+            const emptyState = document.querySelector('.empty-state');
+            const resetFilterBtn = document.querySelector('.btn-reset-filter');
+
+            // 记录活跃的筛选条件
+            let activeFilters = {
+                category: 'all',
+                source: 'source-all',
+                time: 'time-all',
+                dateRange: null
+            };
+
+            // 初始化计数
+            updateResultCount();
+
+            // 标签切换点击事件
+            tabItems.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // 移除所有标签的活跃状态
+                    tabItems.forEach(t => t.classList.remove('active'));
+                    // 添加当前标签的活跃状态
+                    this.classList.add('active');
+                    // 更新筛选类别
+                    activeFilters.category = this.getAttribute('data-target');
+                    // 应用筛选
+                    applyFilters();
+                });
+            });
+
+            // 筛选芯片点击事件
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', function () {
+                    // 获取筛选类型和值
+                    const filter = this.getAttribute('data-filter');
+                    // 获取当前芯片所在组
+                    const group = this.closest('.filter-chips');
+                    // 移除同组中所有芯片的活跃状态
+                    group.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    // 添加当前芯片的活跃状态
+                    this.classList.add('active');
+
+                    // 更新筛选条件
+                    if (filter.startsWith('source-')) {
+                        activeFilters.source = filter;
+                    } else if (filter.startsWith('time-')) {
+                        activeFilters.time = filter;
+                        // 如果选择了预定义时间范围，清空自定义日期范围
+                        if (filter !== 'time-custom') {
+                            activeFilters.dateRange = null;
+                            document.getElementById('startDate').value = '';
+                            document.getElementById('endDate').value = '';
+                        }
+                    }
+
+                    // 应用筛选
+                    applyFilters();
+                });
+            });
+
+            // 日期范围筛选
+            if (dateRangeBtn) {
+                dateRangeBtn.addEventListener('click', function () {
+                    const startDate = document.getElementById('startDate').value;
+                    const endDate = document.getElementById('endDate').value;
+
+                    if (startDate && endDate) {
+                        // 设置自定义日期范围
+                        activeFilters.dateRange = {
+                            start: new Date(startDate),
+                            end: new Date(endDate)
+                        };
+                        // 切换到自定义时间筛选
+                        activeFilters.time = 'time-custom';
+                        // 更新UI显示
+                        const timeChips = document.querySelectorAll('.filter-chip[data-filter^="time-"]');
+                        timeChips.forEach(chip => chip.classList.remove('active'));
+                        // 应用筛选
+                        applyFilters();
+                    } else {
+                        alert('请选择完整的日期范围');
+                    }
+                });
+            }
+
+            // 重置筛选按钮
+            if (resetFilterBtn) {
+                resetFilterBtn.addEventListener('click', function () {
+                    // 重置所有筛选条件
+                    activeFilters = {
+                        category: 'all',
+                        source: 'source-all',
+                        time: 'time-all',
+                        dateRange: null
+                    };
+
+                    // 重置UI显示
+                    tabItems.forEach(tab => {
+                        tab.classList.toggle('active', tab.getAttribute('data-target') === 'all');
+                    });
+
+                    filterChips.forEach(chip => {
+                        const filter = chip.getAttribute('data-filter');
+                        chip.classList.toggle('active',
+                            filter === 'source-all' ||
+                            filter === 'time-all');
+                    });
+
+                    // 清空日期输入
+                    document.getElementById('startDate').value = '';
+                    document.getElementById('endDate').value = '';
+
+                    // 应用筛选
+                    applyFilters();
+                });
+            }
+
+            // 应用筛选逻辑
+            function applyFilters() {
+                let visibleCount = 0;
+
+                // 遍历所有政策项
+                policyItems.forEach(item => {
+                    let visible = true;
+
+                    // 类别筛选
+                    if (activeFilters.category !== 'all') {
+                        const itemCategory = item.getAttribute('data-category');
+                        if (itemCategory !== activeFilters.category) {
+                            visible = false;
+                        }
+                    }
+
+                    // 来源筛选
+                    if (activeFilters.source !== 'source-all' && visible) {
+                        const itemSource = item.getAttribute('data-source');
+                        const filterSource = activeFilters.source.replace('source-', '');
+                        if (itemSource !== filterSource) {
+                            visible = false;
+                        }
+                    }
+
+                    // 时间筛选
+                    if (activeFilters.time !== 'time-all' && visible) {
+                        const itemDate = new Date(item.getAttribute('data-date'));
+                        const now = new Date();
+
+                        if (activeFilters.time === 'time-week') {
+                            // 一周内
+                            const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            if (itemDate < oneWeekAgo) {
+                                visible = false;
+                            }
+                        } else if (activeFilters.time === 'time-month') {
+                            // 一个月内
+                            const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+                            if (itemDate < oneMonthAgo) {
+                                visible = false;
+                            }
+                        } else if (activeFilters.time === 'time-quarter') {
+                            // 三个月内
+                            const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
+                            if (itemDate < threeMonthsAgo) {
+                                visible = false;
+                            }
+                        } else if (activeFilters.time === 'time-year') {
+                            // 一年内
+                            const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+                            if (itemDate < oneYearAgo) {
+                                visible = false;
+                            }
+                        } else if (activeFilters.time === 'time-custom' && activeFilters.dateRange) {
+                            // 自定义日期范围
+                            if (itemDate < activeFilters.dateRange.start || itemDate > activeFilters.dateRange.end) {
+                                visible = false;
+                            }
+                        }
+                    }
+
+                    // 设置元素可见性
+                    item.style.display = visible ? 'block' : 'none';
+                    if (visible) {
+                        visibleCount++;
+                    }
+                });
+
+                // 更新结果计数
+                resultCount.textContent = visibleCount;
+
+                // 显示/隐藏空状态提示
+                if (visibleCount === 0) {
+                    emptyState.style.display = 'flex';
+                } else {
+                    emptyState.style.display = 'none';
+                }
+            }
+
+            // 更新结果计数
+            function updateResultCount() {
+                let visibleCount = 0;
+                policyItems.forEach(item => {
+                    if (item.style.display !== 'none') {
+                        visibleCount++;
+                    }
+                });
+                resultCount.textContent = visibleCount;
+            }
+
+            // 分页功能
+            const pagination = document.querySelector('.pagination');
+            if (pagination) {
+                const pageNumbers = pagination.querySelectorAll('.page-number');
+                const prevButton = pagination.querySelector('.page-prev');
+                const nextButton = pagination.querySelector('.page-next');
+                const jumpButton = pagination.querySelector('.btn-jump');
+                const jumpInput = pagination.querySelector('.page-jump input');
+                const totalPages = parseInt(pagination.getAttribute('data-total-pages')) || 1;
+
+                let currentPage = 1;
+
+                // 页码点击事件
+                pageNumbers.forEach(pageNum => {
+                    pageNum.addEventListener('click', function () {
+                        const page = parseInt(this.getAttribute('data-page'));
+                        if (page !== currentPage) {
+                            changePage(page);
+                        }
+                    });
+                });
+
+                // 上一页按钮
+                if (prevButton) {
+                    prevButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (currentPage > 1) {
+                            changePage(currentPage - 1);
+                        }
+                    });
+                }
+
+                // 下一页按钮
+                if (nextButton) {
+                    nextButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (currentPage < totalPages) {
+                            changePage(currentPage + 1);
+                        }
+                    });
+                }
+
+                // 跳转按钮
+                if (jumpButton && jumpInput) {
+                    jumpButton.addEventListener('click', function () {
+                        const page = parseInt(jumpInput.value);
+                        if (!isNaN(page) && page >= 1 && page <= totalPages) {
+                            changePage(page);
+                        } else {
+                            alert(`请输入有效的页码（1-${totalPages}）`);
+                        }
+                    });
+
+                    // 回车键也可以触发跳转
+                    jumpInput.addEventListener('keypress', function (e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            jumpButton.click();
+                        }
+                    });
+                }
+
+                // 切换页面
+                function changePage(page) {
+                    // 这里应该发送Ajax请求加载新页面的数据
+                    // 但现在只做UI更新
+                    currentPage = page;
+
+                    // 更新页码UI
+                    pageNumbers.forEach(pageNum => {
+                        const numPage = parseInt(pageNum.getAttribute('data-page'));
+                        pageNum.classList.toggle('active', numPage === currentPage);
+                    });
+
+                    // 更新按钮状态
+                    if (prevButton) {
+                        prevButton.classList.toggle('disabled', currentPage === 1);
+                    }
+                    if (nextButton) {
+                        nextButton.classList.toggle('disabled', currentPage === totalPages);
+                    }
+
+                    // 滚动到顶部
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+
+                    console.log(`切换到第 ${page} 页`);
+                }
+            }
+
+            // 角色切换相关逻辑会从role-switch.js加载
+
+            // 监听回到顶部按钮
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', function () {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+
+                backToTopBtn.addEventListener('click', function () {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
