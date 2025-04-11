@@ -112,7 +112,7 @@ function updateNavigationVisibility(role) {
             }
         });
     } else {
-        // 默认情况下都显示
+        // 默认情况下设置为采购商状态
         supplyNavLinks.forEach(link => {
             const listItem = link.closest('.horizontal-nav-item') || link.closest('.mobile-nav-item');
             if (listItem) {
@@ -123,9 +123,18 @@ function updateNavigationVisibility(role) {
         demandNavLinks.forEach(link => {
             const listItem = link.closest('.horizontal-nav-item') || link.closest('.mobile-nav-item');
             if (listItem) {
-                listItem.style.display = '';
+                listItem.style.display = 'none';
             }
         });
+
+        // 设置默认角色为采购商
+        if (!localStorage.getItem('userRole')) {
+            localStorage.setItem('userRole', '采购商');
+            const currentRoleElement = document.getElementById('currentRole');
+            if (currentRoleElement) {
+                currentRoleElement.textContent = '采购商';
+            }
+        }
     }
 }
 
@@ -192,7 +201,14 @@ function initRoleSwitch() {
 }
 
 // 在页面加载完成后初始化角色切换功能
-document.addEventListener('DOMContentLoaded', initRoleSwitch);
+document.addEventListener('DOMContentLoaded', function () {
+    // 初始化角色切换功能
+    initRoleSwitch();
+
+    // 确保在页面加载后立即更新导航显示
+    const currentRole = localStorage.getItem('userRole') || '采购商';
+    updateNavigationVisibility(currentRole);
+});
 
 /**
  * 更新角色相关UI

@@ -51,6 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 初始化产品操作按钮
     initProductActionButtons();
+
+    // 确保导航条根据角色正确显示
+    if (typeof updateNavigationVisibility === 'function') {
+        const currentRole = localStorage.getItem('userRole') || '采购商';
+        updateNavigationVisibility(currentRole);
+    }
 });
 
 /**
