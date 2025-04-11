@@ -3,760 +3,1657 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>供应大厅 - 农产品供销信息平台</title>
-    <!-- 引入字体图标库 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- 引入基础样式 -->
-    <link rel="stylesheet" href="../app/css/style.css">
-    <!-- 引入Web端通用样式 -->
-    <link rel="stylesheet" href="css/web-style.css">
-    <!-- 引入供应大厅特有样式 -->
-    <link rel="stylesheet" href="css/supply-web.css">
-    <!-- 页面描述 -->
-    <meta name="description" content="农产品供应大厅，浏览全国各地优质农产品供应信息">
+    <!-- 网站描述 -->
+    <meta name="description" content="农产品供应大厅，海量新鲜农产品直供">
+    <!-- 关键词 -->
+    <meta name="keywords" content="农产品,供应,蔬菜,水果,粮油,肉类,特产">
     <!-- 主题色 -->
     <meta name="theme-color" content="#2E8B57">
+
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://img.icons8.com/color/96/null/natural-food.png" as="image">
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
 </head>
 
 <body>
-    <div class="app-container">
-        <!-- Web端顶部导航栏 -->
+    <!-- Web应用布局 -->
+    <div class="web-layout">
+        <!-- 顶部导航栏 -->
         <header class="web-header">
-            <div class="web-header-container">
-                <!-- 左侧Logo -->
-                <div class="web-logo">
-                    <img src="images/logo.png" alt="农产品供销信息平台" class="logo-image">
-                    <span class="logo-text">农产品供销信息平台</span>
+            <!-- 水平导航菜单 - 包含logo和用户图标 -->
+            <nav class="horizontal-nav">
+                <div class="horizontal-nav-menu">
+                    <!-- 添加logo到导航栏 -->
+                    <div class="logo">
+                        <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                        <span class="logo-text">农产品供销平台</span>
+                    </div>
+
+                    <!-- 中间导航链接 -->
+                    <div class="nav-links">
+                        <div class="horizontal-nav-item">
+                            <a href="index.html" class="horizontal-nav-link">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="supply.html" class="horizontal-nav-link active">
+                                <i class="fas fa-store"></i>
+                                <span>供应大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="demand.html" class="horizontal-nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>需求大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="publish.html" class="horizontal-nav-link">
+                                <i class="fas fa-edit"></i>
+                                <span>发布信息</span>
+                            </a>
+                        </div>
+
+                        <div class="nav-group-divider"></div>
+
+                        <div class="horizontal-nav-item">
+                            <a href="policy.html" class="horizontal-nav-link">
+                                <i class="fas fa-newspaper"></i>
+                                <span>消息快报</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="market.html" class="horizontal-nav-link">
+                                <i class="fas fa-chart-line"></i>
+                                <span>市场行情</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 添加用户图标到导航栏 -->
+                    <div class="header-icons">
+                        <div class="role-switch">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span id="currentRole">采购商</span>
+                        </div>
+                        <a href="notifications.html" class="header-icon">
+                            <i class="far fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </a>
+                        <a href="messages.html" class="header-icon">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                        <div class="avatar-wrapper">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 顶部区域 - 仅保留搜索 -->
+            <div class="header-top">
+                <!-- 移动端显示的logo -->
+                <div class="logo mobile-logo">
+                    <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                    <span class="logo-text">农产品供销平台</span>
                 </div>
 
-                <!-- 中间导航链接 -->
-                <nav class="web-nav">
-                    <a href="index.html" class="web-nav-link" data-page="index">首页</a>
-                    <a href="supply.html" class="web-nav-link active" data-page="supply">供应大厅</a>
-                    <a href="demand.html" class="web-nav-link" data-page="demand">需求大厅</a>
-                    <a href="publish.html" class="web-nav-link" data-page="publish">发布信息</a>
-                    <a href="user.html" class="web-nav-link" data-page="user">个人中心</a>
-                </nav>
+                <div class="search-wrapper">
+                    <form class="search-form">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="search" class="search-input" placeholder="搜索农产品、种类、地区...">
+                        <button type="button" class="advanced-search-toggle">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+                    </form>
+                </div>
 
-                <!-- 右侧用户区域 -->
-                <div class="web-user-area">
-                    <a href="login.html" class="login-btn" id="loginBtn">登录</a>
-                    <a href="user.html" class="user-avatar-mini" id="userAvatarMini" style="display: none;">
-                        <img src="../app/images/default-avatar.png" alt="用户头像" id="userAvatarImg">
-                    </a>
+                <!-- 移动端菜单按钮 -->
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- 高级搜索面板 -->
+            <div class="advanced-search-panel">
+                <div class="advanced-search-content">
+                    <div class="search-row">
+                        <label>产品类别</label>
+                        <select>
+                            <option value="">全部类别</option>
+                            <option value="fruits">水果</option>
+                            <option value="vegetables">蔬菜</option>
+                            <option value="grains">粮食</option>
+                            <option value="others">其他</option>
+                        </select>
+                    </div>
+                    <div class="search-row">
+                        <label>价格区间</label>
+                        <div class="price-range">
+                            <input type="number" placeholder="最低价">
+                            <span>-</span>
+                            <input type="number" placeholder="最高价">
+                        </div>
+                    </div>
+                    <div class="search-row">
+                        <label>产地</label>
+                        <select>
+                            <option value="">全部地区</option>
+                            <option value="north">华北</option>
+                            <option value="east">华东</option>
+                            <option value="south">华南</option>
+                            <option value="west">西部</option>
+                            <option value="northeast">东北</option>
+                        </select>
+                    </div>
+                    <div class="search-actions">
+                        <button type="reset" class="btn-reset">重置</button>
+                        <button type="submit" class="btn-search">搜索</button>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <!-- 侧边栏菜单 -->
-        <aside class="sidebar">
-            <div class="sidebar-container">
-                <div class="sidebar-header">
-                    <img src="images/logo.png" alt="Logo" class="sidebar-logo">
-                    <span class="sidebar-title">农产品供销平台</span>
-                </div>
-
-                <nav class="sidebar-menu">
-                    <a href="index.html" class="sidebar-menu-item" data-page="index">
-                        <i class="fas fa-home"></i>首页
-                    </a>
-                    <a href="supply.html" class="sidebar-menu-item active" data-page="supply">
-                        <i class="fas fa-shopping-basket"></i>供应大厅
-                    </a>
-                    <a href="demand.html" class="sidebar-menu-item" data-page="demand">
-                        <i class="fas fa-clipboard-list"></i>需求大厅
-                    </a>
-                    <a href="publish.html" class="sidebar-menu-item" data-page="publish">
-                        <i class="fas fa-plus-circle"></i>发布信息
-                    </a>
-                    <a href="user.html" class="sidebar-menu-item" data-page="user">
-                        <i class="fas fa-user"></i>个人中心
-                    </a>
-                </nav>
-            </div>
-        </aside>
+        <!-- 移动端侧边栏背景蒙层 -->
+        <div class="sidebar-backdrop"></div>
 
         <!-- 主内容区 -->
-        <main class="main-content">
-            <div class="content-header">
-                <h1 class="page-title">供应大厅</h1>
-                <div class="content-actions">
-                    <button class="action-button search-button">
-                        <i class="fas fa-search"></i>
-                        <span>搜索</span>
-                    </button>
-                    <button class="action-button filter-button">
-                        <i class="fas fa-filter"></i>
-                        <span>筛选</span>
-                    </button>
+        <main class="web-main">
+            <div class="web-content">
+                <!-- 面包屑导航 -->
+                <div class="breadcrumb">
+                    <div class="breadcrumb-item">
+                        <a href="index.html">首页</a>
+                    </div>
+                    <div class="breadcrumb-item">
+                        <a href="supply.html">供应大厅</a>
+                    </div>
+                </div>
+
+                <!-- 筛选栏 -->
+                <section class="filter-section">
+                    <div class="filter-header">
+                        <h2 class="filter-title">农产品供应</h2>
+                        <div class="filter-stats">共<span class="result-count">1324</span>条信息</div>
+                    </div>
+
+                    <!-- 筛选条件 -->
+                    <div class="filter-options">
+                        <!-- 商品分类 - 京东风格 -->
+                        <div class="filter-category-section jd-style">
+                            <h3 class="filter-section-title">商品分类</h3>
+
+                            <!-- 分类容器 -->
+                            <div class="category-container">
+                                <!-- 左侧主分类列表 -->
+                                <div class="main-categories">
+                                    <ul>
+                                        <li class="main-category-item active" data-category="all">全部分类</li>
+                                        <li class="main-category-item" data-category="fruits">水果</li>
+                                        <li class="main-category-item" data-category="vegetables">蔬菜</li>
+                                        <li class="main-category-item" data-category="grains">粮油米面</li>
+                                    </ul>
+                                </div>
+
+                                <!-- 右侧内容区域 -->
+                                <div class="sub-categories">
+                                    <!-- 全部分类轮播图 -->
+                                    <div class="category-carousel" data-parent="all">
+                                        <div class="carousel-container">
+                                            <div class="carousel-wrapper">
+                                                <div class="carousel-slides">
+                                                    <div class="carousel-slide">
+                                                        <img src="images/carousel/slide1.jpg" alt="新鲜水果">
+                                                        <div class="carousel-caption">
+                                                            <h3>新鲜水果专区</h3>
+                                                            <p>精选当季水果，产地直供</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="carousel-slide">
+                                                        <img src="images/carousel/slide2.jpg" alt="有机蔬菜">
+                                                        <div class="carousel-caption">
+                                                            <h3>有机蔬菜专区</h3>
+                                                            <p>绿色种植，健康生活</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="carousel-slide">
+                                                        <img src="images/carousel/slide3.jpg" alt="粮油专区">
+                                                        <div class="carousel-caption">
+                                                            <h3>粮油专区</h3>
+                                                            <p>优质粮油，放心选择</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="carousel-slide">
+                                                        <img src="images/carousel/slide4.jpg" alt="特色农产">
+                                                        <div class="carousel-caption">
+                                                            <h3>特色农产专区</h3>
+                                                            <p>地方特产，品质保证</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="carousel-btn prev-btn">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <button class="carousel-btn next-btn">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                            <div class="carousel-indicators">
+                                                <span class="indicator"></span>
+                                                <span class="indicator"></span>
+                                                <span class="indicator"></span>
+                                                <span class="indicator"></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- 热门分类 -->
+                                        <div class="hot-categories">
+                                            <h4>热门分类</h4>
+                                            <div class="hot-category-grid">
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/fruits.png" alt="水果">
+                                                    <span>水果</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/vegetables.png" alt="蔬菜">
+                                                    <span>蔬菜</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/grains.png" alt="粮油">
+                                                    <span>粮油</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/meat.png" alt="肉类">
+                                                    <span>肉类</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/seafood.png" alt="水产">
+                                                    <span>水产</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/specialty.png" alt="特产">
+                                                    <span>特产</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 其他分类的子类别 -->
+                                    <div class="sub-category-group category-carousel" data-parent="fruits">
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">热带水果</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">芒果</a>
+                                                <a class="sub-category-link" href="#">香蕉</a>
+                                                <a class="sub-category-link" href="#">菠萝</a>
+                                                <a class="sub-category-link" href="#">火龙果</a>
+                                                <a class="sub-category-link" href="#">椰子</a>
+                                                <a class="sub-category-link" href="#">榴莲</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">柑橘类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">橙子</a>
+                                                <a class="sub-category-link" href="#">柚子</a>
+                                                <a class="sub-category-link" href="#">柠檬</a>
+                                                <a class="sub-category-link" href="#">金桔</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">浆果类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">草莓</a>
+                                                <a class="sub-category-link" href="#">蓝莓</a>
+                                                <a class="sub-category-link" href="#">桑葚</a>
+                                                <a class="sub-category-link" href="#">葡萄</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">瓜果类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">西瓜</a>
+                                                <a class="sub-category-link" href="#">哈密瓜</a>
+                                                <a class="sub-category-link" href="#">甜瓜</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">核果仁果类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">苹果</a>
+                                                <a class="sub-category-link" href="#">梨</a>
+                                                <a class="sub-category-link" href="#">桃</a>
+                                                <a class="sub-category-link" href="#">李子</a>
+                                                <a class="sub-category-link" href="#">杏</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-category-group category-carousel" data-parent="vegetables">
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">叶菜类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">白菜</a>
+                                                <a class="sub-category-link" href="#">生菜</a>
+                                                <a class="sub-category-link" href="#">菠菜</a>
+                                                <a class="sub-category-link" href="#">油麦菜</a>
+                                                <a class="sub-category-link" href="#">芹菜</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">根茎菜类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">土豆</a>
+                                                <a class="sub-category-link" href="#">萝卜</a>
+                                                <a class="sub-category-link" href="#">山药</a>
+                                                <a class="sub-category-link" href="#">芋头</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">茄果菜类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">西红柿</a>
+                                                <a class="sub-category-link" href="#">茄子</a>
+                                                <a class="sub-category-link" href="#">辣椒</a>
+                                                <a class="sub-category-link" href="#">南瓜</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-category-group category-carousel" data-parent="grains">
+                                        <!-- 粮油米面子分类 -->
+                                    </div>
+
+                                    <div class="sub-category-group category-carousel" data-parent="meat">
+                                        <!-- 禽畜肉蛋子分类 -->
+                                    </div>
+
+                                    <div class="sub-category-group category-carousel" data-parent="aquatic">
+                                        <!-- 水产子分类 -->
+                                    </div>
+
+                                    <div class="sub-category-group category-carousel" data-parent="processed">
+                                        <!-- 农副加工子分类 -->
+                                    </div>
+
+                                    <div class="sub-category-group category-carousel" data-parent="seeds">
+                                        <!-- 种子种苗子分类 -->
+                                    </div>
+
+                                    <!-- 产地区县子分类 -->
+                                    <div class="sub-category-group" data-parent="regions">
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">北京市</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">朝阳区</a>
+                                                <a class="sub-category-link" href="#">海淀区</a>
+                                                <a class="sub-category-link" href="#">丰台区</a>
+                                                <a class="sub-category-link" href="#">石景山区</a>
+                                                <a class="sub-category-link" href="#">通州区</a>
+                                                <a class="sub-category-link" href="#">顺义区</a>
+                                                <a class="sub-category-link" href="#">昌平区</a>
+                                                <a class="sub-category-link" href="#">大兴区</a>
+                                                <a class="sub-category-link" href="#">房山区</a>
+                                                <a class="sub-category-link" href="#">密云区</a>
+                                                <a class="sub-category-link" href="#">东城区</a>
+                                                <a class="sub-category-link" href="#">西城区</a>
+                                                <a class="sub-category-link" href="#">门头沟区</a>
+                                                <a class="sub-category-link" href="#">平谷区</a>
+                                                <a class="sub-category-link" href="#">怀柔区</a>
+                                                <a class="sub-category-link" href="#">延庆区</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">四川省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">成都市</a>
+                                                <a class="sub-category-link" href="#">绵阳市</a>
+                                                <a class="sub-category-link" href="#">德阳市</a>
+                                                <a class="sub-category-link" href="#">自贡市</a>
+                                                <a class="sub-category-link" href="#">攀枝花市</a>
+                                                <a class="sub-category-link" href="#">泸州市</a>
+                                                <a class="sub-category-link" href="#">宜宾市</a>
+                                                <a class="sub-category-link" href="#">南充市</a>
+                                                <a class="sub-category-link" href="#">达州市</a>
+                                                <a class="sub-category-link" href="#">广安市</a>
+                                                <a class="sub-category-link" href="#">巴中市</a>
+                                                <a class="sub-category-link" href="#">遂宁市</a>
+                                                <a class="sub-category-link" href="#">内江市</a>
+                                                <a class="sub-category-link" href="#">乐山市</a>
+                                                <a class="sub-category-link" href="#">资阳市</a>
+                                                <a class="sub-category-link" href="#">眉山市</a>
+                                                <a class="sub-category-link" href="#">雅安市</a>
+                                                <a class="sub-category-link" href="#">广元市</a>
+                                                <a class="sub-category-link" href="#">凉山彝族自治州</a>
+                                                <a class="sub-category-link" href="#">甘孜藏族自治州</a>
+                                                <a class="sub-category-link" href="#">阿坝藏族羌族自治州</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">山东省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">济南市</a>
+                                                <a class="sub-category-link" href="#">青岛市</a>
+                                                <a class="sub-category-link" href="#">烟台市</a>
+                                                <a class="sub-category-link" href="#">潍坊市</a>
+                                                <a class="sub-category-link" href="#">临沂市</a>
+                                                <a class="sub-category-link" href="#">济宁市</a>
+                                                <a class="sub-category-link" href="#">淄博市</a>
+                                                <a class="sub-category-link" href="#">菏泽市</a>
+                                                <a class="sub-category-link" href="#">威海市</a>
+                                                <a class="sub-category-link" href="#">东营市</a>
+                                                <a class="sub-category-link" href="#">泰安市</a>
+                                                <a class="sub-category-link" href="#">滨州市</a>
+                                                <a class="sub-category-link" href="#">德州市</a>
+                                                <a class="sub-category-link" href="#">聊城市</a>
+                                                <a class="sub-category-link" href="#">日照市</a>
+                                                <a class="sub-category-link" href="#">枣庄市</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">广东省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">广州市</a>
+                                                <a class="sub-category-link" href="#">深圳市</a>
+                                                <a class="sub-category-link" href="#">珠海市</a>
+                                                <a class="sub-category-link" href="#">汕头市</a>
+                                                <a class="sub-category-link" href="#">佛山市</a>
+                                                <a class="sub-category-link" href="#">惠州市</a>
+                                                <a class="sub-category-link" href="#">东莞市</a>
+                                                <a class="sub-category-link" href="#">中山市</a>
+                                                <a class="sub-category-link" href="#">江门市</a>
+                                                <a class="sub-category-link" href="#">茂名市</a>
+                                                <a class="sub-category-link" href="#">肇庆市</a>
+                                                <a class="sub-category-link" href="#">湛江市</a>
+                                                <a class="sub-category-link" href="#">梅州市</a>
+                                                <a class="sub-category-link" href="#">汕尾市</a>
+                                                <a class="sub-category-link" href="#">河源市</a>
+                                                <a class="sub-category-link" href="#">阳江市</a>
+                                                <a class="sub-category-link" href="#">清远市</a>
+                                                <a class="sub-category-link" href="#">韶关市</a>
+                                                <a class="sub-category-link" href="#">潮州市</a>
+                                                <a class="sub-category-link" href="#">揭阳市</a>
+                                                <a class="sub-category-link" href="#">云浮市</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">浙江省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">杭州市</a>
+                                                <a class="sub-category-link" href="#">宁波市</a>
+                                                <a class="sub-category-link" href="#">温州市</a>
+                                                <a class="sub-category-link" href="#">嘉兴市</a>
+                                                <a class="sub-category-link" href="#">湖州市</a>
+                                                <a class="sub-category-link" href="#">绍兴市</a>
+                                                <a class="sub-category-link" href="#">金华市</a>
+                                                <a class="sub-category-link" href="#">衢州市</a>
+                                                <a class="sub-category-link" href="#">台州市</a>
+                                                <a class="sub-category-link" href="#">丽水市</a>
+                                                <a class="sub-category-link" href="#">舟山市</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">江苏省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">南京市</a>
+                                                <a class="sub-category-link" href="#">无锡市</a>
+                                                <a class="sub-category-link" href="#">徐州市</a>
+                                                <a class="sub-category-link" href="#">常州市</a>
+                                                <a class="sub-category-link" href="#">苏州市</a>
+                                                <a class="sub-category-link" href="#">南通市</a>
+                                                <a class="sub-category-link" href="#">连云港市</a>
+                                                <a class="sub-category-link" href="#">淮安市</a>
+                                                <a class="sub-category-link" href="#">盐城市</a>
+                                                <a class="sub-category-link" href="#">扬州市</a>
+                                                <a class="sub-category-link" href="#">镇江市</a>
+                                                <a class="sub-category-link" href="#">泰州市</a>
+                                                <a class="sub-category-link" href="#">宿迁市</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">河北省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">石家庄市</a>
+                                                <a class="sub-category-link" href="#">唐山市</a>
+                                                <a class="sub-category-link" href="#">秦皇岛市</a>
+                                                <a class="sub-category-link" href="#">邯郸市</a>
+                                                <a class="sub-category-link" href="#">邢台市</a>
+                                                <a class="sub-category-link" href="#">保定市</a>
+                                                <a class="sub-category-link" href="#">张家口市</a>
+                                                <a class="sub-category-link" href="#">承德市</a>
+                                                <a class="sub-category-link" href="#">沧州市</a>
+                                                <a class="sub-category-link" href="#">廊坊市</a>
+                                                <a class="sub-category-link" href="#">衡水市</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">辽宁省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">沈阳市</a>
+                                                <a class="sub-category-link" href="#">大连市</a>
+                                                <a class="sub-category-link" href="#">鞍山市</a>
+                                                <a class="sub-category-link" href="#">抚顺市</a>
+                                                <a class="sub-category-link" href="#">本溪市</a>
+                                                <a class="sub-category-link" href="#">丹东市</a>
+                                                <a class="sub-category-link" href="#">锦州市</a>
+                                                <a class="sub-category-link" href="#">营口市</a>
+                                                <a class="sub-category-link" href="#">阜新市</a>
+                                                <a class="sub-category-link" href="#">辽阳市</a>
+                                                <a class="sub-category-link" href="#">盘锦市</a>
+                                                <a class="sub-category-link" href="#">铁岭市</a>
+                                                <a class="sub-category-link" href="#">朝阳市</a>
+                                                <a class="sub-category-link" href="#">葫芦岛市</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">河南省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">郑州市</a>
+                                                <a class="sub-category-link" href="#">开封市</a>
+                                                <a class="sub-category-link" href="#">洛阳市</a>
+                                                <a class="sub-category-link" href="#">平顶山市</a>
+                                                <a class="sub-category-link" href="#">安阳市</a>
+                                                <a class="sub-category-link" href="#">鹤壁市</a>
+                                                <a class="sub-category-link" href="#">新乡市</a>
+                                                <a class="sub-category-link" href="#">焦作市</a>
+                                                <a class="sub-category-link" href="#">濮阳市</a>
+                                                <a class="sub-category-link" href="#">许昌市</a>
+                                                <a class="sub-category-link" href="#">漯河市</a>
+                                                <a class="sub-category-link" href="#">三门峡市</a>
+                                                <a class="sub-category-link" href="#">南阳市</a>
+                                                <a class="sub-category-link" href="#">商丘市</a>
+                                                <a class="sub-category-link" href="#">信阳市</a>
+                                                <a class="sub-category-link" href="#">周口市</a>
+                                                <a class="sub-category-link" href="#">驻马店市</a>
+                                                <a class="sub-category-link" href="#">济源市</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">湖北省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">武汉市</a>
+                                                <a class="sub-category-link" href="#">黄石市</a>
+                                                <a class="sub-category-link" href="#">十堰市</a>
+                                                <a class="sub-category-link" href="#">宜昌市</a>
+                                                <a class="sub-category-link" href="#">襄阳市</a>
+                                                <a class="sub-category-link" href="#">鄂州市</a>
+                                                <a class="sub-category-link" href="#">荆门市</a>
+                                                <a class="sub-category-link" href="#">孝感市</a>
+                                                <a class="sub-category-link" href="#">荆州市</a>
+                                                <a class="sub-category-link" href="#">黄冈市</a>
+                                                <a class="sub-category-link" href="#">咸宁市</a>
+                                                <a class="sub-category-link" href="#">随州市</a>
+                                                <a class="sub-category-link" href="#">恩施州</a>
+                                                <a class="sub-category-link" href="#">仙桃市</a>
+                                                <a class="sub-category-link" href="#">潜江市</a>
+                                                <a class="sub-category-link" href="#">天门市</a>
+                                                <a class="sub-category-link" href="#">神农架林区</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">安徽省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">合肥市</a>
+                                                <a class="sub-category-link" href="#">芜湖市</a>
+                                                <a class="sub-category-link" href="#">蚌埠市</a>
+                                                <a class="sub-category-link" href="#">淮南市</a>
+                                                <a class="sub-category-link" href="#">马鞍山市</a>
+                                                <a class="sub-category-link" href="#">淮北市</a>
+                                                <a class="sub-category-link" href="#">铜陵市</a>
+                                                <a class="sub-category-link" href="#">安庆市</a>
+                                                <a class="sub-category-link" href="#">黄山市</a>
+                                                <a class="sub-category-link" href="#">滁州市</a>
+                                                <a class="sub-category-link" href="#">阜阳市</a>
+                                                <a class="sub-category-link" href="#">宿州市</a>
+                                                <a class="sub-category-link" href="#">六安市</a>
+                                                <a class="sub-category-link" href="#">亳州市</a>
+                                                <a class="sub-category-link" href="#">池州市</a>
+                                                <a class="sub-category-link" href="#">宣城市</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">湖南省</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">长沙市</a>
+                                                <a class="sub-category-link" href="#">株洲市</a>
+                                                <a class="sub-category-link" href="#">湘潭市</a>
+                                                <a class="sub-category-link" href="#">衡阳市</a>
+                                                <a class="sub-category-link" href="#">邵阳市</a>
+                                                <a class="sub-category-link" href="#">岳阳市</a>
+                                                <a class="sub-category-link" href="#">常德市</a>
+                                                <a class="sub-category-link" href="#">张家界市</a>
+                                                <a class="sub-category-link" href="#">益阳市</a>
+                                                <a class="sub-category-link" href="#">郴州市</a>
+                                                <a class="sub-category-link" href="#">永州市</a>
+                                                <a class="sub-category-link" href="#">怀化市</a>
+                                                <a class="sub-category-link" href="#">娄底市</a>
+                                                <a class="sub-category-link" href="#">湘西州</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 所在地区 -->
+                        <div class="filter-location-section">
+                            <h3 class="filter-section-title">所在地区</h3>
+
+                            <!-- 省级筛选 -->
+                            <div class="filter-group" id="provinceFilter">
+                                <div class="filter-group-title">省份</div>
+                                <div class="filter-chips">
+                                    <span class="filter-chip active" data-filter="province-all">全部</span>
+                                    <span class="filter-chip" data-filter="province-beijing"
+                                        data-province="北京">北京</span>
+                                    <span class="filter-chip" data-filter="province-sichuan"
+                                        data-province="四川">四川</span>
+                                    <span class="filter-chip" data-filter="province-shandong"
+                                        data-province="山东">山东</span>
+                                    <span class="filter-chip" data-filter="province-guangdong"
+                                        data-province="广东">广东</span>
+                                    <span class="filter-chip" data-filter="province-zhejiang"
+                                        data-province="浙江">浙江</span>
+                                    <span class="filter-chip" data-filter="province-jiangsu"
+                                        data-province="江苏">江苏</span>
+                                    <span class="filter-chip" data-filter="province-hebei" data-province="河北">河北</span>
+                                    <span class="filter-chip" data-filter="province-liaoning"
+                                        data-province="辽宁">辽宁</span>
+                                    <span class="filter-chip" data-filter="province-jilin" data-province="吉林">吉林</span>
+                                    <span class="filter-chip" data-filter="province-heilongjiang"
+                                        data-province="黑龙江">黑龙江</span>
+                                    <span class="filter-chip" data-filter="province-more"
+                                        data-province="more">更多...</span>
+                                </div>
+                            </div>
+
+                            <!-- 市级筛选 -->
+                            <div class="filter-group" id="cityFilter">
+                                <div class="filter-group-title">城市</div>
+                                <div class="filter-chips">
+                                    <span class="filter-chip active" data-filter="city-all">全部</span>
+                                    <!-- 北京市下属城区 -->
+                                    <div class="subcategory-group" data-parent="北京">
+                                        <span class="filter-chip" data-filter="city-beijing-chaoyang"
+                                            data-city="朝阳区">朝阳区</span>
+                                        <span class="filter-chip" data-filter="city-beijing-haidian"
+                                            data-city="海淀区">海淀区</span>
+                                        <span class="filter-chip" data-filter="city-beijing-fengtai"
+                                            data-city="丰台区">丰台区</span>
+                                        <span class="filter-chip" data-filter="city-beijing-shijingshan"
+                                            data-city="石景山区">石景山区</span>
+                                        <span class="filter-chip" data-filter="city-beijing-tongzhou"
+                                            data-city="通州区">通州区</span>
+                                    </div>
+                                    <!-- 四川省下属城市 -->
+                                    <div class="subcategory-group" data-parent="四川">
+                                        <span class="filter-chip" data-filter="city-sichuan-chengdu"
+                                            data-city="成都市">成都市</span>
+                                        <span class="filter-chip" data-filter="city-sichuan-mianyang"
+                                            data-city="绵阳市">绵阳市</span>
+                                        <span class="filter-chip" data-filter="city-sichuan-deyang"
+                                            data-city="德阳市">德阳市</span>
+                                        <span class="filter-chip" data-filter="city-sichuan-yibin"
+                                            data-city="宜宾市">宜宾市</span>
+                                        <span class="filter-chip" data-filter="city-sichuan-nanchong"
+                                            data-city="南充市">南充市</span>
+                                    </div>
+                                    <!-- 山东省下属城市 -->
+                                    <div class="subcategory-group" data-parent="山东">
+                                        <span class="filter-chip" data-filter="city-shandong-jinan"
+                                            data-city="济南市">济南市</span>
+                                        <span class="filter-chip" data-filter="city-shandong-qingdao"
+                                            data-city="青岛市">青岛市</span>
+                                        <span class="filter-chip" data-filter="city-shandong-yantai"
+                                            data-city="烟台市">烟台市</span>
+                                        <span class="filter-chip" data-filter="city-shandong-weifang"
+                                            data-city="潍坊市">潍坊市</span>
+                                        <span class="filter-chip" data-filter="city-shandong-linyi"
+                                            data-city="临沂市">临沂市</span>
+                                    </div>
+                                    <!-- 广东省下属城市 -->
+                                    <div class="subcategory-group" data-parent="广东">
+                                        <span class="filter-chip" data-filter="city-guangdong-guangzhou"
+                                            data-city="广州市">广州市</span>
+                                        <span class="filter-chip" data-filter="city-guangdong-shenzhen"
+                                            data-city="深圳市">深圳市</span>
+                                        <span class="filter-chip" data-filter="city-guangdong-zhuhai"
+                                            data-city="珠海市">珠海市</span>
+                                        <span class="filter-chip" data-filter="city-guangdong-foshan"
+                                            data-city="佛山市">佛山市</span>
+                                        <span class="filter-chip" data-filter="city-guangdong-dongguan"
+                                            data-city="东莞市">东莞市</span>
+                                    </div>
+                                    <!-- 浙江省下属城市 -->
+                                    <div class="subcategory-group" data-parent="浙江">
+                                        <span class="filter-chip" data-filter="city-zhejiang-hangzhou"
+                                            data-city="杭州市">杭州市</span>
+                                        <span class="filter-chip" data-filter="city-zhejiang-ningbo"
+                                            data-city="宁波市">宁波市</span>
+                                        <span class="filter-chip" data-filter="city-zhejiang-wenzhou"
+                                            data-city="温州市">温州市</span>
+                                        <span class="filter-chip" data-filter="city-zhejiang-shaoxing"
+                                            data-city="绍兴市">绍兴市</span>
+                                        <span class="filter-chip" data-filter="city-zhejiang-jinhua"
+                                            data-city="金华市">金华市</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 县级筛选 -->
+                            <div class="filter-group" id="countyFilter">
+                                <div class="filter-group-title">县区</div>
+                                <div class="filter-chips">
+                                    <span class="filter-chip active" data-filter="county-all">全部</span>
+                                    <!-- 成都市下属县区 -->
+                                    <div class="subcategory-group" data-parent="成都市">
+                                        <span class="filter-chip" data-filter="county-chengdu-jinjiang"
+                                            data-county="锦江区">锦江区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-qingyang"
+                                            data-county="青羊区">青羊区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-wuhou"
+                                            data-county="武侯区">武侯区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-chenghua"
+                                            data-county="成华区">成华区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-longquanyi"
+                                            data-county="龙泉驿区">龙泉驿区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-qingbaijiang"
+                                            data-county="青白江区">青白江区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-xindu"
+                                            data-county="新都区">新都区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-wenjiang"
+                                            data-county="温江区">温江区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-shuangliu"
+                                            data-county="双流区">双流区</span>
+                                        <span class="filter-chip" data-filter="county-chengdu-pidu"
+                                            data-county="郫都区">郫都区</span>
+                                    </div>
+
+                                    <!-- 绵阳市下属县区 -->
+                                    <div class="subcategory-group" data-parent="绵阳市">
+                                        <span class="filter-chip" data-filter="county-mianyang-fucheng"
+                                            data-county="涪城区">涪城区</span>
+                                        <span class="filter-chip" data-filter="county-mianyang-youxian"
+                                            data-county="游仙区">游仙区</span>
+                                        <span class="filter-chip" data-filter="county-mianyang-anzhou"
+                                            data-county="安州区">安州区</span>
+                                        <span class="filter-chip" data-filter="county-mianyang-santai"
+                                            data-county="三台县">三台县</span>
+                                        <span class="filter-chip" data-filter="county-mianyang-yanting"
+                                            data-county="盐亭县">盐亭县</span>
+                                        <span class="filter-chip" data-filter="county-mianyang-zitong"
+                                            data-county="梓潼县">梓潼县</span>
+                                        <span class="filter-chip" data-filter="county-mianyang-beichuan"
+                                            data-county="北川县">北川县</span>
+                                        <span class="filter-chip" data-filter="county-mianyang-pingwu"
+                                            data-county="平武县">平武县</span>
+                                        <span class="filter-chip" data-filter="county-mianyang-jiangyou"
+                                            data-county="江油市">江油市</span>
+                                    </div>
+
+                                    <!-- 德阳市下属县区 -->
+                                    <div class="subcategory-group" data-parent="德阳市">
+                                        <span class="filter-chip" data-filter="county-deyang-jingyang"
+                                            data-county="旌阳区">旌阳区</span>
+                                        <span class="filter-chip" data-filter="county-deyang-luojiang"
+                                            data-county="罗江区">罗江区</span>
+                                        <span class="filter-chip" data-filter="county-deyang-zhongjiang"
+                                            data-county="中江县">中江县</span>
+                                        <span class="filter-chip" data-filter="county-deyang-guanghan"
+                                            data-county="广汉市">广汉市</span>
+                                        <span class="filter-chip" data-filter="county-deyang-shifang"
+                                            data-county="什邡市">什邡市</span>
+                                        <span class="filter-chip" data-filter="county-deyang-mianzhu"
+                                            data-county="绵竹市">绵竹市</span>
+                                    </div>
+
+                                    <!-- 其他四川城市县区... -->
+
+                                    <!-- 济南市下属县区 -->
+                                    <div class="subcategory-group" data-parent="济南市">
+                                        <span class="filter-chip" data-filter="county-jinan-lixia"
+                                            data-county="历下区">历下区</span>
+                                        <span class="filter-chip" data-filter="county-jinan-shizhong"
+                                            data-county="市中区">市中区</span>
+                                        <span class="filter-chip" data-filter="county-jinan-huaiyin"
+                                            data-county="槐荫区">槐荫区</span>
+                                        <span class="filter-chip" data-filter="county-jinan-tianqiao"
+                                            data-county="天桥区">天桥区</span>
+                                        <span class="filter-chip" data-filter="county-jinan-licheng"
+                                            data-county="历城区">历城区</span>
+                                        <span class="filter-chip" data-filter="county-jinan-changqing"
+                                            data-county="长清区">长清区</span>
+                                        <span class="filter-chip" data-filter="county-jinan-zhangqiu"
+                                            data-county="章丘区">章丘区</span>
+                                        <span class="filter-chip" data-filter="county-jinan-jiyang"
+                                            data-county="济阳区">济阳区</span>
+                                        <span class="filter-chip" data-filter="county-jinan-pingyin"
+                                            data-county="平阴县">平阴县</span>
+                                        <span class="filter-chip" data-filter="county-jinan-shanghe"
+                                            data-county="商河县">商河县</span>
+                                    </div>
+
+                                    <!-- 青岛市下属县区 -->
+                                    <div class="subcategory-group" data-parent="青岛市">
+                                        <span class="filter-chip" data-filter="county-qingdao-shinan"
+                                            data-county="市南区">市南区</span>
+                                        <span class="filter-chip" data-filter="county-qingdao-shibei"
+                                            data-county="市北区">市北区</span>
+                                        <span class="filter-chip" data-filter="county-qingdao-huangdao"
+                                            data-county="黄岛区">黄岛区</span>
+                                        <span class="filter-chip" data-filter="county-qingdao-laoshan"
+                                            data-county="崂山区">崂山区</span>
+                                        <span class="filter-chip" data-filter="county-qingdao-licang"
+                                            data-county="李沧区">李沧区</span>
+                                        <span class="filter-chip" data-filter="county-qingdao-chengyang"
+                                            data-county="城阳区">城阳区</span>
+                                        <span class="filter-chip" data-filter="county-qingdao-jimo"
+                                            data-county="即墨区">即墨区</span>
+                                        <span class="filter-chip" data-filter="county-qingdao-pingdu"
+                                            data-county="平度市">平度市</span>
+                                        <span class="filter-chip" data-filter="county-qingdao-laixi"
+                                            data-county="莱西市">莱西市</span>
+                                    </div>
+
+                                    <!-- 烟台市下属县区 -->
+                                    <div class="subcategory-group" data-parent="烟台市">
+                                        <span class="filter-chip" data-filter="county-yantai-zhifu"
+                                            data-county="芝罘区">芝罘区</span>
+                                        <span class="filter-chip" data-filter="county-yantai-fushan"
+                                            data-county="福山区">福山区</span>
+                                        <span class="filter-chip" data-filter="county-yantai-muping"
+                                            data-county="牟平区">牟平区</span>
+                                        <span class="filter-chip" data-filter="county-yantai-laishan"
+                                            data-county="莱山区">莱山区</span>
+                                        <span class="filter-chip" data-filter="county-yantai-changdao"
+                                            data-county="长岛县">长岛县</span>
+                                        <span class="filter-chip" data-filter="county-yantai-penglai"
+                                            data-county="蓬莱市">蓬莱市</span>
+                                        <span class="filter-chip" data-filter="county-yantai-longkou"
+                                            data-county="龙口市">龙口市</span>
+                                        <span class="filter-chip" data-filter="county-yantai-laiyang"
+                                            data-county="莱阳市">莱阳市</span>
+                                        <span class="filter-chip" data-filter="county-yantai-laizhou"
+                                            data-county="莱州市">莱州市</span>
+                                        <span class="filter-chip" data-filter="county-yantai-zhaoyuan"
+                                            data-county="招远市">招远市</span>
+                                        <span class="filter-chip" data-filter="county-yantai-haiyang"
+                                            data-county="海阳市">海阳市</span>
+                                    </div>
+
+                                    <!-- 其他山东城市县区... -->
+
+                                    <!-- 广州市下属县区 -->
+                                    <div class="subcategory-group" data-parent="广州市">
+                                        <span class="filter-chip" data-filter="county-guangzhou-yuexiu"
+                                            data-county="越秀区">越秀区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-haizhu"
+                                            data-county="海珠区">海珠区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-liwan"
+                                            data-county="荔湾区">荔湾区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-tianhe"
+                                            data-county="天河区">天河区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-baiyun"
+                                            data-county="白云区">白云区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-huangpu"
+                                            data-county="黄埔区">黄埔区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-panyu"
+                                            data-county="番禺区">番禺区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-huadu"
+                                            data-county="花都区">花都区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-nansha"
+                                            data-county="南沙区">南沙区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-conghua"
+                                            data-county="从化区">从化区</span>
+                                        <span class="filter-chip" data-filter="county-guangzhou-zengcheng"
+                                            data-county="增城区">增城区</span>
+                                    </div>
+
+                                    <!-- 深圳市下属县区 -->
+                                    <div class="subcategory-group" data-parent="深圳市">
+                                        <span class="filter-chip" data-filter="county-shenzhen-futian"
+                                            data-county="福田区">福田区</span>
+                                        <span class="filter-chip" data-filter="county-shenzhen-luohu"
+                                            data-county="罗湖区">罗湖区</span>
+                                        <span class="filter-chip" data-filter="county-shenzhen-nanshan"
+                                            data-county="南山区">南山区</span>
+                                        <span class="filter-chip" data-filter="county-shenzhen-yantian"
+                                            data-county="盐田区">盐田区</span>
+                                        <span class="filter-chip" data-filter="county-shenzhen-baoan"
+                                            data-county="宝安区">宝安区</span>
+                                        <span class="filter-chip" data-filter="county-shenzhen-longgang"
+                                            data-county="龙岗区">龙岗区</span>
+                                        <span class="filter-chip" data-filter="county-shenzhen-longhua"
+                                            data-county="龙华区">龙华区</span>
+                                        <span class="filter-chip" data-filter="county-shenzhen-pingshan"
+                                            data-county="坪山区">坪山区</span>
+                                        <span class="filter-chip" data-filter="county-shenzhen-guangming"
+                                            data-county="光明区">光明区</span>
+                                    </div>
+
+                                    <!-- 珠海市下属县区 -->
+                                    <div class="subcategory-group" data-parent="珠海市">
+                                        <span class="filter-chip" data-filter="county-zhuhai-xiangzhou"
+                                            data-county="香洲区">香洲区</span>
+                                        <span class="filter-chip" data-filter="county-zhuhai-doumen"
+                                            data-county="斗门区">斗门区</span>
+                                        <span class="filter-chip" data-filter="county-zhuhai-jinwan"
+                                            data-county="金湾区">金湾区</span>
+                                    </div>
+
+                                    <!-- 其他广东城市县区... -->
+
+                                    <!-- 杭州市下属县区 -->
+                                    <div class="subcategory-group" data-parent="杭州市">
+                                        <span class="filter-chip" data-filter="county-hangzhou-shangcheng"
+                                            data-county="上城区">上城区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-xiacheng"
+                                            data-county="下城区">下城区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-jianggan"
+                                            data-county="江干区">江干区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-gongshu"
+                                            data-county="拱墅区">拱墅区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-xihu"
+                                            data-county="西湖区">西湖区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-binjiang"
+                                            data-county="滨江区">滨江区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-xiaoshan"
+                                            data-county="萧山区">萧山区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-yuhang"
+                                            data-county="余杭区">余杭区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-fuyang"
+                                            data-county="富阳区">富阳区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-linan"
+                                            data-county="临安区">临安区</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-tonglu"
+                                            data-county="桐庐县">桐庐县</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-chun'an"
+                                            data-county="淳安县">淳安县</span>
+                                        <span class="filter-chip" data-filter="county-hangzhou-jiande"
+                                            data-county="建德市">建德市</span>
+                                    </div>
+
+                                    <!-- 宁波市下属县区 -->
+                                    <div class="subcategory-group" data-parent="宁波市">
+                                        <span class="filter-chip" data-filter="county-ningbo-haishu"
+                                            data-county="海曙区">海曙区</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-jiangbei"
+                                            data-county="江北区">江北区</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-beilun"
+                                            data-county="北仑区">北仑区</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-zhenhai"
+                                            data-county="镇海区">镇海区</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-jiangdong"
+                                            data-county="鄞州区">鄞州区</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-fenghua"
+                                            data-county="奉化区">奉化区</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-xiangshan"
+                                            data-county="象山县">象山县</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-ninghai"
+                                            data-county="宁海县">宁海县</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-yuyao"
+                                            data-county="余姚市">余姚市</span>
+                                        <span class="filter-chip" data-filter="county-ningbo-cixi"
+                                            data-county="慈溪市">慈溪市</span>
+                                    </div>
+
+                                    <!-- 温州市下属县区 -->
+                                    <div class="subcategory-group" data-parent="温州市">
+                                        <span class="filter-chip" data-filter="county-wenzhou-lucheng"
+                                            data-county="鹿城区">鹿城区</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-longwan"
+                                            data-county="龙湾区">龙湾区</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-ouhai"
+                                            data-county="瓯海区">瓯海区</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-dongtou"
+                                            data-county="洞头区">洞头区</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-yongjia"
+                                            data-county="永嘉县">永嘉县</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-pingyang"
+                                            data-county="平阳县">平阳县</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-cangnan"
+                                            data-county="苍南县">苍南县</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-wencheng"
+                                            data-county="文成县">文成县</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-taishun"
+                                            data-county="泰顺县">泰顺县</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-ruian"
+                                            data-county="瑞安市">瑞安市</span>
+                                        <span class="filter-chip" data-filter="county-wenzhou-leqing"
+                                            data-county="乐清市">乐清市</span>
+                                    </div>
+
+                                    <!-- 其他浙江城市县区... -->
+
+                                    <!-- 南京市下属县区 -->
+                                    <div class="subcategory-group" data-parent="南京市">
+                                        <span class="filter-chip" data-filter="county-nanjing-xuanwu"
+                                            data-county="玄武区">玄武区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-qinhuai"
+                                            data-county="秦淮区">秦淮区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-jianye"
+                                            data-county="建邺区">建邺区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-gulou"
+                                            data-county="鼓楼区">鼓楼区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-pukou"
+                                            data-county="浦口区">浦口区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-qixia"
+                                            data-county="栖霞区">栖霞区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-yuhuatai"
+                                            data-county="雨花台区">雨花台区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-jiangning"
+                                            data-county="江宁区">江宁区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-liuhe"
+                                            data-county="六合区">六合区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-lishui"
+                                            data-county="溧水区">溧水区</span>
+                                        <span class="filter-chip" data-filter="county-nanjing-gaochun"
+                                            data-county="高淳区">高淳区</span>
+                                    </div>
+
+                                    <!-- 无锡市下属县区 -->
+                                    <div class="subcategory-group" data-parent="无锡市">
+                                        <span class="filter-chip" data-filter="county-wuxi-liangxi"
+                                            data-county="梁溪区">梁溪区</span>
+                                        <span class="filter-chip" data-filter="county-wuxi-xinwu"
+                                            data-county="新吴区">新吴区</span>
+                                        <span class="filter-chip" data-filter="county-wuxi-binhu"
+                                            data-county="滨湖区">滨湖区</span>
+                                        <span class="filter-chip" data-filter="county-wuxi-huishan"
+                                            data-county="惠山区">惠山区</span>
+                                        <span class="filter-chip" data-filter="county-wuxi-xishan"
+                                            data-county="锡山区">锡山区</span>
+                                        <span class="filter-chip" data-filter="county-wuxi-jiangyin"
+                                            data-county="江阴市">江阴市</span>
+                                        <span class="filter-chip" data-filter="county-wuxi-yixing"
+                                            data-county="宜兴市">宜兴市</span>
+                                    </div>
+
+                                    <!-- 其他江苏城市县区... -->
+
+                                    <!-- 北京市下属城区 -->
+                                    <div class="subcategory-group" data-parent="朝阳区">
+                                        <span class="filter-chip" data-filter="county-beijing-chaoyang-dongzhimen"
+                                            data-county="东直门">东直门</span>
+                                        <span class="filter-chip" data-filter="county-beijing-chaoyang-jianguomen"
+                                            data-county="建国门">建国门</span>
+                                        <span class="filter-chip" data-filter="county-beijing-chaoyang-chaoyangmen"
+                                            data-county="朝阳门">朝阳门</span>
+                                        <span class="filter-chip" data-filter="county-beijing-chaoyang-sanlitun"
+                                            data-county="三里屯">三里屯</span>
+                                        <span class="filter-chip" data-filter="county-beijing-chaoyang-guomao"
+                                            data-county="国贸">国贸</span>
+                                        <span class="filter-chip" data-filter="county-beijing-chaoyang-sanyuanqiao"
+                                            data-county="三元桥">三元桥</span>
+                                        <span class="filter-chip" data-filter="county-beijing-chaoyang-wangjing"
+                                            data-county="望京">望京</span>
+                                        <span class="filter-chip" data-filter="county-beijing-chaoyang-datunli"
+                                            data-county="大屯里">大屯里</span>
+                                    </div>
+                                    <div class="subcategory-group" data-parent="海淀区">
+                                        <span class="filter-chip" data-filter="county-beijing-haidian-zhongguancun"
+                                            data-county="中关村">中关村</span>
+                                        <span class="filter-chip" data-filter="county-beijing-haidian-wudaokou"
+                                            data-county="五道口">五道口</span>
+                                        <span class="filter-chip" data-filter="county-beijing-haidian-beitaipingzhuang"
+                                            data-county="北太平庄">北太平庄</span>
+                                        <span class="filter-chip" data-filter="county-beijing-haidian-haidianqiao"
+                                            data-county="海淀桥">海淀桥</span>
+                                        <span class="filter-chip" data-filter="county-beijing-haidian-yuanmingyuan"
+                                            data-county="圆明园">圆明园</span>
+                                        <span class="filter-chip" data-filter="county-beijing-haidian-beihai"
+                                            data-county="北下关">北下关</span>
+                                        <span class="filter-chip" data-filter="county-beijing-haidian-xiangshan"
+                                            data-county="香山">香山</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 商品标签 -->
+                        <div class="filter-tags-section">
+                            <h3 class="filter-section-title">商品标签</h3>
+
+                            <!-- 认证类型 -->
+                            <div class="filter-group">
+                                <div class="filter-group-title">认证类型</div>
+                                <div class="filter-chips">
+                                    <span class="filter-chip active" data-filter="cert-all">全部</span>
+                                    <span class="filter-chip" data-filter="cert-organic">有机认证</span>
+                                    <span class="filter-chip" data-filter="cert-green">绿色食品</span>
+                                    <span class="filter-chip" data-filter="cert-geo">地理标志</span>
+                                    <span class="filter-chip" data-filter="cert-harmless">无公害</span>
+                                    <span class="filter-chip" data-filter="cert-iso">ISO认证</span>
+                                </div>
+                            </div>
+
+                            <!-- 其他标签 -->
+                            <div class="filter-group">
+                                <div class="filter-group-title">其他标签</div>
+                                <div class="filter-chips">
+                                    <span class="filter-chip active" data-filter="tag-all">全部</span>
+                                    <span class="filter-chip" data-filter="tag-new">新品上市</span>
+                                    <span class="filter-chip" data-filter="tag-seasonal">当季时令</span>
+                                    <span class="filter-chip" data-filter="tag-promotion">促销特惠</span>
+                                    <span class="filter-chip" data-filter="tag-bestseller">热销商品</span>
+                                    <span class="filter-chip" data-filter="tag-featured">精选推荐</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 分类路径指示器 -->
+                    <div class="category-path">
+                        <div class="path-label">当前分类:</div>
+                        <div class="path-content">
+                            <span class="path-item" id="primaryCategoryPath">全部</span>
+                            <span class="path-separator" id="firstSeparator" style="display: none;"> > </span>
+                            <span class="path-item" id="secondaryCategoryPath" style="display: none;"></span>
+                            <span class="path-separator" id="secondSeparator" style="display: none;"> > </span>
+                            <span class="path-item" id="thirdCategoryPath" style="display: none;"></span>
+                        </div>
+                    </div>
+
+                    <!-- 已选筛选条件 -->
+                    <div class="selected-filters">
+                        <div class="selected-label">已选:</div>
+                        <div class="selected-tags">
+                            <span class="selected-tag">
+                                有机认证 <i class="fas fa-times"></i>
+                            </span>
+                            <span class="selected-tag">
+                                四川省 <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                        <button class="clear-filters-btn">
+                            <i class="fas fa-undo-alt"></i> 清除筛选
+                        </button>
+                    </div>
+
+                    <!-- 排序 -->
+                    <div class="view-sort-controls">
+                        <div class="sort-dropdown">
+                            <select class="sort-select">
+                                <option value="default">默认排序</option>
+                                <option value="price-asc">价格从低到高</option>
+                                <option value="price-desc">价格从高到低</option>
+                                <option value="date-desc">发布时间最新</option>
+                                <option value="hot-desc">热度最高</option>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 产品列表 -->
+                <section class="products-section">
+                    <!-- 产品网格 -->
+                    <div class="product-grid grid-view">
+                        <!-- 产品卡片示例 - 水果 - 热带水果 - 芒果 -->
+                        <div class="product-card" data-primary-category="水果" data-secondary-category="热带水果"
+                            data-third-category="芒果" data-area="华南" data-certification="有机认证">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/mango-fruit_74190-5339.jpg" alt="海南小台农芒果">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">海南小台农芒果</div>
+                                <div class="product-price">
+                                    ¥12.90<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>海南-三亚
+                                </div>
+                                <div class="product-desc">果肉饱满，细腻无纤维，香甜多汁，现摘现发。</div>
+                            </div>
+                        </div>
+
+                        <!-- 产品卡片示例 - 水果 - 核果仁果类 - 苹果 -->
+                        <div class="product-card" data-primary-category="水果" data-secondary-category="核果仁果类"
+                            data-third-category="苹果" data-area="西北" data-certification="绿色食品">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/red-apple-with-green-leaf_144627-5663.jpg"
+                                    alt="陕西红富士苹果">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">陕西红富士苹果</div>
+                                <div class="product-price">
+                                    ¥5.90<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>陕西-延安
+                                </div>
+                                <div class="product-desc">果型周正，色泽鲜艳，口感脆甜，果肉细腻。</div>
+                            </div>
+                        </div>
+
+                        <!-- 产品卡片示例 - 蔬菜 - 叶菜类 - 生菜 -->
+                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="叶菜类"
+                            data-third-category="生菜" data-area="华东" data-certification="无公害">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/lettuce-white-background_144627-16802.jpg"
+                                    alt="山东有机生菜">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">山东有机生菜</div>
+                                <div class="product-price">
+                                    ¥3.50<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>山东-潍坊
+                                </div>
+                                <div class="product-desc">叶片柔嫩，口感清脆，富含维生素，无农药残留。</div>
+                            </div>
+                        </div>
+
+                        <!-- 产品卡片示例 - 蔬菜 - 茄果菜类 - 西红柿 -->
+                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
+                            data-third-category="西红柿" data-area="华北" data-certification="绿色食品">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/tomatoes_144627-15412.jpg" alt="河北硬粉番茄">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">河北硬粉番茄</div>
+                                <div class="product-price">
+                                    ¥4.20<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>河北-唐山
+                                </div>
+                                <div class="product-desc">色泽鲜红，肉质紧实，酸甜适中，富含番茄红素。</div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="product-card" data-primary-category="粮油米面" data-secondary-category="谷类作物"
+                            data-third-category="小麦" data-area="华北" data-certification="绿色食品">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/wheat_144627-20517.jpg" alt="河北小麦">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">河北小麦</div>
+                                <div class="product-price">
+                                    ¥2.80<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>河北-邯郸
+                                </div>
+                                <div class="product-desc">颗粒饱满，麦香浓郁，蛋白质含量高。</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-primary-category="水果" data-secondary-category="热带水果"
+                            data-third-category="香蕉" data-area="华南" data-certification="无公害">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/bananas_144627-5042.jpg" alt="广西香蕉">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">广西香蕉</div>
+                                <div class="product-price">
+                                    ¥3.90<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>广西-南宁
+                                </div>
+                                <div class="product-desc">果形饱满，香甜软糯，营养丰富。</div>
+                            </div>
+                        </div>
+
+                        <!-- Continue adding more product cards... -->
+                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="根茎菜类"
+                            data-third-category="胡萝卜" data-area="华北" data-certification="无公害">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/carrots_144627-20544.jpg" alt="山东胡萝卜">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">山东胡萝卜</div>
+                                <div class="product-price">
+                                    ¥2.20<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>山东-寿光
+                                </div>
+                                <div class="product-desc">色泽鲜艳，肉质脆嫩，甜度适中。</div>
+                            </div>
+                        </div>
+
+                        <!-- Add remaining product cards... -->
+
+                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="豆类"
+                            data-third-category="豆角" data-area="华中" data-certification="无公害">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/green-beans_144627-20518.jpg" alt="湖北豆角">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">湖北豆角</div>
+                                <div class="product-price">
+                                    ¥4.50<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>湖北-宜昌
+                                </div>
+                                <div class="product-desc">新鲜嫩绿，口感清脆，营养丰富。</div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="product-card" data-primary-category="粮油米面" data-secondary-category="食用油"
+                            data-third-category="花生油" data-area="华东" data-certification="ISO认证">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/oil-bottle_144627-16774.jpg" alt="山东花生油">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">山东花生油</div>
+                                <div class="product-price">
+                                    ¥42.90<span class="product-unit">/升</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>山东-济南
+                                </div>
+                                <div class="product-desc">物理压榨，清香醇厚，营养丰富，零添加。</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-primary-category="水果" data-secondary-category="浆果类"
+                            data-third-category="草莓" data-area="华东" data-certification="绿色食品">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/strawberries-white-background_144627-6904.jpg"
+                                    alt="丹东草莓">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">丹东草莓</div>
+                                <div class="product-price">
+                                    ¥15.90<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>辽宁-丹东
+                                </div>
+                                <div class="product-desc">果大形正，色泽鲜艳，甜度适中，现摘现发。</div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
+                            data-third-category="茄子" data-area="西北" data-certification="无公害">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/eggplant_144627-20822.jpg" alt="陕西茄子">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">陕西茄子</div>
+                                <div class="product-price">
+                                    ¥3.80<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>陕西-西安
+                                </div>
+                                <div class="product-desc">皮薄肉嫩，紫黑发亮，口感细腻，新鲜采摘。</div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- 产品卡片示例 - 蔬菜 - 茄果菜类 - 西红柿 -->
+                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
+                            data-third-category="西红柿" data-area="华北" data-certification="绿色食品">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/tomatoes_144627-15412.jpg" alt="河北硬粉番茄">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">河北硬粉番茄</div>
+                                <div class="product-price">
+                                    ¥4.20<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>河北-唐山
+                                </div>
+                                <div class="product-desc">色泽鲜红，肉质紧实，酸甜适中，富含番茄红素。</div>
+                            </div>
+                        </div>
+                        <!-- 产品卡片示例 - 蔬菜 - 茄果菜类 - 西红柿 -->
+                        <div class="product-card" data-primary-category="蔬菜" data-secondary-category="茄果菜类"
+                            data-third-category="西红柿" data-area="华北" data-certification="绿色食品">
+                            <div class="product-image">
+                                <img src="https://img.freepik.com/free-photo/tomatoes_144627-15412.jpg" alt="河北硬粉番茄">
+                                <div class="product-actions">
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    <button class="add-to-favorite"><i class="far fa-heart"></i></button>
+                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">河北硬粉番茄</div>
+                                <div class="product-price">
+                                    ¥4.20<span class="product-unit">/斤</span>
+                                </div>
+                                <div class="product-address">
+                                    <i class="fas fa-map-marker-alt"></i>河北-唐山
+                                </div>
+                                <div class="product-desc">色泽鲜红，肉质紧实，酸甜适中，富含番茄红素。</div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <!-- Continue with more product cards... -->
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="pagination" data-total-pages="18">
+                        <a href="#" class="page-prev" aria-label="上一页">&lt;</a>
+                        <a href="#" class="page-number">1</a>
+                        <a href="#" class="page-number">2</a>
+                        <a href="#" class="page-number">3</a>
+                        <span class="page-ellipsis">...</span>
+                        <a href="#" class="page-number">18</a>
+                        <a href="#" class="page-next" aria-label="下一页">&gt;</a>
+                        <div class="page-jump">
+                            <input type="number" class="page-jump-input" min="1" max="18" placeholder="页码">
+                            <button class="page-jump-btn">跳转</button>
+                        </div>
+                    </div>
+                </section>
+
+
+
+                <!-- 快速查看弹窗 -->
+                <div class="quick-view-modal" id="quickViewModal">
+                    <div class="modal-content">
+                        <button class="close-modal"><i class="fas fa-times"></i></button>
+                        <div class="product-quick-view">
+                            <div class="product-quick-image">
+                                <img src="" alt="产品预览">
+                            </div>
+                            <div class="product-quick-details">
+                                <h3 class="product-title"></h3>
+                                <div class="product-rating">
+                                    <div class="stars"></div>
+                                    <span class="rating-count"></span>
+                                </div>
+                                <div class="product-price">
+                                    <span class="current-price"></span>
+                                    <span class="original-price"></span>
+                                </div>
+                                <div class="product-description">
+                                    <p>优质农产品，从田间到餐桌，全程可溯源。采用绿色种植方式，无农药残留，保证新鲜直达。</p>
+                                </div>
+                                <div class="product-meta">
+                                    <div class="meta-item"><span>产地:</span> <span class="origin"></span></div>
+                                    <div class="meta-item"><span>类别:</span> <span class="category"></span></div>
+                                    <div class="meta-item"><span>库存:</span> <span class="stock">充足</span></div>
+                                </div>
+                                <div class="product-actions">
+                                    <div class="quantity-selector">
+                                        <button class="quantity-decrease"><i class="fas fa-minus"></i></button>
+                                        <input type="number" value="1" min="1" max="99">
+                                        <button class="quantity-increase"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <button class="btn add-to-cart-btn"><i class="fas fa-shopping-cart"></i>
+                                        加入购物车</button>
+                                    <button class="btn-icon"><i class="far fa-heart"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-balance-scale"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- 筛选区域 -->
-            <section class="filter-section">
-                <div class="filter-header">
-                    <h3 class="filter-title">筛选条件</h3>
-                    <button class="filter-toggle">
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                </div>
-                <div class="filter-content">
-                    <div class="filter-group">
-                        <label class="filter-label">品类</label>
-                        <div class="filter-options">
-                            <div class="filter-option active">全部</div>
-                            <div class="filter-option">水果</div>
-                            <div class="filter-option">蔬菜</div>
-                            <div class="filter-option">粮油</div>
-                            <div class="filter-option">肉类</div>
-                            <div class="filter-option">海鲜</div>
-                            <div class="filter-option">干货</div>
-                            <div class="filter-option">其他</div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">区域</label>
-                        <div class="filter-options">
-                            <div class="filter-option active">全国</div>
-                            <div class="filter-option">华东</div>
-                            <div class="filter-option">华南</div>
-                            <div class="filter-option">华北</div>
-                            <div class="filter-option">西南</div>
-                            <div class="filter-option">东北</div>
-                            <div class="filter-option">西北</div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">认证</label>
-                        <div class="filter-options">
-                            <div class="filter-option active">全部</div>
-                            <div class="filter-option">有机认证</div>
-                            <div class="filter-option">绿色认证</div>
-                            <div class="filter-option">地理标志</div>
-                            <div class="filter-option">企业认证</div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">价格范围</label>
-                        <div class="price-range">
-                            <div class="price-slider">
-                                <div class="price-progress"></div>
-                                <span class="price-handle min"></span>
-                                <span class="price-handle max"></span>
-                            </div>
-                            <div class="price-inputs">
-                                <div class="price-input-group">
-                                    <span class="price-label">¥</span>
-                                    <input type="number" class="price-input" placeholder="最低价" min="0" max="10000"
-                                        value="0">
-                                </div>
-                                <span class="price-label">-</span>
-                                <div class="price-input-group">
-                                    <span class="price-label">¥</span>
-                                    <input type="number" class="price-input" placeholder="最高价" min="0" max="10000"
-                                        value="1000">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">供应周期</label>
-                        <div class="filter-options">
-                            <div class="filter-option active">全部</div>
-                            <div class="filter-option">常年供应</div>
-                            <div class="filter-option">季节性供应</div>
-                            <div class="filter-option">一次性供应</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 排序工具栏 -->
-            <section class="sort-toolbar">
-                <div class="sort-options">
-                    <div class="sort-option active">默认排序</div>
-                    <div class="sort-option">最新发布</div>
-                    <div class="sort-option">价格从低到高</div>
-                    <div class="sort-option">价格从高到低</div>
-                    <div class="sort-option">销量优先</div>
-                </div>
-                <div class="view-options">
-                    <div class="view-option active" data-view="grid">
-                        <i class="fas fa-th-large"></i>
-                    </div>
-                    <div class="view-option" data-view="list">
-                        <i class="fas fa-list"></i>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 产品列表区域 -->
-            <section class="product-section">
-                <div class="product-grid">
-                    <!-- 产品卡片1 -->
-                    <div class="product-card" data-id="product1">
-                        <div class="product-image-wrapper">
-                            <img src="images/product1.jpg" alt="红富士苹果" class="product-image" loading="lazy">
-                            <div class="product-tags">
-                                <span class="product-tag hot">热销</span>
-                                <span class="product-tag quality">优选</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="product-action-btn" title="收藏">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                <input type="checkbox" id="compare-product1" class="product-compare-checkbox">
-                                <label for="compare-product1" class="product-compare-label" title="加入对比">
-                                    <i class="fas fa-balance-scale"></i>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="product-title">山东烟台红富士苹果</h3>
-                            <div class="product-seller">
-                                <img src="images/avatar1.jpg" alt="烟台果园" class="seller-avatar">
-                                <span class="seller-name">烟台果园</span>
-                                <span class="verified-seller">
-                                    <i class="fas fa-check-circle"></i> 已认证
-                                </span>
-                            </div>
-                            <div class="product-meta">
-                                <div class="product-price">
-                                    ¥6.5<span class="product-price-unit">/斤</span>
-                                </div>
-                                <div class="product-inventory">
-                                    <i class="fas fa-cubes"></i> 库存: 10000斤
-                                </div>
-                            </div>
-                            <div class="product-details">
-                                <div class="product-detail-item">
-                                    <span class="detail-label">产地:</span>
-                                    <span class="detail-value">山东烟台</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">规格:</span>
-                                    <span class="detail-value">85mm以上</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">发货地:</span>
-                                    <span class="detail-value">山东烟台</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">供应周期:</span>
-                                    <span class="detail-value">常年供应</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">最小起订:</span>
-                                    <span class="detail-value">5斤</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">更新时间:</span>
-                                    <span class="detail-value">2023-07-20</span>
-                                </div>
-                            </div>
-                            <p class="product-desc">
-                                烟台红富士苹果，色泽鲜艳，口感脆甜，果肉细腻，富含维生素，现摘现发，品质保证。
-                            </p>
-                            <div class="product-footer">
-                                <div class="product-badges">
-                                    <span class="product-badge green">包邮</span>
-                                    <span class="product-badge">7天退换</span>
-                                </div>
-                                <div class="product-contact">
-                                    <button class="contact-btn" title="发送消息">
-                                        <i class="fas fa-comment"></i>
-                                    </button>
-                                    <button class="contact-btn primary" title="电话联系">
-                                        <i class="fas fa-phone-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 产品卡片2 -->
-                    <div class="product-card" data-id="product2">
-                        <div class="product-image-wrapper">
-                            <img src="images/product2.jpg" alt="有机蔬菜礼盒" class="product-image" loading="lazy">
-                            <div class="product-tags">
-                                <span class="product-tag organic">有机</span>
-                                <span class="product-tag new">新品</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="product-action-btn" title="收藏">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                <input type="checkbox" id="compare-product2" class="product-compare-checkbox">
-                                <label for="compare-product2" class="product-compare-label" title="加入对比">
-                                    <i class="fas fa-balance-scale"></i>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="product-title">有机蔬菜礼盒装</h3>
-                            <div class="product-seller">
-                                <img src="images/avatar2.jpg" alt="绿色农场" class="seller-avatar">
-                                <span class="seller-name">绿色农场</span>
-                                <span class="verified-seller">
-                                    <i class="fas fa-check-circle"></i> 已认证
-                                </span>
-                            </div>
-                            <div class="product-meta">
-                                <div class="product-price">
-                                    ¥168<span class="product-price-unit">/箱</span>
-                                </div>
-                                <div class="product-inventory">
-                                    <i class="fas fa-cubes"></i> 库存: 500箱
-                                </div>
-                            </div>
-                            <div class="product-details">
-                                <div class="product-detail-item">
-                                    <span class="detail-label">产地:</span>
-                                    <span class="detail-value">北京顺义</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">规格:</span>
-                                    <span class="detail-value">8种蔬菜/箱</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">发货地:</span>
-                                    <span class="detail-value">北京顺义</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">供应周期:</span>
-                                    <span class="detail-value">常年供应</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">最小起订:</span>
-                                    <span class="detail-value">1箱</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">更新时间:</span>
-                                    <span class="detail-value">2023-07-25</span>
-                                </div>
-                            </div>
-                            <p class="product-desc">
-                                无农药、无化肥，有机认证，含8种时令蔬菜，每周定期配送，营养健康又新鲜。
-                            </p>
-                            <div class="product-footer">
-                                <div class="product-badges">
-                                    <span class="product-badge green">有机认证</span>
-                                    <span class="product-badge">全国配送</span>
-                                </div>
-                                <div class="product-contact">
-                                    <button class="contact-btn" title="发送消息">
-                                        <i class="fas fa-comment"></i>
-                                    </button>
-                                    <button class="contact-btn primary" title="电话联系">
-                                        <i class="fas fa-phone-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 产品卡片3 -->
-                    <div class="product-card" data-id="product3">
-                        <div class="product-image-wrapper">
-                            <img src="images/product3.jpg" alt="东北大米" class="product-image" loading="lazy">
-                            <div class="product-tags">
-                                <span class="product-tag quality">特产</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="product-action-btn" title="收藏">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                <input type="checkbox" id="compare-product3" class="product-compare-checkbox">
-                                <label for="compare-product3" class="product-compare-label" title="加入对比">
-                                    <i class="fas fa-balance-scale"></i>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="product-title">五常稻花香大米</h3>
-                            <div class="product-seller">
-                                <img src="images/avatar3.jpg" alt="五常米业" class="seller-avatar">
-                                <span class="seller-name">五常米业</span>
-                                <span class="verified-seller">
-                                    <i class="fas fa-check-circle"></i> 已认证
-                                </span>
-                            </div>
-                            <div class="product-meta">
-                                <div class="product-price">
-                                    ¥98<span class="product-price-unit">/10斤</span>
-                                </div>
-                                <div class="product-inventory">
-                                    <i class="fas fa-cubes"></i> 库存: 10000袋
-                                </div>
-                            </div>
-                            <div class="product-details">
-                                <div class="product-detail-item">
-                                    <span class="detail-label">产地:</span>
-                                    <span class="detail-value">黑龙江五常</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">规格:</span>
-                                    <span class="detail-value">10斤/袋</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">发货地:</span>
-                                    <span class="detail-value">黑龙江哈尔滨</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">供应周期:</span>
-                                    <span class="detail-value">常年供应</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">最小起订:</span>
-                                    <span class="detail-value">1袋</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">更新时间:</span>
-                                    <span class="detail-value">2023-07-18</span>
-                                </div>
-                            </div>
-                            <p class="product-desc">
-                                东北黑土地种植，颗粒饱满，香糯可口，2022年新米，真空包装，保证新鲜。
-                            </p>
-                            <div class="product-footer">
-                                <div class="product-badges">
-                                    <span class="product-badge green">地理标志</span>
-                                    <span class="product-badge">7天退换</span>
-                                </div>
-                                <div class="product-contact">
-                                    <button class="contact-btn" title="发送消息">
-                                        <i class="fas fa-comment"></i>
-                                    </button>
-                                    <button class="contact-btn primary" title="电话联系">
-                                        <i class="fas fa-phone-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 产品卡片4 -->
-                    <div class="product-card" data-id="product4">
-                        <div class="product-image-wrapper">
-                            <img src="images/product4.jpg" alt="猕猴桃" class="product-image" loading="lazy">
-                            <div class="product-tags">
-                                <span class="product-tag new">新鲜</span>
-                            </div>
-                            <div class="product-actions">
-                                <button class="product-action-btn" title="收藏">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                <input type="checkbox" id="compare-product4" class="product-compare-checkbox">
-                                <label for="compare-product4" class="product-compare-label" title="加入对比">
-                                    <i class="fas fa-balance-scale"></i>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="product-title">陕西眉县猕猴桃</h3>
-                            <div class="product-seller">
-                                <img src="images/avatar4.jpg" alt="眉县果农" class="seller-avatar">
-                                <span class="seller-name">眉县果农</span>
-                                <span class="verified-seller">
-                                    <i class="fas fa-check-circle"></i> 已认证
-                                </span>
-                            </div>
-                            <div class="product-meta">
-                                <div class="product-price">
-                                    ¥89<span class="product-price-unit">/10斤</span>
-                                </div>
-                                <div class="product-inventory">
-                                    <i class="fas fa-cubes"></i> 库存: 5000斤
-                                </div>
-                            </div>
-                            <div class="product-details">
-                                <div class="product-detail-item">
-                                    <span class="detail-label">产地:</span>
-                                    <span class="detail-value">陕西眉县</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">规格:</span>
-                                    <span class="detail-value">单果90g以上</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">发货地:</span>
-                                    <span class="detail-value">陕西宝鸡</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">供应周期:</span>
-                                    <span class="detail-value">季节性供应</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">最小起订:</span>
-                                    <span class="detail-value">10斤</span>
-                                </div>
-                                <div class="product-detail-item">
-                                    <span class="detail-label">更新时间:</span>
-                                    <span class="detail-value">2023-07-28</span>
-                                </div>
-                            </div>
-                            <p class="product-desc">
-                                富含维C，果肉鲜嫩，酸甜可口，产地直发，现摘现发，保证新鲜度，支持货到付款。
-                            </p>
-                            <div class="product-footer">
-                                <div class="product-badges">
-                                    <span class="product-badge green">包邮</span>
-                                    <span class="product-badge">产地直发</span>
-                                </div>
-                                <div class="product-contact">
-                                    <button class="contact-btn" title="发送消息">
-                                        <i class="fas fa-comment"></i>
-                                    </button>
-                                    <button class="contact-btn primary" title="电话联系">
-                                        <i class="fas fa-phone-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 分页 -->
-                <div class="pagination">
-                    <div class="pagination-controls">
-                        <a href="#" class="pagination-prev">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                        <a href="#" class="pagination-item active">1</a>
-                        <a href="#" class="pagination-item">2</a>
-                        <a href="#" class="pagination-item">3</a>
-                        <span class="pagination-ellipsis">...</span>
-                        <a href="#" class="pagination-item">10</a>
-                        <a href="#" class="pagination-next">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
         </main>
     </div>
 
-    <!-- 底部导航栏 - 移动端 -->
-    <nav class="bottom-navbar">
-        <div class="nav-items">
-            <a href="index.html" class="nav-item" data-page="index">
-                <i class="fas fa-home"></i>
-                <span>首页</span>
-            </a>
-            <a href="supply.html" class="nav-item active" data-page="supply">
-                <i class="fas fa-shopping-basket"></i>
-                <span>供应大厅</span>
-            </a>
-            <a href="publish.html" class="nav-item nav-publish">
-                <div class="publish-btn">
-                    <i class="fas fa-plus"></i>
-                </div>
-                <span>发布</span>
-            </a>
-            <a href="demand.html" class="nav-item" data-page="demand">
-                <i class="fas fa-clipboard-list"></i>
-                <span>需求大厅</span>
-            </a>
-            <a href="user.html" class="nav-item" data-page="user">
-                <i class="fas fa-user"></i>
-                <span>个人中心</span>
-            </a>
-        </div>
-    </nav>
+    <!-- 底部区域 -->
+    <div data-component="footer"></div>
 
-    <!-- 产品对比栏 -->
-    <div class="compare-bar" id="compareBar">
-        <div class="compare-title">产品对比</div>
-        <div class="compare-items" id="compareItems">
-            <!-- 对比项将由JavaScript动态添加 -->
+    <!-- 角色切换模态框 -->
+    <div class="role-modal" id="roleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>切换角色</h3>
+                <button type="button" class="close-btn" id="roleModalCloseBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="role-options">
+                    <div class="role-option" data-role="采购商">
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="role-option-info">
+                            <h4>采购商</h4>
+                            <p>发布农产品采购需求</p>
+                        </div>
+                    </div>
+                    <div class="role-option" data-role="供应商">
+                        <i class="fas fa-store"></i>
+                        <div class="role-option-info">
+                            <h4>供应商</h4>
+                            <p>发布农产品供应信息</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-confirm" id="roleModalConfirmBtn">确认切换</button>
+            </div>
         </div>
-        <button class="compare-button" id="startCompare">开始对比</button>
-        <span class="compare-clear" id="clearCompare">清空</span>
     </div>
 
-    <!-- 引入主JavaScript文件 -->
-    <script src="../app/js/main.js"></script>
-    <!-- 引入应用程序交互脚本 -->
-    <script src="../app/js/app.js"></script>
-    <!-- 引入Web端特有脚本 -->
-    <script src="js/web-app.js"></script>
+    <!-- 右侧快捷导航 -->
+    <div class="quick-nav">
+        <a href="#" class="quick-nav-btn back-to-top">
+            <i class="fas fa-arrow-up"></i>
+            <span class="quick-nav-tooltip">回到顶部</span>
+        </a>
+        <a href="browse-history.html" class="quick-nav-btn">
+            <i class="fas fa-history"></i>
+            <span class="quick-nav-tooltip">浏览历史</span>
+        </a>
+        <a href="favorites.html" class="quick-nav-btn">
+            <i class="fas fa-star"></i>
+            <span class="quick-nav-tooltip">我的收藏</span>
+        </a>
+        <a href="feedback.html" class="quick-nav-btn">
+            <i class="fas fa-comment-alt"></i>
+            <span class="quick-nav-tooltip">意见反馈</span>
+        </a>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // 筛选栏展开/收起功能
-            const filterToggle = document.querySelector('.filter-toggle');
-            const filterContent = document.querySelector('.filter-content');
+    <!-- 对比栏 -->
+    <div class="compare-bar">
+        <div class="compare-items">
+            <!-- 这里会通过JS动态添加对比项 -->
+        </div>
+        <div class="compare-actions">
+            <button class="compare-btn">开始对比</button>
+            <div class="compare-clear">清空</div>
+        </div>
+    </div>
 
-            if (filterToggle && filterContent) {
-                filterToggle.addEventListener('click', function () {
-                    filterContent.classList.toggle('filter-open');
-                    this.classList.toggle('filter-toggle-open');
-                });
-            }
-
-            // 视图切换功能：网格/列表
-            const viewOptions = document.querySelectorAll('.view-option');
-            const productGrid = document.querySelector('.product-grid');
-
-            if (viewOptions.length > 0 && productGrid) {
-                viewOptions.forEach(option => {
-                    option.addEventListener('click', function () {
-                        const view = this.getAttribute('data-view');
-
-                        // 移除所有视图选项的活动状态
-                        viewOptions.forEach(opt => opt.classList.remove('active'));
-
-                        // 添加当前选项的活动状态
-                        this.classList.add('active');
-
-                        // 切换视图类
-                        if (view === 'grid') {
-                            productGrid.classList.remove('list-view');
-                        } else {
-                            productGrid.classList.add('list-view');
-                        }
-                    });
-                });
-            }
-
-            // 产品对比功能
-            const compareCheckboxes = document.querySelectorAll('.product-compare-checkbox');
-            const compareBar = document.getElementById('compareBar');
-            const compareItems = document.getElementById('compareItems');
-            const clearCompare = document.getElementById('clearCompare');
-            const startCompare = document.getElementById('startCompare');
-            const selectedProducts = new Set();
-
-            // 选择产品进行对比
-            compareCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
-                    const productId = this.closest('.product-card').getAttribute('data-id');
-                    const productImg = this.closest('.product-card').querySelector('.product-image').src;
-                    const productTitle = this.closest('.product-card').querySelector('.product-title').textContent;
-
-                    if (this.checked) {
-                        // 如果已经选择了4个产品，取消当前选择
-                        if (selectedProducts.size >= 4) {
-                            this.checked = false;
-                            alert('最多只能选择4个产品进行对比');
-                            return;
-                        }
-
-                        // 添加到选中集合
-                        selectedProducts.add(productId);
-
-                        // 创建对比项
-                        const compareItem = document.createElement('div');
-                        compareItem.className = 'compare-item';
-                        compareItem.setAttribute('data-id', productId);
-                        compareItem.innerHTML = `
-                            <img src="${productImg}" alt="${productTitle}" class="compare-item-img">
-                            <span class="compare-item-remove" data-id="${productId}">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        `;
-                        compareItems.appendChild(compareItem);
-
-                        // 添加移除事件
-                        const removeBtn = compareItem.querySelector('.compare-item-remove');
-                        removeBtn.addEventListener('click', function (e) {
-                            e.stopPropagation();
-                            const productId = this.getAttribute('data-id');
-                            removeCompareItem(productId);
-                        });
-                    } else {
-                        // 从选中集合中移除
-                        removeCompareItem(productId);
-                    }
-
-                    // 更新对比栏显示状态
-                    updateCompareBarVisibility();
-                });
-            });
-
-            // 移除对比项
-            function removeCompareItem(productId) {
-                selectedProducts.delete(productId);
-                const compareItem = compareItems.querySelector(`.compare-item[data-id="${productId}"]`);
-                if (compareItem) {
-                    compareItems.removeChild(compareItem);
-                }
-
-                // 取消对应的复选框选中状态
-                const checkbox = document.querySelector(`#compare-${productId}`);
-                if (checkbox) {
-                    checkbox.checked = false;
-                }
-
-                updateCompareBarVisibility();
-            }
-
-            // 更新对比栏显示状态
-            function updateCompareBarVisibility() {
-                if (selectedProducts.size > 0) {
-                    compareBar.classList.add('show');
-                } else {
-                    compareBar.classList.remove('show');
-                }
-            }
-
-            // 清空所有对比项
-            if (clearCompare) {
-                clearCompare.addEventListener('click', function () {
-                    selectedProducts.clear();
-                    compareItems.innerHTML = '';
-                    compareCheckboxes.forEach(checkbox => {
-                        checkbox.checked = false;
-                    });
-                    updateCompareBarVisibility();
-                });
-            }
-
-            // 开始对比
-            if (startCompare) {
-                startCompare.addEventListener('click', function () {
-                    if (selectedProducts.size < 2) {
-                        alert('请至少选择2个产品进行对比');
-                        return;
-                    }
-
-                    // 将选中的产品ID作为查询参数传递给对比页面
-                    const compareUrl = `compare.html?products=${Array.from(selectedProducts).join(',')}`;
-                    window.location.href = compareUrl;
-                });
-            }
-
-            // 示例：价格范围滑块
-            const minHandle = document.querySelector('.price-handle.min');
-            const maxHandle = document.querySelector('.price-handle.max');
-            const progress = document.querySelector('.price-progress');
-            const minInput = document.querySelector('.price-input[placeholder="最低价"]');
-            const maxInput = document.querySelector('.price-input[placeholder="最高价"]');
-
-            if (minHandle && maxHandle && progress && minInput && maxInput) {
-                // 这里应该实现价格滑块的拖动逻辑
-                // 为了简单起见，这里只展示一个基本的输入框变化监听
-                minInput.addEventListener('input', function () {
-                    const minValue = parseInt(this.value) || 0;
-                    const maxValue = parseInt(maxInput.value) || 1000;
-
-                    if (minValue > maxValue) {
-                        this.value = maxValue;
-                    }
-                });
-
-                maxInput.addEventListener('input', function () {
-                    const maxValue = parseInt(this.value) || 1000;
-                    const minValue = parseInt(minInput.value) || 0;
-
-                    if (maxValue < minValue) {
-                        this.value = minValue;
-                    }
-                });
-            }
-        });
-    </script>
+    <!-- 自定义脚本 -->
+    <script src="js/main.js"></script>
+    <script src="js/supply.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script src="js/components.js"></script>
 </body>
 
 </html>

@@ -5,452 +5,1178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>需求大厅 - 农产品供销信息平台</title>
+    <meta name="description" content="农产品需求大厅，展示各类农产品采购需求">
+    <meta name="keywords" content="农产品,采购需求,农产品交易,农产品供需">
+    <meta name="theme-color" content="#4CAF50">
     <!-- 引入字体图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- 引入基础样式 -->
-    <link rel="stylesheet" href="../app/css/style.css">
-    <!-- 引入Web端通用样式 -->
-    <link rel="stylesheet" href="css/web-style.css">
-    <!-- 引入需求大厅特有样式 -->
-    <link rel="stylesheet" href="css/demand-web.css">
-    <!-- 页面描述 -->
-    <meta name="description" content="农产品需求大厅，发布农产品采购需求">
-    <!-- 主题色 -->
-    <meta name="theme-color" content="#2E8B57">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-    <div class="app-container">
-        <!-- Web端顶部导航栏 -->
+    <!-- 网页布局容器 -->
+    <div class="web-layout">
+        <!-- 顶部导航栏 -->
         <header class="web-header">
-            <div class="web-header-container">
-                <!-- 左侧Logo -->
-                <div class="web-logo">
-                    <img src="images/logo.png" alt="农产品供销信息平台" class="logo-image">
-                    <span class="logo-text">农产品供销信息平台</span>
+            <!-- 水平导航菜单 - 包含logo和用户图标 -->
+            <nav class="horizontal-nav">
+                <div class="horizontal-nav-menu">
+                    <!-- 添加logo到导航栏 -->
+                    <div class="logo">
+                        <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                        <span class="logo-text">农产品供销平台</span>
+                    </div>
+
+                    <!-- 中间导航链接 -->
+                    <div class="nav-links">
+                        <div class="horizontal-nav-item">
+                            <a href="index.html" class="horizontal-nav-link">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="supply.html" class="horizontal-nav-link">
+                                <i class="fas fa-store"></i>
+                                <span>供应大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="demand.html" class="horizontal-nav-link active">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>需求大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="publish.html" class="horizontal-nav-link">
+                                <i class="fas fa-edit"></i>
+                                <span>发布信息</span>
+                            </a>
+                        </div>
+
+                        <div class="nav-group-divider"></div>
+
+                        <div class="horizontal-nav-item">
+                            <a href="policy.html" class="horizontal-nav-link">
+                                <i class="fas fa-newspaper"></i>
+                                <span>消息快报</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="market.html" class="horizontal-nav-link">
+                                <i class="fas fa-chart-line"></i>
+                                <span>市场行情</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 添加用户图标到导航栏 -->
+                    <div class="header-icons">
+                        <div class="role-switch">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span id="currentRole">采购商</span>
+                        </div>
+                        <a href="notifications.html" class="header-icon">
+                            <i class="far fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </a>
+                        <a href="messages.html" class="header-icon">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                        <div class="avatar-wrapper">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 顶部区域 - 仅保留搜索 -->
+            <div class="header-top">
+                <!-- 移动端显示的logo -->
+                <div class="logo mobile-logo">
+                    <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                    <span class="logo-text">农产品供销平台</span>
                 </div>
 
-                <!-- 中间导航链接 -->
-                <nav class="web-nav">
-                    <a href="index.html" class="web-nav-link" data-page="index">首页</a>
-                    <a href="supply.html" class="web-nav-link" data-page="supply">供应大厅</a>
-                    <a href="demand.html" class="web-nav-link active" data-page="demand">需求大厅</a>
-                    <a href="publish.html" class="web-nav-link" data-page="publish">发布信息</a>
-                    <a href="user.html" class="web-nav-link" data-page="user">个人中心</a>
-                </nav>
+                <div class="search-wrapper">
+                    <form class="search-form">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="search" class="search-input" placeholder="搜索农产品需求、种类、地区...">
+                        <button type="button" class="advanced-search-toggle">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+                    </form>
+                </div>
 
-                <!-- 右侧用户区域 -->
-                <div class="web-user-area">
-                    <a href="login.html" class="login-btn" id="loginBtn">登录</a>
-                    <a href="user.html" class="user-avatar-mini" id="userAvatarMini" style="display: none;">
-                        <img src="../app/images/default-avatar.png" alt="用户头像" id="userAvatarImg">
-                    </a>
+                <!-- 移动端菜单按钮 -->
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- 高级搜索面板 -->
+            <div class="advanced-search-panel">
+                <div class="advanced-search-content">
+                    <div class="search-row">
+                        <label>需求类别</label>
+                        <select>
+                            <option value="">全部类别</option>
+                            <option value="fruits">水果</option>
+                            <option value="vegetables">蔬菜</option>
+                            <option value="grains">粮食</option>
+                            <option value="others">其他</option>
+                        </select>
+                    </div>
+                    <div class="search-row">
+                        <label>采购数量</label>
+                        <div class="quantity-range">
+                            <input type="number" placeholder="最小数量">
+                            <span>-</span>
+                            <input type="number" placeholder="最大数量">
+                        </div>
+                    </div>
+                    <div class="search-row">
+                        <label>采购地区</label>
+                        <select>
+                            <option value="">全部地区</option>
+                            <option value="north">华北</option>
+                            <option value="east">华东</option>
+                            <option value="south">华南</option>
+                            <option value="west">西部</option>
+                            <option value="northeast">东北</option>
+                        </select>
+                    </div>
+                    <div class="search-actions">
+                        <button type="reset" class="btn-reset">重置</button>
+                        <button type="submit" class="btn-search">搜索</button>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <!-- 侧边栏菜单 -->
-        <aside class="sidebar">
-            <div class="sidebar-container">
-                <div class="sidebar-header">
-                    <img src="images/logo.png" alt="Logo" class="sidebar-logo">
-                    <span class="sidebar-title">农产品供销平台</span>
-                </div>
+        <!-- 主要内容区 -->
+        <main class="web-main">
+            <div class="web-content">
+                <div class="container">
+                    <!-- 面包屑导航 -->
+                    <div class="breadcrumb">
+                        <a href="index.html">首页</a>
+                        <i class="fas fa-angle-right"></i>
+                        <span>需求大厅</span>
+                    </div>
 
-                <nav class="sidebar-menu">
-                    <a href="index.html" class="sidebar-menu-item" data-page="index">
-                        <i class="fas fa-home"></i>首页
-                    </a>
-                    <a href="supply.html" class="sidebar-menu-item" data-page="supply">
-                        <i class="fas fa-shopping-basket"></i>供应大厅
-                    </a>
-                    <a href="demand.html" class="sidebar-menu-item active" data-page="demand">
-                        <i class="fas fa-clipboard-list"></i>需求大厅
-                    </a>
-                    <a href="publish.html" class="sidebar-menu-item" data-page="publish">
-                        <i class="fas fa-plus-circle"></i>发布信息
-                    </a>
-                    <a href="user.html" class="sidebar-menu-item" data-page="user">
-                        <i class="fas fa-user"></i>个人中心
-                    </a>
-                </nav>
+                    <!-- 筛选区域 -->
+                    <div class="filter-section">
+                        <!-- 商品分类 - 京东风格 -->
+                        <div class="filter-category-section jd-style">
+                            <h3 class="filter-section-title">商品分类</h3>
+
+                            <!-- 分类容器 -->
+                            <div class="category-container">
+                                <!-- 左侧主分类列表 -->
+                                <div class="main-categories">
+                                    <ul>
+                                        <li class="main-category-item active" data-category="all">全部分类</li>
+                                        <li class="main-category-item" data-category="fruits">水果</li>
+                                        <li class="main-category-item" data-category="vegetables">蔬菜</li>
+                                        <li class="main-category-item" data-category="grains">粮油米面</li>
+                                    </ul>
+                                </div>
+
+                                <!-- 右侧内容区域 -->
+                                <div class="sub-categories">
+                                    <!-- 全部分类轮播图 -->
+                                    <div class="category-carousel" data-parent="all">
+                                        <div class="carousel-container">
+                                            <div class="carousel-wrapper">
+                                                <div class="carousel-slides">
+                                                    <div class="carousel-slide">
+                                                        <img src="images/carousel/slide1.jpg" alt="新鲜水果">
+                                                        <div class="carousel-caption">
+                                                            <h3>新鲜水果专区</h3>
+                                                            <p>精选当季水果，产地直供</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="carousel-slide">
+                                                        <img src="images/carousel/slide2.jpg" alt="有机蔬菜">
+                                                        <div class="carousel-caption">
+                                                            <h3>有机蔬菜专区</h3>
+                                                            <p>绿色种植，健康生活</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="carousel-slide">
+                                                        <img src="images/carousel/slide3.jpg" alt="粮油专区">
+                                                        <div class="carousel-caption">
+                                                            <h3>粮油专区</h3>
+                                                            <p>优质粮油，放心选择</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="carousel-slide">
+                                                        <img src="images/carousel/slide4.jpg" alt="特色农产">
+                                                        <div class="carousel-caption">
+                                                            <h3>特色农产专区</h3>
+                                                            <p>地方特产，品质保证</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="carousel-btn prev-btn">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <button class="carousel-btn next-btn">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                            <div class="carousel-indicators">
+                                                <span class="indicator"></span>
+                                                <span class="indicator"></span>
+                                                <span class="indicator"></span>
+                                                <span class="indicator"></span>
+                                            </div>
+                                        </div>
+
+                                        <!-- 热门分类 -->
+                                        <div class="hot-categories">
+                                            <h4>热门分类</h4>
+                                            <div class="hot-category-grid">
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/fruits.png" alt="水果">
+                                                    <span>水果</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/vegetables.png" alt="蔬菜">
+                                                    <span>蔬菜</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/grains.png" alt="粮油">
+                                                    <span>粮油</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/meat.png" alt="肉类">
+                                                    <span>肉类</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/seafood.png" alt="水产">
+                                                    <span>水产</span>
+                                                </a>
+                                                <a href="#" class="hot-category-item">
+                                                    <img src="images/icons/specialty.png" alt="特产">
+                                                    <span>特产</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 其他分类的子类别 -->
+                                    <div class="sub-category-group category-carousel" data-parent="fruits">
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">热带水果</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">芒果</a>
+                                                <a class="sub-category-link" href="#">香蕉</a>
+                                                <a class="sub-category-link" href="#">菠萝</a>
+                                                <a class="sub-category-link" href="#">火龙果</a>
+                                                <a class="sub-category-link" href="#">椰子</a>
+                                                <a class="sub-category-link" href="#">榴莲</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">柑橘类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">橙子</a>
+                                                <a class="sub-category-link" href="#">柚子</a>
+                                                <a class="sub-category-link" href="#">柠檬</a>
+                                                <a class="sub-category-link" href="#">金桔</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">浆果类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">草莓</a>
+                                                <a class="sub-category-link" href="#">蓝莓</a>
+                                                <a class="sub-category-link" href="#">桑葚</a>
+                                                <a class="sub-category-link" href="#">葡萄</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-category-group category-carousel" data-parent="vegetables">
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">叶菜类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">白菜</a>
+                                                <a class="sub-category-link" href="#">生菜</a>
+                                                <a class="sub-category-link" href="#">菠菜</a>
+                                                <a class="sub-category-link" href="#">油麦菜</a>
+                                                <a class="sub-category-link" href="#">芹菜</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">根茎菜类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">土豆</a>
+                                                <a class="sub-category-link" href="#">萝卜</a>
+                                                <a class="sub-category-link" href="#">山药</a>
+                                                <a class="sub-category-link" href="#">芋头</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">茄果菜类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">西红柿</a>
+                                                <a class="sub-category-link" href="#">茄子</a>
+                                                <a class="sub-category-link" href="#">辣椒</a>
+                                                <a class="sub-category-link" href="#">南瓜</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-category-group category-carousel" data-parent="grains">
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">谷物类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">大米</a>
+                                                <a class="sub-category-link" href="#">小麦</a>
+                                                <a class="sub-category-link" href="#">玉米</a>
+                                                <a class="sub-category-link" href="#">高粱</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">豆类</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">黄豆</a>
+                                                <a class="sub-category-link" href="#">绿豆</a>
+                                                <a class="sub-category-link" href="#">红豆</a>
+                                                <a class="sub-category-link" href="#">黑豆</a>
+                                            </div>
+                                        </div>
+                                        <div class="sub-category-row">
+                                            <div class="sub-category-title">油料作物</div>
+                                            <div class="sub-category-items">
+                                                <a class="sub-category-link" href="#">花生</a>
+                                                <a class="sub-category-link" href="#">芝麻</a>
+                                                <a class="sub-category-link" href="#">油菜籽</a>
+                                                <a class="sub-category-link" href="#">葵花籽</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 所在地区 -->
+                        <div class="filter-location-section">
+                            <h3 class="filter-section-title">所在地区</h3>
+                            <!-- 省份筛选 -->
+                            <div class="filter-group" id="provinceFilter">
+                                <div class="filter-group-title">省份</div>
+                                <div class="filter-chips">
+                                    <span class="filter-chip active" data-filter="province-all">全部</span>
+                                    <span class="filter-chip" data-filter="province-beijing"
+                                        data-province="北京">北京</span>
+                                    <span class="filter-chip" data-filter="province-shandong"
+                                        data-province="山东">山东</span>
+                                    <span class="filter-chip" data-filter="province-sichuan"
+                                        data-province="四川">四川</span>
+                                    <span class="filter-chip" data-filter="province-guangdong"
+                                        data-province="广东">广东</span>
+                                    <span class="filter-chip" data-filter="province-zhejiang"
+                                        data-province="浙江">浙江</span>
+                                </div>
+                            </div>
+
+                            <!-- 城市筛选 -->
+                            <div class="filter-group" id="cityFilter">
+                                <div class="filter-group-title">城市</div>
+                                <div class="filter-chips">
+                                    <span class="filter-chip active" data-filter="city-all">全部</span>
+                                    <!-- 北京市下属城区 -->
+                                    <span class="filter-chip beijing-city" data-filter="city-beijing-chaoyang"
+                                        data-city="朝阳区" data-parent="北京">朝阳区</span>
+                                    <span class="filter-chip beijing-city" data-filter="city-beijing-haidian"
+                                        data-city="海淀区" data-parent="北京">海淀区</span>
+                                    <span class="filter-chip beijing-city" data-filter="city-beijing-fengtai"
+                                        data-city="丰台区" data-parent="北京">丰台区</span>
+                                    <span class="filter-chip beijing-city" data-filter="city-beijing-shijingshan"
+                                        data-city="石景山区" data-parent="北京">石景山区</span>
+                                    <span class="filter-chip beijing-city" data-filter="city-beijing-tongzhou"
+                                        data-city="通州区" data-parent="北京">通州区</span>
+                                    <span class="filter-chip beijing-city" data-filter="city-beijing-changping"
+                                        data-city="昌平区" data-parent="北京">昌平区</span>
+                                    <!-- 山东省城市 -->
+                                    <span class="filter-chip shandong-city" data-filter="city-shandong-jinan"
+                                        data-city="济南" data-parent="山东">济南</span>
+                                    <span class="filter-chip shandong-city" data-filter="city-shandong-qingdao"
+                                        data-city="青岛" data-parent="山东">青岛</span>
+                                    <span class="filter-chip shandong-city" data-filter="city-shandong-weifang"
+                                        data-city="潍坊" data-parent="山东">潍坊</span>
+                                </div>
+                            </div>
+
+                            <!-- 区县筛选 -->
+                            <div class="filter-group" id="countyFilter">
+                                <div class="filter-group-title">区县</div>
+                                <div class="filter-chips">
+                                    <span class="filter-chip active" data-filter="county-all">全部</span>
+                                    <!-- 北京朝阳区下属街道 -->
+                                    <span class="filter-chip chaoyang-county" data-filter="county-chaoyang-sanlitun"
+                                        data-county="三里屯街道" data-parent="朝阳区">三里屯街道</span>
+                                    <span class="filter-chip chaoyang-county" data-filter="county-chaoyang-cbd"
+                                        data-county="CBD商务区" data-parent="朝阳区">CBD商务区</span>
+                                    <span class="filter-chip chaoyang-county" data-filter="county-chaoyang-wangjing"
+                                        data-county="望京街道" data-parent="朝阳区">望京街道</span>
+                                    <span class="filter-chip chaoyang-county" data-filter="county-chaoyang-datun"
+                                        data-county="大屯街道" data-parent="朝阳区">大屯街道</span>
+
+                                    <!-- 北京海淀区下属街道 -->
+                                    <span class="filter-chip haidian-county" data-filter="county-haidian-zhongguancun"
+                                        data-county="中关村街道" data-parent="海淀区">中关村街道</span>
+                                    <span class="filter-chip haidian-county" data-filter="county-haidian-wudaokou"
+                                        data-county="五道口街道" data-parent="海淀区">五道口街道</span>
+                                    <span class="filter-chip haidian-county" data-filter="county-haidian-shangdi"
+                                        data-county="上地街道" data-parent="海淀区">上地街道</span>
+                                    <span class="filter-chip haidian-county" data-filter="county-haidian-yuanmingyuan"
+                                        data-county="圆明园街道" data-parent="海淀区">圆明园街道</span>
+
+                                    <!-- 北京丰台区下属街道 -->
+                                    <span class="filter-chip fengtai-county" data-filter="county-fengtai-majiabao"
+                                        data-county="马家堡街道" data-parent="丰台区">马家堡街道</span>
+                                    <span class="filter-chip fengtai-county" data-filter="county-fengtai-dahongmen"
+                                        data-county="大红门街道" data-parent="丰台区">大红门街道</span>
+                                    <span class="filter-chip fengtai-county" data-filter="county-fengtai-lugouqiao"
+                                        data-county="卢沟桥街道" data-parent="丰台区">卢沟桥街道</span>
+
+                                    <!-- 济南市区县 -->
+                                    <span class="filter-chip jinan-county" data-filter="county-jinan-lixia"
+                                        data-county="历下区" data-parent="济南">历下区</span>
+                                    <span class="filter-chip jinan-county" data-filter="county-jinan-shizhong"
+                                        data-county="市中区" data-parent="济南">市中区</span>
+                                    <span class="filter-chip jinan-county" data-filter="county-jinan-huaiyin"
+                                        data-county="槐荫区" data-parent="济南">槐荫区</span>
+                                    <span class="filter-chip jinan-county" data-filter="county-jinan-tianqiao"
+                                        data-county="天桥区" data-parent="济南">天桥区</span>
+                                    <span class="filter-chip jinan-county" data-filter="county-jinan-licheng"
+                                        data-county="历城区" data-parent="济南">历城区</span>
+                                    <span class="filter-chip jinan-county" data-filter="county-jinan-changqing"
+                                        data-county="长清区" data-parent="济南">长清区</span>
+
+                                    <!-- 青岛市区县 -->
+                                    <span class="filter-chip qingdao-county" data-filter="county-qingdao-shinan"
+                                        data-county="市南区" data-parent="青岛">市南区</span>
+                                    <span class="filter-chip qingdao-county" data-filter="county-qingdao-shibei"
+                                        data-county="市北区" data-parent="青岛">市北区</span>
+                                    <span class="filter-chip qingdao-county" data-filter="county-qingdao-licang"
+                                        data-county="李沧区" data-parent="青岛">李沧区</span>
+                                    <span class="filter-chip qingdao-county" data-filter="county-qingdao-laoshan"
+                                        data-county="崂山区" data-parent="青岛">崂山区</span>
+                                    <span class="filter-chip qingdao-county" data-filter="county-qingdao-huangdao"
+                                        data-county="黄岛区" data-parent="青岛">黄岛区</span>
+                                    <span class="filter-chip qingdao-county" data-filter="county-qingdao-chengyang"
+                                        data-county="城阳区" data-parent="青岛">城阳区</span>
+
+                                    <!-- 潍坊市区县 -->
+                                    <span class="filter-chip weifang-county" data-filter="county-weifang-kuiwen"
+                                        data-county="奎文区" data-parent="潍坊">奎文区</span>
+                                    <span class="filter-chip weifang-county" data-filter="county-weifang-weicheng"
+                                        data-county="潍城区" data-parent="潍坊">潍城区</span>
+                                    <span class="filter-chip weifang-county" data-filter="county-weifang-shouguang"
+                                        data-county="寿光市" data-parent="潍坊">寿光市</span>
+                                    <span class="filter-chip weifang-county" data-filter="county-weifang-qingzhou"
+                                        data-county="青州市" data-parent="潍坊">青州市</span>
+                                    <span class="filter-chip weifang-county" data-filter="county-weifang-anqiu"
+                                        data-county="安丘市" data-parent="潍坊">安丘市</span>
+                                    <span class="filter-chip weifang-county" data-filter="county-weifang-gaomi"
+                                        data-county="高密市" data-parent="潍坊">高密市</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 标签筛选 -->
+                        <div class="filter-group" id="tagFilter">
+                            <div class="filter-group-title">标签筛选</div>
+                            <div class="filter-chips">
+                                <span class="filter-chip active" data-filter="tag-all">全部</span>
+                                <span class="filter-chip" data-filter="tag-organic">有机认证</span>
+                                <span class="filter-chip" data-filter="tag-green">绿色食品</span>
+                                <span class="filter-chip" data-filter="tag-origin">原产地认证</span>
+                                <span class="filter-chip" data-filter="tag-quality">品质保证</span>
+                                <span class="filter-chip" data-filter="tag-contract">订单农业</span>
+                                <span class="filter-chip" data-filter="tag-longterm">长期合作</span>
+                                <span class="filter-chip" data-filter="tag-wholesale">大宗采购</span>
+                                <span class="filter-chip" data-filter="tag-retail">零售采购</span>
+                                <span class="filter-chip" data-filter="tag-urgent">急需</span>
+                                <span class="filter-chip" data-filter="tag-seasonal">季节性</span>
+                                <span class="filter-chip" data-filter="tag-processing">加工原料</span>
+                                <span class="filter-chip" data-filter="tag-restaurant">餐饮原料</span>
+                            </div>
+                        </div>
+
+                        <!-- 价格筛选 -->
+                        <div class="filter-group">
+                            <h4 class="filter-group-title">价格区间</h4>
+                            <div class="filter-chips">
+                                <span class="filter-chip active" data-filter="price-all">全部</span>
+                                <span class="filter-chip" data-filter="price-0-5">0-5元/斤</span>
+                                <span class="filter-chip" data-filter="price-5-10">5-10元/斤</span>
+                                <span class="filter-chip" data-filter="price-10-20">10-20元/斤</span>
+                                <span class="filter-chip" data-filter="price-20+">20元以上/斤</span>
+                                <div class="custom-price-range">
+                                    <div class="price-inputs">
+                                        <input type="number" class="price-input" id="minPrice" placeholder="最低">
+                                        <span class="price-separator">-</span>
+                                        <input type="number" class="price-input" id="maxPrice" placeholder="最高">
+                                    </div>
+                                    <div class="price-unit">
+                                        <select id="priceUnit">
+                                            <option value="jin">元/斤</option>
+                                            <option value="kg">元/千克</option>
+                                            <option value="ton">元/吨</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn-apply-price">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 筛选结果统计 -->
+                    <div class="section-header">
+                        <h2 class="section-title">采购需求列表</h2>
+                        <div class="section-actions">
+                            <div class="result-count">共找到 <span id="resultCount">1324</span> 个采购需求</div>
+                        </div>
+                    </div>
+                    <div class="selected-filters" id="selectedFilters">
+                        <!-- 这里会动态添加已选择的筛选条件 -->
+                    </div>
+
+                    <!-- 需求列表 -->
+                    <div class="demand-list">
+                        <!-- 需求项1 -->
+                        <div class="demand-item" data-category="vegetables" data-area="shandong" data-price="3.2-4.5"
+                            data-tags="wholesale,longterm,quality,processing">
+                            <div class="demand-header">
+                                <h3 class="demand-title">寿光大型蔬菜加工厂采购西红柿</h3>
+                            </div>
+                            <div class="demand-info">
+                                <div class="demand-info-item">
+                                    <i class="fas fa-boxes"></i>
+                                    <span class="info-label">需求量：</span>
+                                    <span class="info-value">50吨</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="info-label">截止日期：</span>
+                                    <span class="info-value">2023-08-15</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <span class="info-label">预算：</span>
+                                    <span class="info-value">3.2-4.5元/斤</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span class="info-label">交货地：</span>
+                                    <span class="info-value">山东寿光</span>
+                                </div>
+                            </div>
+                            <div class="demand-desc">
+                                寿光永泰食品加工有限公司长期采购西红柿，要求：个头均匀，直径8cm左右，颜色鲜红，无病害，无农残。可长期合作，价格随行就市，支持合同种植。
+                            </div>
+                            <div class="demand-tags">
+                                <span class="tag">蔬菜</span>
+                                <span class="tag">西红柿</span>
+                                <span class="tag">大宗采购</span>
+                                <span class="tag">长期合作</span>
+                            </div>
+                            <div class="demand-footer">
+                                <div class="company-info">
+                                    <img src="images/avatar/company1.jpg" alt="公司头像" class="company-avatar">
+                                    <span class="company-name">寿光永泰食品加工有限公司</span>
+                                </div>
+                                <div class="demand-actions">
+                                    <a href="demand-detail.html?id=1" class="btn-view">查看详情</a>
+                                    <button class="btn-contact btn-phone" data-contact-type="phone"
+                                        data-company-id="1"><i class="fas fa-phone"></i> 联系电话</button>
+                                    <button class="btn-contact btn-wechat" data-contact-type="wechat"
+                                        data-company-id="1"><i class="fab fa-weixin"></i> 微信号</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 需求项2 -->
+                        <div class="demand-item" data-category="vegetables" data-area="beijing" data-price="5-6"
+                            data-tags="organic,restaurant,quality,longterm">
+                            <div class="demand-header">
+                                <h3 class="demand-title">北京连锁餐厅采购有机土豆</h3>
+                            </div>
+                            <div class="demand-info">
+                                <div class="demand-info-item">
+                                    <i class="fas fa-boxes"></i>
+                                    <span class="info-label">需求量：</span>
+                                    <span class="info-value">2吨/周</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="info-label">截止日期：</span>
+                                    <span class="info-value">长期</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <span class="info-label">预算：</span>
+                                    <span class="info-value">5-6元/斤</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span class="info-label">交货地：</span>
+                                    <span class="info-value">北京市朝阳区</span>
+                                </div>
+                            </div>
+                            <div class="demand-desc">
+                                北京健康食客连锁餐厅常年采购有机认证土豆，要求：大小均匀，无病斑，无虫害，无损伤，有机认证必须，需每周定量供应。
+                            </div>
+                            <div class="demand-tags">
+                                <span class="tag">有机认证</span>
+                                <span class="tag">土豆</span>
+                                <span class="tag">餐饮原料</span>
+                                <span class="tag">定期供应</span>
+                            </div>
+                            <div class="demand-footer">
+                                <div class="company-info">
+                                    <img src="images/avatar/company2.jpg" alt="公司头像" class="company-avatar">
+                                    <span class="company-name">北京健康食客连锁餐厅</span>
+                                </div>
+                                <div class="demand-actions">
+                                    <a href="demand-detail.html?id=2" class="btn-view">查看详情</a>
+                                    <button class="btn-contact btn-phone" data-contact-type="phone"
+                                        data-company-id="2"><i class="fas fa-phone"></i> 联系电话</button>
+                                    <button class="btn-contact btn-wechat" data-contact-type="wechat"
+                                        data-company-id="2"><i class="fab fa-weixin"></i> 微信号</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 需求项3 -->
+                        <div class="demand-item" data-category="fruits" data-area="guangdong" data-price="market"
+                            data-tags="seasonal,quality,retail,origin">
+                            <div class="demand-header">
+                                <h3 class="demand-title">广州水果连锁超市采购季节性水果</h3>
+                            </div>
+                            <div class="demand-info">
+                                <div class="demand-info-item">
+                                    <i class="fas fa-boxes"></i>
+                                    <span class="info-label">需求量：</span>
+                                    <span class="info-value">根据季节调整</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="info-label">截止日期：</span>
+                                    <span class="info-value">长期</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <span class="info-label">预算：</span>
+                                    <span class="info-value">市场价-10%</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span class="info-label">交货地：</span>
+                                    <span class="info-value">广州市白云区</span>
+                                </div>
+                            </div>
+                            <div class="demand-desc">
+                                广州鲜果多连锁超市采购季节性水果，当前需求：杨梅、芒果、荔枝等夏季水果。要求：新鲜，外观好，口感佳，品质稳定。有品牌认证或绿色/有机认证优先。
+                            </div>
+                            <div class="demand-tags">
+                                <span class="tag">水果</span>
+                                <span class="tag">季节性</span>
+                                <span class="tag">连锁超市</span>
+                                <span class="tag">大量需求</span>
+                            </div>
+                            <div class="demand-footer">
+                                <div class="company-info">
+                                    <img src="images/avatar/company3.jpg" alt="公司头像" class="company-avatar">
+                                    <span class="company-name">广州鲜果多连锁超市</span>
+                                </div>
+                                <div class="demand-actions">
+                                    <a href="demand-detail.html?id=3" class="btn-view">查看详情</a>
+                                    <button class="btn-contact btn-phone" data-contact-type="phone"
+                                        data-company-id="3"><i class="fas fa-phone"></i> 联系电话</button>
+                                    <button class="btn-contact btn-wechat" data-contact-type="wechat"
+                                        data-company-id="3"><i class="fab fa-weixin"></i> 微信号</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 需求项4 (已截止) -->
+                        <div class="demand-item closed" data-category="vegetables" data-area="shanghai"
+                            data-price="8-10" data-tags="green,restaurant,quality">
+                            <div class="demand-header">
+                                <h3 class="demand-title">上海餐饮集团采购绿色蔬菜</h3>
+                            </div>
+                            <div class="demand-info">
+                                <div class="demand-info-item">
+                                    <i class="fas fa-boxes"></i>
+                                    <span class="info-label">需求量：</span>
+                                    <span class="info-value">10吨/月</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="info-label">截止日期：</span>
+                                    <span class="info-value">2023-06-30</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <span class="info-label">预算：</span>
+                                    <span class="info-value">8-10元/斤</span>
+                                </div>
+                                <div class="demand-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span class="info-label">交货地：</span>
+                                    <span class="info-value">上海市松江区</span>
+                                </div>
+                            </div>
+                            <div class="demand-desc">
+                                上海餐饮集团采购绿色蔬菜，包括生菜、小白菜、菠菜等叶菜类蔬菜，要求：新鲜，无农残，绿色种植。
+                            </div>
+                            <div class="demand-tags">
+                                <span class="tag">叶菜类</span>
+                                <span class="tag">绿色种植</span>
+                                <span class="tag">餐饮原料</span>
+                            </div>
+                            <div class="demand-footer">
+                                <div class="company-info">
+                                    <img src="images/avatar/company4.jpg" alt="公司头像" class="company-avatar">
+                                    <span class="company-name">上海餐饮集团</span>
+                                </div>
+                                <div class="demand-actions">
+                                    <a href="demand-detail.html?id=4" class="btn-view">查看详情</a>
+                                    <button class="btn-contact btn-phone" data-contact-type="phone" data-company-id="4"
+                                        disabled><i class="fas fa-phone"></i> 联系电话</button>
+                                    <button class="btn-contact btn-wechat" data-contact-type="wechat"
+                                        data-company-id="4" disabled><i class="fab fa-weixin"></i> 微信号</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="pagination" data-total-pages="18">
+                        <a href="#" class="page-prev" aria-label="上一页">&lt;</a>
+                        <span class="page-number active" data-page="1">1</span>
+                        <span class="page-number" data-page="2">2</span>
+                        <span class="page-number" data-page="3">3</span>
+                        <span class="page-number" data-page="4">4</span>
+                        <span class="page-number" data-page="5">5</span>
+                        <span class="page-ellipsis">...</span>
+                        <span class="page-number" data-page="18">18</span>
+                        <a href="#" class="page-next" aria-label="下一页">&gt;</a>
+                        <div class="page-jump">
+                            <input type="number" placeholder="页码" min="1" max="18">
+                            <button class="btn-jump">跳转</button>
+                        </div>
+                    </div>
+
+                    <!-- 空状态 -->
+                    <div class="empty-state" style="display: none;">
+                        <img src="images/icons/empty-state.png" alt="暂无数据">
+                        <p>暂无符合条件的需求信息</p>
+                        <button class="btn-reset-filter">返回全部需求</button>
+                    </div>
+                </div>
             </div>
-        </aside>
-
-        <!-- 主内容区 -->
-        <main class="main-content">
-            <div class="content-header">
-                <h1 class="page-title">需求大厅</h1>
-                <div class="content-actions">
-                    <button class="action-button search-button">
-                        <i class="fas fa-search"></i>
-                        <span>搜索</span>
-                    </button>
-                    <button class="action-button filter-button">
-                        <i class="fas fa-filter"></i>
-                        <span>筛选</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- 筛选区域 -->
-            <section class="filter-section">
-                <div class="filter-header">
-                    <h3 class="filter-title">筛选条件</h3>
-                    <button class="filter-toggle">
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                </div>
-                <div class="filter-content">
-                    <div class="filter-group">
-                        <label class="filter-label">品类</label>
-                        <div class="filter-options">
-                            <div class="filter-option">全部</div>
-                            <div class="filter-option">水果</div>
-                            <div class="filter-option">蔬菜</div>
-                            <div class="filter-option">粮油</div>
-                            <div class="filter-option">肉类</div>
-                            <div class="filter-option">海鲜</div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">地区</label>
-                        <div class="filter-options">
-                            <div class="filter-option">全国</div>
-                            <div class="filter-option">华东</div>
-                            <div class="filter-option">华南</div>
-                            <div class="filter-option">华北</div>
-                            <div class="filter-option">西南</div>
-                            <div class="filter-option">东北</div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">状态</label>
-                        <div class="filter-options">
-                            <div class="filter-option">全部</div>
-                            <div class="filter-option">进行中</div>
-                            <div class="filter-option">已截止</div>
-                            <div class="filter-option">已完成</div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">企业资质</label>
-                        <div class="filter-options">
-                            <div class="filter-option">全部</div>
-                            <div class="filter-option">已认证</div>
-                            <div class="filter-option">未认证</div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">需求量</label>
-                        <div class="filter-options">
-                            <div class="filter-option">全部</div>
-                            <div class="filter-option">1吨以下</div>
-                            <div class="filter-option">1-10吨</div>
-                            <div class="filter-option">10-50吨</div>
-                            <div class="filter-option">50吨以上</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 排序工具栏 -->
-            <section class="sort-toolbar">
-                <div class="sort-options">
-                    <div class="sort-option active">最新发布</div>
-                    <div class="sort-option">需求量优先</div>
-                    <div class="sort-option">价格从高到低</div>
-                    <div class="sort-option">价格从低到高</div>
-                </div>
-                <div class="view-options">
-                    <div class="view-option active" data-view="grid">
-                        <i class="fas fa-th-large"></i>
-                    </div>
-                    <div class="view-option" data-view="list">
-                        <i class="fas fa-list"></i>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 需求列表 -->
-            <section class="demand-section">
-                <div class="demand-grid">
-                    <!-- 需求卡片1 -->
-                    <div class="demand-card">
-                        <div class="demand-header">
-                            <div class="demand-title">寿光大型蔬菜加工厂采购西红柿</div>
-                            <div class="demand-status">进行中</div>
-                        </div>
-
-                        <div class="demand-info">
-                            <div class="demand-item">
-                                <i class="fas fa-boxes"></i>
-                                <span class="demand-item-label">需求量：</span>
-                                <span class="demand-item-value">50吨</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span class="demand-item-label">截止日期：</span>
-                                <span class="demand-item-value">2023-08-15</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span class="demand-item-label">预算：</span>
-                                <span class="demand-item-value">3.2-4.5元/斤</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span class="demand-item-label">交货地：</span>
-                                <span class="demand-item-value">山东寿光</span>
-                            </div>
-                        </div>
-
-                        <div class="demand-desc">
-                            寿光永泰食品加工有限公司长期采购西红柿，要求：个头均匀，直径8cm左右，颜色鲜红，无病害，无农残。可长期合作，价格随行就市，支持合同种植。
-                        </div>
-
-                        <div class="demand-tags">
-                            <div class="demand-tag">蔬菜</div>
-                            <div class="demand-tag">西红柿</div>
-                            <div class="demand-tag">大宗采购</div>
-                            <div class="demand-tag">长期合作</div>
-                        </div>
-
-                        <div class="demand-footer">
-                            <div class="demand-company">
-                                <img src="https://img.freepik.com/free-vector/illustration-corporate-building_53876-5581.jpg"
-                                    alt="企业头像" class="company-avatar" loading="lazy" width="50" height="50">
-                                <div class="company-name">寿光永泰食品加工有限公司</div>
-                            </div>
-
-                            <div class="demand-contact">
-                                <a href="tel:13812345678" class="contact-btn phone-btn">
-                                    <i class="fas fa-phone-alt"></i>
-                                </a>
-                                <a href="javascript:void(0)" class="contact-btn message-btn">
-                                    <i class="fas fa-comment"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 需求卡片2 -->
-                    <div class="demand-card">
-                        <div class="demand-header">
-                            <div class="demand-title">北京连锁餐厅采购有机土豆</div>
-                            <div class="demand-status">进行中</div>
-                        </div>
-
-                        <div class="demand-info">
-                            <div class="demand-item">
-                                <i class="fas fa-boxes"></i>
-                                <span class="demand-item-label">需求量：</span>
-                                <span class="demand-item-value">2吨/周</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span class="demand-item-label">截止日期：</span>
-                                <span class="demand-item-value">长期</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span class="demand-item-label">预算：</span>
-                                <span class="demand-item-value">5-6元/斤</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span class="demand-item-label">交货地：</span>
-                                <span class="demand-item-value">北京市朝阳区</span>
-                            </div>
-                        </div>
-
-                        <div class="demand-desc">
-                            北京健康食客连锁餐厅常年采购有机认证土豆，要求：大小均匀，无病斑，无虫害，无损伤，有机认证必须，需每周定量供应。
-                        </div>
-
-                        <div class="demand-tags">
-                            <div class="demand-tag">有机认证</div>
-                            <div class="demand-tag">土豆</div>
-                            <div class="demand-tag">餐饮原料</div>
-                            <div class="demand-tag">定期供应</div>
-                        </div>
-
-                        <div class="demand-footer">
-                            <div class="demand-company">
-                                <img src="https://img.freepik.com/free-vector/gradient-real-estate-logo-template_23-2149172360.jpg"
-                                    alt="企业头像" class="company-avatar" loading="lazy" width="50" height="50">
-                                <div class="company-name">北京健康食客餐饮管理有限公司</div>
-                            </div>
-
-                            <div class="demand-contact">
-                                <a href="tel:13987654321" class="contact-btn phone-btn">
-                                    <i class="fas fa-phone-alt"></i>
-                                </a>
-                                <a href="javascript:void(0)" class="contact-btn message-btn">
-                                    <i class="fas fa-comment"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 需求卡片3 -->
-                    <div class="demand-card">
-                        <div class="demand-header">
-                            <div class="demand-title">广州水果连锁超市采购季节性水果</div>
-                            <div class="demand-status">进行中</div>
-                        </div>
-
-                        <div class="demand-info">
-                            <div class="demand-item">
-                                <i class="fas fa-boxes"></i>
-                                <span class="demand-item-label">需求量：</span>
-                                <span class="demand-item-value">根据季节调整</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span class="demand-item-label">截止日期：</span>
-                                <span class="demand-item-value">长期</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <span class="demand-item-label">预算：</span>
-                                <span class="demand-item-value">市场价-10%</span>
-                            </div>
-                            <div class="demand-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span class="demand-item-label">交货地：</span>
-                                <span class="demand-item-value">广州市白云区</span>
-                            </div>
-                        </div>
-
-                        <div class="demand-desc">
-                            广州鲜果多连锁超市采购季节性水果，当前需求：杨梅、芒果、荔枝等夏季水果。要求：新鲜，外观好，口感佳，品质稳定。有品牌认证或绿色/有机认证优先。
-                        </div>
-
-                        <div class="demand-tags">
-                            <div class="demand-tag">水果</div>
-                            <div class="demand-tag">季节性</div>
-                            <div class="demand-tag">连锁超市</div>
-                            <div class="demand-tag">大量需求</div>
-                        </div>
-
-                        <div class="demand-footer">
-                            <div class="demand-company">
-                                <img src="https://img.freepik.com/free-vector/colorful-logo-design-concept_23-2147536125.jpg"
-                                    alt="企业头像" class="company-avatar" loading="lazy" width="50" height="50">
-                                <div class="company-name">广州鲜果多连锁超市有限公司</div>
-                            </div>
-
-                            <div class="demand-contact">
-                                <a href="tel:13609876543" class="contact-btn phone-btn">
-                                    <i class="fas fa-phone-alt"></i>
-                                </a>
-                                <a href="javascript:void(0)" class="contact-btn message-btn">
-                                    <i class="fas fa-comment"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 分页控件 -->
-                <div class="pagination">
-                    <div class="pagination-info">共36条记录</div>
-                    <div class="pagination-controls">
-                        <a href="#" class="pagination-prev">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                        <a href="#" class="pagination-item active">1</a>
-                        <a href="#" class="pagination-item">2</a>
-                        <a href="#" class="pagination-item">3</a>
-                        <span class="pagination-ellipsis">...</span>
-                        <a href="#" class="pagination-item">12</a>
-                        <a href="#" class="pagination-next">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
         </main>
+
+        <!-- 底部区域 -->
+        <div data-component="footer"></div>
     </div>
 
-    <!-- 底部导航栏 -->
-    <nav class="bottom-navbar">
-        <div class="nav-items">
-            <a href="index.html" class="nav-item" data-page="home">
-                <i class="fas fa-home"></i>
-                <span>首页</span>
-            </a>
-            <a href="supply.html" class="nav-item" data-page="supply">
-                <i class="fas fa-shopping-basket"></i>
-                <span>供应大厅</span>
-            </a>
-            <a href="publish.html" class="nav-item nav-publish">
-                <div class="publish-btn">
-                    <i class="fas fa-plus"></i>
+    <!-- 辅助功能组件 -->
+    <div class="utility-components">
+        <!-- 角色切换模态框 -->
+        <div class="role-modal" id="roleModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>切换角色</h3>
+                    <button type="button" class="close-btn" id="roleModalCloseBtn"><i class="fas fa-times"></i></button>
                 </div>
-                <span>发布</span>
-            </a>
-            <a href="demand.html" class="nav-item active" data-page="demand">
-                <i class="fas fa-clipboard-list"></i>
-                <span>需求大厅</span>
-            </a>
-            <a href="user.html" class="nav-item" data-page="user">
-                <i class="fas fa-user"></i>
-                <span>个人中心</span>
-            </a>
+                <div class="modal-body">
+                    <div class="role-options">
+                        <div class="role-option" data-role="采购商">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="role-option-info">
+                                <h4>采购商</h4>
+                                <p>发布农产品采购需求</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="供应商">
+                            <i class="fas fa-store"></i>
+                            <div class="role-option-info">
+                                <h4>供应商</h4>
+                                <p>发布农产品供应信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-confirm" id="roleModalConfirmBtn">确认切换</button>
+                </div>
+            </div>
         </div>
-    </nav>
 
-    <!-- 引入主JavaScript文件 -->
-    <script src="../app/js/main.js"></script>
-    <!-- 引入应用程序交互脚本 -->
-    <script src="../app/js/app.js"></script>
-    <!-- 引入Web端特有脚本 -->
-    <script src="js/web-app.js"></script>
+        <!-- 回到顶部按钮 -->
+        <div class="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </div>
 
+        <!-- 移动端导航菜单 -->
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="mobile-nav-close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="mobile-nav-content">
+                <ul class="mobile-nav-menu">
+                    <li class="mobile-nav-item">
+                        <a href="index.html" class="mobile-nav-link">
+                            <i class="fas fa-home"></i> 首页
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="supply.html" class="mobile-nav-link">
+                            <i class="fas fa-store"></i> 供应大厅
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="demand.html" class="mobile-nav-link active">
+                            <i class="fas fa-shopping-cart"></i> 需求大厅
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="news.html" class="mobile-nav-link">
+                            <i class="fas fa-newspaper"></i> 信息资讯
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="policy.html" class="mobile-nav-link">
+                            <i class="fas fa-file-alt"></i> 政策法规
+                        </a>
+                    </li>
+                    <li class="mobile-nav-divider"></li>
+                    <li class="mobile-nav-item">
+                        <a href="user.html" class="mobile-nav-link">
+                            <i class="fas fa-user"></i> 个人中心
+                        </a>
+                    </li>
+                    <li class="mobile-nav-item">
+                        <a href="publish-demand.html" class="mobile-nav-link">
+                            <i class="fas fa-plus-circle"></i> 发布需求
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 联系方式模态框 -->
+        <div class="role-modal contact-modal" id="contactModal" style="z-index: 2000;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="contactModalTitle">联系采购商</h3>
+                    <button class="close-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="contact-info">
+                        <div class="company-profile">
+                            <img src="" alt="公司头像" id="modalCompanyAvatar" class="modal-company-avatar">
+                            <div class="company-details">
+                                <h4 id="modalCompanyName"></h4>
+                            </div>
+                        </div>
+                        <div class="contact-method" id="phoneContactMethod">
+                            <h4>联系电话</h4>
+                            <div class="contact-value-wrapper">
+                                <p class="contact-value hidden-value" id="phoneValue">***********</p>
+                                <div class="loading-spinner" id="phoneLoadingSpinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>申请审核中</span>
+                                </div>
+                            </div>
+                            <p class="contact-note">联系时请说明来自"农产品供销平台"</p>
+                        </div>
+                        <div class="contact-method" id="wechatContactMethod">
+                            <h4>微信号</h4>
+                            <div class="contact-value-wrapper">
+                                <p class="contact-value hidden-value" id="wechatValue">***********</p>
+                                <div class="loading-spinner" id="wechatLoadingSpinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>申请审核中</span>
+                                </div>
+                            </div>
+                            <p class="contact-note">添加微信时请说明来自"农产品供销平台"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p class="privacy-note"><i class="fas fa-shield-alt"></i> 平台保障用户隐私安全</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/demand.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script src="js/components.js"></script>
     <script>
-        // 需求大厅页面特有脚本
         document.addEventListener('DOMContentLoaded', function () {
-            // 筛选栏展开/收起功能
-            const filterToggle = document.querySelector('.filter-toggle');
-            const filterContent = document.querySelector('.filter-content');
+            console.log('DOM加载完成，开始初始化联系模态框');
 
-            if (filterToggle && filterContent) {
-                filterToggle.addEventListener('click', function () {
-                    filterContent.classList.toggle('filter-open');
-                    this.classList.toggle('filter-toggle-open');
-                });
+            // 获取模态框和相关元素
+            const contactModal = document.getElementById('contactModal');
+            const closeModalBtn = document.querySelector('#contactModal .close-btn');
+            const companyAvatar = document.getElementById('modalCompanyAvatar');
+            const companyName = document.getElementById('modalCompanyName');
+            const phoneWrapper = document.getElementById('phoneContactMethod');
+            const wechatWrapper = document.getElementById('wechatContactMethod');
+            const phoneValue = document.getElementById('phoneValue');
+            const wechatValue = document.getElementById('wechatValue');
+            const phoneLoadingSpinner = document.getElementById('phoneLoadingSpinner');
+            const wechatLoadingSpinner = document.getElementById('wechatLoadingSpinner');
+
+            console.log('模态框元素:', contactModal ? '已找到' : '未找到');
+            console.log('关闭按钮:', closeModalBtn ? '已找到' : '未找到');
+            console.log('电话加载动画:', phoneLoadingSpinner ? '已找到' : '未找到');
+            console.log('微信加载动画:', wechatLoadingSpinner ? '已找到' : '未找到');
+
+            // 当前操作的公司ID和联系方式类型
+            let currentCompany = null;
+            let currentType = null;
+
+            // 公司数据（模拟数据）
+            const companyData = {
+                "1": {
+                    name: "北京绿色有机农业有限公司",
+                    avatar: "images/avatar/company1.jpg",
+                    phone: "13800138000",
+                    wechatId: "BJgreenfarm"
+                },
+                "2": {
+                    name: "北京健康食客连锁餐厅",
+                    avatar: "images/avatar/company2.jpg",
+                    phone: "13911139111",
+                    wechatId: "SDagriGroup"
+                },
+                "3": {
+                    name: "广州鲜果多连锁超市",
+                    avatar: "images/avatar/company3.jpg",
+                    phone: "13722237222",
+                    wechatId: "HNharvestTech"
+                },
+                "4": {
+                    name: "上海餐饮集团",
+                    avatar: "images/avatar/company4.jpg",
+                    phone: "13633336333",
+                    wechatId: "GDfruitsveg"
+                }
+            };
+
+            // 重置联系方式显示区域
+            function resetContactView() {
+                console.log('重置联系方式显示');
+
+                // 确保联系方式区域可见
+                phoneWrapper.style.display = 'block';
+                wechatWrapper.style.display = 'block';
+
+                // 显示加载动画，隐藏值
+                if (phoneLoadingSpinner) {
+                    phoneLoadingSpinner.style.display = 'flex';
+                    console.log('电话加载动画已显示');
+                }
+
+                if (wechatLoadingSpinner) {
+                    wechatLoadingSpinner.style.display = 'flex';
+                    console.log('微信加载动画已显示');
+                }
+
+                if (phoneValue) {
+                    phoneValue.style.display = 'none';
+                    phoneValue.classList.add('hidden-value'); // 重新添加模糊效果
+                    phoneValue.style.textShadow = '0 0 6px rgba(0, 0, 0, 0.5)'; // 恢复文本阴影
+                    phoneValue.style.color = 'transparent'; // 确保文本颜色为透明
+                }
+
+                if (wechatValue) {
+                    wechatValue.style.display = 'none';
+                    wechatValue.classList.add('hidden-value'); // 重新添加模糊效果
+                    wechatValue.style.textShadow = '0 0 6px rgba(0, 0, 0, 0.5)'; // 恢复文本阴影
+                    wechatValue.style.color = 'transparent'; // 确保文本颜色为透明
+                }
+
+                // 清空之前的值
+                phoneValue.textContent = '***********';
+                wechatValue.textContent = '***********';
             }
 
-            // 视图切换功能：网格/列表
-            const viewOptions = document.querySelectorAll('.view-option');
-            const demandGrid = document.querySelector('.demand-grid');
+            // 初始化所有联系按钮
+            const contactButtons = document.querySelectorAll('.btn-contact:not([disabled])');
+            console.log('找到联系按钮数量:', contactButtons.length);
 
-            if (viewOptions.length > 0 && demandGrid) {
-                viewOptions.forEach(option => {
-                    option.addEventListener('click', function () {
-                        const view = this.getAttribute('data-view');
+            contactButtons.forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                        // 移除所有视图选项的活动状态
-                        viewOptions.forEach(opt => opt.classList.remove('active'));
+                    // 获取公司ID和联系方式类型
+                    const companyId = this.getAttribute('data-company-id');
+                    const contactType = this.getAttribute('data-contact-type');
 
-                        // 添加当前选项的活动状态
-                        this.classList.add('active');
+                    console.log(`点击联系按钮: 公司ID=${companyId}, 类型=${contactType}`);
 
-                        // 切换视图类
-                        if (view === 'grid') {
-                            demandGrid.classList.remove('demand-list-view');
-                            demandGrid.classList.add('demand-grid-view');
-                        } else {
-                            demandGrid.classList.remove('demand-grid-view');
-                            demandGrid.classList.add('demand-list-view');
-                        }
-                    });
+                    if (!companyId || !contactType || !companyData[companyId]) {
+                        console.error('无效的公司ID或联系方式类型');
+                        return;
+                    }
+
+                    // 设置当前操作的公司和类型
+                    currentCompany = companyId;
+                    currentType = contactType;
+
+                    // 更新公司信息
+                    companyName.textContent = companyData[companyId].name;
+                    companyAvatar.src = companyData[companyId].avatar;
+                    console.log(`设置公司信息: ${companyData[companyId].name}`);
+
+                    // 显示模态框
+                    contactModal.classList.add('active');
+                    contactModal.style.display = 'flex';
+                    console.log('模态框已显示');
+
+                    // 重置联系方式视图
+                    resetContactView();
+
+                    // 根据类型显示不同的联系方式
+                    if (contactType === 'phone') {
+                        console.log('处理电话联系方式');
+                        wechatWrapper.style.display = 'none'; // 隐藏微信联系方式
+
+                        // 模拟加载延迟
+                        setTimeout(function () {
+                            if (phoneLoadingSpinner) {
+                                phoneLoadingSpinner.style.display = 'none';
+                                console.log('电话加载动画已隐藏');
+                            }
+
+                            if (phoneValue) {
+                                phoneValue.textContent = companyData[companyId].phone;
+                                phoneValue.classList.remove('hidden-value'); // 移除模糊效果
+                                phoneValue.style.display = 'block';
+                                phoneValue.style.color = 'var(--text-primary)'; // 确保文本颜色正常
+                                phoneValue.style.textShadow = 'none'; // 移除文本阴影
+                                console.log('电话号码已显示:', companyData[companyId].phone);
+                            }
+                        }, 800);
+                    } else if (contactType === 'wechat') {
+                        console.log('处理微信联系方式');
+                        phoneWrapper.style.display = 'none'; // 隐藏电话联系方式
+
+                        // 模拟加载延迟
+                        setTimeout(function () {
+                            if (wechatLoadingSpinner) {
+                                wechatLoadingSpinner.style.display = 'none';
+                                console.log('微信加载动画已隐藏');
+                            }
+
+                            if (wechatValue) {
+                                wechatValue.textContent = companyData[companyId].wechatId;
+                                wechatValue.classList.remove('hidden-value'); // 移除模糊效果
+                                wechatValue.style.display = 'block';
+                                wechatValue.style.color = 'var(--text-primary)'; // 确保文本颜色正常
+                                wechatValue.style.textShadow = 'none'; // 移除文本阴影
+                                console.log('微信号已显示:', companyData[companyId].wechatId);
+                            }
+                        }, 800);
+                    }
                 });
+            });
+
+            // 关闭模态框
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('点击关闭按钮');
+                    contactModal.classList.remove('active');
+                    contactModal.style.display = 'none';
+                });
+            } else {
+                console.error('找不到关闭按钮!');
             }
+
+            // 点击模态框背景关闭
+            contactModal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    console.log('点击模态框背景');
+                    contactModal.classList.remove('active');
+                    contactModal.style.display = 'none';
+                }
+            });
+
+            // 测试函数，可通过控制台调用
+            window.testContactModal = function (type) {
+                console.log(`测试模态框: 类型=${type}`);
+                const btn = document.querySelector(`.btn-contact[data-contact-type="${type}"][data-company-id="1"]`);
+                if (btn) {
+                    console.log('找到测试按钮，触发点击');
+                    btn.click();
+                } else {
+                    console.error('找不到测试按钮');
+                }
+            };
+
+            console.log('联系模态框初始化完成');
+        });
+    </script>
+    <!-- 监控所有点击事件，用于调试 -->
+    <script>
+        document.addEventListener('click', function (e) {
+            console.log('点击事件:', e.target);
+
+            // 检查是否点击了角色切换按钮
+            if (e.target.closest('.role-switch')) {
+                console.log('检测到角色切换按钮点击');
+            }
+
+            // 检查是否点击了角色选项
+            if (e.target.closest('.role-option')) {
+                console.log('检测到角色选项点击:', e.target.closest('.role-option').getAttribute('data-role'));
+            }
+
+            // 检查是否点击了确认按钮
+            if (e.target.closest('.btn-confirm')) {
+                console.log('检测到确认按钮点击');
+            }
+        });
+
+        // 全局错误处理
+        window.onerror = function (message, source, lineno, colno, error) {
+            console.error('全局错误:', message);
+            console.error('错误来源:', source);
+            console.error('行号:', lineno);
+            console.error('列号:', colno);
+            console.error('错误对象:', error);
+            return false;
+        };
+
+        // 检查DOM加载完成后的元素状态
+        window.addEventListener('load', function () {
+            console.log('页面完全加载完成，检查关键元素:');
+            console.log('角色切换按钮:', document.querySelector('.role-switch') ? '存在' : '不存在');
+            console.log('角色模态框:', document.getElementById('roleModal') ? '存在' : '不存在');
+            console.log('角色选项:', document.querySelectorAll('#roleModal .role-option').length);
+            console.log('确认按钮:', document.querySelector('#roleModal .btn-confirm') ? '存在' : '不存在');
         });
     </script>
 </body>
-
-</html>

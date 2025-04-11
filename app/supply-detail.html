@@ -657,16 +657,13 @@
                 toggleIcon.classList.add('fa-arrow-up');
                 toggleText.textContent = '上架';
             } else {
-                // 当前是下架状态，点击后上架
+                // 当前是下架状态，点击后改为审核中，而非直接上架
                 statusBadge.classList.remove('inactive');
-                statusBadge.classList.add('active');
-                statusBadge.textContent = '展示中';
+                statusBadge.classList.add('reviewing');
+                statusBadge.textContent = '审核中';
 
-                // 更新按钮样式和文字
-                toggleBtn.style.background = '#FF9800';
-                toggleIcon.classList.remove('fa-arrow-up');
-                toggleIcon.classList.add('fa-arrow-down');
-                toggleText.textContent = '下架';
+                // 审核中状态下隐藏上架/下架按钮
+                toggleBtn.style.display = 'none';
             }
 
             // 关闭模态框

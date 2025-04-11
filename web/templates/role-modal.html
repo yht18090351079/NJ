@@ -1,0 +1,32 @@
+<!-- 角色切换模态框 -->
+<div class="role-modal" id="roleModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>切换角色</h3>
+            <button type="button" class="close-btn" id="roleModalCloseBtn" onclick="closeRoleModal()"><i
+                    class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="role-options">
+                <div class="role-option" data-role="采购商" onclick="selectRoleOption(this)">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div class="role-option-info">
+                        <h4>采购商</h4>
+                        <p>发布农产品采购需求</p>
+                    </div>
+                </div>
+                <div class="role-option" data-role="供应商" onclick="selectRoleOption(this)">
+                    <i class="fas fa-store"></i>
+                    <div class="role-option-info">
+                        <h4>供应商</h4>
+                        <p>发布农产品供应信息</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-confirm" id="roleModalConfirmBtn"
+                onclick="confirmRoleChange()">确认切换</button>
+        </div>
+    </div>
+</div>
