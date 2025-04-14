@@ -48,7 +48,7 @@
                         <div class="horizontal-nav-item active">
                             <a href="javascript:void(0)" class="horizontal-nav-link" id="trade-hall-link">
                                 <i class="fas fa-building"></i>
-                                <span>交易大厅</span>
+                                <span id="trade-hall-text">交易大厅</span>
                             </a>
                         </div>
                         <div class="horizontal-nav-item">
@@ -1518,11 +1518,38 @@
         </div>
     </div>
 
-    <!-- 自定义脚本 -->
+    <!-- 引入JavaScript文件 -->
     <script src="js/main.js"></script>
-    <script src="js/supply.js"></script>
-    <script src="js/role-switch.js"></script>
     <script src="js/components.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script src="js/trade-hall.js"></script>
+    <script>
+        // 立即执行函数，确保在DOM加载完成后执行
+        (function () {
+            // 获取当前角色
+            const currentRole = localStorage.getItem('userRole') || '采购商';
+
+            // 获取导航链接元素
+            const tradeHallText = document.getElementById('trade-hall-text');
+
+            // 根据角色设置正确的文本
+            if (tradeHallText) {
+                if (currentRole === '采购商') {
+                    tradeHallText.textContent = '供应大厅';
+                } else if (currentRole === '供应商') {
+                    tradeHallText.textContent = '需求大厅';
+                }
+            }
+
+            // 确保导航高亮正确
+            const tradeHallLink = document.getElementById('trade-hall-link');
+            if (tradeHallLink) {
+                tradeHallLink.parentElement.classList.add('active');
+            }
+
+            console.log('导航文本已更新：', currentRole, tradeHallText ? tradeHallText.textContent : '未找到元素');
+        })();
+    </script>
 </body>
 
 </html>
