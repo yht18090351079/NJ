@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑资料 - 农产品供销信息平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入通用样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- 引入用户中心特有样式 -->
+    <link rel="stylesheet" href="css/user-web.css">
+    <style>
+        /* 编辑资料页面特有样式调整 */
+        .edit-profile-content .content-card {
+            margin-bottom: 0;
+            /* 移除卡片底部外边距，因为只有一个卡片 */
+        }
+
+        .profile-form {
+            padding: var(--spacing-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(46, 139, 87, 0.1);
+        }
+
+        .form-input[readonly] {
+            background-color: var(--input-readonly-bg);
+            color: var(--text-tertiary);
+            cursor: not-allowed;
+        }
+
+        .avatar-upload {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .avatar-preview {
+            width: 100px;
+            /* 调整为与user.html内一致 */
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto var(--spacing-md);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+            background-color: #eee;
+            /* 添加背景色 */
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-upload-btn {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .avatar-upload-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            min-width: 150px;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            margin: var(--spacing-xl) auto 0;
+            cursor: pointer;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .form-section-title {
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-xs);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .verification-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            margin-left: var(--spacing-sm);
+            font-weight: normal;
+        }
+
+        .verified {
+            background-color: #E8F5E9;
+            color: #2E8B57;
+        }
+
+        .unverified {
+            background-color: #FFF4E5;
+            color: #FF9800;
+        }
+
+        .form-row {
+            display: flex;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 0;
+            /* 防止内容溢出 */
+        }
+
+        /* 使form-group的下边距在row中最后消除 */
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: var(--spacing-lg);
+                /* 在列模式下保持间距 */
+            }
+
+            /* 在移动端，form-group需要恢复下边距 */
+            .form-row .form-group {
+                margin-bottom: var(--spacing-lg);
+            }
+
+            .form-row .form-group:last-child {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Web应用布局 -->
+    <div class="web-layout">
+        <!-- 顶部导航栏 -->
+        <header class="web-header">
+            <!-- 水平导航菜单 - 包含logo和用户图标 -->
+            <nav class="horizontal-nav">
+                <div class="horizontal-nav-menu">
+                    <!-- 添加logo到导航栏 -->
+                    <div class="logo">
+                        <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                        <span class="logo-text">农产品供销平台</span>
+                    </div>
+
+                    <!-- 中间导航链接 -->
+                    <div class="nav-links">
+                        <div class="horizontal-nav-item">
+                            <a href="index.html" class="horizontal-nav-link">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="javascript:void(0)" class="horizontal-nav-link" id="trade-hall-link">
+                                <i class="fas fa-building"></i>
+                                <span>交易大厅</span>
+                            </a>
+                        </div>
+                        <div class="horizontal-nav-item">
+                            <a href="publish.html" class="horizontal-nav-link">
+                                <i class="fas fa-edit"></i>
+                                <span>发布信息</span>
+                            </a>
+                        </div>
+                        <div class="nav-group-divider"></div>
+                        <div class="horizontal-nav-item">
+                            <a href="policy.html" class="horizontal-nav-link">
+                                <i class="fas fa-newspaper"></i>
+                                <span>消息快报</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 添加用户图标到导航栏 -->
+                    <div class="header-icons">
+                        <div class="role-switch" onclick="showRoleModal(); return false;">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span id="currentRole">采购商</span>
+                        </div>
+                        <a href="user.html" class="avatar-wrapper">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像" id="headerUserAvatar">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 顶部区域 - 仅保留搜索 -->
+            <div class="header-top">
+                <!-- 移动端显示的logo -->
+                <div class="logo mobile-logo">
+                    <img src="https://img.icons8.com/color/96/null/natural-food.png" alt="农产品供销信息平台">
+                    <span class="logo-text">农产品供销平台</span>
+                </div>
+                <div class="search-wrapper">
+                    <form class="search-form">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="search" class="search-input" placeholder="搜索农产品、种类、地区...">
+                        <button type="button" class="advanced-search-toggle">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+                    </form>
+                </div>
+                <!-- 移动端菜单按钮 -->
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <!-- 面包屑导航 -->
+                <div class="breadcrumb">
+                    <div class="breadcrumb-item">
+                        <a href="index.html">首页</a>
+                    </div>
+                    <div class="breadcrumb-item">
+                        <a href="user.html">个人中心</a>
+                    </div>
+                    <div class="breadcrumb-item active">编辑资料</div>
+                </div>
+
+                <!-- 内容区布局 -->
+                <div class="content-layout">
+                    <!-- 侧边栏导航 -->
+                    <aside class="user-sidebar">
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">账户管理</h3>
+                            <ul class="sidebar-menu">
+                                <li class="sidebar-menu-item active">
+                                    <!-- Edit profile is part of profile management -->
+                                    <a href="user.html" class="sidebar-menu-link">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>个人资料</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a href="user-security.html" class="sidebar-menu-link">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <span>账号安全</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">信息管理</h3>
+                            <ul class="sidebar-menu">
+                                <li class="sidebar-menu-item">
+                                    <a href="user-favorites.html" class="sidebar-menu-link">
+                                        <i class="fas fa-heart"></i>
+                                        <span>我的收藏</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a href="user-history.html" class="sidebar-menu-link">
+                                        <i class="fas fa-history"></i>
+                                        <span>浏览历史</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-menu-item">
+                                    <a href="user-reports.html" class="sidebar-menu-link">
+                                        <i class="fas fa-flag"></i>
+                                        <span>举报记录</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 退出登录按钮 -->
+                        <div class="sidebar-section">
+                            <button class="logout-btn" id="logoutBtnSidebar">
+                                <i class="fas fa-sign-out-alt"></i>
+                                退出登录
+                            </button>
+                        </div>
+                    </aside>
+
+                    <!-- 主要内容区: 编辑资料 -->
+                    <div class="user-main-content edit-profile-content">
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h3 class="card-title">编辑个人资料</h3>
+                            </div>
+                            <div class="card-body">
+                                <form class="profile-form" id="profileForm">
+                                    <!-- 头像上传 -->
+                                    <div class="avatar-upload">
+                                        <div class="avatar-preview">
+                                            <img src="https://img.icons8.com/color/96/null/user-circle.png" alt="用户头像"
+                                                id="avatarPreview">
+                                        </div>
+                                        <button type="button" class="avatar-upload-btn">
+                                            <i class="fas fa-camera"></i> 更换头像
+                                        </button>
+                                        <input type="file" id="avatarInput" hidden accept="image/*">
+                                    </div>
+
+                                    <!-- 基本信息 -->
+                                    <div class="form-section">
+                                        <div class="form-section-title">基本信息</div>
+                                        <div class="form-group">
+                                            <label class="form-label">昵称</label>
+                                            <input type="text" class="form-input" id="nickname" name="nickname"
+                                                placeholder="请输入昵称">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">真实姓名
+                                                <span class="verification-tag verified">已认证</span>
+                                            </label>
+                                            <input type="text" class="form-input" id="realName" readonly>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="save-btn">保存修改</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 页脚区域 -->
+        <div id="footer-container"></div>
+
+        <!-- 角色切换模态框 -->
+        <div class="role-modal" id="roleModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>切换角色</h3>
+                    <button type="button" class="close-btn" id="roleModalCloseBtn" onclick="closeRoleModal()"><i
+                            class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="role-options">
+                        <div class="role-option" data-role="采购商" onclick="selectRoleOption(this)">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="role-option-info">
+                                <h4>采购商</h4>
+                                <p>发布农产品采购需求</p>
+                            </div>
+                        </div>
+                        <div class="role-option" data-role="供应商" onclick="selectRoleOption(this)">
+                            <i class="fas fa-store"></i>
+                            <div class="role-option-info">
+                                <h4>供应商</h4>
+                                <p>发布农产品供应信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-confirm" id="roleModalConfirmBtn"
+                        onclick="confirmRoleChange()">确认切换</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/role-switch.js"></script>
+    <script src="js/trade-hall.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 加载页脚组件
+            loadComponent('footer-container', 'components/footer.html');
+
+            // 获取表单元素
+            const profileForm = document.getElementById('profileForm');
+            const avatarInput = document.getElementById('avatarInput');
+            const avatarPreview = document.getElementById('avatarPreview');
+            const avatarUploadBtn = document.querySelector('.avatar-upload-btn');
+            const headerUserAvatar = document.getElementById('headerUserAvatar');
+
+            // 从localStorage获取用户信息
+            const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+            const currentRole = localStorage.getItem('userRole') || '采购商';
+
+            // 更新顶部角色和头像
+            document.getElementById('currentRole').textContent = currentRole;
+            if (headerUserAvatar && userInfo.avatar) {
+                headerUserAvatar.src = userInfo.avatar;
+                headerUserAvatar.onerror = function () { this.src = 'https://randomuser.me/api/portraits/men/32.jpg'; };
+            }
+
+            // 填充表单数据
+            document.getElementById('nickname').value = userInfo.nickname || '';
+            document.getElementById('realName').value = userInfo.realName || '未认证';
+
+            if (userInfo.avatar) {
+                avatarPreview.src = userInfo.avatar;
+                avatarPreview.onerror = function () { this.src = 'https://img.icons8.com/color/96/null/user-circle.png'; };
+            }
+
+            // 头像上传按钮点击事件
+            avatarUploadBtn.addEventListener('click', function () {
+                avatarInput.click();
+            });
+
+            // 头像文件改变事件
+            avatarInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) { // 限制5MB
+                        alert('图片大小不能超过5MB');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        avatarPreview.src = event.target.result;
+                        // 同时更新顶部头像预览（如果存在）
+                        if (headerUserAvatar) {
+                            headerUserAvatar.src = event.target.result;
+                        }
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 表单提交事件
+            profileForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // 表单验证
+                const nickname = document.getElementById('nickname').value.trim();
+                if (!nickname) {
+                    alert('请输入昵称');
+                    document.getElementById('nickname').focus();
+                    return;
+                }
+
+                // 获取表单数据
+                const formData = {
+                    nickname: nickname,
+                    avatar: avatarPreview.src // 保存可能是Data URL的头像
+                };
+
+                // 更新本地存储的用户信息，保留其他字段不变
+                const updatedUserInfo = { ...userInfo, ...formData };
+                localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+
+                // 显示保存成功提示
+                alert('保存成功');
+
+                // 返回上一页
+                history.back();
+            });
+
+            // 退出登录按钮点击事件 (Sidebar)
+            const logoutBtnSidebar = document.getElementById('logoutBtnSidebar');
+            if (logoutBtnSidebar) {
+                logoutBtnSidebar.addEventListener('click', function () {
+                    const isGuest = localStorage.getItem('isGuest') === 'true';
+                    let confirmMessage = isGuest ? '确定要退出访客模式吗？' : '确定要退出登录吗？';
+
+                    if (confirm(confirmMessage)) {
+                        // 显示加载状态
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 退出中...';
+                        this.disabled = true;
+
+                        // 清除所有登录状态和用户数据
+                        localStorage.removeItem('userInfo');
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('isGuest');
+                        sessionStorage.clear();
+
+                        // 模拟网络延迟
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 800);
+                    }
+                });
+            }
+
+            // 点击模态框外部关闭
+            window.onclick = function (event) {
+                const roleModal = document.getElementById('roleModal');
+                if (event.target == roleModal) {
+                    closeRoleModal();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

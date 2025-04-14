@@ -99,4 +99,6 @@ function navigateToTradeHall(role) {
     // 供应商 -> 需求大厅，采购商 -> 供应大厅
     const targetPage = role === '供应商' ? 'demand.html' : 'supply.html';
     window.location.href = targetPage;
-} 
+}
+
+ 

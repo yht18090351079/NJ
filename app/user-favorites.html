@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>我的收藏 - 农产品供销信息平台</title>
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .favorites-container {
+            padding: 15px;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 5px;
+        }
+
+        .filter-select {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--text-primary);
+            background-color: #fff;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+
+        .btn-batch {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .favorite-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .favorite-checkbox {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 1;
+            display: none;
+        }
+
+        .favorite-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .favorite-image {
+            width: 100%;
+            height: 180px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .favorite-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .favorite-tag {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .supply-tag {
+            background: rgba(46, 139, 87, 0.1);
+            color: var(--primary-color);
+        }
+
+        .demand-tag {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+
+        .favorite-info {
+            padding: 0 5px;
+        }
+
+        .favorite-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .favorite-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .favorite-price {
+            color: #f44336;
+            font-weight: 500;
+        }
+
+        .favorite-quantity {
+            color: var(--text-secondary);
+        }
+
+        .favorite-address {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .favorite-time {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .favorite-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-favorite-action {
+            flex: 1;
+            padding: 8px 0;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-favorite-action:first-child {
+            background: #f5f5f5;
+            color: var(--text-secondary);
+        }
+
+        .btn-favorite-action:last-child {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .batch-toolbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            padding: 12px 15px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .batch-select {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .batch-select input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+        }
+
+        .batch-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-batch-action {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-batch-action:first-child {
+            background: #f44336;
+            color: #fff;
+        }
+
+        .btn-batch-action:last-child {
+            background: #f5f5f5;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            padding: 8px 24px;
+            border: none;
+            border-radius: 20px;
+            background: var(--primary-color);
+            color: #fff;
+            font-size: 14px;
+        }
+
+        /* 确保底部工具栏不遮挡内容 */
+        .page-content {
+            padding-bottom: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 手机框容器 -->
+    <div class="phone-container">
+        <!-- 顶部导航栏 -->
+        <header class="top-navbar">
+            <div class="container flex-between">
+                <a href="javascript:history.back()">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1>我的收藏</h1>
+                <div style="width: 24px;"></div>
+            </div>
+        </header>
+
+        <!-- 页面内容区域 -->
+        <div class="page-content">
+            <!-- 收藏列表 -->
+            <div class="favorites-container">
+                <!-- 筛选栏 -->
+                <div class="filter-bar">
+                    <div class="filter-select">
+                        <select id="favoriteFilter" class="select-control">
+                            <option value="all">全部收藏</option>
+                            <option value="supply">供应信息</option>
+                            <option value="demand">需求信息</option>
+                        </select>
+                    </div>
+                    <button class="btn-batch" id="batchSelectBtn">
+                        <i class="fas fa-check-square"></i>
+                        批量管理
+                    </button>
+                </div>
+
+                <!-- 收藏列表 -->
+                <div class="favorites-list" id="favoritesList">
+                    <!-- 收藏项 -->
+                    <div class="favorite-item">
+                        <div class="favorite-checkbox">
+                            <input type="checkbox" id="favorite1" class="favorite-check">
+                        </div>
+                        <div class="favorite-image">
+                            <img src="https://source.unsplash.com/300x300/?apple,fruit" alt="红富士苹果">
+                            <span class="favorite-tag supply-tag">供应</span>
+                        </div>
+                        <div class="favorite-info">
+                            <div class="favorite-title">山东烟台红富士苹果 现货供应</div>
+                            <div class="favorite-meta">
+                                <span class="favorite-price">¥6.5/斤</span>
+                                <span class="favorite-quantity">起订: 100斤</span>
+                            </div>
+                            <div class="favorite-address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                山东省烟台市
+                            </div>
+                            <div class="favorite-time">收藏于: 2024-02-20</div>
+                        </div>
+                        <div class="favorite-actions">
+                            <button class="btn-favorite-action" onclick="removeFavorite(1)">
+                                <i class="fas fa-trash-alt"></i>
+                                取消收藏
+                            </button>
+                            <button class="btn-favorite-action" onclick="contactSupplier(1)">
+                                <i class="fas fa-comment"></i>
+                                联系商家
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="favorite-item">
+                        <div class="favorite-checkbox">
+                            <input type="checkbox" id="favorite2" class="favorite-check">
+                        </div>
+                        <div class="favorite-image">
+                            <img src="https://source.unsplash.com/300x300/?rice" alt="五常大米">
+                            <span class="favorite-tag demand-tag">需求</span>
+                        </div>
+                        <div class="favorite-info">
+                            <div class="favorite-title">急需五常稻花香大米 长期合作</div>
+                            <div class="favorite-meta">
+                                <span class="favorite-price">≤¥90/10斤</span>
+                                <span class="favorite-quantity">采购量: 5000斤</span>
+                            </div>
+                            <div class="favorite-address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                广东省广州市
+                            </div>
+                            <div class="favorite-time">收藏于: 2024-02-18</div>
+                        </div>
+                        <div class="favorite-actions">
+                            <button class="btn-favorite-action" onclick="removeFavorite(2)">
+                                <i class="fas fa-trash-alt"></i>
+                                取消收藏
+                            </button>
+                            <button class="btn-favorite-action" onclick="contactBuyer(2)">
+                                <i class="fas fa-comment"></i>
+                                联系采购商
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 空状态 -->
+                <div class="empty-state" style="display: none;">
+                    <i class="fas fa-heart-broken"></i>
+                    <p>您还没有收藏任何商品</p>
+                    <button class="btn-primary" onclick="window.location.href='supply.html'">
+                        去逛逛
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 批量操作工具栏 -->
+        <div class="batch-toolbar" id="batchToolbar">
+            <div class="batch-select">
+                <input type="checkbox" id="selectAll">
+                <label for="selectAll">全选</label>
+            </div>
+            <div class="batch-actions">
+                <button class="btn-batch-action" id="batchRemoveBtn">
+                    <i class="fas fa-trash-alt"></i>
+                    批量删除
+                </button>
+                <button class="btn-batch-action" id="batchCancelBtn">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 批量选择按钮事件
+            const batchSelectBtn = document.getElementById('batchSelectBtn');
+            const batchToolbar = document.getElementById('batchToolbar');
+            const checkboxes = document.querySelectorAll('.favorite-check');
+            const favoriteCheckboxDivs = document.querySelectorAll('.favorite-checkbox');
+
+            if (batchSelectBtn) {
+                batchSelectBtn.addEventListener('click', function () {
+                    const isActive = batchToolbar.style.display === 'flex';
+                    batchToolbar.style.display = isActive ? 'none' : 'flex';
+                    favoriteCheckboxDivs.forEach(div => {
+                        div.style.display = isActive ? 'none' : 'block';
+                    });
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    document.getElementById('selectAll').checked = false;
+                    batchSelectBtn.innerHTML = isActive ?
+                        '<i class="fas fa-check-square"></i> 批量管理' :
+                        '<i class="fas fa-times"></i> 退出批量';
+                });
+            }
+
+            // 全选/取消全选
+            const selectAllCheckbox = document.getElementById('selectAll');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function () {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = selectAllCheckbox.checked;
+                    });
+                });
+            }
+
+            // 取消批量管理
+            const batchCancelBtn = document.getElementById('batchCancelBtn');
+            if (batchCancelBtn) {
+                batchCancelBtn.addEventListener('click', function () {
+                    batchToolbar.style.display = 'none';
+                    favoriteCheckboxDivs.forEach(div => {
+                        div.style.display = 'none';
+                    });
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    document.getElementById('selectAll').checked = false;
+                    batchSelectBtn.innerHTML = '<i class="fas fa-check-square"></i> 批量管理';
+                });
+            }
+
+            // 批量删除
+            const batchRemoveBtn = document.getElementById('batchRemoveBtn');
+            if (batchRemoveBtn) {
+                batchRemoveBtn.addEventListener('click', function () {
+                    const selectedItems = document.querySelectorAll('.favorite-check:checked');
+                    if (selectedItems.length === 0) {
+                        alert('请至少选择一项进行操作');
+                        return;
+                    }
+
+                    if (confirm(`确定要删除所选的${selectedItems.length}条收藏记录吗？`)) {
+                        selectedItems.forEach(item => {
+                            const favoriteItem = item.closest('.favorite-item');
+                            favoriteItem.style.opacity = '0';
+                            setTimeout(() => {
+                                favoriteItem.remove();
+                                checkEmptyState();
+                            }, 300);
+                        });
+
+                        // 退出批量模式
+                        batchToolbar.style.display = 'none';
+                        favoriteCheckboxDivs.forEach(div => {
+                            div.style.display = 'none';
+                        });
+                        batchSelectBtn.innerHTML = '<i class="fas fa-check-square"></i> 批量管理';
+                    }
+                });
+            }
+
+            // 过滤器事件
+            const favoriteFilter = document.getElementById('favoriteFilter');
+            if (favoriteFilter) {
+                favoriteFilter.addEventListener('change', function () {
+                    const filterValue = this.value;
+                    const items = document.querySelectorAll('.favorite-item');
+
+                    items.forEach(item => {
+                        const tag = item.querySelector('.favorite-tag');
+                        if (filterValue === 'all') {
+                            item.style.display = 'block';
+                        } else if (filterValue === 'supply' && tag.classList.contains('supply-tag')) {
+                            item.style.display = 'block';
+                        } else if (filterValue === 'demand' && tag.classList.contains('demand-tag')) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+
+                    checkEmptyState();
+                });
+            }
+
+            // 初始检查空状态
+            checkEmptyState();
+        });
+
+        // 取消收藏
+        function removeFavorite(id) {
+            if (confirm('确定要取消收藏此项吗？')) {
+                const favoriteItem = document.getElementById('favorite' + id).closest('.favorite-item');
+                favoriteItem.style.opacity = '0';
+                setTimeout(() => {
+                    favoriteItem.remove();
+                    checkEmptyState();
+                }, 300);
+            }
+        }
+
+        // 联系供应商
+        function contactSupplier(id) {
+            alert('即将联系供应商，商品ID: ' + id);
+        }
+
+        // 联系采购商
+        function contactBuyer(id) {
+            alert('即将联系采购商，需求ID: ' + id);
+        }
+
+        // 检查空状态
+        function checkEmptyState() {
+            const favoritesList = document.getElementById('favoritesList');
+            const emptyState = document.querySelector('.empty-state');
+            const batchSelectBtn = document.getElementById('batchSelectBtn');
+            const visibleItems = favoritesList.querySelectorAll('.favorite-item[style="display: block"], .favorite-item:not([style])');
+
+            if (visibleItems.length === 0) {
+                favoritesList.style.display = 'none';
+                emptyState.style.display = 'block';
+                if (batchSelectBtn) batchSelectBtn.style.display = 'none';
+            } else {
+                favoritesList.style.display = 'block';
+                emptyState.style.display = 'none';
+                if (batchSelectBtn) batchSelectBtn.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>

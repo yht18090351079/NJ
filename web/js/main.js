@@ -1788,3 +1788,4 @@ function initProductActionButtons() {
             // 不需要在这里添加特定的操作，各自的功能已经在其他函数中处理
         });
     });
+} 
