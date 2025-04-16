@@ -11,5 +11,44 @@
     "title": "批注 1",
     "text": "无内容",
     "direction": "left"
+  },
+  {
+    "id": 2,
+    "targetInfo": {
+      "selector": "h2:nth-child(1)",
+      "width": 1199.9901123046875,
+      "height": 31.74603271484375,
+      "percentX": 73.67520830198899,
+      "percentY": 83.69369404010943
+    },
+    "title": "批注 2",
+    "text": "无内容",
+    "direction": "left"
+  },
+  {
+    "id": 3,
+    "targetInfo": {
+      "selector": "div.form-demo:nth-child(2)",
+      "width": 1199.9901123046875,
+      "height": 390.41668701171875,
+      "percentX": 89.34200405907478,
+      "percentY": -0.022363488529117168
+    },
+    "title": "批注 3",
+    "text": "无内容",
+    "direction": "left"
+  },
+  {
+    "id": 4,
+    "targetInfo": {
+      "selector": "input:nth-child(2)",
+      "width": 1177.2718505859375,
+      "height": 32.5,
+      "percentX": 62.35646700388451,
+      "percentY": 7.008526141826923
+    },
+    "title": "批注 4",
+    "text": "无内容",
+    "direction": "right"
   }
 ]
