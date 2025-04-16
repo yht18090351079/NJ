@@ -1,0 +1,171 @@
+[
+  {
+    "id": 1,
+    "targetInfo": {
+      "selector": "li:nth-child(4)",
+      "width": 1110.02978515625,
+      "height": 25.595239639282227,
+      "percentX": 45.865886376043015,
+      "percentY": 85.06198955428076
+    },
+    "title": "批注 1",
+    "text": "无内容",
+    "direction": "right"
+  },
+  {
+    "id": 2,
+    "targetInfo": {
+      "selector": "div.product-grid:nth-child(2)",
+      "width": 1079.2261962890625,
+      "height": 363.8492126464844,
+      "percentX": 75.33267103002017,
+      "percentY": 40.22466219857378
+    },
+    "title": "批注 2",
+    "text": "无内容",
+    "direction": "left"
+  },
+  {
+    "id": 3,
+    "targetInfo": {
+      "selector": "h2:nth-child(1)",
+      "width": 1079.2261962890625,
+      "height": 31.74603271484375,
+      "percentX": 82.7453895384368,
+      "percentY": 40.99373806781805
+    },
+    "title": "批注 3",
+    "text": "无内容",
+    "direction": "bottom"
+  },
+  {
+    "id": 4,
+    "targetInfo": {
+      "selector": "div.product-grid:nth-child(2)",
+      "width": 1079.2261962890625,
+      "height": 363.8492126464844,
+      "percentX": 78.20509945203162,
+      "percentY": 92.4440963476876
+    },
+    "title": "批注 4",
+    "text": "无内容气温",
+    "direction": "top"
+  },
+  {
+    "id": 5,
+    "targetInfo": {
+      "selector": "div.product-grid:nth-child(2)",
+      "width": 1079.2261962890625,
+      "height": 363.8492126464844,
+      "percentX": 86.35908981128989,
+      "percentY": 0.6478278960875264
+    },
+    "title": "批注 5",
+    "text": "测试测试",
+    "direction": "left"
+  },
+  {
+    "id": 6,
+    "targetInfo": {
+      "selector": "textarea:nth-child(2)",
+      "width": 1056.5079345703125,
+      "height": 117.26190948486328,
+      "percentX": 57.644606378481214,
+      "percentY": 5.56344659540072
+    },
+    "title": "气温",
+    "text": "无内容",
+    "direction": "bottom"
+  },
+  {
+    "id": 7,
+    "targetInfo": {
+      "selector": "div.chart-demo:nth-child(2)",
+      "width": 1079.2261962890625,
+      "height": 299.9900817871094,
+      "percentX": 85.71047694180344,
+      "percentY": 0.05422135639860326
+    },
+    "title": "批注 7",
+    "text": "无内容12312312312",
+    "direction": "left"
+  },
+  {
+    "id": 8,
+    "targetInfo": {
+      "selector": "div.container:nth-child(1)",
+      "width": 1109.2064208984375,
+      "height": 1632.202392578125,
+      "percentX": 66.26359045096973,
+      "percentY": 78.13828761673956
+    },
+    "title": "批注 8",
+    "text": "无内容",
+    "direction": "top"
+  },
+  {
+    "id": 9,
+    "targetInfo": {
+      "selector": "div.chart-demo:nth-child(2)",
+      "width": 1079.2261962890625,
+      "height": 299.9900817871094,
+      "percentX": 91.2700158231159,
+      "percentY": 36.38875593522938
+    },
+    "title": "批注 9",
+    "text": "无内容",
+    "direction": "left"
+  },
+  {
+    "id": 10,
+    "targetInfo": {
+      "selector": "h2:nth-child(1)",
+      "width": 1079.2261962890625,
+      "height": 31.74603271484375,
+      "percentX": 62.73104956571193,
+      "percentY": 21.481099808316046
+    },
+    "title": "批注 10",
+    "text": "无内容",
+    "direction": "top"
+  },
+  {
+    "id": 11,
+    "targetInfo": {
+      "selector": "div.form-demo:nth-child(2)",
+      "width": 1079.2261962890625,
+      "height": 390.41668701171875,
+      "percentX": 40.77087098452769,
+      "percentY": 90.47415051182763
+    },
+    "title": "批注 11",
+    "text": "无内容",
+    "direction": "right"
+  },
+  {
+    "id": 12,
+    "targetInfo": {
+      "selector": "div.chart-demo:nth-child(2)",
+      "width": 1079.2261962890625,
+      "height": 299.9900817871094,
+      "percentX": 77.27850963847955,
+      "percentY": 45.055709137519294
+    },
+    "title": "批注 12",
+    "text": "无内容",
+    "direction": "top"
+  },
+  {
+    "id": 13,
+    "targetInfo": {
+      "selector": "div.container:nth-child(1)",
+      "width": 1109.2064208984375,
+      "height": 1632.202392578125,
+      "percentX": 79.96708126531992,
+      "percentY": 77.89321996960288
+    },
+    "title": "批注 13",
+    "text": "无内容",
+    "direction": "left"
+  }
+]

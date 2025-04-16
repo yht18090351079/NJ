@@ -1,0 +1,202 @@
+/* 
+ * 批注组件样式
+ * 实现类似Axure的批注功能
+ */
+
+/* 批注标记样式 */
+.annotation-marker {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    transition: transform 0.2s ease;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+
+.annotation-marker:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* 批注层样式 */
+#annotation-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* 批注内容容器 */
+.annotation-content {
+    position: fixed;
+    background-color: white;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-md);
+    max-width: 300px;
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: auto;
+}
+
+.annotation-content.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.annotation-content::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    transform: rotate(45deg);
+}
+
+/* 上方显示箭头 */
+.annotation-content.top::before {
+    bottom: -6px;
+    left: calc(50% - 6px);
+}
+
+/* 下方显示箭头 */
+.annotation-content.bottom::before {
+    top: -6px;
+    left: calc(50% - 6px);
+}
+
+/* 左侧显示箭头 */
+.annotation-content.left::before {
+    top: calc(50% - 6px);
+    right: -6px;
+}
+
+/* 右侧显示箭头 */
+.annotation-content.right::before {
+    top: calc(50% - 6px);
+    left: -6px;
+}
+
+/* 批注标题 */
+.annotation-title {
+    font-size: var(--font-size-md);
+    font-weight: bold;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+/* 批注内容 */
+.annotation-text {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* 关闭按钮 */
+.annotation-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-tertiary);
+    font-size: 16px;
+}
+
+.annotation-close:hover {
+    color: var(--text-primary);
+}
+
+/* 批注工具栏 */
+.annotation-toolbar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    z-index: 9999;
+}
+
+.annotation-toolbar button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.annotation-toolbar button:hover {
+    transform: scale(1.05);
+    background-color: var(--border-color);
+}
+
+#annotation-toggle.active,
+.annotation-toolbar.editing #annotation-toggle {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* 编辑表单样式 */
+.annotation-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.annotation-title-input,
+.annotation-text-input {
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
+}
+
+.annotation-title-input:focus,
+.annotation-text-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.annotation-save-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.annotation-save-btn:hover {
+    background-color: #1f6e41;
+}

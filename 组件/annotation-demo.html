@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>批注组件演示</title>
+    <!-- 引入字体图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- 引入自定义样式 -->
+    <style>
+        /* 基础CSS变量定义 */
+        :root {
+            /* 主色调 */
+            --primary-color: #2E8B57;
+            /* 辅助色 */
+            --accent-color: #FF6347;
+            /* 其它样式变量 */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --spacing-sm: 8px;
+            --spacing-md: 12px;
+            --spacing-lg: 16px;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-tertiary: #999999;
+            --border-color: #EEEEEE;
+            --white: #FFFFFF;
+            --font-size-base: 14px;
+            --font-size-md: 16px;
+        }
+
+        /* 基础样式 */
+        body {
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            color: #f44336;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .product-unit {
+            font-size: 0.8em;
+            color: #999;
+        }
+
+        .product-address {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .product-desc {
+            color: #333;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+    </style>
+    <link rel="stylesheet" href="annotation.css">
+</head>
+
+<body>
+    <!-- 主容器 -->
+    <div class="container">
+        <h1 style="margin: 20px 0; text-align: center;">批注组件演示</h1>
+
+        <div class="demo-instructions"
+            style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 8px;">
+            <h2>使用说明：</h2>
+            <ol style="margin-left: 20px; line-height: 1.6;">
+                <li>点击右下角的<i class="fas fa-comment-alt"></i>图标按钮进入批注模式</li>
+                <li>在页面上的任意位置点击添加批注标记</li>
+                <li>输入批注标题和内容并保存</li>
+                <li>点击批注标记查看批注内容</li>
+                <li>再次点击右下角的<i class="fas fa-comment-alt"></i>图标按钮退出批注模式</li>
+                <li>点击右下角的<i class="fas fa-trash"></i>图标清除所有批注</li>
+            </ol>
+        </div>
+
+        <div class="demo-section" style="margin: 30px 0; position: relative;">
+            <h2>产品展示区</h2>
+            <div class="product-grid">
+                <!-- 产品卡片1 -->
+                <div class="product-card">
+                    <img src="https://img.freepik.com/free-photo/bunch-fresh-strawberries-white-background_1308-32939.jpg"
+                        alt="草莓" class="product-image" loading="lazy" width="300" height="200">
+                    <div class="product-info">
+                        <div class="product-name">丹东九九草莓</div>
+                        <div class="product-price">
+                            ¥32.80<span class="product-unit">/斤</span>
+                        </div>
+                        <div class="product-address">
+                            <i class="fas fa-map-marker-alt"></i>辽宁-丹东
+                        </div>
+                        <div class="product-desc">精选丹东九九草莓，果大色艳，香甜多汁，现摘现发。</div>
+                    </div>
+                </div>
+
+                <!-- 产品卡片2 -->
+                <div class="product-card">
+                    <img src="https://img.freepik.com/free-photo/tomatoes-white-background_144627-43714.jpg" alt="西红柿"
+                        class="product-image" loading="lazy" width="300" height="200">
+                    <div class="product-info">
+                        <div class="product-name">河北寿光西红柿</div>
+                        <div class="product-price">
+                            ¥4.50<span class="product-unit">/斤</span>
+                        </div>
+                        <div class="product-address">
+                            <i class="fas fa-map-marker-alt"></i>山东-寿光
+                        </div>
+                        <div class="product-desc">产地直发，绿色种植，新鲜采摘，口感酸甜。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section" style="margin: 30px 0; position: relative;">
+            <h2>表单区域</h2>
+            <div class="form-demo" style="padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">用户名：</label>
+                    <input type="text" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">密码：</label>
+                    <input type="password"
+                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">留言：</label>
+                    <textarea
+                        style="width: 100%; height: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                </div>
+                <button
+                    style="padding: 10px 20px; background-color: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer;">提交</button>
+            </div>
+        </div>
+
+        <div class="demo-section" style="margin: 30px 0; position: relative;">
+            <h2>图表区域</h2>
+            <div class="chart-demo"
+                style="height: 300px; background-color: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                <div style="text-align: center;">
+                    <i class="fas fa-chart-bar" style="font-size: 64px; color: #aaa;"></i>
+                    <p style="margin-top: 10px; color: #666;">图表区域（可添加批注）</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入批注功能JS -->
+    <script src="annotation.js"></script>
+</body>
+
+</html>
