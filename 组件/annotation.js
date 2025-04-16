@@ -19,6 +19,7 @@ class AnnotationManager {
         this.fileHandle = null;
         this.hasAskedForFileAccess = false;
         this.passwordLoaded = false; // 是否已从文件加载密码
+        this.annotationFileName = null; // 批注文件名
 
         // 绑定方法到实例
         this.toggleEditMode = this.toggleEditMode.bind(this);
@@ -1154,9 +1155,6 @@ class AnnotationManager {
             // 将数据转换为JSON字符串
             const jsonData = JSON.stringify(annotationsToSave, null, 2);
 
-            // 保存到localStorage作为备份
-            localStorage.setItem('annotations', JSON.stringify(annotationsToSave));
-
             // 记录上次保存时间
             this.lastSaveTime = new Date().getTime();
 
@@ -1177,53 +1175,43 @@ class AnnotationManager {
      */
     requestFileAccess() {
         if (this.validatePassword()) {
-            if (!this.fileHandle || !this.hasAskedForFileAccess) {
-                this.hasAskedForFileAccess = true;
-                this.requestFileSystem().then(fileHandle => {
-                    if (fileHandle) {
-                        this.fileHandle = fileHandle;
+            this.hasAskedForFileAccess = true;
 
-                        // 保存文件路径信息到localStorage，便于下次加载
-                        try {
-                            // 保存文件路径或标识符
-                            localStorage.setItem('annotationFilePath', 'userSelected');
-                        } catch (e) {
-                            console.error('保存文件路径失败', e);
-                        }
+            // 使用预设的批注文件名
+            const suggestedName = this.annotationFileName || `${this.getPageName()}_data.json`;
 
-                        // 设置成功后立即保存当前批注
-                        this.saveAnnotations();
-                        this.showSuccessMessage('已设置自动保存，批注会自动保存到选择的文件');
+            this.requestFileSystem(suggestedName).then(fileHandle => {
+                if (fileHandle) {
+                    this.fileHandle = fileHandle;
 
-                        // 更新按钮状态
-                        const autosaveBtn = document.getElementById('annotation-autosave');
-                        if (autosaveBtn) {
-                            autosaveBtn.classList.add('active');
-                            autosaveBtn.title = '已设置自动保存';
-                        }
+                    // 设置成功后立即保存当前批注
+                    this.saveAnnotations();
+                    this.showSuccessMessage(`已设置批注文件: ${suggestedName}，批注会自动保存`);
+
+                    // 更新按钮状态
+                    const autosaveBtn = document.getElementById('annotation-autosave');
+                    if (autosaveBtn) {
+                        autosaveBtn.classList.remove('attention');
+                        autosaveBtn.classList.add('active');
+                        autosaveBtn.title = '批注文件已设置(自动保存)';
                     }
-                });
-            } else {
-                this.showInfoMessage('已设置自动保存，批注会自动保存到选择的文件');
-            }
+                }
+            });
         }
     }
 
     /**
      * 请求文件系统访问权限
+     * @param {string} suggestedName - 建议的文件名
      * @returns {Promise<FileSystemFileHandle|null>} 文件句柄
      */
-    async requestFileSystem() {
+    async requestFileSystem(suggestedName = 'annotations_data.json') {
         try {
             // 检查浏览器是否支持File System Access API
             if ('showSaveFilePicker' in window) {
-                // 生成文件名
-                const pageName = window.location.pathname.split('/').pop().replace(/\.[^/.]+$/, '') || 'page';
-                const fileName = `annotations_${pageName}.json`;
-
                 // 请求用户选择保存位置
                 const options = {
-                    suggestedName: fileName,
+                    suggestedName: suggestedName,
                     types: [{
                         description: '批注JSON文件',
                         accept: { 'application/json': ['.json'] }
@@ -1231,12 +1219,11 @@ class AnnotationManager {
                 };
 
                 // 显示文件选择器
-                this.showInfoMessage('请选择批注文件保存位置 (之后将自动保存)');
+                this.showInfoMessage('请选择批注文件保存位置');
                 const fileHandle = await window.showSaveFilePicker(options);
-                this.showSuccessMessage('已设置自动保存文件位置');
                 return fileHandle;
             } else {
-                this.showErrorMessage('您的浏览器不支持自动保存到文件，请使用导出功能');
+                this.showErrorMessage('您的浏览器不支持文件系统访问');
                 return null;
             }
         } catch (error) {
@@ -1304,8 +1291,8 @@ class AnnotationManager {
             document.body.appendChild(indicator);
         }
 
-        // 显示保存状态
-        indicator.textContent = '已自动保存到文件 ' + new Date().toLocaleTimeString();
+        // 显示保存状态和文件名
+        indicator.textContent = `已保存到: ${this.annotationFileName} ${new Date().toLocaleTimeString()}`;
         indicator.classList.add('visible');
 
         // 短暂显示后隐藏
@@ -1555,95 +1542,113 @@ class AnnotationManager {
      * 加载已有批注并初始化文件访问
      */
     initializeFileSystemAndLoad() {
-        // 尝试从localStorage获取文件句柄信息
-        const savedFilePath = localStorage.getItem('annotationFilePath');
+        // 获取当前页面名称
+        const pageName = this.getPageName();
 
-        // 先从localStorage加载批注，作为备份
-        this.loadAnnotationsFromLocalStorage();
+        // 构建批注文件名
+        const annotationFileName = `${pageName}_data.json`;
 
-        // 如果有保存的文件路径，尝试加载文件内容
-        if (savedFilePath) {
-            // 尝试从之前的位置恢复文件访问
-            this.tryRestoreFileAccess(savedFilePath);
-        } else {
-            this.showInfoMessage('首次使用请点击保存按钮设置批注文件');
-        }
+        // 保存文件名到实例
+        this.annotationFileName = annotationFileName;
+
+        // 显示加载中信息
+        this.showInfoMessage(`正在加载批注文件: ${annotationFileName}`);
+
+        // 直接尝试加载指定命名的文件
+        this.loadAnnotationsFromNamedFile(annotationFileName);
     }
 
     /**
-     * 尝试恢复文件访问并加载批注
-     * @param {string} filePath - 文件路径
+     * 获取当前页面名称
+     * @returns {string} 页面名称
      */
-    async tryRestoreFileAccess(filePath) {
+    getPageName() {
+        // 从URL路径中获取页面名称
+        const pathname = window.location.pathname;
+        const filename = pathname.split('/').pop() || 'index';
+
+        // 移除文件扩展名
+        const pageName = filename.replace(/\.[^/.]+$/, '');
+
+        return pageName;
+    }
+
+    /**
+     * 从指定命名的文件加载批注
+     * @param {string} fileName - 文件名
+     */
+    async loadAnnotationsFromNamedFile(fileName) {
         try {
-            // 检查浏览器是否支持文件系统访问API
-            if ('showOpenFilePicker' in window) {
-                // 显示加载中信息
-                this.showInfoMessage('正在尝试加载批注文件...');
+            // 尝试直接从服务器请求JSON文件
+            const response = await fetch(fileName);
 
-                try {
-                    // 使用文件选择器手动选择文件
-                    const options = {
-                        id: 'annotationFile', // 使用固定ID尝试记住路径
-                        startIn: 'downloads', // 从下载文件夹开始
-                        types: [{
-                            description: '批注JSON文件',
-                            accept: { 'application/json': ['.json'] }
-                        }]
-                    };
+            if (response.ok) {
+                // 成功获取到文件
+                const content = await response.text();
 
-                    // 自动获取权限需要用户曾经授予的权限
-                    // 现在暂时省略自动恢复，只在第一次保存后设置fileHandle
+                // 解析JSON
+                if (content.trim()) {
+                    try {
+                        const fileAnnotations = JSON.parse(content);
 
-                    // 更新保存按钮，提示用户需要设置文件
+                        if (Array.isArray(fileAnnotations) && fileAnnotations.length > 0) {
+                            // 加载批注数据
+                            this.loadAnnotationsFromData(fileAnnotations);
+                            this.showSuccessMessage(`已从 ${fileName} 加载 ${fileAnnotations.length} 条批注`);
+                        } else {
+                            this.showInfoMessage(`批注文件 ${fileName} 已加载，但没有批注数据`);
+                        }
+                    } catch (e) {
+                        console.error('解析批注文件失败', e);
+                        this.showErrorMessage(`批注文件 ${fileName} 格式错误`);
+                    }
+                } else {
+                    this.showInfoMessage(`批注文件 ${fileName} 为空`);
+                }
+            } else if (response.status === 404) {
+                // 文件不存在，显示信息
+                this.showInfoMessage(`批注文件 ${fileName} 不存在，将创建新文件`);
+
+                // 自动设置保存位置
+                setTimeout(() => {
                     const autosaveBtn = document.getElementById('annotation-autosave');
                     if (autosaveBtn) {
-                        autosaveBtn.classList.remove('active');
-                        autosaveBtn.title = '点击设置自动保存文件';
+                        autosaveBtn.classList.add('attention');
+                        autosaveBtn.title = '点击设置批注文件';
                     }
-
-                    this.showInfoMessage('请点击保存按钮选择批注文件');
-                } catch (error) {
-                    // 如果无法恢复访问，只使用localStorage中的数据
-                    this.showInfoMessage('未能自动加载批注文件，已从缓存加载数据');
-                    console.log('无法恢复文件访问', error);
-                }
+                }, 1000);
             } else {
-                this.showInfoMessage('您的浏览器不支持文件系统访问，已从缓存加载数据');
+                // 其他错误
+                this.showErrorMessage(`无法加载批注文件 ${fileName}: ${response.status} ${response.statusText}`);
             }
         } catch (error) {
-            console.error('尝试恢复文件访问失败', error);
+            console.error('加载批注文件失败', error);
+            this.showErrorMessage(`加载批注文件 ${fileName} 失败: ${error.message}`);
         }
     }
 
     /**
-     * 从localStorage加载批注
+     * 从数据加载批注
+     * @param {Array} annotations - 批注数据数组
      */
-    loadAnnotationsFromLocalStorage() {
-        try {
-            const saved = localStorage.getItem('annotations');
+    loadAnnotationsFromData(annotations) {
+        // 清除现有批注
+        this.annotations = [];
+        document.querySelectorAll('.annotation-marker').forEach(marker => marker.remove());
+        document.querySelectorAll('.annotation-content').forEach(content => content.remove());
 
-            if (saved) {
-                this.annotations = JSON.parse(saved);
+        // 加载新批注
+        this.annotations = annotations;
 
-                // 找到最大ID
-                let maxId = 0;
-                this.annotations.forEach(anno => {
-                    maxId = Math.max(maxId, anno.id);
-                    this.renderLoadedAnnotation(anno);
-                });
+        // 找到最大ID
+        let maxId = 0;
+        this.annotations.forEach(anno => {
+            maxId = Math.max(maxId, anno.id);
+            this.renderLoadedAnnotation(anno);
+        });
 
-                this.currentId = maxId + 1;
-
-                // 显示加载消息
-                if (this.annotations.length > 0) {
-                    this.showSuccessMessage(`已加载 ${this.annotations.length} 条批注`);
-                }
-            }
-        } catch (error) {
-            console.error('加载批注失败', error);
-            this.showErrorMessage('加载批注失败: ' + error.message);
-        }
+        // 设置下一个ID
+        this.currentId = maxId + 1;
     }
 }
 
@@ -2085,6 +2090,19 @@ function addAnnotationStyles() {
             background-color: #4caf50;
             color: white;
             border-color: #4caf50;
+        }
+        
+        .annotation-toolbar #annotation-autosave.attention {
+            background-color: #ff9800;
+            color: white;
+            border-color: #ff9800;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         /* 增加密码文件按钮的样式 */
