@@ -35,7 +35,7 @@
       "percentY": -0.022363488529117168
     },
     "title": "批注 3",
-    "text": "无内容",
+    "text": "无内容11111",
     "direction": "left"
   },
   {
@@ -50,5 +50,18 @@
     "title": "批注 4",
     "text": "无内容",
     "direction": "right"
+  },
+  {
+    "id": 5,
+    "targetInfo": {
+      "selector": "body:nth-child(3)",
+      "width": 2107.77783203125,
+      "height": 1613.7674560546875,
+      "percentX": 87.20084119248625,
+      "percentY": 42.57118938806502
+    },
+    "title": "批注 5",
+    "text": "无内容",
+    "direction": "left"
   }
 ]
