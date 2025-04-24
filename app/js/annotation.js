@@ -20,6 +20,7 @@ class AnnotationManager {
         this.hasAskedForFileAccess = false;
         this.passwordLoaded = false; // 是否已从文件加载密码
         this.annotationFileName = null; // 批注文件名
+        this.markersVisible = true; // 新增：标记批注是否可见的状态标志
 
         // 绑定方法到实例
         this.toggleEditMode = this.toggleEditMode.bind(this);
@@ -1705,6 +1706,40 @@ class AnnotationManager {
         // 设置下一个ID
         this.currentId = maxId + 1;
     }
+
+    /**
+     * 切换所有批注标记的可见性
+     * @returns {boolean} - 切换后的可见性状态
+     */
+    toggleMarkersVisibility() {
+        // 反转当前可见性状态
+        this.markersVisible = !this.markersVisible;
+
+        // 获取所有批注标记
+        const markers = document.querySelectorAll('.annotation-marker');
+
+        // 更新所有标记的可见性
+        markers.forEach(marker => {
+            if (this.markersVisible) {
+                marker.style.display = ''; // 恢复默认显示
+                marker.style.opacity = '1';
+                marker.style.visibility = 'visible';
+            } else {
+                marker.style.display = 'none'; // 隐藏标记
+                // 可以用这个替代，实现淡出效果: 
+                // marker.style.opacity = '0';
+                // marker.style.visibility = 'hidden';
+            }
+        });
+
+        // 如果标记被隐藏，同时隐藏所有打开的批注内容
+        if (!this.markersVisible) {
+            this.hideAllAnnotations();
+        }
+
+        // 返回切换后的状态
+        return this.markersVisible;
+    }
 }
 
 /**
@@ -1724,6 +1759,9 @@ function initAnnotationToolbar() {
         <button id="annotation-password-file" title="选择密码文件">
             <i class="fas fa-key"></i>
         </button>
+        <button id="annotation-visibility" title="显示/隐藏批注标记">
+            <i class="fas fa-eye"></i>
+        </button>
         <input type="file" id="password-file-input" style="display:none" accept=".txt">
     `;
 
@@ -1734,6 +1772,7 @@ function initAnnotationToolbar() {
     const toggleBtn = document.getElementById('annotation-toggle');
     const autosaveBtn = document.getElementById('annotation-autosave');
     const passwordFileBtn = document.getElementById('annotation-password-file');
+    const visibilityBtn = document.getElementById('annotation-visibility'); // 新增
     const passwordFileInput = document.getElementById('password-file-input');
 
     // 创建批注管理器
@@ -1744,22 +1783,41 @@ function initAnnotationToolbar() {
     // 加载已有批注
     annotationManager.initializeFileSystemAndLoad();
 
-    // 绑定按钮事件
+    // 绑定按钮事件 - 批注模式切换
     toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation(); // 阻止事件冒泡
         annotationManager.toggleEditMode();
+        // 同时切换菜单展开状态
+        toggleMenu();
     });
 
-    // 自动保存按钮事件 - 用户交互
+    // 自动保存按钮事件 - 点击时也收起菜单
     autosaveBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         annotationManager.requestFileAccess();
+        // 收起菜单
+        toolbar.classList.remove('expanded');
     });
 
-    // 密码文件选择按钮事件
+    // 密码文件选择按钮事件 - 点击时也收起菜单
     passwordFileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         passwordFileInput.click();
+        // 收起菜单
+        toolbar.classList.remove('expanded');
+    });
+
+    // 新增：显示/隐藏批注按钮事件
+    visibilityBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // 切换批注标记可见性
+        const isVisible = annotationManager.toggleMarkersVisibility();
+        // 更新按钮图标
+        visibilityBtn.innerHTML = isVisible ?
+            '<i class="fas fa-eye"></i>' :
+            '<i class="fas fa-eye-slash"></i>';
+        // 收起菜单
+        toolbar.classList.remove('expanded');
     });
 
     // 密码文件选择事件
@@ -1776,6 +1834,20 @@ function initAnnotationToolbar() {
             toolbar.classList.add('editing');
         } else {
             toolbar.classList.remove('editing');
+        }
+    });
+
+    // 切换菜单展开状态的函数
+    function toggleMenu() {
+        toolbar.classList.toggle('expanded');
+    }
+
+    // 点击页面其他区域时收起菜单
+    document.addEventListener('click', (e) => {
+        // 如果点击的不是工具栏内的元素
+        if (!e.target.closest('.annotation-toolbar')) {
+            // 收起菜单
+            toolbar.classList.remove('expanded');
         }
     });
 }
@@ -1802,8 +1874,8 @@ function addAnnotationStyles() {
 /* 批注标记样式 */
 .annotation-marker {
     position: fixed; /* 使用fixed定位以保持在视口中 */
-    width: 20px;
-    height: 20px;
+    width: 18px; /* 更小的尺寸 (原来是 20px) */
+    height: 18px; /* 更小的尺寸 (原来是 20px) */
     /* 使用CSS变量，如果定义了 */
     background-color: var(--accent-color, #FF6347); /* 默认使用番茄红 */
     color: white;
@@ -1811,7 +1883,7 @@ function addAnnotationStyles() {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 10px; /* 更小的字体 (原来是 12px) */
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -1991,15 +2063,15 @@ function addAnnotationStyles() {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: white;
+    background-color: transparent; /* 改为透明背景 */
     border-radius: var(--radius-md, 8px);
-    box-shadow: var(--shadow-md, 0 4px 8px rgba(0,0,0,0.15));
-    padding: var(--spacing-sm, 8px);
+    /* 移除阴影，只给按钮添加阴影 */
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm, 8px);
     z-index: 9999;
-    transition: box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    align-items: center; /* 确保按钮居中 */
 }
 
 /* 工具栏按钮通用样式 */
@@ -2013,24 +2085,47 @@ function addAnnotationStyles() {
     background-color: var(--white, #fff);
     color: var(--text-primary, #333);
     border: 1px solid var(--border-color, #eee); /* 添加边框 */
-    box-shadow: var(--shadow-sm, 0 2px 4px rgba(0,0,0,0.05));
-    transition: all 0.2s ease;
+    box-shadow: var(--shadow-md, 0 4px 8px rgba(0,0,0,0.1));
+    /* 过渡所有属性，用于平滑动画 */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 弹性过渡效果 */
     font-size: 16px; /* 图标大小 */
     cursor: pointer;
+    position: absolute; /* 绝对定位，便于定位炸开位置 */
+    bottom: 0; /* 初始位置都在主按钮位置 */
+    right: 0;
 }
 
-.annotation-toolbar button:hover {
-    transform: scale(1.05);
-    background-color: #f5f5f5; /* 悬停背景色 */
-    border-color: #ddd;
+/* 只有主按钮显示在顶层 */
+#annotation-toggle {
+    z-index: 2;
 }
 
-/* 激活/编辑状态下的切换按钮 */
-#annotation-toggle.active,
-.annotation-toolbar.editing #annotation-toggle {
-    background-color: var(--accent-color, #FF6347);
-    color: white;
-    border-color: var(--accent-color, #FF6347);
+/* 次级按钮默认隐藏在主按钮后面 */
+.annotation-toolbar button:not(#annotation-toggle) {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8); /* 稍微缩小 */
+    z-index: 1;
+}
+
+/* 菜单展开状态 - 显示次级按钮 */
+.annotation-toolbar.expanded #annotation-autosave {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-60px) scale(1); /* 向左移动 */
+}
+
+.annotation-toolbar.expanded #annotation-password-file {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-120px) scale(1); /* 更靠左 */
+}
+
+/* 新增按钮的展开位置 */
+.annotation-toolbar.expanded #annotation-visibility {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-180px) scale(1); /* 最靠左 */
 }
 
 /* 自动保存按钮特殊样式 */
@@ -2265,6 +2360,37 @@ function addAnnotationStyles() {
 
 .annotation-confirm-no:hover {
     background-color: #e0e0e0;
+}
+
+/* 其他按钮样式保持不变 */
+
+/* 按钮悬浮效果 */
+.annotation-toolbar button:hover {
+    transform: scale(1.05) translate(0, 0); /* 保持在原位置的同时稍微放大 */
+    background-color: #f5f5f5; /* 悬停背景色 */
+    border-color: #ddd;
+}
+
+/* 展开状态下，次级按钮的悬浮效果需要保留位移 */
+.annotation-toolbar.expanded #annotation-autosave:hover {
+    transform: translateX(-60px) scale(1.05);
+}
+
+.annotation-toolbar.expanded #annotation-password-file:hover {
+    transform: translateX(-120px) scale(1.05);
+}
+
+/* 新增按钮的悬浮效果 */
+.annotation-toolbar.expanded #annotation-visibility:hover {
+    transform: translateX(-180px) scale(1.05);
+}
+
+/* 激活/编辑状态下的切换按钮 */
+#annotation-toggle.active,
+.annotation-toolbar.editing #annotation-toggle {
+    background-color: var(--accent-color, #FF6347);
+    color: white;
+    border-color: var(--accent-color, #FF6347);
 }
 
     `;
