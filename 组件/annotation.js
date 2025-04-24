@@ -24,6 +24,7 @@ class AnnotationManager {
         // 绑定方法到实例
         this.toggleEditMode = this.toggleEditMode.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleCaptureClick = this.handleCaptureClick.bind(this); // 绑定新的捕获处理器
         this.hideAllAnnotations = this.hideAllAnnotations.bind(this);
         this.validatePassword = this.validatePassword.bind(this);
         this.setPassword = this.setPassword.bind(this);
@@ -198,6 +199,13 @@ class AnnotationManager {
         this.isEditing = !this.isEditing;
         document.body.style.cursor = this.isEditing ? 'crosshair' : '';
 
+        // 添加或移除捕获监听器
+        if (this.isEditing) {
+            document.addEventListener('click', this.handleCaptureClick, true);
+        } else {
+            document.removeEventListener('click', this.handleCaptureClick, true);
+        }
+
         // 通知状态变化
         const event = new CustomEvent('annotation-mode-change', {
             detail: { isEditing: this.isEditing }
@@ -217,45 +225,86 @@ class AnnotationManager {
     }
 
     /**
-     * 处理点击事件
+     * 处理捕获阶段的点击事件（仅在编辑模式下激活）
+     * @param {MouseEvent} e - 鼠标事件对象
+     */
+    handleCaptureClick(e) {
+        if (!this.isEditing) {
+            // 安全检查：如果不知何故在非编辑模式下触发，则移除监听器并返回
+            document.removeEventListener('click', this.handleCaptureClick, true);
+            return;
+        }
+
+        // 允许点击批注相关的UI元素
+        if (e.target.closest('.annotation-toolbar') ||
+            e.target.closest('.annotation-marker') ||
+            e.target.closest('.annotation-content')) {
+            // 对于这些元素，让事件正常传播，由 handleClick 或其内部逻辑处理
+            return;
+        }
+
+        // --- 点击了页面其他元素 --- 
+        // 阻止默认行为和事件冒泡
+        e.preventDefault();
+        e.stopPropagation();
+
+        // 创建新的批注
+        const targetElement = e.target;
+        // 确保 createAnnotation 在这里被调用
+        this.createAnnotation(e.clientX, e.clientY, targetElement);
+    }
+
+    /**
+     * 处理点击事件（冒泡阶段）
      * @param {MouseEvent} e - 鼠标事件对象
      */
     handleClick(e) {
-        // 检查是否点击了工具栏按钮，如果是则跳过处理
+        // 如果点击了工具栏，直接返回 (工具栏按钮有自己的监听器)
         if (e.target.closest('.annotation-toolbar')) {
             return;
         }
 
-        // 检查是否点击了批注标记
-        if (e.target.closest('.annotation-marker')) {
-            return;
-        }
-
-        // 检查是否点击了批注内容区域
-        if (e.target.closest('.annotation-content')) {
-            return;
-        }
-
-        // 处理未保存的批注情况
-        if (this.currentUnsavedMarker) {
-            // 如果有未保存的批注，点击其他地方时应该取消它
-            this.cancelCurrentAnnotation();
-
-            // 如果在编辑模式中，继续创建新批注
-            if (this.isEditing) {
-                const targetElement = e.target;
-                this.createAnnotation(e.clientX, e.clientY, targetElement);
+        // 处理点击批注标记
+        const marker = e.target.closest('.annotation-marker');
+        if (marker) {
+            // 如果是编辑模式下的临时标记，不处理 (由创建流程处理)
+            if (this.isEditing && marker.dataset.temp) {
                 return;
             }
-        } else if (this.isEditing) {
-            // 如果处于编辑模式且没有未保存的批注，创建新批注
-            const targetElement = e.target;
-            this.createAnnotation(e.clientX, e.clientY, targetElement);
+            // 获取ID并切换内容显示
+            const id = parseInt(marker.dataset.id, 10);
+            if (!isNaN(id)) {
+                // 阻止可能的默认行为（例如，如果标记在链接内）并停止冒泡
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggleAnnotationContent(id);
+            }
+            return; // 处理完标记点击后返回
+        }
+
+        // 如果点击在批注内容内部
+        if (e.target.closest('.annotation-content')) {
+            // 允许内容区域内部的默认交互（如选择文本），但阻止事件冒泡到document
+            // 防止触发下方的 hideAllAnnotations
+            e.stopPropagation();
+            // 注意：内容框内的按钮（保存、取消、删除确认等）需要它们自己的stopPropagation来防止关闭内容框
             return;
         }
 
-        // 点击其他区域时，隐藏所有批注内容
-        this.hideAllAnnotations();
+        // --- 点击了页面空白区域 (或其他未被捕获监听器阻止的元素) ---
+
+        // 如果是编辑模式，理论上不应到达这里，因为捕获监听器会处理非UI点击
+        // 但作为安全措施，如果到达这里，不做任何操作
+        if (this.isEditing) {
+            // console.warn('handleClick: Click outside UI in edit mode - should be handled by capture listener.');
+            return;
+        }
+
+        // 非编辑模式下，点击空白区域不再自动关闭批注
+        // this.hideAllAnnotations(); // <--- 移除这一行，不再自动关闭
+
+        // 同时取消可能存在的未保存批注（理论上非编辑模式不应有，但为了健壮性）
+        this.cancelCurrentAnnotation();
     }
 
     /**
@@ -1177,16 +1226,22 @@ class AnnotationManager {
         if (this.validatePassword()) {
             this.hasAskedForFileAccess = true;
 
-            // 使用预设的批注文件名
-            const suggestedName = this.annotationFileName || `${this.getPageName()}_data.json`;
+            // 使用预设的批注文件名 - 使用 json/ 目录 + 动态页面名称
+            const pageName = this.getPageName(); // 获取页面名称
+            const suggestedFileName = `${pageName}_data.json`; // Filename suggestion for save dialog
 
-            this.requestFileSystem(suggestedName).then(fileHandle => {
+            this.annotationFileName = `json/${suggestedFileName}`; // Keep intended path for loading
+
+            // Pass only the filename to requestFileSystem
+            this.requestFileSystem(suggestedFileName).then(fileHandle => {
                 if (fileHandle) {
                     this.fileHandle = fileHandle;
-
-                    // 设置成功后立即保存当前批注
-                    this.saveAnnotations();
-                    this.showSuccessMessage(`已设置批注文件: ${suggestedName}，批注会自动保存`);
+                    // Optional: Update internal name based on actual chosen name?
+                    // this.annotationFileName = fileHandle.name; // Problem: loses path info
+                    // Better to keep this.annotationFileName as the intended load path.
+                    this.saveAnnotations(); // Save immediately
+                    // Use fileHandle.name for success message
+                    this.showSuccessMessage(`批注将自动保存到: ${fileHandle.name}`);
 
                     // 更新按钮状态
                     const autosaveBtn = document.getElementById('annotation-autosave');
@@ -1205,21 +1260,21 @@ class AnnotationManager {
      * @param {string} suggestedName - 建议的文件名
      * @returns {Promise<FileSystemFileHandle|null>} 文件句柄
      */
-    async requestFileSystem(suggestedName = 'annotations_data.json') {
+    async requestFileSystem(suggestedName = 'annotations_data.json') { // Parameter is now filename only
         try {
             // 检查浏览器是否支持File System Access API
             if ('showSaveFilePicker' in window) {
                 // 请求用户选择保存位置
                 const options = {
-                    suggestedName: suggestedName,
+                    suggestedName: suggestedName, // Pass only the filename
                     types: [{
                         description: '批注JSON文件',
                         accept: { 'application/json': ['.json'] }
                     }]
                 };
 
-                // 显示文件选择器
-                this.showInfoMessage('请选择批注文件保存位置');
+                // 显示文件选择器，并提示用户选择目录
+                this.showInfoMessage('请选择批注文件保存位置 (建议在 json 目录下)');
                 const fileHandle = await window.showSaveFilePicker(options);
                 return fileHandle;
             } else {
@@ -1291,8 +1346,9 @@ class AnnotationManager {
             document.body.appendChild(indicator);
         }
 
-        // 显示保存状态和文件名
-        indicator.textContent = `已保存到: ${this.annotationFileName} ${new Date().toLocaleTimeString()}`;
+        // 显示保存状态和实际文件名 (如果句柄存在)
+        const displayName = this.fileHandle ? this.fileHandle.name : this.annotationFileName;
+        indicator.textContent = `已保存到: ${displayName} ${new Date().toLocaleTimeString()}`;
         indicator.classList.add('visible');
 
         // 短暂显示后隐藏
@@ -1401,8 +1457,7 @@ class AnnotationManager {
             const blob = new Blob([jsonData], { type: 'application/json' });
 
             // 生成文件名（使用当前页面的URL，去除特殊字符）
-            const pageName = window.location.pathname.split('/').pop().replace(/\.[^/.]+$/, '') || 'page';
-            const fileName = `annotations_${pageName}_${new Date().toISOString().slice(0, 10)}.json`;
+            const fileName = `${this.getPageName()}_data.json`; // 使用 getPageName() 保证与加载/保存逻辑一致
 
             // 创建下载链接
             const url = URL.createObjectURL(blob);
@@ -1543,10 +1598,10 @@ class AnnotationManager {
      */
     initializeFileSystemAndLoad() {
         // 获取当前页面名称
-        const pageName = this.getPageName();
+        const pageName = this.getPageName(); // 恢复获取页面名称
 
-        // 构建批注文件名
-        const annotationFileName = `${pageName}_data.json`;
+        // 构建批注文件名 - 使用 json/ 目录 + 动态页面名称
+        const annotationFileName = `json/${pageName}_data.json`;
 
         // 保存文件名到实例
         this.annotationFileName = annotationFileName;
@@ -1732,468 +1787,486 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // 添加批注样式
 function addAnnotationStyles() {
+    // 检查样式是否已添加，避免重复添加
+    if (document.getElementById('annotation-component-styles')) {
+        return;
+    }
     const styleEl = document.createElement('style');
+    styleEl.id = 'annotation-component-styles'; // 添加ID以便检查
     styleEl.textContent = `
-        .annotation-marker {
-            position: absolute; /* 使用绝对定位 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            background-color: #f44336;
-            color: white;
-            border-radius: 50%;
-            font-size: 14px;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            z-index: 10000;
-            cursor: pointer;
-            transform: translate(-50%, -50%);
-        }
-        
-        .annotation-content {
-            position: absolute; /* 使用绝对定位 */
-            min-width: 280px;
-            max-width: 500px;
-            width: auto;
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            padding: 15px;
-            z-index: 10001;
-            display: none;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        .annotation-content.visible {
-            display: block;
-        }
-        
-        .annotation-close {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            cursor: pointer;
-            font-size: 20px;
-            color: #666;
-        }
-        
-        .annotation-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #333;
-            padding-right: 20px; /* 为关闭按钮留出空间 */
-        }
-        
-        .annotation-text {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #555;
-            margin-bottom: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .annotation-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-        }
-        
-        .annotation-edit-btn, 
-        .annotation-delete-btn {
-            padding: 5px 10px;
-            margin-left: 8px;
-            background: none;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-        
-        .annotation-edit-btn:hover {
-            background-color: #e3f2fd;
-            border-color: #2196f3;
-            color: #2196f3;
-        }
-        
-        .annotation-delete-btn:hover {
-            background-color: #ffebee;
-            border-color: #f44336;
-            color: #f44336;
-        }
-        
-        .annotation-form {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-        
-        .annotation-title-input, 
-        .annotation-text-input {
-            margin-bottom: 10px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            font-size: 14px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .annotation-text-input {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .annotation-btn-group {
-            display: flex;
-            justify-content: flex-end;
-        }
-        
-        .annotation-save-btn, 
-        .annotation-cancel-btn {
-            padding: 6px 12px;
-            margin-left: 8px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .annotation-save-btn {
-            background-color: #4caf50;
-            color: white;
-            border: none;
-        }
-        
-        .annotation-cancel-btn {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            color: #555;
-        }
-        
-        .annotation-save-btn:hover {
-            background-color: #388e3c;
-        }
-        
-        .annotation-cancel-btn:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .annotation-error-toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #f44336;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 4px;
-            z-index: 10002;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            animation: toast-in 0.3s ease-out;
-        }
-        
-        .annotation-error-toast.fade-out {
-            animation: toast-out 0.5s ease-out forwards;
-        }
-        
-        /* 成功提示样式 */
-        .annotation-success-toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 4px;
-            z-index: 10002;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            animation: toast-in 0.3s ease-out;
-        }
-        
-        .annotation-success-toast.fade-out {
-            animation: toast-out 0.5s ease-out forwards;
-        }
-        
-        /* 信息提示样式 */
-        .annotation-info-toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #2196f3;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 4px;
-            z-index: 10002;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            animation: toast-in 0.3s ease-out;
-        }
-        
-        .annotation-info-toast.fade-out {
-            animation: toast-out 0.5s ease-out forwards;
-        }
-        
-        /* 自动保存指示器 */
-        .annotation-autosave-indicator {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 3px;
-            font-size: 12px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 9998;
-        }
-        
-        .annotation-autosave-indicator.visible {
-            opacity: 1;
-        }
-        
-        @keyframes toast-in {
-            from { opacity: 0; transform: translate(-50%, 20px); }
-            to { opacity: 1; transform: translate(-50%, 0); }
-        }
-        
-        @keyframes toast-out {
-            from { opacity: 1; transform: translate(-50%, 0); }
-            to { opacity: 0; transform: translate(-50%, 20px); }
-        }
-        
-        .annotation-content.right:before {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-right: 8px solid white;
-        }
-        
-        .annotation-content.left:before {
-            content: '';
-            position: absolute;
-            right: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            border-left: 8px solid white;
-        }
-        
-        .annotation-content.top:before {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 8px solid white;
-        }
-        
-        .annotation-content.bottom:before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 8px solid white;
-        }
-        
-        /* 工具栏样式 */
-        .annotation-toolbar {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            padding: 8px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 38px;
-            transition: all 0.3s ease;
-            opacity: 0.7;
-        }
-        
-        .annotation-toolbar:hover {
-            width: 160px;
-            opacity: 1;
-        }
-        
-        .annotation-toolbar button {
-            width: 30px;
-            height: 30px;
-            background: none;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 6px;
-            transition: all 0.2s;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .annotation-toolbar button:hover,
-        .annotation-toolbar button.active {
-            background-color: #e3f2fd;
-            border-color: #2196f3;
-            color: #2196f3;
-        }
-        
-        .annotation-toolbar button:hover::after {
-            content: attr(title);
-            position: absolute;
-            left: 40px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 11px;
-            white-space: nowrap;
-            display: none;
-        }
-        
-        .annotation-toolbar:hover button:hover::after {
-            display: block;
-        }
-        
-        /* 增加保存按钮的样式 */
-        .annotation-toolbar #annotation-autosave {
-            background-color: #e3f2fd;
-            color: #2196f3;
-            border-color: #2196f3;
-        }
-        
-        .annotation-toolbar #annotation-autosave.active {
-            background-color: #4caf50;
-            color: white;
-            border-color: #4caf50;
-        }
-        
-        .annotation-toolbar #annotation-autosave.attention {
-            background-color: #ff9800;
-            color: white;
-            border-color: #ff9800;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        /* 增加密码文件按钮的样式 */
-        .annotation-toolbar #annotation-password-file {
-            background-color: #fff3e0;
-            color: #ff9800;
-            border-color: #ff9800;
-        }
-        
-        .annotation-toolbar #annotation-password-file.active {
-            background-color: #ff9800;
-            color: white;
-            border-color: #ff9800;
-        }
-        
-        /* 删除确认弹窗样式 */
-        .annotation-confirm-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10002;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-        
-        .annotation-confirm-wrapper.active {
-            opacity: 1;
-        }
-        
-        .annotation-confirm-box {
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            max-width: 90%;
-            width: 250px;
-            text-align: center;
-            transform: scale(0.9);
-            transition: transform 0.2s ease;
-        }
-        
-        .annotation-confirm-wrapper.active .annotation-confirm-box {
-            transform: scale(1);
-        }
-        
-        .annotation-confirm-text {
-            font-size: 14px;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        
-        .annotation-confirm-btns {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .annotation-confirm-yes,
-        .annotation-confirm-no {
-            padding: 5px 15px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-        
-        .annotation-confirm-yes {
-            background-color: #f44336;
-            color: white;
-            border: none;
-        }
-        
-        .annotation-confirm-no {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            color: #555;
-        }
-        
-        .annotation-confirm-yes:hover {
-            background-color: #d32f2f;
-        }
-        
-        .annotation-confirm-no:hover {
-            background-color: #e0e0e0;
-        }
+/* 
+ * 批注组件样式
+ * 实现类似Axure的批注功能
+ */
+
+/* 批注标记样式 */
+.annotation-marker {
+    position: fixed; /* 使用fixed定位以保持在视口中 */
+    width: 20px;
+    height: 20px;
+    /* 使用CSS变量，如果定义了 */
+    background-color: var(--accent-color, #FF6347); /* 默认使用番茄红 */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    transition: transform 0.2s ease;
+    /* 初始使用translate确保居中 */
+    transform: translate(-50%, -50%);
+    pointer-events: auto; /* 允许点击 */
+}
+
+.annotation-marker:hover {
+    /* 保持translate效果并放大 */
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* 批注层样式 */
+/* 注意：JS中创建的annotationLayer使用了absolute定位，如果需要fixed，需要统一 */
+#annotation-layer {
+    /* 与JS中的设置保持一致，或在此处覆盖 */
+    position: absolute; /* 或 fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* 或根据需要调整 */
+    pointer-events: none; /* 允许点击穿透 */
+    z-index: 9999;
+}
+
+/* 批注内容容器 */
+.annotation-content {
+    position: absolute; /* 使用absolute定位，由JS计算位置 */
+    background-color: white;
+    border-radius: var(--radius-md, 8px); /* 使用变量或默认值 */
+    padding: var(--spacing-md, 12px);
+    box-shadow: var(--shadow-md, 0 4px 8px rgba(0, 0, 0, 0.1));
+    min-width: 280px; /* 增加最小宽度 */
+    max-width: 350px; /* 调整最大宽度 */
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: auto; /* 允许交互 */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.annotation-content.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 箭头样式 */
+.annotation-content::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    transform: rotate(45deg);
+    box-shadow: inherit; /* 继承阴影 */
+    z-index: -1; /* 放在内容后面 */
+}
+
+/* 上方显示箭头 */
+.annotation-content.top::before {
+    bottom: -6px;
+    left: calc(50% - 6px);
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.05); /* 细微阴影 */
+}
+
+/* 下方显示箭头 */
+.annotation-content.bottom::before {
+    top: -6px;
+    left: calc(50% - 6px);
+    box-shadow: -2px -2px 2px rgba(0,0,0,0.05);
+}
+
+/* 左侧显示箭头 */
+.annotation-content.left::before {
+    top: calc(50% - 6px);
+    right: -6px;
+    box-shadow: 2px -2px 2px rgba(0,0,0,0.05);
+}
+
+/* 右侧显示箭头 */
+.annotation-content.right::before {
+    top: calc(50% - 6px);
+    left: -6px;
+    box-shadow: -2px 2px 2px rgba(0,0,0,0.05);
+}
+
+/* 批注标题 */
+.annotation-title {
+    font-size: var(--font-size-md, 16px);
+    font-weight: bold;
+    margin-bottom: var(--spacing-sm, 8px);
+    color: var(--text-primary, #333);
+    padding-right: 25px; /* 为关闭按钮留空间 */
+}
+
+/* 批注内容 */
+.annotation-text {
+    font-size: var(--font-size-base, 14px);
+    color: var(--text-secondary, #666);
+    line-height: 1.5;
+    margin-bottom: 15px; /* 与actions间距 */
+    max-height: 300px; /* 限制最大高度 */
+    overflow-y: auto; /* 超出时滚动 */
+}
+
+/* 关闭按钮 */
+.annotation-close {
+    position: absolute;
+    top: 8px; /* 调整位置 */
+    right: 8px;
+    width: 24px; /* 增大点击区域 */
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-tertiary, #999);
+    font-size: 20px; /* 增大图标 */
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.annotation-close:hover {
+    color: var(--text-primary, #333);
+    background-color: #f0f0f0;
+}
+
+/* 操作按钮区域 */
+.annotation-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm, 8px); /* 按钮间距 */
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color, #eee);
+}
+
+/* 编辑和删除按钮通用样式 */
+.annotation-edit-btn,
+.annotation-delete-btn {
+    padding: 6px 12px;
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: var(--radius-sm, 4px);
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: inline-flex; /* 使用flex布局图标和文字 */
+    align-items: center;
+    gap: 4px; /* 图标和文字间距 */
+}
+
+.annotation-edit-btn i,
+.annotation-delete-btn i {
+    font-size: 1em; /* 图标大小与文字一致 */
+}
+
+.annotation-edit-btn:hover {
+    background-color: #e3f2fd; /* 淡蓝色背景 */
+    border-color: #2196f3; /* 蓝色边框 */
+    color: #2196f3; /* 蓝色文字 */
+}
+
+.annotation-delete-btn:hover {
+    background-color: #ffebee; /* 淡红色背景 */
+    border-color: #f44336; /* 红色边框 */
+    color: #f44336; /* 红色文字 */
+}
+
+/* 批注工具栏 */
+.annotation-toolbar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: var(--radius-md, 8px);
+    box-shadow: var(--shadow-md, 0 4px 8px rgba(0,0,0,0.15));
+    padding: var(--spacing-sm, 8px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm, 8px);
+    z-index: 9999;
+    transition: box-shadow 0.3s ease;
+}
+
+/* 工具栏按钮通用样式 */
+.annotation-toolbar button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* 圆形按钮 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white, #fff);
+    color: var(--text-primary, #333);
+    border: 1px solid var(--border-color, #eee); /* 添加边框 */
+    box-shadow: var(--shadow-sm, 0 2px 4px rgba(0,0,0,0.05));
+    transition: all 0.2s ease;
+    font-size: 16px; /* 图标大小 */
+    cursor: pointer;
+}
+
+.annotation-toolbar button:hover {
+    transform: scale(1.05);
+    background-color: #f5f5f5; /* 悬停背景色 */
+    border-color: #ddd;
+}
+
+/* 激活/编辑状态下的切换按钮 */
+#annotation-toggle.active,
+.annotation-toolbar.editing #annotation-toggle {
+    background-color: var(--accent-color, #FF6347);
+    color: white;
+    border-color: var(--accent-color, #FF6347);
+}
+
+/* 自动保存按钮特殊样式 */
+#annotation-autosave {
+    /* 默认样式已在通用按钮中 */
+}
+
+#annotation-autosave.active {
+    background-color: #4caf50; /* 绿色表示已激活 */
+    color: white;
+    border-color: #4caf50;
+}
+
+#annotation-autosave.attention {
+    background-color: #ff9800; /* 橙色表示需要注意 */
+    color: white;
+    border-color: #ff9800;
+    animation: pulse 1.5s infinite;
+}
+
+/* 密码文件按钮特殊样式 */
+#annotation-password-file {
+    /* 默认样式已在通用按钮中 */
+}
+
+#annotation-password-file.active {
+    background-color: #ffc107; /* 黄色表示已加载 */
+    color: #333;
+    border-color: #ffc107;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+}
+
+/* 编辑表单样式 */
+.annotation-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm, 8px);
+    margin-top: var(--spacing-md, 12px);
+}
+
+.annotation-title-input,
+.annotation-text-input {
+    padding: var(--spacing-sm, 8px);
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: var(--radius-sm, 4px);
+    font-size: var(--font-size-base, 14px);
+    width: 100%; /* 占满容器宽度 */
+    box-sizing: border-box; /* 防止padding撑开宽度 */
+}
+
+.annotation-text-input {
+    min-height: 80px; /* 最小高度 */
+    resize: vertical; /* 允许垂直调整大小 */
+}
+
+.annotation-title-input:focus,
+.annotation-text-input:focus {
+    outline: none;
+    border-color: var(--accent-color, #FF6347); /* 焦点时边框变色 */
+    box-shadow: 0 0 0 2px rgba(255, 99, 71, 0.2); /* 焦点光晕 */
+}
+
+/* 表单按钮组 */
+.annotation-btn-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm, 8px);
+    margin-top: 5px; /* 与上方元素间距 */
+}
+
+/* 保存和取消按钮通用样式 */
+.annotation-save-btn,
+.annotation-cancel-btn {
+    padding: 8px 16px; /* 增大内边距 */
+    border: none;
+    border-radius: var(--radius-sm, 4px);
+    font-size: var(--font-size-base, 14px);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.annotation-save-btn {
+    background-color: var(--primary-color, #2E8B57); /* 使用主色调 */
+    color: white;
+}
+
+.annotation-save-btn:hover {
+    background-color: #256d43; /* 主色调加深 */
+}
+
+.annotation-cancel-btn {
+    background-color: #f5f5f5;
+    color: #555;
+    border: 1px solid #ddd;
+}
+
+.annotation-cancel-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* 提示信息样式 (Toast) */
+.annotation-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    z-index: 10002;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.annotation-toast.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.annotation-success-toast {
+    background-color: #4caf50; /* 绿色 */
+}
+
+.annotation-error-toast {
+    background-color: #f44336; /* 红色 */
+}
+
+.annotation-info-toast {
+    background-color: #2196f3; /* 蓝色 */
+}
+
+/* 自动保存指示器 */
+.annotation-autosave-indicator {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 9998;
+    pointer-events: none; /* 不阻挡下方点击 */
+}
+
+.annotation-autosave-indicator.visible {
+    opacity: 1;
+}
+
+/* 删除确认弹窗样式 */
+.annotation-confirm-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1); /* 半透明遮罩 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10002; /* 比内容高一级 */
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none; /* 默认不响应 */
+}
+
+.annotation-confirm-wrapper.active {
+    opacity: 1;
+    pointer-events: auto; /* 激活时响应 */
+}
+
+.annotation-confirm-box {
+    background-color: white;
+    border-radius: var(--radius-md, 8px);
+    box-shadow: var(--shadow-md, 0 4px 8px rgba(0, 0, 0, 0.1));
+    padding: 20px; /* 增加内边距 */
+    max-width: 90%;
+    width: 280px; /* 固定宽度 */
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.2s ease;
+}
+
+.annotation-confirm-wrapper.active .annotation-confirm-box {
+    transform: scale(1);
+}
+
+.annotation-confirm-text {
+    font-size: 14px;
+    margin-bottom: 20px; /* 增加间距 */
+    color: var(--text-primary, #333);
+}
+
+.annotation-confirm-btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.annotation-confirm-yes,
+.annotation-confirm-no {
+    padding: 8px 18px;
+    border-radius: var(--radius-sm, 4px);
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+    border: none; /* 移除边框 */
+}
+
+.annotation-confirm-yes {
+    background-color: #f44336; /* 红色 */
+    color: white;
+}
+
+.annotation-confirm-no {
+    background-color: #f5f5f5;
+    color: #555;
+    border: 1px solid #ddd; /* 保留取消按钮边框 */
+}
+
+.annotation-confirm-yes:hover {
+    background-color: #d32f2f;
+}
+
+.annotation-confirm-no:hover {
+    background-color: #e0e0e0;
+}
+
     `;
     document.head.appendChild(styleEl);
 }

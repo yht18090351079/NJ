@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "targetInfo": {
+      "selector": "a.quick-item:nth-child(1)",
+      "width": 211.0590362548828,
+      "height": 45.972225189208984,
+      "percentX": 69.65369435940592,
+      "percentY": 17.522627975985746
+    },
+    "title": "待定",
+    "text": "待定",
+    "direction": "right"
+  },
+  {
+    "id": 2,
+    "targetInfo": {
+      "selector": "section.quick-access:nth-child(4)",
+      "width": 912.2222900390625,
+      "height": 77.9513931274414,
+      "percentX": 42.862359785492295,
+      "percentY": 12.8864092032637
+    },
+    "title": "对话智能体",
+    "text": "暂未实现",
+    "direction": "bottom"
+  },
+  {
+    "id": 3,
+    "targetInfo": {
+      "selector": "section.quick-access:nth-child(4)",
+      "width": 912.2222900390625,
+      "height": 77.9513931274414,
+      "percentX": 65.3349525119013,
+      "percentY": 0.057902105704619976
+    },
+    "title": "待定",
+    "text": "待定",
+    "direction": "bottom"
+  },
+  {
+    "id": 4,
+    "targetInfo": {
+      "selector": "a.quick-item:nth-child(4)",
+      "width": 211.07640075683594,
+      "height": 45.972225189208984,
+      "percentX": 57.25116049522656,
+      "percentY": 24.04830731313514
+    },
+    "title": "没有点子了",
+    "text": "你有吗",
+    "direction": "bottom"
+  }
+]
